@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{ 
+  --font-general-Sans: 'General Sans', sans-serif;
+  --font-supreme: 'Supreme', sans-serif;
+
+  --clr-sky-950: #082f49;
+  --clr-sky-900: #0c4a6e; 
+  --clr-sky-800: #075985;
+  --clr-gray-50: #f9fafb;
+}
+
+*, *::after, *::before{
+  box-sizing: border-box;
+}
+
+p {
+  display: inline;
+}
+
+body {
+  font-family: var(--font-general-Sans);
+  background: var(--clr-sky-900);
+}
+
+.font-gen-sans {
+  font-family: var(--font-general-Sans);
+}
+
+.icon {
+  width: 25px;
+  display: inline;
+}
+
+.icon-lg {
+  width: 30px;
+  display: inline;
+}
+
+.draggable {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.listname {
+  cursor: pointer !important;
+}
