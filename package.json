@@ -1,9 +1,13 @@
 {
   "name": "todo",
   "private": true,
+  "homepage": "https://mrabbani007.github.io/todolist/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "start": "vite start",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
