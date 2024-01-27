@@ -1,15 +1,22 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,400&display=swap');
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root{ 
   --font-general-Sans: 'General Sans', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
   --font-supreme: 'Supreme', sans-serif;
 
   --clr-sky-950: #082f49;
   --clr-sky-900: #0c4a6e; 
   --clr-sky-800: #075985;
+  --clr-blue-50:#eff6ff;
+  --clr-blue-400:#60a5fa;
   --clr-gray-50: #f9fafb;
+  --clr-slate-200: #e2e8f0;
+  --clr-yellow-400: #fbbf24;
 }
 
 *, *::after, *::before{
@@ -22,7 +29,7 @@ p {
 
 body {
   font-family: var(--font-general-Sans);
-  background: var(--clr-sky-900);
+  /* background: var(--clr-sky-900); */
 }
 
 .font-gen-sans {
@@ -31,12 +38,40 @@ body {
 
 .icon {
   width: 25px;
+  font-size: 1.25rem;
   display: inline;
 }
 
 .icon-lg {
   width: 30px;
+  font-size: 2rem;
   display: inline;
+}
+
+input {
+  outline: none;
+  border: 1px solid var(--clr-slate-200);
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.btn {
+  border: none;
+  outline: none;
+  padding: .25rem 1.25rem;
+  width: fit-content;
+  border-radius: .5rem;
+}
+
+.btn-yellow {
+  background-color: var(--clr-yellow-400);
+}
+
+.btn-blue {
+  background-color: var(--clr-blue-400);
+  color: var(--clr-blue-50);
 }
 
 .draggable {
