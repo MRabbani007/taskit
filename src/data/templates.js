@@ -12,7 +12,7 @@ import Music from "../assets/music.png";
 import Movies from "../assets/movies.png";
 import Food from "../assets/food.png";
 
-export const IMAGES_Icons = "/todolist/src/assets/";
+export const IMAGES_Icons = "src/assets/";
 
 export const listTemplates = [
   { name: "Work", icon: "suitcase.png" },

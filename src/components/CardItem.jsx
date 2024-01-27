@@ -13,6 +13,7 @@ import IMG_Edit from "../assets/edit.png";
 import IMG_Cancel from "../assets/cancel.png";
 import IMG_Save from "../assets/save.png";
 import IMG_Done from "../assets/done.png";
+import { getDate } from "../data/utils";
 
 const CardItem = ({
   task,
@@ -26,11 +27,11 @@ const CardItem = ({
 }) => {
   // View/hide edit title
   const [edit, setEdit] = useState(false);
-  const [editInput, setEditInput] = useState(task.value);
+  const [editInput, setEditInput] = useState(task.title);
   // Expand/Collapse item block
   const [expand, setExpand] = useState(false);
 
-  const [dueDate, setDueDate] = useState("2024-01-01");
+  const [dueDate, setDueDate] = useState(getDate());
 
   const [addDetail, setAddDetail] = useState(false);
   const [detailInput, setDetailInput] = useState(task.detail || "");

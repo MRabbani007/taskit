@@ -6,6 +6,8 @@ const ListNames = ({
   userLists,
   handleOpen,
   handleLists,
+  handleSidebar,
+  toggleCreateList,
   dragStart,
   dragEnter,
   dragEnd,
@@ -26,6 +28,8 @@ const ListNames = ({
                 dragEnter={dragEnter}
                 dragEnd={dragEnd}
                 handleOpen={handleOpen}
+                handleSidebar={handleSidebar}
+                toggleCreateList={toggleCreateList}
                 handleLists={handleLists}
               />
             ))}

@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 // Imported Components
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
@@ -6,6 +7,7 @@ import CreateList from "../components/CreateList";
 import CardTodoList from "../components/CardTodoList";
 // Imported Data
 import { ACTIONS, fetchServer } from "../data/serverFunctions";
+import { genDate } from "../data/utils";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -80,6 +82,7 @@ const HomePage = () => {
   const [userName, setUserName] = useState("");
   const [listNames, setListNames] = useState();
   const [todayTasks, setTodayTasks] = useState([]);
+  const [todayDate, setTodayDate] = useState(genDate(0));
 
   const [userLists, dispatch] = useReducer(reducer, []);
 
@@ -87,6 +90,7 @@ const HomePage = () => {
   const [viewCreateList, setViewCreateList] = useState(false);
   const toggleCreateList = () => {
     setViewCreateList(!viewCreateList);
+    setDisplayList([]);
   };
 
   const [displayList, setDisplayList] = useState([]);
@@ -304,6 +308,7 @@ const HomePage = () => {
   const handleOpen = (listID) => {
     let listIndex = userLists.findIndex((list) => list.id === listID);
     setDisplayList([listIndex]);
+    setViewCreateList(false);
     // setDisplayList((currentDisplayList) => {
     //   return [
     //     // remove list from display if list already open
@@ -325,27 +330,48 @@ const HomePage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar
+        todayTasks={todayTasks}
+        userLists={userLists}
+        handleOpen={handleOpen}
+        handleLists={handleLists}
+        toggleCreateList={toggleCreateList}
+      />
       <div className="pt-[50px] bg-slate-50 flex font-normal">
         {/* Sidebar */}
-        <Sidebar
+        {/* <Sidebar
           todayTasks={todayTasks}
           userLists={userLists}
           handleOpen={handleOpen}
           handleLists={handleLists}
           toggleCreateList={toggleCreateList}
-        />
+        /> */}
         {/* Container */}
         <div className="flex-1">
+          {/* Header */}
+          <div className="m-4">
+            <h1 className="">
+              {userName === "" ? (
+                <Link to="/signin" className="btn btn-yellow">
+                  Signin
+                </Link>
+              ) : (
+                <span className="">{"Hello, " + userName}</span>
+              )}
+            </h1>
+            <p className="btn btn-yellow my-2">
+              {todayDate.day + ", " + todayDate.date + " " + todayDate.month}
+            </p>
+          </div>
           <div>
-            {/* Create New Todo List */}
+            {/* Create New Task List */}
             <CreateList
               handleLists={handleLists}
               viewCreateList={viewCreateList}
               setViewCreateList={setViewCreateList}
             />
           </div>
-          {/* Container to display Todo Lists */}
+          {/* Container to display Task Lists */}
           <div className="flex flex-wrap justify-center text-4xl p-2 w-full">
             {displayList.length != 0 &&
               displayList.map((listIndex) => {

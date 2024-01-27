@@ -11,12 +11,12 @@ import { FaCircle, FaCirclePlus } from "react-icons/fa6";
 
 const Offcanvas = ({
   viewSideBar,
+  handleSidebar,
   todayTasks,
   userLists,
+  handleLists,
   handleOpen,
   toggleCreateList,
-  handleUpdateList,
-  handleDeleteList,
 }) => {
   const [viewUserLists, setViewUserLists] = useState(true);
   const [viewToday, setViewToday] = useState(true);
@@ -56,7 +56,10 @@ const Offcanvas = ({
                     <p
                       key={index}
                       className="border-[1px] p-1 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer shadow-sm shadow-slate-500"
-                      onClick={() => handleOpen(task.listID)}
+                      onClick={() => {
+                        handleOpen(task.listID);
+                        handleSidebar();
+                      }}
                     >
                       <FaCircle className={color + " icon mr-2"} />
                       {task.title}
@@ -88,17 +91,21 @@ const Offcanvas = ({
           <>
             {/* Display Todo Lists */}
             <ListNames
-              listNames={userLists}
-              handleDeleteList={handleDeleteList}
-              handleUpdateList={handleUpdateList}
+              userLists={userLists}
+              handleLists={handleLists}
               handleOpen={handleOpen}
+              handleSidebar={handleSidebar}
+              toggleCreateList={toggleCreateList}
               // dragStart={dragStart}
               // dragEnter={dragEnter}
               // dragEnd={dragEnd}
             />
             <div
               className="flex items-center my-2"
-              onClick={() => toggleCreateList()}
+              onClick={() => {
+                toggleCreateList();
+                handleSidebar();
+              }}
             >
               <FaCirclePlus className="icon-lg mx-2 text-yellow-500" />
             </div>

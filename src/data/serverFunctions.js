@@ -1,8 +1,9 @@
 import axios from "axios";
+import { getDate } from "./utils";
 
-// export const SERVER_URL = "http://localhost:3000";
+export const SERVER_URL = "http://localhost:3000";
 
-export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
+// export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
 
 export const ACTIONS = {
   GET_LISTS: "GET_LISTS",
@@ -76,7 +77,7 @@ export const fetchServer = async (action) => {
       }
       case ACTIONS.GET_TASKS_TODAY: {
         URL = SERVER_URL + SERVER.GET_TASKS_TODAY;
-        DATA = { userName: action.userName };
+        DATA = { userName: action.userName, day: getDate() };
         break;
       }
       // Add Task to list
@@ -124,6 +125,7 @@ export const fetchServer = async (action) => {
 };
 
 export const fetchUser = async (action) => {
+  console.log("here");
   try {
     let URL = "";
     let DATA = "";
@@ -141,7 +143,9 @@ export const fetchUser = async (action) => {
       default: {
       }
     }
+    axios.defaults.timeout = 5000;
     let response = await axios({ method: "post", url: URL, data: DATA });
+    console.log(response);
     return response.data;
   } catch (error) {
     return "Error: Signin";

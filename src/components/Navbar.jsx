@@ -6,12 +6,18 @@ import { MdDarkMode, MdOutlineDarkMode } from "react-icons/md";
 import Offcanvas from "./Offcanvas";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({
+  todayTasks,
+  userLists,
+  handleOpen,
+  handleLists,
+  toggleCreateList,
+}) => {
   const [viewSideBar, setViewSideBar] = useState(false);
 
   const handleSideBar = () => {
-    // setViewSideBar(!viewSideBar);
-    setViewSideBar(false);
+    setViewSideBar(!viewSideBar);
+    // setViewSideBar(false);
   };
 
   return (
@@ -32,7 +38,15 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
-      <Offcanvas viewSideBar={viewSideBar} handleSidebar={handleSideBar} />
+      <Offcanvas
+        viewSideBar={viewSideBar}
+        handleSidebar={handleSideBar}
+        todayTasks={todayTasks}
+        userLists={userLists}
+        handleOpen={handleOpen}
+        handleLists={handleLists}
+        toggleCreateList={toggleCreateList}
+      />
     </>
   );
 };

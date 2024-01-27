@@ -10,11 +10,13 @@ import IMG_Save from "../assets/save.png";
 
 const CardListName = ({
   taskList,
+  handleOpen,
+  handleLists,
+  handleSidebar,
+  toggleCreateList,
   dragStart,
   dragEnter,
   dragEnd,
-  handleOpen,
-  handleLists,
 }) => {
   const [edit, setEdit] = useState(false);
   const handleToggleEdit = () => {
@@ -84,7 +86,10 @@ const CardListName = ({
         <div className="flex flex-row items-center justify-between">
           <p
             className="text-[14px] px-0 cursor-pointer"
-            onClick={() => handleOpen(taskList.id)}
+            onClick={() => {
+              handleOpen(taskList.id);
+              handleSidebar();
+            }}
           >
             <img
               src={
