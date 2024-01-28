@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 // Imported Components
 import ListNames from "../components/ListNames";
 // Imported Media
@@ -7,29 +7,33 @@ import Week from "../assets/week.png";
 import Important from "../assets/important.png";
 import IMG_List from "../assets/list.png";
 import IMG_Trash from "../assets/trash-2.png";
+import IMG_NOTES from "../assets/notes.png";
 import { FaCircle, FaCirclePlus } from "react-icons/fa6";
 
-const Offcanvas = ({
-  viewSideBar,
-  handleSidebar,
-  todayTasks,
-  userLists,
-  handleLists,
-  handleOpen,
-  toggleCreateList,
-}) => {
-  const [viewUserLists, setViewUserLists] = useState(true);
-  const [viewToday, setViewToday] = useState(true);
-  const toggleUserLists = () => {
-    setViewUserLists(!viewUserLists);
-  };
-  return (
-    <>
-      {/* Sidebar */}
+const Offcanvas = forwardRef(
+  (
+    {
+      viewSideBar,
+      handleSidebar,
+      todayTasks,
+      userLists,
+      handleLists,
+      handleOpen,
+      toggleCreateList,
+    },
+    ref
+  ) => {
+    const [viewUserLists, setViewUserLists] = useState(true);
+    const [viewToday, setViewToday] = useState(true);
+    const toggleUserLists = () => {
+      setViewUserLists(!viewUserLists);
+    };
+    return (
       <div
+        ref={ref}
         className={
           (viewSideBar ? "left-0" : "left-[-500px]") +
-          " absolute top-[50px] w-[300px] min-h-screen bg-slate-200 border-[1px] text-slate-950 p-2 duration-300"
+          " fixed top-[50px] w-[300px] min-h-screen bg-amber-100 border-[1px] text-slate-950 p-2 duration-300 overflow-y-auto"
         }
       >
         <div
@@ -69,22 +73,34 @@ const Offcanvas = ({
               : null
             : null}
         </div>
+        {/* Upcoming Tasks - 1 week */}
         <div className="flex items-center my-2 text-blue-700 font-semibold cursor-pointer">
           {/* <BsCalendar4Week className="icon mx-2 " /> */}
           <img src={Week} alt="" className="icon-lg mr-2" />
           Upcoming
         </div>
+        {/* Important Tasks */}
         <div className="flex items-center my-2 text-red-700 font-semibold cursor-pointer">
           {/* <FaRegStar className="icon mx-2 " /> */}
           <img src={Important} alt="" className="icon-lg mr-2" />
           Important
         </div>
+        {/* Notes */}
+        <div
+          onClick={() => null}
+          className="flex items-center my-2 pb-1 font-semibold cursor-pointer"
+        >
+          {/* <IoListOutline className="icon mx-2" /> */}
+          <img src={IMG_NOTES} alt="" className="icon-lg mr-2" />
+          Notes
+        </div>
+        {/* Task Lists */}
         <div
           onClick={() => toggleUserLists()}
           className="flex items-center my-2 pb-1 font-semibold cursor-pointer"
         >
           {/* <IoListOutline className="icon mx-2" /> */}
-          <img src={IMG_List} alt="" className="icon mr-2" />
+          <img src={IMG_List} alt="" className="icon-lg mr-2" />
           Lists
         </div>
         {viewUserLists ? (
@@ -117,8 +133,8 @@ const Offcanvas = ({
           Move to Trash
         </div>
       </div>
-    </>
-  );
-};
+    );
+  }
+);
 
 export default Offcanvas;

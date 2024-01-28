@@ -209,7 +209,8 @@ const HomePage = () => {
           userName: userName,
           list: { title: action.title, icon: action.icon, tasks: [] },
         });
-        handleGetLists();
+        await handleGetLists();
+        toggleCreateList();
         break;
       }
       case ACTIONS.REMOVE_LIST: {
@@ -337,7 +338,7 @@ const HomePage = () => {
         handleLists={handleLists}
         toggleCreateList={toggleCreateList}
       />
-      <div className="pt-[50px] bg-slate-50 flex font-normal">
+      <div className="pt-[50px] bg-amber-100 min-h-screen flex font-normal">
         {/* Sidebar */}
         {/* <Sidebar
           todayTasks={todayTasks}

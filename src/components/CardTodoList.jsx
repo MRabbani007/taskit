@@ -101,8 +101,8 @@ const CardTodoList = ({
   return (
     <div className="w-full border-[1px] m-2" key={displayList.id}>
       {/* List Name */}
-      <div className="flex justify-between items-center text-xl font-normal text-slate-950 bg-yellow-200 px-4 py-3 border-b-2 border-gray-300">
-        <span className="flex items-center">
+      <div className="flex justify-between items-center text-xl font-normal text-slate-950 bg-amber-700 px-4 py-3 border-b-2 border-gray-300">
+        <span className="flex items-center text-slate-50">
           {editListIcon ? (
             <>
               <CardIcons handleIcon={handleIcon} />
@@ -117,14 +117,14 @@ const CardTodoList = ({
             <img
               src={IMAGES_Icons + "list-2.png"}
               alt=""
-              className="icon"
+              className="icon-lg"
               onClick={() => setEditListIcon(true)}
             />
           ) : (
             <img
               src={IMAGES_Icons + displayList.icon}
               alt=""
-              className="icon mr-2"
+              className="icon-lg mr-2"
               onClick={() => setEditListIcon(true)}
             />
           )}

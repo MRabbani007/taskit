@@ -17,6 +17,12 @@
   --clr-gray-50: #f9fafb;
   --clr-slate-200: #e2e8f0;
   --clr-yellow-400: #fbbf24;
+  --clr-amber-950:#431407;
+  --clr-brown-dark:#c59c76; 
+}
+
+.bg-brown {
+  background-color: var(--clr-brown-dark);
 }
 
 *, *::after, *::before{
@@ -35,14 +41,32 @@ body {
 }
 
 .icon {
-  width: 25px;
+  width: 20px;
   font-size: 1.25rem;
   display: inline;
 }
 
 .icon-lg {
-  width: 30px;
+  width: 32px;
   font-size: 2rem;
+  display: inline;
+}
+
+.icon-xl {
+  width: 48px;
+  font-size: 3rem;
+  display: inline;
+}
+
+.icon-2xl {
+  width: 64px;
+  font-size: 4rem;
+  display: inline;
+}
+
+.icon-3xl {
+  width: 72px;
+  font-size: 5rem;
   display: inline;
 }
 

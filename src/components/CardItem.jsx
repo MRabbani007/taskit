@@ -62,7 +62,7 @@ const CardItem = ({
   return (
     <li key={task.id}>
       <div
-        className="flex flex-col justify-between bg-slate-200 w-full my-3 p-2 font-normal shadow-sm hover:shadow-slate-950 shadow-slate-400 duration-300"
+        className="flex flex-col justify-between w-full my-3 font-normal shadow-sm hover:shadow-slate-950 shadow-slate-400 duration-300"
         // implement draggable
         draggable="true"
         onDragStart={(e) => {
@@ -71,7 +71,7 @@ const CardItem = ({
         onDragEnter={(e) => dragItemEnter(e, listID, index)}
         onDragEnd={dragItemEnd}
       >
-        <div className="flex items-center">
+        <div className="flex items-center h-full p-2 bg-brown">
           <input
             type="checkbox"
             checked={task.completed}
@@ -138,7 +138,11 @@ const CardItem = ({
             className="icon"
           />
         </div>
-        <div className={expand ? "border-[1px] border-dashed p-2" : "hidden"}>
+        <div
+          className={
+            expand ? "border-[1px] border-dashed p-2 bg-amber-100" : "hidden"
+          }
+        >
           <div className="py-3">
             <h3 className="font-semibold mb-2">Details:</h3>
             {task.details === "" ? (
@@ -194,40 +198,43 @@ const CardItem = ({
           </div>
           <div className="py-3">
             <h3 className="font-semibold mb-2">Priority:</h3>
-            <span
-              className={
-                (task.priority === "high" ? "bg-red-400" : "bg-slate-200") +
-                " py-1 px-5 m-1 inline-block rounded-full"
-              }
-              onClick={() => handlePriority("high")}
-            >
-              {/* <input type="radio" name={task.id} className="mr-2" /> */}
-              <FcHighPriority className="icon mr-1" />
-              High
-            </span>
-            <span
-              className={
-                (task.priority === "normal"
-                  ? "bg-yellow-200"
-                  : "bg-slate-200") + " py-1 px-5 m-1 inline-block rounded-full"
-              }
-              onClick={() => handlePriority("normal")}
-            >
-              {/* <input type="radio" name={task.id} className="mr-2" /> */}
-              <FcMediumPriority className="icon mr-1" />
-              Normal
-            </span>
-            <span
-              className={
-                (task.priority === "low" ? "bg-green-400" : "bg-slate-200") +
-                " py-1 px-5 m-1 inline-block rounded-full"
-              }
-              onClick={() => handlePriority("low")}
-            >
-              {/* <input type="radio" name={task.id} className="mr-2" /> */}
-              <FcLowPriority className="icon mr-1" />
-              Low
-            </span>
+            <div className="flex">
+              <span
+                className={
+                  (task.priority === "high" ? "bg-red-400" : "bg-slate-200") +
+                  " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
+                }
+                onClick={() => handlePriority("high")}
+              >
+                {/* <input type="radio" name={task.id} className="mr-2" /> */}
+                <FcHighPriority className="icon mr-1" />
+                High
+              </span>
+              <span
+                className={
+                  (task.priority === "normal"
+                    ? "bg-yellow-200"
+                    : "bg-slate-200") +
+                  " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
+                }
+                onClick={() => handlePriority("normal")}
+              >
+                {/* <input type="radio" name={task.id} className="mr-2" /> */}
+                <FcMediumPriority className="icon mr-2" />
+                Normal
+              </span>
+              <span
+                className={
+                  (task.priority === "low" ? "bg-green-400" : "bg-slate-200") +
+                  " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
+                }
+                onClick={() => handlePriority("low")}
+              >
+                {/* <input type="radio" name={task.id} className="mr-2" /> */}
+                <FcLowPriority className="icon mr-1" />
+                Low
+              </span>
+            </div>
           </div>
           <div className="py-3">
             <h3 className="font-semibold mb-2">
@@ -239,9 +246,9 @@ const CardItem = ({
                   return (
                     <span
                       key={index}
-                      className="mx-2 bg-slate-400 rounded-full px-3 py-1"
+                      className=" flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full bg-slate-200"
                     >
-                      <FaTag className="icon" />
+                      <FaTag className="icon mr-1" />
                       {tag}
                     </span>
                   );
