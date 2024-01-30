@@ -102,7 +102,7 @@ const CardTodoList = ({
   return (
     <div className="w-full border-[1px] m-2" key={displayList.id}>
       {/* List Name */}
-      <div className="flex justify-between items-center px-4 py-3 text-xl font-normal text-amber-700 border-4 border-amber-700">
+      <div className="flex justify-between items-center px-4 py-3 text-xl font-normal bg-neutral-400 icon-cont">
         <span className="flex items-center">
           {editListIcon ? (
             <>
@@ -161,7 +161,7 @@ const CardTodoList = ({
               src={IMG_Edit}
               alt=""
               onClick={() => toggleEdit()}
-              className="icon-lg"
+              className="icon-lg icon-item"
             />
           )}
           <img

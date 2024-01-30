@@ -11,7 +11,7 @@ import IMG_NOTES from "../assets/notes.png";
 import { FaCircle, FaCirclePlus } from "react-icons/fa6";
 import { RiDeviceRecoverLine } from "react-icons/ri";
 import { ACTIONS } from "../data/serverFunctions";
-import { FaLaptopHouse } from "react-icons/fa";
+import { FaBars, FaLaptopHouse } from "react-icons/fa";
 
 const Offcanvas = forwardRef(
   (
@@ -39,12 +39,15 @@ const Offcanvas = forwardRef(
         ref={ref}
         className={
           (viewSideBar ? "left-0" : "left-[-500px]") +
-          " fixed top-[50px] w-[300px] min-h-screen bg-amber-100 border-[1px] text-slate-950 p-2 duration-300 overflow-y-auto"
+          " fixed top-[50px] w-[300px] min-h-screen p-2 duration-300 bg-neutral-50"
         }
       >
-        <div className="flex items-center justify-between font-mono">
+        <div className="flex items-center gap-3 font-mono mb-3">
           <div
-            className="flex flex-col justify-center items-center text-yellow-600 cursor-pointer"
+            className="flex flex-col justify-center items-center cursor-pointer"
+            onMouseOver={() => {
+              setViewTab("today_tasks");
+            }}
             onClick={() => {
               if (viewTab === "today_tasks") {
                 setViewTab("");
@@ -55,9 +58,12 @@ const Offcanvas = forwardRef(
           >
             {/* <IoTodayOutline className="icon mx-2" /> */}
             <img src={Today} alt="" className="icon-lg" />
-            <span>Today</span>
+            {/* <span>Today</span> */}
           </div>
           <div
+            onMouseOver={() => {
+              setViewTab("week_tasks");
+            }}
             onClick={() => {
               if (viewTab === "week_tasks") {
                 setViewTab("");
@@ -65,14 +71,17 @@ const Offcanvas = forwardRef(
                 setViewTab("week_tasks");
               }
             }}
-            className="flex flex-col justify-center items-center text-blue-700 cursor-pointer"
+            className="flex flex-col justify-center items-center cursor-pointer"
           >
             {/* <BsCalendar4Week className="icon mx-2 " /> */}
             <img src={Week} alt="" className="icon-lg" />
-            <span>1-Week</span>
+            {/* <span>1-Week</span> */}
           </div>
           <div
             className="flex flex-col justify-center items-center cursor-pointer"
+            onMouseOver={() => {
+              setViewTab("user_lists");
+            }}
             onClick={() => {
               if (viewTab === "user_lists") {
                 setViewTab("");
@@ -83,10 +92,13 @@ const Offcanvas = forwardRef(
           >
             {/* <IoListOutline className="icon mx-2" /> */}
             <img src={IMG_List} alt="" className="icon-lg" />
-            <span>Lists</span>
+            {/* <span>Lists</span> */}
           </div>
           <div
-            className="flex flex-col justify-center items-center text-gray-700 cursor-pointer"
+            className="flex flex-col justify-center items-center cursor-pointer"
+            onMouseOver={() => {
+              setViewTab("trash");
+            }}
             onClick={() => {
               if (viewTab === "trash") {
                 setViewTab("");
@@ -97,7 +109,7 @@ const Offcanvas = forwardRef(
           >
             {/* <BsCalendar4Week className="icon mx-2 " /> */}
             <img src={IMG_Trash} alt="" className="icon-lg" />
-            <span>Trash</span>
+            {/* <span>Trash</span> */}
           </div>
         </div>
         {/* Today Tasks */}
@@ -199,10 +211,19 @@ const Offcanvas = forwardRef(
         {/* Trash */}
         <div className={viewTab === "trash" ? "" : "hidden"}>
           {userLists.map((list, index) => {
-            if (list.trash !== undefined) {
-              if (list.trash === true) {
-                return (
-                  <p key={index}>
+            if (list.trash === true) {
+              return (
+                <>
+                  {/* <CardListName
+                    key={index}
+                    taskList={list}
+                    handleOpen={handleOpen}
+                    handleSidebar={handleSidebar}
+                    toggleCreateList={toggleCreateList}
+                    handleLists={handleLists}
+                  /> */}
+                  <p key={index} className="flex items-center">
+                    <FaBars className="icon mr-2 my-2" />
                     {list.title}
                     <RiDeviceRecoverLine
                       onClick={() => {
@@ -212,11 +233,11 @@ const Offcanvas = forwardRef(
                           updateItem: "un_trash",
                         });
                       }}
-                      className="icon"
+                      className="icon ml-2"
                     />
                   </p>
-                );
-              }
+                </>
+              );
             }
           })}
         </div>

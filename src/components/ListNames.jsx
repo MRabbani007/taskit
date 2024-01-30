@@ -18,27 +18,25 @@ const ListNames = ({
     return (
       // container
       <ul className="flex flex-col justify-center w-full m-0 p-0">
-        {!userLists
-          ? null
-          : userLists.map((list, index) => {
-              if (false) {
-                return null;
-              } else {
-                return (
-                  <CardListName
-                    key={index}
-                    taskList={list}
-                    dragStart={dragStart}
-                    dragEnter={dragEnter}
-                    dragEnd={dragEnd}
-                    handleOpen={handleOpen}
-                    handleSidebar={handleSidebar}
-                    toggleCreateList={toggleCreateList}
-                    handleLists={handleLists}
-                  />
-                );
-              }
-            })}
+        {userLists.map((list, index) => {
+          if (list.trash === true) {
+            return null;
+          } else {
+            return (
+              <CardListName
+                key={index}
+                taskList={list}
+                dragStart={dragStart}
+                dragEnter={dragEnter}
+                dragEnd={dragEnd}
+                handleOpen={handleOpen}
+                handleSidebar={handleSidebar}
+                toggleCreateList={toggleCreateList}
+                handleLists={handleLists}
+              />
+            );
+          }
+        })}
       </ul>
     );
   }

@@ -27,11 +27,11 @@
   background-color: var(--clr-brown-dark);
 }
 
-.icon-cont > .icon {
-  visibility: visible;
+.icon-cont .icon-item {
+  visibility: hidden;
 }
 
-.icon-cont:hover > .icon{
+.icon-cont:hover .icon-item{
   visibility: visible;
 }
 

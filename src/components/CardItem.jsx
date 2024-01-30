@@ -75,7 +75,7 @@ const CardItem = ({
   return (
     <li key={task.id}>
       <div
-        className="flex flex-col justify-between w-full my-3 font-normal shadow-sm hover:shadow-slate-950 shadow-slate-400 duration-300"
+        className="flex flex-col justify-between w-full my-3 font-normal shadow-sm hover:shadow-slate-950 shadow-slate-400 duration-300 icon-cont"
         // implement draggable
         draggable="true"
         onDragStart={(e) => {
@@ -141,7 +141,7 @@ const CardItem = ({
               <img
                 src={IMG_Edit}
                 alt=""
-                className="icon-lg"
+                className="icon-lg mr-2 icon-item"
                 onClick={() => setEdit(!edit)}
               />
             </div>
@@ -150,7 +150,7 @@ const CardItem = ({
             src={IMG_Delete}
             alt=""
             onClick={() => handleDeleteTask(task.id)}
-            className="icon-lg"
+            className="icon-lg icon-item"
           />
         </div>
         {/* Item Content */}
@@ -192,8 +192,8 @@ const CardItem = ({
           </div>
           {/* Details */}
           {viewDetails && (
-            <div className="py-3">
-              <h3 className="font-semibold mb-2">Details:</h3>
+            <div className="py-3 flex items-center">
+              <h3 className="font-semibold">Details:</h3>
               {task.details === "" ? (
                 <FaCirclePlus
                   className="icon-lg text-yellow-400"
@@ -228,20 +228,22 @@ const CardItem = ({
                   />
                 </>
               ) : (
-                <p onClick={() => setAddDetail(true)}>{task.details}</p>
+                <p onClick={() => setAddDetail(true)} className="mx-3">
+                  {task.details}
+                </p>
               )}
             </div>
           )}
           {/* Due Date */}
           {viewDueDate && (
-            <div className="py-3">
-              <h3 className="font-semibold mb-2">Due Date:</h3>
+            <div className="py-3 flex items-center">
+              <h3 className="font-semibold">Due Date:</h3>
               {/* date input in format yyyy-mm-dd */}
               <input
                 type="date"
                 value={dueDate}
                 onChange={(e) => handleDueDate(e.target.value)}
-                className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
+                className="mx-3 px-3 py-1 outline-none border-[1px] text-slate-950"
               />
               <input
                 type="time"
@@ -251,8 +253,8 @@ const CardItem = ({
           )}
           {/* Priority */}
           {viewPriority && (
-            <div className="py-3">
-              <h3 className="font-semibold mb-2">Priority:</h3>
+            <div className="py-3 flex items-center">
+              <h3 className="font-semibold">Priority:</h3>
               <div className="flex">
                 <span
                   className={
@@ -296,8 +298,8 @@ const CardItem = ({
           )}
           {/* Tags */}
           {viewTags && (
-            <div className="py-3">
-              <h3 className="font-semibold mb-2">Tags:</h3>
+            <div className="py-3 flex items-center">
+              <h3 className="font-semibold">Tags:</h3>
               {task.tags.length === 0
                 ? null
                 : task.tags.map((tag, index) => {

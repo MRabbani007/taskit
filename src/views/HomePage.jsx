@@ -283,40 +283,7 @@ const HomePage = () => {
     }
   };
 
-  // TODO: Move
-  // const handleAddTask = (listID, task) => {
-  //   dispatch({ type: "addTask", listID: listID, task: task });
-  //   fetchAddTask(userName, listID, task);
-  // };
-
-  // TODO: Move
-  // const handleDeleteTask = (listID, taskID) => {
-  //   dispatch({ type: "deleteTask", listID: listID, taskID: taskID });
-  //   fetchServer({
-  //     type: "remove_task",
-  //     userName: userName,
-  //     listID: listID,
-  //     taskID: taskID,
-  //   });
-  // };
-
-  // TODO: Move
-  // const handleToggleTask = (todoID) => {
-  //   dispatch({ type: "toggleTodo", todoID: todoID });
-  // };
-
-  // TODO: Move
-  // const handleUpdateTask = (listID, taskID, newValue) => {
-  //   dispatch({
-  //     type: "updateTask",
-  //     listID: listID,
-  //     taskID: taskID,
-  //     newValue: newValue,
-  //   });
-  // };
-
   // Handle opening new todo List
-
   const handleOpen = (listID) => {
     let listIndex = userLists.findIndex((list) => list.id === listID);
     setDisplayList([listIndex]);
@@ -350,7 +317,7 @@ const HomePage = () => {
         handleLists={handleLists}
         toggleCreateList={toggleCreateList}
       />
-      <div className="pt-[50px] bg-amber-50 min-h-screen flex font-normal">
+      <div className="pt-[50px] min-h-screen flex font-normal">
         {/* Sidebar */}
         {/* <Sidebar
           todayTasks={todayTasks}

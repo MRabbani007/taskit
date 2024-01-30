@@ -41,7 +41,7 @@ const Navbar = ({
 
   return (
     <>
-      <div className="fixed top-0 w-full h-[50px] z-50 flex items-center justify-between px-5 gap-5 bg-amber-900 text-slate-50">
+      <div className="fixed top-0 w-full h-[50px] z-50 flex items-center justify-between px-5 gap-5 bg-neutral-900 text-slate-50">
         <div className="flex items-center gap-5">
           <div ref={sideBarButtonRef}>
             <IoMenuSharp className="icon-lg" onClick={handleSideBar} />

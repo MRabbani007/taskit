@@ -27,7 +27,7 @@ const CardListName = ({
   return (
     <li
       key={taskList.id}
-      className="w-full my-1 p-1 draggable"
+      className="flex items-center w-full draggable"
       draggable="true"
       onDragStart={(e) => {
         dragStart(e, index);
@@ -37,19 +37,19 @@ const CardListName = ({
     >
       {/* Edit List Title */}
       {edit ? (
-        <div className="flex items-center justify-between ">
-          <div className="w-fit">
-            <img src={IMAGES_Icons + taskList.icon} className="icon mr-2" />
+        <div className="flex items-center justify-between">
+          <span className="flex items-center">
+            <img src={IMAGES_Icons + taskList.icon} className="icon-lg mr-2" />
             <input
               type="text"
-              className="w-[150px] text-slate-950 font-normal"
+              className="w-[150px] h-auto p-0 text-slate-950 font-normal"
               value={editInput}
               onChange={(e) => {
                 setEditInput(e.target.value);
               }}
             />
-          </div>
-          <span className="flex items-center">
+          </span>
+          <span className="flex items-center ml-2">
             <img
               src={IMG_Save}
               alt=""
@@ -87,24 +87,20 @@ const CardListName = ({
           </span>
         </div>
       ) : (
-        <div className="flex flex-row items-center justify-between">
-          <p
-            className="text-[14px] px-0 cursor-pointer"
-            onClick={() => {
-              handleOpen(taskList.id);
-              handleSidebar();
-            }}
-          >
-            <img
-              src={
-                IMAGES_Icons +
-                (taskList.icon === "" ? "list-2.png" : taskList.icon)
-              }
-              className="icon mr-2"
-            />
-            {taskList.title}
-          </p>
-          <div className="icon-cont">
+        <div className="flex items-center justify-between icon-cont">
+          <span className="flex items-center">
+            <img src={IMAGES_Icons + taskList.icon} className="icon-lg mr-2" />
+            <span
+              className="text-[14px] px-0 cursor-pointer"
+              onClick={() => {
+                handleOpen(taskList.id);
+                handleSidebar();
+              }}
+            >
+              {taskList.title}
+            </span>
+          </span>
+          <span className="flex items-center ml-2 icon-item">
             <img
               src={IMG_Edit}
               alt=""
@@ -123,7 +119,7 @@ const CardListName = ({
                 })
               }
             />
-          </div>
+          </span>
         </div>
       )}
     </li>
