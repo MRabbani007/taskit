@@ -65,7 +65,8 @@ const CardItem = ({
   };
 
   useEffect(() => {
-    if (task.dueDate.substr(0, 4) === "1900") {
+    console.log(task.dueDate);
+    if (task.dueDate.includes("1900-01-01")) {
       setDueDate("");
     } else {
       setDueDate(task.dueDate.substr(0, 10));

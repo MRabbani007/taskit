@@ -79,12 +79,17 @@ const reducer = (state, action) => {
 };
 
 const HomePage = () => {
+  // Store userName
   const [userName, setUserName] = useState("");
+  // TODO: remove, called by drag functions
   const [listNames, setListNames] = useState();
+  // Display today and this week tasks
   const [todayTasks, setTodayTasks] = useState([]);
   const [weekTasks, setWeekTasks] = useState([]);
+  // Display today date value
   const [todayDate, setTodayDate] = useState(genDate(0));
 
+  // Store user lists
   const [userLists, dispatch] = useReducer(reducer, []);
 
   // View Create List Component
@@ -94,6 +99,7 @@ const HomePage = () => {
     setDisplayList([]);
   };
 
+  // Task list displayed in main container
   const [displayList, setDisplayList] = useState([]);
 
   // Drag List Names

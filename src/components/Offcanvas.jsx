@@ -27,13 +27,7 @@ const Offcanvas = forwardRef(
     },
     ref
   ) => {
-    const [viewUserLists, setViewUserLists] = useState(false);
-    const [viewToday, setViewToday] = useState(false);
-    const [viewWeek, setViewWeek] = useState(false);
-    const [viewTrash, setViewTrash] = useState(false);
-
     const [viewTab, setViewTab] = useState("");
-
     return (
       <div
         ref={ref}
@@ -213,7 +207,7 @@ const Offcanvas = forwardRef(
           {userLists.map((list, index) => {
             if (list.trash === true) {
               return (
-                <>
+                <div key={index}>
                   {/* <CardListName
                     key={index}
                     taskList={list}
@@ -222,7 +216,7 @@ const Offcanvas = forwardRef(
                     toggleCreateList={toggleCreateList}
                     handleLists={handleLists}
                   /> */}
-                  <p key={index} className="flex items-center">
+                  <p className="flex items-center">
                     <FaBars className="icon mr-2 my-2" />
                     {list.title}
                     <RiDeviceRecoverLine
@@ -236,7 +230,7 @@ const Offcanvas = forwardRef(
                       className="icon ml-2"
                     />
                   </p>
-                </>
+                </div>
               );
             }
           })}
