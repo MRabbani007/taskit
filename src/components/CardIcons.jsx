@@ -3,14 +3,14 @@ import { IMAGES_Icons, listTemplates } from "../data/templates";
 
 const CardIcons = ({ handleIcon }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex flex-wrap items-center">
       {listTemplates.map((item, index) => {
         return (
           <img
             key={index}
             alt=""
             src={IMAGES_Icons + item.icon}
-            className="icon-3xl cursor-pointer"
+            className="icon-2xl cursor-pointer"
             onClick={() => handleIcon(item.icon)}
           />
         );

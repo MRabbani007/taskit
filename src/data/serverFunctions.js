@@ -12,6 +12,7 @@ export const ACTIONS = {
   UPDATE_LIST: "UPDATE_LIST",
   GET_TASKS: "GET_TASKS",
   GET_TASKS_TODAY: "GET_TASKS_TODAY",
+  GET_TASKS_WEEK: "GET_TASKS_WEEK",
   CREATE_TASK: "CREATE_TASK",
   REMOVE_TASK: "REMOVE_TASK",
   UPDATE_TASK: "UPDATE_TASK",
@@ -26,6 +27,7 @@ export const SERVER = {
   UPDATE_LIST: "/lists/update",
   GET_TASKS: "/tasks/get",
   GET_TASKS_TODAY: "/tasks/getToday",
+  GET_TASKS_WEEK: "/tasks/getWeek",
   CREATE_TASK: "/tasks/create",
   REMOVE_TASK: "/tasks/remove",
   UPDATE_TASK: "/tasks/update",
@@ -75,9 +77,19 @@ export const fetchServer = async (action) => {
         DATA = { userName: action.userName, listID: action.listID };
         break;
       }
+      // Get Tasks for today
       case ACTIONS.GET_TASKS_TODAY: {
         URL = SERVER_URL + SERVER.GET_TASKS_TODAY;
         DATA = { userName: action.userName, day: getDate() };
+        break;
+      }
+      case ACTIONS.GET_TASKS_WEEK: {
+        URL = SERVER_URL + SERVER.GET_TASKS_WEEK;
+        DATA = {
+          userName: action.userName,
+          day: getDate(0),
+          offset: getDate(6),
+        };
         break;
       }
       // Add Task to list

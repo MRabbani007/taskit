@@ -82,6 +82,7 @@ const HomePage = () => {
   const [userName, setUserName] = useState("");
   const [listNames, setListNames] = useState();
   const [todayTasks, setTodayTasks] = useState([]);
+  const [weekTasks, setWeekTasks] = useState([]);
   const [todayDate, setTodayDate] = useState(genDate(0));
 
   const [userLists, dispatch] = useReducer(reducer, []);
@@ -190,6 +191,8 @@ const HomePage = () => {
       handleLists({ type: ACTIONS.GET_LISTS });
       // Load today tasks
       handleGetTasks();
+      // Load week tasks
+      handleGetWeekTasks();
     }
   }, [userName]);
 
@@ -265,6 +268,14 @@ const HomePage = () => {
     setTodayTasks(data);
   };
 
+  const handleGetWeekTasks = async () => {
+    let data = await fetchServer({
+      type: ACTIONS.GET_TASKS_WEEK,
+      userName: userName,
+    });
+    setWeekTasks(data);
+  };
+
   const loaduser = () => {
     let data = localStorage.getItem("todoUser");
     if (data) {
@@ -333,12 +344,13 @@ const HomePage = () => {
     <>
       <Navbar
         todayTasks={todayTasks}
+        weekTasks={weekTasks}
         userLists={userLists}
         handleOpen={handleOpen}
         handleLists={handleLists}
         toggleCreateList={toggleCreateList}
       />
-      <div className="pt-[50px] bg-amber-100 min-h-screen flex font-normal">
+      <div className="pt-[50px] bg-amber-50 min-h-screen flex font-normal">
         {/* Sidebar */}
         {/* <Sidebar
           todayTasks={todayTasks}

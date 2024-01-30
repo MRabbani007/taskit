@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { FaEdit, FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 import { FaBars, FaCirclePlus, FaPlus, FaTag } from "react-icons/fa6";
-import { IoClose, IoSaveOutline } from "react-icons/io5";
+// Imported Data
 import {
   FcHighPriority,
   FcMediumPriority,
   FcLowPriority,
 } from "react-icons/fc";
-
+import { getDate } from "../data/utils";
+// Imported Media
 import IMG_Delete from "../assets/trash.png";
 import IMG_Edit from "../assets/edit.png";
 import IMG_Cancel from "../assets/cancel.png";
 import IMG_Save from "../assets/save.png";
 import IMG_Done from "../assets/done.png";
-import { getDate } from "../data/utils";
+import IMG_Details from "../assets/details.png";
+import IMG_Date from "../assets/date.png";
+import IMG_Time from "../assets/time.png";
+import IMG_Priority from "../assets/priority.png";
+import IMG_Tags from "../assets/tags.png";
 
 const CardItem = ({
   task,
@@ -30,6 +35,10 @@ const CardItem = ({
   const [editInput, setEditInput] = useState(task.title);
   // Expand/Collapse item block
   const [expand, setExpand] = useState(false);
+  const [viewDetails, setViewDetails] = useState(false);
+  const [viewDueDate, setViewDueDate] = useState(false);
+  const [viewPriority, setViewPriority] = useState(false);
+  const [viewTags, setViewTags] = useState(false);
 
   const [dueDate, setDueDate] = useState(getDate());
 
@@ -56,7 +65,11 @@ const CardItem = ({
   };
 
   useEffect(() => {
-    setDueDate(task.dueDate);
+    if (task.dueDate.substr(0, 4) === "1900") {
+      setDueDate("");
+    } else {
+      setDueDate(task.dueDate.substr(0, 10));
+    }
   }, [task]);
 
   return (
@@ -71,7 +84,8 @@ const CardItem = ({
         onDragEnter={(e) => dragItemEnter(e, listID, index)}
         onDragEnd={dragItemEnd}
       >
-        <div className="flex items-center h-full p-2 bg-brown">
+        {/* Item Title */}
+        <div className="flex items-center h-full p-2">
           <input
             type="checkbox"
             checked={task.completed}
@@ -94,7 +108,7 @@ const CardItem = ({
                 <img
                   src={IMG_Save}
                   alt=""
-                  className="icon"
+                  className="icon-lg"
                   onClick={() => {
                     handleUpdateTask(task.id, "task_title", editInput);
                     setEdit(!edit);
@@ -103,7 +117,7 @@ const CardItem = ({
                 <img
                   src={IMG_Cancel}
                   alt=""
-                  className="icon"
+                  className="icon-lg"
                   onClick={() => setEdit(!edit)}
                 />
               </span>
@@ -117,16 +131,17 @@ const CardItem = ({
                 >
                   {task.title}
                 </p>
-                {task.dueDate === "" ? null : (
+                {task.dueDate.substr(0, 4) === "1900" ? null : (
                   <p className="font-light p-0 my-[-5px]">
-                    Due: {task.dueDate}
+                    Due:
+                    {task.dueDate.substr(0, 10)}
                   </p>
                 )}
               </div>
               <img
                 src={IMG_Edit}
                 alt=""
-                className="icon"
+                className="icon-lg"
                 onClick={() => setEdit(!edit)}
               />
             </div>
@@ -135,161 +150,205 @@ const CardItem = ({
             src={IMG_Delete}
             alt=""
             onClick={() => handleDeleteTask(task.id)}
-            className="icon"
+            className="icon-lg"
           />
         </div>
-        <div
-          className={
-            expand ? "border-[1px] border-dashed p-2 bg-amber-100" : "hidden"
-          }
-        >
-          <div className="py-3">
-            <h3 className="font-semibold mb-2">Details:</h3>
-            {task.details === "" ? (
-              <FaCirclePlus
-                className="icon-lg text-yellow-400"
-                onClick={() => setAddDetail(true)}
-              />
-            ) : null}
-            {addDetail ? (
-              <>
-                <input
-                  type="text"
-                  value={detailInput}
-                  onChange={(e) => {
-                    setDetailInput(e.target.value);
-                  }}
-                />
-                <img
-                  src={IMG_Cancel}
-                  alt=""
-                  className="icon-lg"
-                  onClick={() => {
-                    setAddDetail(false);
-                  }}
-                />
-                <img
-                  src={IMG_Done}
-                  alt=""
-                  className="icon-lg"
-                  onClick={() => {
-                    handleDetail();
-                    setAddDetail(false);
-                  }}
-                />
-              </>
-            ) : (
-              <p onClick={() => setAddDetail(true)}>{task.details}</p>
-            )}
-          </div>
-          <div className="py-3">
-            <h3 className="font-semibold mb-2">Due Date:</h3>
-            {/* date input in format yyyy-mm-dd */}
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => handleDueDate(e.target.value)}
-              className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
+        {/* Item Content */}
+        <div className={expand ? "border-[1px] border-dashed p-2" : "hidden"}>
+          {/* Toggle Task Content */}
+          <div className="ml-5">
+            <img
+              src={IMG_Details}
+              alt=""
+              className="icon-xl"
+              title="Details"
+              onClick={() => {
+                setViewDetails(!viewDetails);
+              }}
             />
-            <input
-              type="time"
-              className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
+            <img
+              src={IMG_Date}
+              alt=""
+              className="icon-xl"
+              title="Due Date"
+              onClick={() => {
+                setViewDueDate(!viewDueDate);
+              }}
+            />
+            <img
+              src={IMG_Priority}
+              alt=""
+              className="icon-xl"
+              title="Priority"
+              onClick={() => setViewPriority(!viewPriority)}
+            />
+            <img
+              src={IMG_Tags}
+              alt=""
+              className="icon-xl"
+              title="Tags"
+              onClick={() => setViewTags(!viewTags)}
             />
           </div>
-          <div className="py-3">
-            <h3 className="font-semibold mb-2">Priority:</h3>
-            <div className="flex">
-              <span
-                className={
-                  (task.priority === "high" ? "bg-red-400" : "bg-slate-200") +
-                  " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
-                }
-                onClick={() => handlePriority("high")}
-              >
-                {/* <input type="radio" name={task.id} className="mr-2" /> */}
-                <FcHighPriority className="icon mr-1" />
-                High
-              </span>
-              <span
-                className={
-                  (task.priority === "normal"
-                    ? "bg-yellow-200"
-                    : "bg-slate-200") +
-                  " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
-                }
-                onClick={() => handlePriority("normal")}
-              >
-                {/* <input type="radio" name={task.id} className="mr-2" /> */}
-                <FcMediumPriority className="icon mr-2" />
-                Normal
-              </span>
-              <span
-                className={
-                  (task.priority === "low" ? "bg-green-400" : "bg-slate-200") +
-                  " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
-                }
-                onClick={() => handlePriority("low")}
-              >
-                {/* <input type="radio" name={task.id} className="mr-2" /> */}
-                <FcLowPriority className="icon mr-1" />
-                Low
-              </span>
+          {/* Details */}
+          {viewDetails && (
+            <div className="py-3">
+              <h3 className="font-semibold mb-2">Details:</h3>
+              {task.details === "" ? (
+                <FaCirclePlus
+                  className="icon-lg text-yellow-400"
+                  onClick={() => setAddDetail(true)}
+                />
+              ) : null}
+              {addDetail ? (
+                <>
+                  <input
+                    type="text"
+                    value={detailInput}
+                    onChange={(e) => {
+                      setDetailInput(e.target.value);
+                    }}
+                  />
+                  <img
+                    src={IMG_Cancel}
+                    alt=""
+                    className="icon-lg"
+                    onClick={() => {
+                      setAddDetail(false);
+                    }}
+                  />
+                  <img
+                    src={IMG_Done}
+                    alt=""
+                    className="icon-lg"
+                    onClick={() => {
+                      handleDetail();
+                      setAddDetail(false);
+                    }}
+                  />
+                </>
+              ) : (
+                <p onClick={() => setAddDetail(true)}>{task.details}</p>
+              )}
             </div>
-          </div>
-          <div className="py-3">
-            <h3 className="font-semibold mb-2">
-              <FaTag className="icon" /> Tags:
-            </h3>
-            {task.tags.length === 0
-              ? null
-              : task.tags.map((tag, index) => {
-                  return (
-                    <span
-                      key={index}
-                      className=" flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full bg-slate-200"
-                    >
-                      <FaTag className="icon mr-1" />
-                      {tag}
-                    </span>
-                  );
-                })}
-            <span className="">
-              <FaPlusCircle
-                className="icon-lg"
-                onClick={() => {
-                  setAddTag(true);
-                }}
+          )}
+          {/* Due Date */}
+          {viewDueDate && (
+            <div className="py-3">
+              <h3 className="font-semibold mb-2">Due Date:</h3>
+              {/* date input in format yyyy-mm-dd */}
+              <input
+                type="date"
+                value={dueDate}
+                onChange={(e) => handleDueDate(e.target.value)}
+                className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
               />
-            </span>
-            {addTag ? (
-              <>
-                <input
-                  type="text"
-                  value={tagInput}
-                  onChange={(e) => {
-                    setTagInput(e.target.value);
-                  }}
-                />
-                <img
-                  src={IMG_Done}
-                  alt=""
+              <input
+                type="time"
+                className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
+              />
+            </div>
+          )}
+          {/* Priority */}
+          {viewPriority && (
+            <div className="py-3">
+              <h3 className="font-semibold mb-2">Priority:</h3>
+              <div className="flex">
+                <span
+                  className={
+                    (task.priority === "high" ? "bg-red-400" : "bg-slate-200") +
+                    " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
+                  }
+                  onClick={() => handlePriority("high")}
+                >
+                  {/* <input type="radio" name={task.id} className="mr-2" /> */}
+                  <FcHighPriority className="icon mr-1" />
+                  High
+                </span>
+                <span
+                  className={
+                    (task.priority === "normal"
+                      ? "bg-yellow-200"
+                      : "bg-slate-200") +
+                    " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
+                  }
+                  onClick={() => handlePriority("normal")}
+                >
+                  {/* <input type="radio" name={task.id} className="mr-2" /> */}
+                  <FcMediumPriority className="icon mr-2" />
+                  Normal
+                </span>
+                <span
+                  className={
+                    (task.priority === "low"
+                      ? "bg-green-400"
+                      : "bg-slate-200") +
+                    " flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full "
+                  }
+                  onClick={() => handlePriority("low")}
+                >
+                  {/* <input type="radio" name={task.id} className="mr-2" /> */}
+                  <FcLowPriority className="icon mr-1" />
+                  Low
+                </span>
+              </div>
+            </div>
+          )}
+          {/* Tags */}
+          {viewTags && (
+            <div className="py-3">
+              <h3 className="font-semibold mb-2">Tags:</h3>
+              {task.tags.length === 0
+                ? null
+                : task.tags.map((tag, index) => {
+                    return (
+                      <span
+                        key={index}
+                        className=" flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full bg-slate-200"
+                      >
+                        <FaTag className="icon mr-1" />
+                        {tag}
+                      </span>
+                    );
+                  })}
+              <span className="">
+                <FaCirclePlus
+                  className="icon-lg text-yellow-400"
                   onClick={() => {
-                    handleTag();
-                    setAddTag(false);
+                    setAddTag(true);
                   }}
-                  className="icon"
                 />
-                <img
-                  src={IMG_Cancel}
-                  alt=""
-                  onClick={() => {
-                    setAddTag(false);
-                  }}
-                  className="icon"
-                />
-              </>
-            ) : null}
-          </div>
+              </span>
+              {addTag ? (
+                <>
+                  <input
+                    type="text"
+                    value={tagInput}
+                    onChange={(e) => {
+                      setTagInput(e.target.value);
+                    }}
+                  />
+                  <img
+                    src={IMG_Done}
+                    alt=""
+                    onClick={() => {
+                      handleTag();
+                      setAddTag(false);
+                    }}
+                    className="icon"
+                  />
+                  <img
+                    src={IMG_Cancel}
+                    alt=""
+                    onClick={() => {
+                      setAddTag(false);
+                    }}
+                    className="icon"
+                  />
+                </>
+              ) : null}
+            </div>
+          )}
         </div>
       </div>
     </li>

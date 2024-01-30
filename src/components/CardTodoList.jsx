@@ -7,6 +7,7 @@ import CardIcons from "./CardIcons";
 import { ACTIONS, fetchServer } from "../data/serverFunctions";
 import { IMAGES_Icons } from "../data/templates";
 // Imported Media
+import IMG_Close from "../assets/close.png";
 import IMG_Cancel from "../assets/cancel.png";
 import IMG_Save from "../assets/save.png";
 import IMG_Edit from "../assets/edit.png";
@@ -101,8 +102,8 @@ const CardTodoList = ({
   return (
     <div className="w-full border-[1px] m-2" key={displayList.id}>
       {/* List Name */}
-      <div className="flex justify-between items-center text-xl font-normal text-slate-950 bg-amber-700 px-4 py-3 border-b-2 border-gray-300">
-        <span className="flex items-center text-slate-50">
+      <div className="flex justify-between items-center px-4 py-3 text-xl font-normal text-amber-700 border-4 border-amber-700">
+        <span className="flex items-center">
           {editListIcon ? (
             <>
               <CardIcons handleIcon={handleIcon} />
@@ -110,7 +111,7 @@ const CardTodoList = ({
                 src={IMG_Cancel}
                 alt=""
                 onClick={() => setEditListIcon(false)}
-                className="icon"
+                className="icon-lg"
               />
             </>
           ) : displayList.icon === "" ? (
@@ -131,6 +132,7 @@ const CardTodoList = ({
           {editListTitle ? (
             <input
               type="text"
+              className="p-0"
               value={editInput}
               onChange={(e) => setEditInput(e.target.value)}
             />
@@ -145,13 +147,13 @@ const CardTodoList = ({
                 src={IMG_Save}
                 alt=""
                 onClick={() => handleEditList()}
-                className="icon"
+                className="icon-lg"
               />
               <img
                 src={IMG_Cancel}
                 alt=""
                 onClick={() => toggleEdit()}
-                className="icon"
+                className="icon-lg"
               />
             </>
           ) : (
@@ -159,14 +161,14 @@ const CardTodoList = ({
               src={IMG_Edit}
               alt=""
               onClick={() => toggleEdit()}
-              className="icon"
+              className="icon-lg"
             />
           )}
           <img
-            src={IMG_Cancel}
+            src={IMG_Close}
             alt=""
             onClick={() => handleClose(displayList.id)}
-            className="icon"
+            className="icon-lg"
           />
         </span>
         {/* <FaTimes  /> */}

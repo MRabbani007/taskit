@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = ({
   todayTasks,
+  weekTasks,
   userLists,
   handleOpen,
   handleLists,
@@ -64,6 +65,7 @@ const Navbar = ({
         ref={sideBarRef}
         handleSidebar={handleSideBar}
         todayTasks={todayTasks}
+        weekTasks={weekTasks}
         userLists={userLists}
         handleOpen={handleOpen}
         handleLists={handleLists}

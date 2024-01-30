@@ -26,39 +26,38 @@ const Sidebar = ({
       {/* Sidebar */}
       <div className="w-[300px] min-h-screen bg-slate-200 border-[1px] text-slate-950 p-2">
         <div
-          className="flex items-center my-2 text-yellow-600 font-semibold cursor-pointer"
+          className="flex flex-col items-center my-2 text-yellow-600 font-semibold cursor-pointer"
           onClick={() => setViewToday(!viewToday)}
         >
           <img src={Today} alt="" className="icon-lg mr-2" />
-          <span>Today</span>
+          <p>Today</p>
         </div>
-        <div className="flex flex-col">
-          {viewToday
-            ? !!todayTasks.length
-              ? todayTasks.map((task, index) => {
-                  let color = "";
-                  if (task.priority === "high") {
-                    color = "text-red-400";
-                  } else if (task.priority === "normal") {
-                    color = "text-yellow-200";
-                  } else if (task.priority === "low") {
-                    color = "text-green-200";
-                  }
-                  return (
-                    <p
-                      key={index}
-                      className="border-[1px] p-1 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer shadow-sm shadow-slate-500"
-                      onClick={() => handleOpen(task.listID)}
-                    >
-                      <FaCircle className={color + " icon mr-2"} />
-                      {task.title}
-                    </p>
-                  );
-                })
-              : null
+        {/* Today Tasks */}
+        <div className={viewToday ? "flex flex-col" : "hidden"}>
+          {Array.isArray(todayTasks)
+            ? todayTasks.map((task, index) => {
+                let color = "";
+                if (task.priority === "high") {
+                  color = "text-red-400";
+                } else if (task.priority === "normal") {
+                  color = "text-yellow-200";
+                } else if (task.priority === "low") {
+                  color = "text-green-200";
+                }
+                return (
+                  <p
+                    key={index}
+                    className="border-[1px] p-1 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer shadow-sm shadow-slate-500"
+                    onClick={() => handleOpen(task.listID)}
+                  >
+                    <FaCircle className={color + " icon mr-2"} />
+                    {task.title}
+                  </p>
+                );
+              })
             : null}
         </div>
-        <div className="flex items-center my-2 text-blue-700 font-semibold cursor-pointer">
+        <div className="flex flex-col items-center my-2 text-blue-700 font-semibold cursor-pointer">
           {/* <BsCalendar4Week className="icon mx-2 " /> */}
           <img src={Week} alt="" className="icon-lg mr-2" />
           Upcoming

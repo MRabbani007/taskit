@@ -27,7 +27,7 @@ const CardListName = ({
   return (
     <li
       key={taskList.id}
-      className="w-full my-1 p-1 shadow-sm shadow-slate-500 draggable"
+      className="w-full my-1 p-1 draggable"
       draggable="true"
       onDragStart={(e) => {
         dragStart(e, index);
@@ -37,7 +37,7 @@ const CardListName = ({
     >
       {/* Edit List Title */}
       {edit ? (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           <div className="w-fit">
             <img src={IMAGES_Icons + taskList.icon} className="icon mr-2" />
             <input
@@ -77,7 +77,11 @@ const CardListName = ({
               alt=""
               className="icon cursor-pointer"
               onClick={() =>
-                handleLists({ type: ACTIONS.REMOVE_LIST, listID: taskList.id })
+                handleLists({
+                  type: ACTIONS.UPDATE_LIST,
+                  listID: taskList.id,
+                  updateItem: "trash",
+                })
               }
             />
           </span>
@@ -100,7 +104,7 @@ const CardListName = ({
             />
             {taskList.title}
           </p>
-          <div>
+          <div className="icon-cont">
             <img
               src={IMG_Edit}
               alt=""
@@ -113,8 +117,9 @@ const CardListName = ({
               className="icon cursor-pointer"
               onClick={() =>
                 handleLists({
-                  type: ACTIONS.REMOVE_LIST,
+                  type: ACTIONS.UPDATE_LIST,
                   listID: taskList.id,
+                  updateItem: "trash",
                 })
               }
             />
