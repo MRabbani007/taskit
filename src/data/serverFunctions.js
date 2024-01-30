@@ -1,9 +1,9 @@
 import axios from "axios";
 import { getDate } from "./utils";
 
-export const SERVER_URL = "http://localhost:3000";
+// export const SERVER_URL = "http://localhost:3000";
 
-// export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
+export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
 
 export const ACTIONS = {
   GET_LISTS: "GET_LISTS",
@@ -90,7 +90,6 @@ export const fetchServer = async (action) => {
           day: getDate(0),
           offset: getDate(7),
         };
-        console.log(DATA);
         break;
       }
       // Add Task to list
@@ -131,10 +130,9 @@ export const fetchServer = async (action) => {
       }
     }
     let response = await axios({ method: "post", url: URL, data: DATA });
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.log("Fetch Server Error");
   }
 };
 

@@ -13,13 +13,16 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const [userNameError, setUserNameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const handleSignin = async (e) => {
     e.preventDefault();
     let response = "";
     if (userName === "") {
-      alert("Enter UserName");
+      setUserNameError("Enter UserName");
     } else if (password === "") {
-      alert("Enter Password");
+      setPasswordError("Enter Password");
     } else {
       response = await fetchUser({
         type: ACTIONS.SIGNIN,
@@ -90,6 +93,7 @@ const Signin = () => {
                 onChange={(e) => setUserName(e.target.value)}
                 className=""
               />
+              <span className="username-error">{userNameError}</span>
               <label htmlFor="password" className="my-2">
                 Password
               </label>
@@ -101,6 +105,7 @@ const Signin = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className=""
               />
+              <span className="password-error">{passwordError}</span>
               <button type="submit" className="btn btn-yellow mx-auto my-2">
                 Signin
               </button>
