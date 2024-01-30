@@ -40,6 +40,7 @@ const CardItem = ({
   const [viewPriority, setViewPriority] = useState(false);
   const [viewTags, setViewTags] = useState(false);
 
+  // hold due date value
   const [dueDate, setDueDate] = useState(getDate());
 
   const [addDetail, setAddDetail] = useState(false);
@@ -65,7 +66,6 @@ const CardItem = ({
   };
 
   useEffect(() => {
-    console.log(task.dueDate);
     if (task.dueDate.includes("1900-01-01")) {
       setDueDate("");
     } else {
@@ -132,10 +132,9 @@ const CardItem = ({
                 >
                   {task.title}
                 </p>
-                {task.dueDate.substr(0, 4) === "1900" ? null : (
+                {dueDate === "" ? null : (
                   <p className="font-light p-0 my-[-5px]">
-                    Due:
-                    {task.dueDate.substr(0, 10)}
+                    Due:<span className="ml-1">{dueDate}</span>
                   </p>
                 )}
               </div>
@@ -236,22 +235,20 @@ const CardItem = ({
             </div>
           )}
           {/* Due Date */}
-          {viewDueDate && (
-            <div className="py-3 flex items-center">
-              <h3 className="font-semibold">Due Date:</h3>
-              {/* date input in format yyyy-mm-dd */}
-              <input
-                type="date"
-                value={dueDate}
-                onChange={(e) => handleDueDate(e.target.value)}
-                className="mx-3 px-3 py-1 outline-none border-[1px] text-slate-950"
-              />
-              <input
-                type="time"
-                className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
-              />
-            </div>
-          )}
+          <div className={viewDueDate ? "py-3 flex items-center" : "hidden"}>
+            <h3 className="font-semibold">Due Date:</h3>
+            {/* date input in format yyyy-mm-dd */}
+            <input
+              type="date"
+              value={dueDate}
+              onChange={(e) => handleDueDate(e.target.value)}
+              className="mx-3 px-3 py-1 outline-none border-[1px] text-slate-950"
+            />
+            <input
+              type="time"
+              className="mr-3 px-3 py-1 outline-none border-[1px] text-slate-950"
+            />
+          </div>
           {/* Priority */}
           {viewPriority && (
             <div className="py-3 flex items-center">
