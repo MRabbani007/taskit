@@ -1,9 +1,9 @@
 import axios from "axios";
 import { getDate } from "./utils";
 
-// export const SERVER_URL = "http://localhost:3000";
+export const SERVER_URL = "http://localhost:3000";
 
-export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
+// export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
 
 export const ACTIONS = {
   GET_LISTS: "GET_LISTS",
@@ -161,88 +161,3 @@ export const fetchUser = async (action) => {
     return "Error: Signin";
   }
 };
-
-// TODO: remove
-// export const fetchCreateList = async (userName, list) => {
-//   try {
-//     let response = await axios({
-//       method: "post",
-//       url: SERVER_URL + SERVER_ACTIONS.CREATE_LIST,
-//       data: {
-//         userName: userName,
-//         list: list,
-//       },
-//     });
-//     alert(response.data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// TODO: remove
-// export const fetchRemoveList = async (userName, listID) => {
-//   try {
-//     let response = await axios({
-//       method: "post",
-//       url: "http://localhost:3000/lists/remove",
-//       data: {
-//         userName: userName,
-//         listID: listID,
-//       },
-//     });
-//     alert(response.data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// TODO: remove
-// export const fetchGetUserLists = async (userName) => {
-//   try {
-//     let response = await axios({
-//       method: "post",
-//       url: "http://localhost:3000/lists/get",
-//       data: {
-//         userName: userName,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.log("Error: Get Lists");
-//   }
-// };
-
-// TODO: remove
-// export const fetchAddTask = async (userName, listID, task) => {
-//   try {
-//     let response = await axios({
-//       method: "post",
-//       url: "/tasks/create",
-//       data: {
-//         userName: userName,
-//         listID: listID,
-//         task: task,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.log("Error: Get Lists");
-//   }
-// };
-
-// TODO: remove
-// export const fetchGetTasks = async (userName, listID) => {
-//   try {
-//     let response = await axios({
-//       method: "post",
-//       url: "http://localhost:3000/tasks/get",
-//       data: {
-//         userName: userName,
-//         listID: listID,
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.log("Error: Get Lists");
-//   }
-// };
