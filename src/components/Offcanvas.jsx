@@ -204,11 +204,12 @@ const Offcanvas = forwardRef(
         ) : null}
         {/* Trash */}
         <div className={viewTab === "trash" ? "" : "hidden"}>
-          {userLists.map((list, index) => {
-            if (list.trash === true) {
-              return (
-                <div key={index}>
-                  {/* <CardListName
+          {Array.isArray(userLists) &&
+            userLists.map((list, index) => {
+              if (list.trash === true) {
+                return (
+                  <div key={index}>
+                    {/* <CardListName
                     key={index}
                     taskList={list}
                     handleOpen={handleOpen}
@@ -216,24 +217,24 @@ const Offcanvas = forwardRef(
                     toggleCreateList={toggleCreateList}
                     handleLists={handleLists}
                   /> */}
-                  <p className="flex items-center">
-                    <FaBars className="icon mr-2 my-2" />
-                    {list.title}
-                    <RiDeviceRecoverLine
-                      onClick={() => {
-                        handleLists({
-                          type: ACTIONS.UPDATE_LIST,
-                          listID: list.id,
-                          updateItem: "un_trash",
-                        });
-                      }}
-                      className="icon ml-2"
-                    />
-                  </p>
-                </div>
-              );
-            }
-          })}
+                    <p className="flex items-center">
+                      <FaBars className="icon mr-2 my-2" />
+                      {list.title}
+                      <RiDeviceRecoverLine
+                        onClick={() => {
+                          handleLists({
+                            type: ACTIONS.UPDATE_LIST,
+                            listID: list.id,
+                            updateItem: "un_trash",
+                          });
+                        }}
+                        className="icon ml-2"
+                      />
+                    </p>
+                  </div>
+                );
+              }
+            })}
         </div>
       </div>
     );
