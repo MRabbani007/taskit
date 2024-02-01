@@ -1,9 +1,9 @@
 import axios from "axios";
 import { getDate } from "./utils";
 
-export const SERVER_URL = "http://localhost:3000";
+// export const SERVER_URL = "http://localhost:3000";
 
-// export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
+export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
 
 export const ACTIONS = {
   GET_LISTS: "GET_LISTS",
