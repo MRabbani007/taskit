@@ -33,10 +33,10 @@ const Offcanvas = forwardRef(
         ref={ref}
         className={
           (viewSideBar ? "left-0" : "left-[-500px]") +
-          " fixed top-[50px] w-[300px] min-h-screen p-2 duration-300 bg-neutral-50"
+          " fixed top-[50px] sm:w-[300px] w-full min-h-screen p-2 duration-300 bg-neutral-50"
         }
       >
-        <div className="flex items-center gap-3 font-mono mb-3">
+        <div className="flex items-center justify-center gap-3 font-mono mb-3">
           <div
             className="flex flex-col justify-center items-center cursor-pointer"
             onMouseOver={() => {
@@ -72,6 +72,23 @@ const Offcanvas = forwardRef(
             {/* <span>1-Week</span> */}
           </div>
           <div
+            onMouseOver={() => {
+              setViewTab("important");
+            }}
+            onClick={() => {
+              if (viewTab === "important") {
+                setViewTab("");
+              } else {
+                setViewTab("important");
+              }
+            }}
+            className="flex flex-col justify-center items-center cursor-pointer"
+          >
+            {/* <FaRegStar className="icon mx-2 " /> */}
+            <img src={Important} alt="" className="icon-lg" />
+            {/* <span>Important</span> */}
+          </div>
+          <div
             className="flex flex-col justify-center items-center cursor-pointer"
             onMouseOver={() => {
               setViewTab("user_lists");
@@ -87,6 +104,23 @@ const Offcanvas = forwardRef(
             {/* <IoListOutline className="icon mx-2" /> */}
             <img src={IMG_List} alt="" className="icon-lg" />
             {/* <span>Lists</span> */}
+          </div>
+          <div
+            onMouseOver={() => {
+              setViewTab("notes");
+            }}
+            onClick={() => {
+              if (viewTab === "notes") {
+                setViewTab("");
+              } else {
+                setViewTab("notes");
+              }
+            }}
+            className="flex flex-col justify-center items-center cursor-pointer"
+          >
+            {/* <IoListOutline className="icon mx-2" /> */}
+            <img src={IMG_NOTES} alt="" className="icon-lg" />
+            {/* <span>Notes</span> */}
           </div>
           <div
             className="flex flex-col justify-center items-center cursor-pointer"
@@ -162,20 +196,9 @@ const Offcanvas = forwardRef(
             })}
         </div>
         {/* Important Tasks */}
-        <div className="hidden items-center my-2 text-red-700 font-semibold cursor-pointer">
-          {/* <FaRegStar className="icon mx-2 " /> */}
-          <img src={Important} alt="" className="icon-lg mr-2" />
-          Important
-        </div>
+        <div></div>
         {/* Notes */}
-        <div
-          onClick={() => null}
-          className="hidden items-center my-2 pb-1 font-semibold cursor-pointer"
-        >
-          {/* <IoListOutline className="icon mx-2" /> */}
-          <img src={IMG_NOTES} alt="" className="icon-lg mr-2" />
-          Notes
-        </div>
+        <div></div>
         {/* Task Lists */}
         {viewTab === "user_lists" ? (
           <>

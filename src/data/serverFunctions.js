@@ -1,9 +1,9 @@
 import axios from "axios";
 import { getDate } from "./utils";
 
-// export const SERVER_URL = "http://localhost:3000";
+export const SERVER_URL = "http://localhost:3000";
 
-export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
+// export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
 
 export const ACTIONS = {
   GET_LISTS: "GET_LISTS",
@@ -25,7 +25,7 @@ export const SERVER = {
   CREATE_LIST: "/lists/create",
   REMOVE_LIST: "/lists/remove",
   UPDATE_LIST: "/lists/update",
-  GET_TASKS: "/tasks/get",
+  GET_TASKS: "/tasks/getList",
   GET_TASKS_TODAY: "/tasks/getToday",
   GET_TASKS_WEEK: "/tasks/getWeek",
   CREATE_TASK: "/tasks/create",
