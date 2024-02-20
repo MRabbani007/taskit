@@ -31,8 +31,8 @@ export const SERVER = {
   CREATE_TASK: "/tasks/create",
   REMOVE_TASK: "/tasks/remove",
   UPDATE_TASK: "/tasks/update",
-  SIGNIN: "/signin",
-  SIGNUP: "/signup",
+  SIGNIN: "/user/signin",
+  SIGNUP: "/user/signup",
 };
 
 export const fetchServer = async (action) => {
@@ -133,6 +133,7 @@ export const fetchServer = async (action) => {
     return response.data;
   } catch (error) {
     console.log("Fetch Server Error");
+    return null; //"Error: Fetch Server"
   }
 };
 
@@ -158,6 +159,6 @@ export const fetchUser = async (action) => {
     let response = await axios({ method: "post", url: URL, data: DATA });
     return response.data;
   } catch (error) {
-    return "Error: Signin";
+    return null; //"Error: Signin";
   }
 };

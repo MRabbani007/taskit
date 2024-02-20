@@ -15,27 +15,31 @@ const TodoItems = ({
   dragItemEnter,
   dragItemEnd,
 }) => {
-  return (
-    <ul className="text-lg" key={listID}>
-      {tasks.length != 0 &&
-        tasks.map((task, index) => {
-          if (task == null || task === "undefined") return;
-          return (
-            <CardItem
-              key={index}
-              task={task}
-              listID={listID}
-              dragItemStart={dragItemStart}
-              dragItemEnter={dragItemEnter}
-              dragItemEnd={dragItemEnd}
-              handleToggleTask={handleToggleTask}
-              handleDeleteTask={handleDeleteTask}
-              handleUpdateTask={handleUpdateTask}
-            />
-          );
-        })}
-    </ul>
-  );
+  if (!tasks || !Array.isArray(tasks)) {
+    return null;
+  } else {
+    return (
+      <ul className="text-lg" key={listID}>
+        {tasks.length != 0 &&
+          tasks.map((task, index) => {
+            if (task == null || task === "undefined") return;
+            return (
+              <CardItem
+                key={index}
+                task={task}
+                listID={listID}
+                dragItemStart={dragItemStart}
+                dragItemEnter={dragItemEnter}
+                dragItemEnd={dragItemEnd}
+                handleToggleTask={handleToggleTask}
+                handleDeleteTask={handleDeleteTask}
+                handleUpdateTask={handleUpdateTask}
+              />
+            );
+          })}
+      </ul>
+    );
+  }
 };
 
 export default TodoItems;
