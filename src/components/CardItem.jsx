@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaEdit, FaPlusCircle, FaTrashAlt } from "react-icons/fa";
 import { FaBars, FaCirclePlus, FaPlus, FaTag } from "react-icons/fa6";
 // Imported Data
@@ -19,17 +19,11 @@ import IMG_Date from "../assets/date.png";
 import IMG_Time from "../assets/time.png";
 import IMG_Priority from "../assets/priority.png";
 import IMG_Tags from "../assets/tags.png";
+import { GlobalContext } from "../context/GlobalState";
 
-const CardItem = ({
-  task,
-  index,
-  handleDeleteTask,
-  handleUpdateTask,
-  listID,
-  dragItemStart,
-  dragItemEnter,
-  dragItemEnd,
-}) => {
+const CardItem = ({ task }) => {
+  const { handleDeleteTask, handleUpdateTask } = useContext(GlobalContext);
+
   // View/hide edit title
   const [edit, setEdit] = useState(false);
   const [editInput, setEditInput] = useState(task.title);
@@ -48,6 +42,10 @@ const CardItem = ({
 
   const [addTag, setAddTag] = useState(false);
   const [tagInput, setTagInput] = useState("");
+
+  const toggleCompleted = (e) => {
+    handleUpdateTask(task.id, "task_complete", e.target.checked);
+  };
 
   const handleDueDate = (value) => {
     handleUpdateTask(task.id, "due_date", value);
@@ -80,21 +78,19 @@ const CardItem = ({
       <div
         className="flex flex-col justify-between w-full my-3 font-normal shadow-sm hover:shadow-slate-950 shadow-slate-400 duration-300 icon-cont"
         // implement draggable
-        draggable="true"
-        onDragStart={(e) => {
-          dragItemStart(e, listID, index);
-        }}
-        onDragEnter={(e) => dragItemEnter(e, listID, index)}
-        onDragEnd={dragItemEnd}
+        // draggable="true"
+        // onDragStart={(e) => {
+        //   dragItemStart(e, listID, index);
+        // }}
+        // onDragEnter={(e) => dragItemEnter(e, listID, index)}
+        // onDragEnd={dragItemEnd}
       >
         {/* Item Title */}
         <div className="flex items-center h-full p-2">
           <input
             type="checkbox"
             checked={task.completed}
-            onChange={(e) =>
-              handleUpdateTask(task.id, "task_complete", e.target.checked)
-            }
+            onChange={toggleCompleted}
             className="mr-3"
           />
           {edit ? (

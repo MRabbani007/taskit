@@ -1,13 +1,16 @@
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+// Imported Context
+import { GlobalContext } from "../context/GlobalState";
 // Imported Components
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
 import CreateList from "../components/CreateList";
-import CardTodoList from "../components/CardTodoList";
-// Imported Data
-import { ACTIONS, fetchServer } from "../data/serverFunctions";
-import { genDate } from "../data/utils";
+import SectionTodoList from "../components/SectionTodoList";
+import SectionListNames from "../components/SectionListNames";
+import SectionWeekTasks from "../components/SectionWeekTasks";
+import SectionTasksDay from "../components/SectionTasksDay";
+import SectionTasksOverdue from "../components/SectionTasksOverdue";
+import { FaCirclePlus, FaPlus } from "react-icons/fa6";
+import SectionTasksImportant from "../components/SectionTasksImportant";
+import SectionNotes from "../components/SectionNotes";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -79,305 +82,36 @@ const reducer = (state, action) => {
 };
 
 const HomePage = () => {
-  // Store userName
-  const [userName, setUserName] = useState("");
-  // TODO: remove, called by drag functions
-  const [listNames, setListNames] = useState();
-  // Display today and this week tasks
-  const [todayTasks, setTodayTasks] = useState([]);
-  const [weekTasks, setWeekTasks] = useState([]);
-  // Display today date value
-  const [todayDate, setTodayDate] = useState(genDate(0));
-
-  // Store user lists
-  const [userLists, dispatch] = useReducer(reducer, []);
-
-  // View Create List Component
-  const [viewCreateList, setViewCreateList] = useState(false);
-  const toggleCreateList = () => {
-    setViewCreateList(!viewCreateList);
-    setDisplayList([]);
-  };
-
-  // Task list displayed in main container
-  const [displayList, setDisplayList] = useState([]);
-
-  // Drag List Names
-  // Store Index of dragged item
-  const dragItem = useRef();
-  // Store Index of dragged over item
-  const dragOverItem = useRef();
-  // On Drag Start
-  const dragStart = (e, position) => {
-    dragItem.current = position;
-  };
-  // On Drag Over Item
-  const dragEnter = (e, position) => {
-    dragOverItem.current = position;
-  };
-  // On Drag End
-  const dragEnd = () => {
-    // Dupplicate list names
-    let currentListNames = [...listNames];
-    // Copy dragged item
-    const draggedItemContent = currentListNames.splice(dragItem.current, 1)[0];
-    // insert dragged item into position
-    currentListNames.splice(dragOverItem.current, 0, draggedItemContent);
-    // reset the reference
-    dragItem.current = null;
-    dragOverItem.current = null;
-    // update actual array
-    setListNames(currentListNames);
-  };
-
-  const dragTodoItem = useRef();
-  const dragOverTodoItem = useRef();
-  const dragItemStart = (e, listID, position) => {
-    dragTodoItem.current = { id: listID, pos: position };
-  };
-  const dragItemEnter = (e, listID, position) => {
-    dragOverTodoItem.current = { id: listID, pos: position };
-  };
-  const dragItemEnd = () => {
-    // if user did not drag over new item
-    if (!dragOverTodoItem) return;
-    // if no item dragged
-    if (!dragTodoItem) return;
-    // if drag in same list
-    if (dragTodoItem.current.id === dragOverTodoItem.current.id) {
-      // duplicate list names
-      let currentListNames = [...listNames];
-      // remove dragged todo item
-      const draggedItemContent = currentListNames[
-        getListIndex(dragTodoItem.current.id)
-      ].todoitems.splice(dragTodoItem.current.pos, 1)[0];
-      // insert dragged item into position
-      currentListNames[getListIndex(dragTodoItem.current.id)].todoitems.splice(
-        dragOverTodoItem.current.pos,
-        0,
-        draggedItemContent
-      );
-      // reset the reference
-      dragTodoItem.current = null;
-      dragOverTodoItem.current = null;
-      // update actual array
-      setListNames(currentListNames);
-    }
-    // if drag to different list
-    else if (dragTodoItem.current.id !== dragOverTodoItem.current.id) {
-      // if user did not drag over new item
-      if (!dragOverTodoItem) return;
-      // if no item dragged
-      if (!dragTodoItem) return;
-
-      let currentListNames = [...listNames];
-      // remove dragged todo item
-      const draggedItemContent = currentListNames[
-        getListIndex(dragTodoItem.current.id)
-      ].todoitems.splice(dragTodoItem.current.pos, 1)[0];
-      // insert dragged item into position
-      currentListNames[
-        getListIndex(dragOverTodoItem.current.id)
-      ].todoitems.splice(dragOverTodoItem.current.pos, 0, draggedItemContent);
-      // reset the reference
-      dragTodoItem.current = null;
-      dragOverTodoItem.current = null;
-      // update actual array
-      setListNames(currentListNames);
-    }
-  };
-
-  useEffect(() => {
-    loaduser();
-  }, []);
-
-  useEffect(() => {
-    if (userName !== "") {
-      // Load user lists
-      handleLists({ type: ACTIONS.GET_LISTS });
-      // Load today tasks
-      handleGetTasks();
-      // Load week tasks
-      handleGetWeekTasks();
-    }
-  }, [userName]);
-
-  const handleLists = async (action) => {
-    switch (action.type) {
-      case ACTIONS.GET_LISTS: {
-        let data = await fetchServer({
-          type: ACTIONS.GET_LISTS,
-          userName: userName,
-        });
-        dispatch({ type: "get", lists: data });
-        break;
-      }
-      case ACTIONS.CREATE_LIST: {
-        let data = await fetchServer({
-          type: ACTIONS.CREATE_LIST,
-          userName: userName,
-          list: { title: action.title, icon: action.icon, tasks: [] },
-        });
-        await handleGetLists();
-        toggleCreateList();
-        break;
-      }
-      case ACTIONS.REMOVE_LIST: {
-        let data = await fetchServer({
-          type: ACTIONS.REMOVE_LIST,
-          userName: userName,
-          listID: action.listID,
-        });
-        setDisplayList((currentDisplayList) => {
-          return currentDisplayList.filter(
-            (listName) => userLists[listName].id !== listID
-          );
-        });
-        handleGetLists();
-        break;
-      }
-      case ACTIONS.UPDATE_LIST: {
-        let data = await fetchServer({
-          type: ACTIONS.UPDATE_LIST,
-          userName: userName,
-          listID: action.listID,
-          updateItem: action.updateItem,
-          newValue: action.newValue,
-        });
-        await handleGetLists();
-        if (displayList[0].id === action.listID) {
-          handleOpen(action.listID);
-        }
-        // dispatch({ type: "updateListName", listID: listID, title: newTitle });
-        break;
-      }
-      default: {
-      }
-    }
-  };
-
-  // TODO: update frontend based on acknoledge response from DB
-  const handleGetLists = async () => {
-    let data = await fetchServer({
-      type: ACTIONS.GET_LISTS,
-      userName: userName,
-    });
-    dispatch({ type: "get", lists: data });
-    return true;
-  };
-
-  const handleGetTasks = async () => {
-    let data = await fetchServer({
-      type: ACTIONS.GET_TASKS_TODAY,
-      userName: userName,
-    });
-    setTodayTasks(data);
-  };
-
-  const handleGetWeekTasks = async () => {
-    let data = await fetchServer({
-      type: ACTIONS.GET_TASKS_WEEK,
-      userName: userName,
-    });
-    setWeekTasks(data);
-  };
-
-  const loaduser = () => {
-    let data = localStorage.getItem("todoUser");
-    if (data) {
-      setUserName(JSON.parse(data));
-    }
-  };
-
-  // Handle opening new todo List
-  const handleOpen = (listID) => {
-    let listIndex = userLists.findIndex((list) => list.id === listID);
-    setDisplayList([listIndex]);
-    setViewCreateList(false);
-    // setDisplayList((currentDisplayList) => {
-    //   return [
-    //     // remove list from display if list already open
-    //     ...currentDisplayList.filter((listName) => listName.id !== listID),
-    //     // add new list to display
-    //     userLists[listIndex],
-    //   ];
-    // });
-  };
-
-  // Handle closing todo List
-  function handleClose(listID) {
-    setDisplayList((currentDisplayList) => {
-      return currentDisplayList.filter(
-        (listIndex) => userLists[listIndex].id !== listID
-      );
-    });
-  }
+  const { listNames, displayList, viewCreateList, toggleCreateList, viewTab } =
+    useContext(GlobalContext);
 
   return (
-    <>
-      <Navbar
-        todayTasks={todayTasks}
-        weekTasks={weekTasks}
-        userLists={userLists}
-        handleOpen={handleOpen}
-        handleLists={handleLists}
-        toggleCreateList={toggleCreateList}
-      />
-      <div className="pt-[50px] min-h-screen flex font-normal">
-        {/* Sidebar */}
-        {/* <Sidebar
-          todayTasks={todayTasks}
-          userLists={userLists}
-          handleOpen={handleOpen}
-          handleLists={handleLists}
-          toggleCreateList={toggleCreateList}
-        /> */}
-        {/* Container */}
-        <div className="flex-1">
-          {/* Header */}
-          <div className="m-4">
-            <h1 className="">
-              {userName === "" ? (
-                <Link to="/signin" className="btn btn-yellow">
-                  Signin
-                </Link>
-              ) : (
-                <span className="">{"Hello, " + userName}</span>
-              )}
-            </h1>
-            <p className="btn btn-yellow my-2">
-              {todayDate.day + ", " + todayDate.date + " " + todayDate.month}
-            </p>
-          </div>
-          <div>
-            {/* Create New Task List */}
-            <CreateList
-              handleLists={handleLists}
-              viewCreateList={viewCreateList}
-              setViewCreateList={setViewCreateList}
-            />
-          </div>
-          {/* Container to display Task Lists */}
-          <div className="flex flex-wrap justify-center text-4xl p-2 w-full">
-            {displayList.length != 0 &&
-              displayList.map((listIndex) => {
-                return (
-                  <CardTodoList
-                    userName={userName}
-                    displayList={userLists[listIndex]}
-                    handleLists={handleLists}
-                    handleClose={handleClose}
-                    dragItemStart={dragItemStart}
-                    dragItemEnter={dragItemEnter}
-                    dragItemEnd={dragItemEnd}
-                    key={userLists[listIndex].id}
-                  />
-                );
-              })}
-          </div>
-        </div>
+    <div className="flex font-normal gap-3">
+      <div className="min-w-fit">
+        <SectionListNames />
       </div>
-    </>
+      <div className={viewTab === "tasks" ? "flex gap-3 w-full" : "hidden"}>
+        <SectionTasksImportant />
+        <SectionTasksOverdue />
+        <SectionTasksDay />
+        <SectionWeekTasks />
+      </div>
+      {viewTab === "notes" && <SectionNotes />}
+      {/* Create New Task List */}
+      {viewTab === "create_list" && <CreateList />}
+      {/* Container to display Task Lists */}
+      <div className={viewTab === "task_list" ? "min-w-fit w-full" : "hidden"}>
+        {displayList.length !== 0 &&
+          displayList.map((listIndex) => {
+            return (
+              <SectionTodoList
+                displayList={listNames[listIndex]}
+                key={listNames[listIndex].id}
+              />
+            );
+          })}
+      </div>
+    </div>
   );
 };
 

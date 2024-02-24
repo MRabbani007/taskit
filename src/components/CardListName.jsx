@@ -1,39 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 // Imported Data
 import { IMAGES_Icons } from "../data/templates";
-import { ACTIONS } from "../data/serverFunctions";
+import { ACTIONS } from "../data/actions";
 // Imported Media
 import IMG_Delete from "../assets/trash.png";
 import IMG_Edit from "../assets/edit.png";
 import IMG_Cancel from "../assets/cancel.png";
 import IMG_Save from "../assets/save.png";
+import { GlobalContext } from "../context/GlobalState";
 
-const CardListName = ({
-  taskList,
-  handleOpen,
-  handleLists,
-  handleSidebar,
-  toggleCreateList,
-  dragStart,
-  dragEnter,
-  dragEnd,
-}) => {
+const CardListName = ({ taskList }) => {
+  const { handleUpdateList, handleOpen } = useContext(GlobalContext);
+
   const [edit, setEdit] = useState(false);
-  const handleToggleEdit = () => {
-    setEdit(!edit);
-  };
-  const [editInput, setEditInput] = useState(taskList.title);
+  const [editInput, setEditInput] = useState(taskList?.title || "");
 
   return (
     <li
       key={taskList.id}
-      className="flex items-center w-full draggable"
-      draggable="true"
-      onDragStart={(e) => {
-        dragStart(e, index);
-      }}
-      onDragEnter={(e) => dragEnter(e, index)}
-      onDragEnd={dragEnd}
+      className="flex items-center w-full p-1 shadow-sm shadow-slate-600 rounded-md"
     >
       {/* Edit List Title */}
       {edit ? (
@@ -53,48 +38,36 @@ const CardListName = ({
             <img
               src={IMG_Save}
               alt=""
-              className="icon mr-1"
+              className="icon-md mr-1"
               onClick={() => {
-                handleLists({
-                  type: ACTIONS.UPDATE_LIST,
-                  listID: taskList.id,
-                  updateItem: "list_title",
-                  newValue: editInput,
-                });
-                handleToggleEdit();
+                handleUpdateList(taskList.id, { title: editInput });
+                setEdit(false);
               }}
             />
             <img
               src={IMG_Cancel}
               alt=""
-              className="icon mr-1"
+              className="icon-md mr-1"
               onClick={() => {
-                handleToggleEdit();
+                setEdit(false);
               }}
             />
             <img
               src={IMG_Delete}
               alt=""
-              className="icon cursor-pointer"
-              onClick={() =>
-                handleLists({
-                  type: ACTIONS.UPDATE_LIST,
-                  listID: taskList.id,
-                  updateItem: "trash",
-                })
-              }
+              className="icon-md cursor-pointer"
+              onClick={() => handleUpdateList(taskList.id, { trash: true })}
             />
           </span>
         </div>
       ) : (
-        <div className="flex items-center justify-between icon-cont">
+        <div className="flex items-center justify-between icon-cont w-full">
           <span className="flex items-center">
             <img src={IMAGES_Icons + taskList.icon} className="icon-lg mr-2" />
             <span
-              className="text-[14px] px-0 cursor-pointer"
+              className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
               onClick={() => {
                 handleOpen(taskList.id);
-                handleSidebar();
               }}
             >
               {taskList.title}
@@ -104,20 +77,14 @@ const CardListName = ({
             <img
               src={IMG_Edit}
               alt=""
-              className="icon mr-1 cursor-pointer"
-              onClick={() => handleToggleEdit()}
+              className="icon-md mr-1 cursor-pointer"
+              onClick={() => setEdit(true)}
             />
             <img
               src={IMG_Delete}
               alt=""
-              className="icon cursor-pointer"
-              onClick={() =>
-                handleLists({
-                  type: ACTIONS.UPDATE_LIST,
-                  listID: taskList.id,
-                  updateItem: "trash",
-                })
-              }
+              className="icon-md cursor-pointer"
+              onClick={() => handleUpdateList(taskList.id, { trash: true })}
             />
           </span>
         </div>

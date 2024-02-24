@@ -168,33 +168,7 @@ const Offcanvas = forwardRef(
               })
             : null}
         </div>
-        {/* Upcoming Tasks - 1 week */}
-        <div className={viewTab === "week_tasks" ? "" : "hidden"}>
-          {Array.isArray(weekTasks) &&
-            weekTasks.map((task, index) => {
-              let color = "";
-              if (task.priority === "high") {
-                color = "text-red-400";
-              } else if (task.priority === "normal") {
-                color = "text-yellow-200";
-              } else if (task.priority === "low") {
-                color = "text-green-200";
-              }
-              return (
-                <p
-                  key={index}
-                  className="p-1 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer"
-                  onClick={() => {
-                    handleOpen(task.listID);
-                    handleSidebar();
-                  }}
-                >
-                  <FaCircle className={color + " icon mr-2"} />
-                  {task.title}
-                </p>
-              );
-            })}
-        </div>
+        {viewTab === "week_tasks" ? "" : "hidden"}
         {/* Important Tasks */}
         <div></div>
         {/* Notes */}
@@ -209,9 +183,6 @@ const Offcanvas = forwardRef(
               handleOpen={handleOpen}
               handleSidebar={handleSidebar}
               toggleCreateList={toggleCreateList}
-              // dragStart={dragStart}
-              // dragEnter={dragEnter}
-              // dragEnd={dragEnd}
             />
             {/* Create List */}
             <div

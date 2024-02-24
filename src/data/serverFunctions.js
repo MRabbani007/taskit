@@ -1,39 +1,6 @@
 import axios from "axios";
 import { getDate } from "./utils";
-
-// export const SERVER_URL = "http://localhost:3000";
-
-export const SERVER_URL = "https://todoapp-server-hj1x.onrender.com";
-
-export const ACTIONS = {
-  GET_LISTS: "GET_LISTS",
-  CREATE_LIST: "CREATE_LIST",
-  REMOVE_LIST: "REMOVE_LIST",
-  UPDATE_LIST: "UPDATE_LIST",
-  GET_TASKS: "GET_TASKS",
-  GET_TASKS_TODAY: "GET_TASKS_TODAY",
-  GET_TASKS_WEEK: "GET_TASKS_WEEK",
-  CREATE_TASK: "CREATE_TASK",
-  REMOVE_TASK: "REMOVE_TASK",
-  UPDATE_TASK: "UPDATE_TASK",
-  SIGNIN: "SIGNIN",
-  SIGNUP: "SIGNUP",
-};
-
-export const SERVER = {
-  GET_LISTS: "/lists/get",
-  CREATE_LIST: "/lists/create",
-  REMOVE_LIST: "/lists/remove",
-  UPDATE_LIST: "/lists/update",
-  GET_TASKS: "/tasks/getList",
-  GET_TASKS_TODAY: "/tasks/getToday",
-  GET_TASKS_WEEK: "/tasks/getWeek",
-  CREATE_TASK: "/tasks/create",
-  REMOVE_TASK: "/tasks/remove",
-  UPDATE_TASK: "/tasks/update",
-  SIGNIN: "/user/signin",
-  SIGNUP: "/user/signup",
-};
+import { ACTIONS } from "./actions";
 
 export const fetchServer = async (action) => {
   try {
@@ -42,25 +9,25 @@ export const fetchServer = async (action) => {
     switch (action.type) {
       // Get user lists
       case ACTIONS.GET_LISTS: {
-        URL = SERVER_URL + SERVER.GET_LISTS;
+        URL = SERVER.GET_LISTS;
         DATA = { userName: action.userName };
         break;
       }
       // Create List
       case ACTIONS.CREATE_LIST: {
-        URL = SERVER_URL + SERVER.CREATE_LIST;
+        URL = SERVER.CREATE_LIST;
         DATA = { userName: action.userName, list: action.list };
         break;
       }
       // Remove List
       case ACTIONS.REMOVE_LIST: {
-        URL = SERVER_URL + SERVER.REMOVE_LIST;
+        URL = SERVER.REMOVE_LIST;
         DATA = { userName: action.userName, listID: action.listID };
         break;
       }
       // Update List
       case ACTIONS.UPDATE_LIST: {
-        URL = SERVER_URL + SERVER.UPDATE_LIST;
+        URL = SERVER.UPDATE_LIST;
         DATA = {
           userName: action.userName,
           listID: action.listID,
@@ -73,18 +40,18 @@ export const fetchServer = async (action) => {
       }
       // Get Tasks in list
       case ACTIONS.GET_TASKS: {
-        URL = SERVER_URL + SERVER.GET_TASKS;
+        URL = SERVER.GET_TASKS;
         DATA = { userName: action.userName, listID: action.listID };
         break;
       }
       // Get Tasks for today
       case ACTIONS.GET_TASKS_TODAY: {
-        URL = SERVER_URL + SERVER.GET_TASKS_TODAY;
+        URL = SERVER.GET_TASKS_TODAY;
         DATA = { userName: action.userName, day: getDate(0) };
         break;
       }
       case ACTIONS.GET_TASKS_WEEK: {
-        URL = SERVER_URL + SERVER.GET_TASKS_WEEK;
+        URL = SERVER.GET_TASKS_WEEK;
         DATA = {
           userName: action.userName,
           day: getDate(0),
@@ -94,7 +61,7 @@ export const fetchServer = async (action) => {
       }
       // Add Task to list
       case ACTIONS.CREATE_TASK: {
-        URL = SERVER_URL + SERVER.CREATE_TASK;
+        URL = SERVER.CREATE_TASK;
         DATA = {
           userName: action.userName,
           listID: action.listID,
@@ -104,7 +71,7 @@ export const fetchServer = async (action) => {
       }
       // Remove Task from list
       case ACTIONS.REMOVE_TASK: {
-        URL = SERVER_URL + SERVER.REMOVE_TASK;
+        URL = SERVER.REMOVE_TASK;
         DATA = {
           userName: action.userName,
           listID: action.listID,
@@ -114,7 +81,7 @@ export const fetchServer = async (action) => {
       }
       // Update Task
       case ACTIONS.UPDATE_TASK: {
-        URL = SERVER_URL + SERVER.UPDATE_TASK;
+        URL = SERVER.UPDATE_TASK;
         DATA = {
           userName: action.userName,
           updateData: {
@@ -143,12 +110,12 @@ export const fetchUser = async (action) => {
     let DATA = "";
     switch (action.type) {
       case ACTIONS.SIGNIN: {
-        URL = SERVER_URL + SERVER.SIGNIN;
+        URL = SERVER.SIGNIN;
         DATA = { username: action.username, password: action.password };
         break;
       }
       case ACTIONS.SIGNUP: {
-        URL = SERVER_URL + SERVER.SIGNUP;
+        URL = SERVER.SIGNUP;
         DATA = { username: action.username, password: action.password };
         break;
       }
