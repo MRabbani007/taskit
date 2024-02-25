@@ -22,7 +22,8 @@ import IMG_Tags from "../assets/tags.png";
 import { GlobalContext } from "../context/GlobalState";
 
 const CardItem = ({ task }) => {
-  const { handleDeleteTask, handleUpdateTask } = useContext(GlobalContext);
+  const { handleDeleteTask, handleUpdateTask, handleToggleTask } =
+    useContext(GlobalContext);
 
   // View/hide edit title
   const [edit, setEdit] = useState(false);
@@ -44,7 +45,7 @@ const CardItem = ({ task }) => {
   const [tagInput, setTagInput] = useState("");
 
   const toggleCompleted = (e) => {
-    handleUpdateTask(task.id, "task_complete", e.target.checked);
+    handleToggleTask(task.id, e.target.checked);
   };
 
   const handleDueDate = (value) => {
@@ -107,7 +108,7 @@ const CardItem = ({ task }) => {
                 <img
                   src={IMG_Save}
                   alt=""
-                  className="icon-lg"
+                  className="icon-md"
                   onClick={() => {
                     handleUpdateTask(task.id, "task_title", editInput);
                     setEdit(!edit);
@@ -116,7 +117,7 @@ const CardItem = ({ task }) => {
                 <img
                   src={IMG_Cancel}
                   alt=""
-                  className="icon-lg"
+                  className="icon-md"
                   onClick={() => setEdit(!edit)}
                 />
               </span>
@@ -139,7 +140,7 @@ const CardItem = ({ task }) => {
               <img
                 src={IMG_Edit}
                 alt=""
-                className="icon-lg mr-2 icon-item"
+                className="icon-md mr-2 icon-item"
                 onClick={() => setEdit(!edit)}
               />
             </div>
@@ -148,7 +149,7 @@ const CardItem = ({ task }) => {
             src={IMG_Delete}
             alt=""
             onClick={() => handleDeleteTask(task.id)}
-            className="icon-lg icon-item"
+            className="icon-md icon-item"
           />
         </div>
         {/* Item Content */}
@@ -158,7 +159,7 @@ const CardItem = ({ task }) => {
             <img
               src={IMG_Details}
               alt=""
-              className="icon-xl"
+              className="icon"
               title="Details"
               onClick={() => {
                 setViewDetails(!viewDetails);
@@ -167,7 +168,7 @@ const CardItem = ({ task }) => {
             <img
               src={IMG_Date}
               alt=""
-              className="icon-xl"
+              className="icon"
               title="Due Date"
               onClick={() => {
                 setViewDueDate(!viewDueDate);
@@ -176,14 +177,14 @@ const CardItem = ({ task }) => {
             <img
               src={IMG_Priority}
               alt=""
-              className="icon-xl"
+              className="icon"
               title="Priority"
               onClick={() => setViewPriority(!viewPriority)}
             />
             <img
               src={IMG_Tags}
               alt=""
-              className="icon-xl"
+              className="icon"
               title="Tags"
               onClick={() => setViewTags(!viewTags)}
             />
@@ -194,7 +195,7 @@ const CardItem = ({ task }) => {
               <h3 className="font-semibold">Details:</h3>
               {task.details === "" ? (
                 <FaCirclePlus
-                  className="icon-lg text-yellow-400"
+                  className="icon mx-3 text-yellow-400"
                   onClick={() => setAddDetail(true)}
                 />
               ) : null}
@@ -210,7 +211,7 @@ const CardItem = ({ task }) => {
                   <img
                     src={IMG_Cancel}
                     alt=""
-                    className="icon-lg"
+                    className="icon"
                     onClick={() => {
                       setAddDetail(false);
                     }}
@@ -218,7 +219,7 @@ const CardItem = ({ task }) => {
                   <img
                     src={IMG_Done}
                     alt=""
-                    className="icon-lg"
+                    className="icon"
                     onClick={() => {
                       handleDetail();
                       setAddDetail(false);
@@ -311,7 +312,7 @@ const CardItem = ({ task }) => {
                   })}
               <span className="">
                 <FaCirclePlus
-                  className="icon-lg text-yellow-400"
+                  className="icon mx-3 text-yellow-400"
                   onClick={() => {
                     setAddTag(true);
                   }}

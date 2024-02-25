@@ -10,7 +10,7 @@ const CardIcons = ({ handleIcon }) => {
             key={index}
             alt=""
             src={IMAGES_Icons + item.icon}
-            className="icon-2xl cursor-pointer"
+            className="icon-lg cursor-pointer"
             onClick={() => handleIcon(item.icon)}
           />
         );

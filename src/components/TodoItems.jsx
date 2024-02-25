@@ -15,9 +15,9 @@ const TodoItems = ({ listID }) => {
     return (
       <ul className="text-lg" key={listID}>
         {tasks.length !== 0 &&
-          tasks.map((task, index) => {
+          tasks.map((task) => {
             if (task === null || task === undefined) return;
-            return <CardItem key={index} task={task} />;
+            return <CardItem key={task.id} task={task} />;
           })}
       </ul>
     );

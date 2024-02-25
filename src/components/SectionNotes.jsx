@@ -4,15 +4,16 @@ import { FaCircle } from "react-icons/fa6";
 import { SlArrowRight } from "react-icons/sl";
 import { MdOutlineNotificationImportant } from "react-icons/md";
 import { GrNotes } from "react-icons/gr";
+import CardNote from "./CardNote";
 
 const SectionNotes = () => {
   const { overdueTasks, handleOpen } = useContext(GlobalContext);
   const [expand, setExpand] = useState(true);
 
   const notes = [
-    { title: "First Note", priority: "normal" },
-    { title: "Second Note", priority: "normal" },
-    { title: "Third Note", priority: "normal" },
+    { title: "First Note", priority: "normal", text: "" },
+    { title: "Second Note", priority: "normal", text: "" },
+    { title: "Third Note", priority: "normal", text: "" },
   ];
 
   return (
@@ -34,29 +35,13 @@ const SectionNotes = () => {
         className={
           (expand
             ? "translate-y-[0] opacity-100 "
-            : "translate-y-[-20px] opacity-0 ") + " p-3 duration-300"
+            : "translate-y-[-20px] opacity-0 ") +
+          " p-3 duration-300 flex flex-wrap gap-3"
         }
       >
         {Array.isArray(notes) &&
           notes.map((item, index) => {
-            let color = "";
-            if (item.priority === "high") {
-              color = "text-red-400";
-            } else if (item.priority === "normal") {
-              color = "text-yellow-300";
-            } else if (item.priority === "low") {
-              color = "text-green-300";
-            }
-            return (
-              <p
-                key={index}
-                className="p-1 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer"
-                onClick={() => {}}
-              >
-                <FaCircle className={color + " icon-sm mr-2"} />
-                {item.title}
-              </p>
-            );
+            return <CardNote key={index} note={item} />;
           })}
         {notes?.length === 0 && "No Notes"}
       </div>

@@ -36,6 +36,7 @@ export const GlobalProvider = ({ children }) => {
   // Display today and this week tasks
   const [todayTasks, setTodayTasks] = useState([]);
   const [weekTasks, setWeekTasks] = useState([]);
+  const [listSummary, setListSummary] = useState([]);
 
   // Task list displayed in main container
   const [displayList, setDisplayList] = useState([]);
@@ -80,6 +81,20 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  const handleListSummary = async () => {
+    let response = await axiosPrivate.post(SERVER.GET_LIST_SUMMARY, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.GET_LIST_SUMMARY,
+        payload: { userName: auth?.user },
+      },
+    });
+    if (response?.data && Array.isArray(response.data)) {
+      console.log(response.data);
+      setListSummary(response.data);
+    }
+  };
+
   const handleRemoveList = async (listID) => {
     dispatch({ type: ACTIONS.REMOVE_LIST, payload: listID });
     setDisplayList((prev) => {
@@ -94,15 +109,24 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const handleUpdateList = async (id, update) => {
-    dispatch({ type: ACTIONS.UPDATE_LIST, payload: { id, update } });
+  const handleUpdateList = async (listID, updateItem, newValue) => {
+    dispatch({
+      type: ACTIONS.UPDATE_LIST,
+      payload: { listID, updateItem, newValue },
+    });
     let response = await axiosPrivate.post(SERVER.UPDATE_LIST, {
       roles: auth?.roles,
       action: {
         type: ACTIONS.UPDATE_LIST,
-        payload: { userName: auth?.user, id, update },
+        payload: {
+          userName: auth?.user,
+          listID,
+          updateItem,
+          newValue,
+        },
       },
     });
+    console.log(response.data);
   };
 
   const handleGetTasks = async (listID) => {
@@ -113,7 +137,6 @@ export const GlobalProvider = ({ children }) => {
         payload: { userName: auth?.user, listID },
       },
     });
-    console.log(response.data);
     if (response?.data && Array.isArray(response.data)) {
       dispatch({ type: ACTIONS.GET_TASKS_LIST, payload: response.data });
     }
@@ -146,7 +169,12 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const handleAddTask = async (listID, taskTitle) => {
-    const newTask = { id: crypto.randomUUID(), listID, title: taskTitle };
+    const newTask = {
+      id: crypto.randomUUID(),
+      listID,
+      title: taskTitle,
+      completed: false,
+    };
     dispatch({ type: ACTIONS.CREATE_TASK, payload: newTask });
     let response = await axiosPrivate.post(SERVER.CREATE_TASK, {
       roles: auth?.roles,
@@ -185,6 +213,23 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  const handleToggleTask = async (taskID, newValue) => {
+    dispatch({
+      type: ACTIONS.TOGGLE_TASK,
+      payload: { taskID, newValue },
+    });
+    let response = await axiosPrivate.post(SERVER.UPDATE_TASK, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.UPDATE_TASK,
+        payload: {
+          userName: auth?.user,
+          updateData: { taskID, updateItem: "task_complete", newValue },
+        },
+      },
+    });
+  };
+
   // Handle opening new todo List
   const handleOpen = (listID) => {
     let listIndex = state.listNames.findIndex((list) => list.id === listID);
@@ -216,6 +261,7 @@ export const GlobalProvider = ({ children }) => {
   useEffect(() => {
     if (auth?.user) {
       handleGetLists();
+      handleListSummary();
       handleGetTodayTasks();
       handleGetWeekTasks();
     }
@@ -225,6 +271,7 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         listNames: state.listNames,
+        listSummary: listSummary,
         displayList: displayList,
         listTasks: state.listTasks,
         todayTasks: todayTasks,
@@ -244,6 +291,7 @@ export const GlobalProvider = ({ children }) => {
         handleAddTask,
         handleUpdateTask,
         handleDeleteTask,
+        handleToggleTask,
       }}
     >
       {children}

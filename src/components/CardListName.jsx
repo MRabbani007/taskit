@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // Imported Data
 import { IMAGES_Icons } from "../data/templates";
 import { ACTIONS } from "../data/actions";
@@ -10,10 +10,22 @@ import IMG_Save from "../assets/save.png";
 import { GlobalContext } from "../context/GlobalState";
 
 const CardListName = ({ taskList }) => {
-  const { handleUpdateList, handleOpen } = useContext(GlobalContext);
+  const { handleUpdateList, handleOpen, listSummary } =
+    useContext(GlobalContext);
 
   const [edit, setEdit] = useState(false);
   const [editInput, setEditInput] = useState(taskList?.title || "");
+  const [summary, setSummary] = useState({});
+
+  useEffect(() => {
+    let temp = {};
+    if (listSummary.length !== 0) {
+      temp = listSummary.find((item) => item._id === taskList.id);
+      if (!!temp) {
+        setSummary(temp);
+      }
+    }
+  }, [listSummary]);
 
   return (
     <li
@@ -40,7 +52,7 @@ const CardListName = ({ taskList }) => {
               alt=""
               className="icon-md mr-1"
               onClick={() => {
-                handleUpdateList(taskList.id, { title: editInput });
+                handleUpdateList(taskList.id, "list_title", editInput);
                 setEdit(false);
               }}
             />
@@ -56,7 +68,7 @@ const CardListName = ({ taskList }) => {
               src={IMG_Delete}
               alt=""
               className="icon-md cursor-pointer"
-              onClick={() => handleUpdateList(taskList.id, { trash: true })}
+              onClick={() => handleUpdateList(taskList.id, "trash", true)}
             />
           </span>
         </div>
@@ -64,13 +76,16 @@ const CardListName = ({ taskList }) => {
         <div className="flex items-center justify-between icon-cont w-full">
           <span className="flex items-center">
             <img src={IMAGES_Icons + taskList.icon} className="icon-lg mr-2" />
-            <span
-              className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
-              onClick={() => {
-                handleOpen(taskList.id);
-              }}
-            >
-              {taskList.title}
+            <span>
+              <span
+                className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
+                onClick={() => {
+                  handleOpen(taskList.id);
+                }}
+              >
+                {taskList.title}
+              </span>
+              <p>{summary?.total + " tasks, " + summary?.pending + " open"}</p>
             </span>
           </span>
           <span className="flex items-center ml-2 icon-item">
@@ -84,7 +99,7 @@ const CardListName = ({ taskList }) => {
               src={IMG_Delete}
               alt=""
               className="icon-md cursor-pointer"
-              onClick={() => handleUpdateList(taskList.id, { trash: true })}
+              onClick={() => handleUpdateList(taskList.id, "trash", true)}
             />
           </span>
         </div>

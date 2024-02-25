@@ -22,13 +22,13 @@ const SectionTodoList = ({ displayList }) => {
 
   // Handle update list title
   const handleEditList = async () => {
-    handleUpdateList(displayList.id, { title: editInput });
+    handleUpdateList(displayList.id, "list_title", editInput);
     setEditListTitle(false);
   };
 
   // Handle update list icon
   const handleIcon = (icon) => {
-    handleUpdateList(displayList.id, { icon });
+    handleUpdateList(displayList.id, "list_icon", icon);
     setEditListIcon(false);
   };
 

@@ -19,7 +19,7 @@ const Navbar = () => {
   const { theme } = useContext(UserContext);
 
   return (
-    <div className="navbar px-5 duration-500 z-50 bg-zinc-950 text-zinc-300">
+    <nav className="navbar px-5 duration-500 z-50 bg-zinc-950 text-zinc-300">
       <span>
         <Link to="/">
           <IoHomeOutline className="icon mr-3" />
@@ -50,7 +50,7 @@ const Navbar = () => {
           </Link>
         )}
       </span>
-    </div>
+    </nav>
   );
 };
 

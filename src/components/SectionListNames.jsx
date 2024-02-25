@@ -37,7 +37,9 @@ const SectionListNames = () => {
           }
         >
           {listNames.map((list, index) => {
-            return <CardListName key={index} taskList={list} />;
+            if (list?.trash === undefined || list?.trash === false) {
+              return <CardListName key={index} taskList={list} />;
+            }
           })}
         </ul>
         {listNames?.length === 0 && "No Lists"}
