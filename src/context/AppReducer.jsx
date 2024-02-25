@@ -3,10 +3,11 @@ import { ACTIONS } from "../data/actions";
 export const appReducer = (state, { type, payload }) => {
   switch (type) {
     case ACTIONS.GET_LISTS: {
-      let temp = payload.filter(
+      let listNames = payload.filter(
         (item) => item?.trash === undefined || item?.trash === false
       );
-      return { ...state, listNames: temp };
+      let trash = payload.filter((item) => item?.trash === true);
+      return { ...state, listNames: listNames, trash: trash };
     }
     case ACTIONS.CREATE_LIST: {
       return {
@@ -22,21 +23,37 @@ export const appReducer = (state, { type, payload }) => {
       };
     }
     case ACTIONS.UPDATE_LIST: {
-      let listIndex = state.listNames.findIndex(
-        (item) => item.id === payload.listID
-      );
-      let newList = state.listNames[listIndex];
+      let listIndex = -1;
+      let newList = {};
       if (payload?.updateItem === "list_title") {
+        listIndex = state.listNames.findIndex(
+          (item) => item.id === payload.listID
+        );
+        newList = state.listNames[listIndex];
         newList.title = payload.newValue;
+        state.listNames.splice(listIndex, 1, newList);
       } else if (payload?.updateItem === "list_icon") {
+        listIndex = state.listNames.findIndex(
+          (item) => item.id === payload.listID
+        );
+        newList = state.listNames[listIndex];
         newList.icon = payload.newValue;
+        state.listNames.splice(listIndex, 1, newList);
       } else if (payload?.updateItem === "trash") {
+        listIndex = state.listNames.findIndex(
+          (item) => item.id === payload.listID
+        );
+        newList = state.listNames[listIndex];
         newList.trash = payload.newValue;
+        state.listNames.splice(listIndex, 1);
+        state.trash.push(newList);
       } else if (payload?.updateItem === "un_trash") {
+        listIndex = state.trash.findIndex((item) => item.id === payload.listID);
+        newList = state.trash[listIndex];
         newList.trash = payload.newValue;
+        state.trash.splice(listIndex, 1);
+        state.listNames.push(newList);
       }
-      state.listNames.splice(listIndex, 1, newList);
-      console.log(newList);
       return {
         ...state,
       };

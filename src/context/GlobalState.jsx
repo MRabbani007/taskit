@@ -16,6 +16,7 @@ import { ACTIONS, SERVER } from "../data/actions";
 // App will display only 1 list with its tasks
 const initialState = {
   listNames: [],
+  trash: [],
   listTasks: [],
   todayTasks: [],
   overdueTasks: [],
@@ -69,9 +70,11 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const handleCreateList = async (title = "", icon) => {
+  const handleCreateList = async (title = "", icon = "") => {
     const newList = { id: crypto.randomUUID(), title, icon, tasks: [] };
     dispatch({ type: ACTIONS.CREATE_LIST, payload: newList });
+    setDisplayList([state.listNames.length]);
+    setViewTab("task_list");
     let response = await axiosPrivate.post(SERVER.CREATE_LIST, {
       roles: auth?.roles,
       action: {
@@ -90,7 +93,7 @@ export const GlobalProvider = ({ children }) => {
       },
     });
     if (response?.data && Array.isArray(response.data)) {
-      console.log(response.data);
+      // console.log(response.data);
       setListSummary(response.data);
     }
   };
@@ -254,7 +257,7 @@ export const GlobalProvider = ({ children }) => {
         (listIndex) => state.listNames[listIndex].id !== listID
       );
     });
-    setViewTab("user_list");
+    setViewTab("user_lists");
     // TODO: remove tasks related to list from state
   }
 
@@ -271,6 +274,7 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider
       value={{
         listNames: state.listNames,
+        trash: state.trash,
         listSummary: listSummary,
         displayList: displayList,
         listTasks: state.listTasks,

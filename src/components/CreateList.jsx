@@ -4,6 +4,7 @@ import { IMAGES_Icons, listTemplates } from "../data/templates";
 import IMG_Close from "../assets/cancel.png";
 import { GlobalContext } from "../context/GlobalState";
 import { RiPlayListAddLine } from "react-icons/ri";
+import { IoAddOutline } from "react-icons/io5";
 // Create new lists
 const CreateList = ({}) => {
   const { handleCreateList, toggleCreateList } = useContext(GlobalContext);
@@ -26,18 +27,20 @@ const CreateList = ({}) => {
 
   return (
     <div className="w-full">
-      <div className="text-slate-950 text-lg bg-slate-200 p-3 mb-2 font-semibold flex justify-between rounded-lg">
-        <h3 className="">
+      {/* Header */}
+      <header className="text-slate-950 text-lg font-semibold bg-slate-200 p-3 mb-2 flex justify-between rounded-lg">
+        <h2 className="">
           <RiPlayListAddLine className="icon mr-3" />
           <span>Create New List</span>
-        </h3>
-        <img
+        </h2>
+        {/* <img
           src={IMG_Close}
           alt=""
           className="icon-sm"
           onClick={() => toggleCreateList()}
-        />
-      </div>
+        /> */}
+      </header>
+      {/* Input user list name */}
       <form
         onSubmit={handleSubmit}
         className="flex items-stretch justify-center"
@@ -51,12 +54,14 @@ const CreateList = ({}) => {
           onChange={(event) => setNewItem(event.target.value)}
           id="item"
         />
-        <button className="btn btn-yellow mx-2">
-          <FaPlus className="icon" />
+        <button className="btn btn-yellow mx-2" title="Create List">
+          <IoAddOutline className="icon" />
+          {/* <FaPlus className="icon" /> */}
           {/* <img src={CreateListLogo} alt="Create" className="icon" /> */}
         </button>
       </form>
-      <div className="flex flex-wrap justify-center gap-3 my-3 mx-auto w-[600px] font-semibold">
+      {/* Select list from template */}
+      <div className="flex flex-wrap justify-center gap-3 my-3 mx-auto lg:w-[600px] font-semibold">
         {listTemplates.map((item, index) => {
           // let Icon = item.icon;
           return (

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../../hooks/useRefreshToken";
 import useAuth from "../../hooks/useAuth";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -36,7 +37,9 @@ const PersistLogin = () => {
   }, [isLoading]);
 
   return (
-    <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
+    <>
+      {!persist ? <Outlet /> : isLoading ? <SkeletonContentPage /> : <Outlet />}
+    </>
   );
 };
 

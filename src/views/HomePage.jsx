@@ -11,6 +11,8 @@ import SectionTasksOverdue from "../components/SectionTasksOverdue";
 import { FaCirclePlus, FaPlus } from "react-icons/fa6";
 import SectionTasksImportant from "../components/SectionTasksImportant";
 import SectionNotes from "../components/SectionNotes";
+import BottomMenu from "../features/layout/BottomMenu";
+import SectionTrash from "../components/SectionTrash";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -86,32 +88,44 @@ const HomePage = () => {
     useContext(GlobalContext);
 
   return (
-    <div className="flex font-normal gap-3">
-      <div className="min-w-fit">
-        <SectionListNames />
+    <>
+      <div className="flex font-normal gap-3">
+        <div
+          className={viewTab === "user_lists" ? "min-w-fit w-full" : "hidden"}
+        >
+          <SectionListNames />
+          <SectionTrash />
+        </div>
+        <div
+          className={
+            viewTab === "tasks" ? "flex flex-wrap gap-3 w-full" : "hidden"
+          }
+        >
+          <SectionTasksImportant />
+          <SectionTasksOverdue />
+          <SectionTasksDay />
+          <SectionWeekTasks />
+        </div>
+        {viewTab === "notes" && <SectionNotes />}
+        {/* Create New Task List */}
+        {viewTab === "create_list" && <CreateList />}
+        {/* Container to display Task Lists */}
+        <div
+          className={viewTab === "task_list" ? "min-w-fit w-full" : "hidden"}
+        >
+          {displayList.length !== 0 &&
+            displayList.map((listIndex) => {
+              return (
+                <SectionTodoList
+                  displayList={listNames[listIndex]}
+                  key={listNames[listIndex].id}
+                />
+              );
+            })}
+        </div>
       </div>
-      <div className={viewTab === "tasks" ? "flex gap-3 w-full" : "hidden"}>
-        <SectionTasksImportant />
-        <SectionTasksOverdue />
-        <SectionTasksDay />
-        <SectionWeekTasks />
-      </div>
-      {viewTab === "notes" && <SectionNotes />}
-      {/* Create New Task List */}
-      {viewTab === "create_list" && <CreateList />}
-      {/* Container to display Task Lists */}
-      <div className={viewTab === "task_list" ? "min-w-fit w-full" : "hidden"}>
-        {displayList.length !== 0 &&
-          displayList.map((listIndex) => {
-            return (
-              <SectionTodoList
-                displayList={listNames[listIndex]}
-                key={listNames[listIndex].id}
-              />
-            );
-          })}
-      </div>
-    </div>
+      <BottomMenu />
+    </>
   );
 };
 

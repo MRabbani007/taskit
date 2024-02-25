@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import AddItemImage from "../assets/add-task.png";
 import { FaPlus } from "react-icons/fa6";
 import { GlobalContext } from "../context/GlobalState";
+import { IoAddOutline } from "react-icons/io5";
 
 const CardAddTask = ({ listID }) => {
   const { handleAddTask } = useContext(GlobalContext);
@@ -34,6 +35,7 @@ const CardAddTask = ({ listID }) => {
         }}
       />
       <button className="btn btn-yellow mx-2">
+        <IoAddOutline className="icon" />
         <FaPlus className="icon" />
         {/* <img src={AddItemImage} alt="Add-Todo" className="icon" /> */}
       </button>

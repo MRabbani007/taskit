@@ -9,7 +9,7 @@ const SectionTasksDay = () => {
   const [expand, setExpand] = useState(true);
 
   return (
-    <div className="w-[23%] min-w-fit">
+    <div className="flex-1 min-w-fit">
       <h2
         className="bg-green-600 p-3 text-white rounded-lg text-center cursor-pointer relative flex items-center gap-3"
         onClick={() => setExpand((prev) => !prev)}
