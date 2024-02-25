@@ -4,11 +4,11 @@ import { BrowserRouter, HashRouter } from "react-router-dom";
 import App from "./App.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter basename="/todolist/">
-      <App />
-    </BrowserRouter>
-    {/* <HashRouter basename="/">
-    </HashRouter> */}
-  </React.StrictMode>
+  // <React.StrictMode>
+  <BrowserRouter basename="/todolist/">
+    <App />
+  </BrowserRouter>
+  //   {/* <HashRouter basename="/">
+  //   </HashRouter> */}
+  // {/* </React.StrictMode> */}
 );

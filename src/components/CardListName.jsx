@@ -30,7 +30,7 @@ const CardListName = ({ taskList }) => {
   return (
     <li
       key={taskList.id}
-      className="flex items-center min-w-fit py-1 px-3 shadow-sm shadow-slate-600 rounded-md"
+      className="flex items-center flex-1 min-w-fit py-1 px-3 shadow-sm shadow-slate-600 rounded-md"
     >
       {/* Edit List Title */}
       {edit ? (

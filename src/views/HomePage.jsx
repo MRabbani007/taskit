@@ -84,8 +84,7 @@ const reducer = (state, action) => {
 };
 
 const HomePage = () => {
-  const { listNames, displayList, viewCreateList, toggleCreateList, viewTab } =
-    useContext(GlobalContext);
+  const { listNames, displayList, viewTab } = useContext(GlobalContext);
 
   return (
     <>

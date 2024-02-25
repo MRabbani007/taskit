@@ -28,7 +28,7 @@ const SectionWeekTasks = () => {
         className={
           (expand
             ? "translate-y-[0] opacity-100 "
-            : "translate-y-[-20px] opacity-0 ") + " p-3 duration-300"
+            : "translate-y-[-20px] opacity-0 h-0") + " p-3 duration-300"
         }
       >
         {Array.isArray(weekTasks) &&

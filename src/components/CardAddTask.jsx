@@ -36,7 +36,7 @@ const CardAddTask = ({ listID }) => {
       />
       <button className="btn btn-yellow mx-2">
         <IoAddOutline className="icon" />
-        <FaPlus className="icon" />
+        {/* <FaPlus className="icon" /> */}
         {/* <img src={AddItemImage} alt="Add-Todo" className="icon" /> */}
       </button>
     </form>

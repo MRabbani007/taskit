@@ -5,7 +5,7 @@ import { SlArrowRight } from "react-icons/sl";
 import { MdOutlineNotificationImportant } from "react-icons/md";
 
 const SectionTasksImportant = () => {
-  const { overdueTasks, handleOpen } = useContext(GlobalContext);
+  const { importantTasks, handleOpen } = useContext(GlobalContext);
   const [expand, setExpand] = useState(true);
 
   return (
@@ -28,11 +28,11 @@ const SectionTasksImportant = () => {
         className={
           (expand
             ? "translate-y-[0] opacity-100 "
-            : "translate-y-[-20px] opacity-0 ") + " p-3 duration-300"
+            : "translate-y-[-20px] opacity-0 h-0") + " p-3 duration-300"
         }
       >
-        {Array.isArray(overdueTasks) &&
-          overdueTasks.map((task, index) => {
+        {Array.isArray(importantTasks) &&
+          importantTasks.map((task, index) => {
             let color = "";
             if (task.priority === "high") {
               color = "text-red-400";
@@ -54,7 +54,7 @@ const SectionTasksImportant = () => {
               </p>
             );
           })}
-        {overdueTasks?.length === 0 && "No Tasks"}
+        {importantTasks?.length === 0 && "No Tasks"}
       </div>
     </div>
   );

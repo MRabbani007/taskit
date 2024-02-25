@@ -37,6 +37,8 @@ export const GlobalProvider = ({ children }) => {
   // Display today and this week tasks
   const [todayTasks, setTodayTasks] = useState([]);
   const [weekTasks, setWeekTasks] = useState([]);
+  const [importantTasks, setImportantTasks] = useState([]);
+  const [overdueTasks, setOverdueTasks] = useState([]);
   const [listSummary, setListSummary] = useState([]);
 
   // Task list displayed in main container
@@ -117,6 +119,9 @@ export const GlobalProvider = ({ children }) => {
       type: ACTIONS.UPDATE_LIST,
       payload: { listID, updateItem, newValue },
     });
+    if (updateItem === "trash") {
+      handleClose(listID);
+    }
     let response = await axiosPrivate.post(SERVER.UPDATE_LIST, {
       roles: auth?.roles,
       action: {
@@ -129,7 +134,6 @@ export const GlobalProvider = ({ children }) => {
         },
       },
     });
-    console.log(response.data);
   };
 
   const handleGetTasks = async (listID) => {
@@ -168,6 +172,32 @@ export const GlobalProvider = ({ children }) => {
     });
     if (response?.data && Array.isArray(response.data)) {
       setWeekTasks(response.data);
+    }
+  };
+
+  const handleGetImportantTasks = async () => {
+    let response = await axiosPrivate.post(SERVER.GET_TASKS_IMPORTANT, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.GET_TASKS_IMPORTANT,
+        payload: { userName: auth?.user },
+      },
+    });
+    if (response?.data && Array.isArray(response.data)) {
+      setImportantTasks(response.data);
+    }
+  };
+
+  const handleGetOverdueTasks = async () => {
+    let response = await axiosPrivate.post(SERVER.GET_TASKS_OVERDUE, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.GET_TASKS_OVERDUE,
+        payload: { userName: auth?.user, offset: getDate() },
+      },
+    });
+    if (response?.data && Array.isArray(response.data)) {
+      setOverdueTasks(response.data);
     }
   };
 
@@ -267,6 +297,8 @@ export const GlobalProvider = ({ children }) => {
       handleListSummary();
       handleGetTodayTasks();
       handleGetWeekTasks();
+      handleGetImportantTasks();
+      handleGetOverdueTasks();
     }
   }, [auth?.user]);
 
@@ -280,7 +312,8 @@ export const GlobalProvider = ({ children }) => {
         listTasks: state.listTasks,
         todayTasks: todayTasks,
         weekTasks: weekTasks,
-        overdueTasks: state.overdueTasks,
+        importantTasks: importantTasks,
+        overdueTasks: overdueTasks,
         viewTab,
         setViewTab,
         viewCreateList,

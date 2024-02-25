@@ -7,41 +7,70 @@ import { GrDocumentNotes } from "react-icons/gr";
 import { GlobalContext } from "../../context/GlobalState";
 
 const BottomMenu = () => {
-  const { toggleCreateList, setViewTasks, setViewTab } =
-    useContext(GlobalContext);
+  const { viewTab, setViewTab } = useContext(GlobalContext);
 
   return (
     <div className="bottom-menu bg-zinc-950 text-zinc-300 px-3">
-      <IoMenu
-        title="Show Lists"
-        className="icon"
-        onClick={() => {
-          setViewTab("user_lists");
-        }}
-      />
-      <IoAddCircleOutline
-        title="Add New List"
-        className="icon"
-        onClick={() => {
-          toggleCreateList();
-          setViewTab("create_list");
-        }}
-      />
-      <GrTask
-        title="Show Tasks"
-        className="icon"
-        onClick={() => {
-          setViewTasks((prev) => !prev);
-          setViewTab("tasks");
-        }}
-      />
-      <GrDocumentNotes
-        title="Notes"
-        className="icon"
-        onClick={() => {
-          setViewTab("notes");
-        }}
-      />
+      <span className="flex items-center">
+        <IoMenu
+          title="Show Lists"
+          className={
+            (viewTab === "user_lists" ? "text-yellow-500" : "") +
+            " icon mr-1 duration-500"
+          }
+          onClick={() => {
+            setViewTab("user_lists");
+          }}
+        />
+        {/* {viewTab === "user_lists" ? (
+          <span className="text-yellow-500">Lists</span>
+        ) : null} */}
+      </span>
+      <span className="flex items-center">
+        <IoAddCircleOutline
+          title="Add New List"
+          className={
+            (viewTab === "create_list" ? "text-yellow-500" : "") +
+            " icon mr-1 duration-500"
+          }
+          onClick={() => {
+            setViewTab("create_list");
+          }}
+        />
+        {/* {viewTab === "create_list" ? (
+          <span className="text-yellow-500">Create</span>
+        ) : null} */}
+      </span>
+      <span className="flex items-center">
+        <GrTask
+          title="Show Tasks"
+          className={
+            (viewTab === "tasks" ? "text-yellow-500" : "") +
+            " icon mr-1 duration-500"
+          }
+          onClick={() => {
+            setViewTab("tasks");
+          }}
+        />
+        {/* {viewTab === "tasks" ? (
+          <span className="text-yellow-500">Tasks</span>
+        ) : null} */}
+      </span>
+      <span className="flex items-center">
+        <GrDocumentNotes
+          title="Notes"
+          className={
+            (viewTab === "notes" ? "text-yellow-500" : "") +
+            " icon mr-1 duration-500"
+          }
+          onClick={() => {
+            setViewTab("notes");
+          }}
+        />
+        {/* {viewTab === "notes" ? (
+          <span className="text-yellow-500">Notes</span>
+        ) : null} */}
+      </span>
     </div>
   );
 };

@@ -16,10 +16,10 @@ export const appReducer = (state, { type, payload }) => {
       };
     }
     case ACTIONS.REMOVE_LIST: {
-      let temp = state.listNames.filter((item) => item.id !== payload);
+      let temp = state.trash.filter((item) => item.id !== payload);
       return {
         ...state,
-        listNames: temp,
+        trash: temp,
       };
     }
     case ACTIONS.UPDATE_LIST: {
@@ -44,13 +44,13 @@ export const appReducer = (state, { type, payload }) => {
           (item) => item.id === payload.listID
         );
         newList = state.listNames[listIndex];
-        newList.trash = payload.newValue;
+        newList = { ...newList, trash: true };
         state.listNames.splice(listIndex, 1);
         state.trash.push(newList);
       } else if (payload?.updateItem === "un_trash") {
         listIndex = state.trash.findIndex((item) => item.id === payload.listID);
         newList = state.trash[listIndex];
-        newList.trash = payload.newValue;
+        newList = { ...newList, trash: false };
         state.trash.splice(listIndex, 1);
         state.listNames.push(newList);
       }
@@ -72,6 +72,25 @@ export const appReducer = (state, { type, payload }) => {
       };
     }
     case ACTIONS.UPDATE_TASK: {
+      let taskIndex = state.listTasks.findIndex(
+        (item) => item.id === payload.taskID
+      );
+      let newTask = state.listTasks[taskIndex];
+      if (payload?.updateItem === "task_title") {
+        newTask.title = payload.newValue;
+      } else if (payload?.updateItem === "due_date") {
+        newTask.dueDate = payload.newValue;
+      } else if (payload?.updateItem === "detail") {
+        newTask.details = payload.newValue;
+      } else if (payload?.updateItem === "priority") {
+        newTask.priority = payload.newValue;
+      } else if (payload?.updateItem === "add_tag") {
+        newTask.tags.push(payload.newValue);
+      }
+      state.listTasks.splice(taskIndex, 1, newTask);
+      return {
+        ...state,
+      };
     }
     case ACTIONS.TOGGLE_TASK: {
       let taskIndex = state.listTasks.findIndex(
