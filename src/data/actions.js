@@ -27,7 +27,7 @@ export const SERVER = {
   GET_TASKS_TODAY: "/tasks/getToday",
   GET_TASKS_WEEK: "/tasks/getWeek",
   GET_TASKS_IMPORTANT: "/tasks/getImportant",
-  GET_TASKS_OVERDUE: "tasks/getOverdue",
+  GET_TASKS_OVERDUE: "/tasks/getOverdue",
   CREATE_TASK: "/tasks/create",
   REMOVE_TASK: "/tasks/remove",
   UPDATE_TASK: "/tasks/update",

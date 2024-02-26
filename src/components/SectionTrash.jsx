@@ -10,7 +10,7 @@ import { IoSkullOutline } from "react-icons/io5";
 const SectionTrash = () => {
   const { trash, handleUpdateList, handleRemoveList } =
     useContext(GlobalContext);
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(false);
 
   return (
     // container

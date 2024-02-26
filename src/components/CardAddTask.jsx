@@ -14,7 +14,7 @@ const CardAddTask = ({ listID }) => {
     if (newTaskTitle === "") {
       return;
     } else {
-      handleAddTask(newTaskTitle);
+      handleAddTask(listID, newTaskTitle);
       setNewTaskTitle("");
     }
   };
