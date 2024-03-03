@@ -22,6 +22,7 @@ export const UserProvider = ({ children }) => {
 
   const handleEditName = async (name) => {
     try {
+      console.log(name);
       let response = await axiosPrivate.put(SERVER.USER_EDIT_SETTINGS, {
         roles: auth?.roles,
         action: {
@@ -29,6 +30,7 @@ export const UserProvider = ({ children }) => {
           payload: { username: auth?.user, name },
         },
       });
+      console.log(response.data);
       if (response.data.status === "success") {
         setUser((prev) => {
           return { ...prev, name };
@@ -46,6 +48,8 @@ export const UserProvider = ({ children }) => {
           payload: { username: auth?.user, email },
         },
       });
+
+      console.log(response.data);
       if (response.data.status === "success") {
         setUser((prev) => {
           return { ...prev, email };
@@ -83,6 +87,8 @@ export const UserProvider = ({ children }) => {
       value={{
         name: user?.name || "",
         email: user?.email || "",
+        handleEditName,
+        handleEditEmail,
       }}
     >
       {children}

@@ -75,19 +75,17 @@ export const appReducer = (state, { type, payload }) => {
       let taskIndex = state.listTasks.findIndex(
         (item) => item.id === payload.taskID
       );
-      let newTask = state.listTasks[taskIndex];
       if (payload?.updateItem === "task_title") {
-        newTask.title = payload.newValue;
+        state.listTasks[taskIndex].title = payload.newValue;
       } else if (payload?.updateItem === "due_date") {
-        newTask.dueDate = payload.newValue;
+        state.listTasks[taskIndex].dueDate = payload.newValue;
       } else if (payload?.updateItem === "detail") {
-        newTask.details = payload.newValue;
+        state.listTasks[taskIndex].details = payload.newValue;
       } else if (payload?.updateItem === "priority") {
-        newTask.priority = payload.newValue;
+        state.listTasks[taskIndex].priority = payload.newValue;
       } else if (payload?.updateItem === "add_tag") {
-        newTask.tags.push(payload.newValue);
+        state.listTasks[taskIndex].tags.push(payload.newValue);
       }
-      state.listTasks.splice(taskIndex, 1, newTask);
       return {
         ...state,
       };
@@ -98,6 +96,24 @@ export const appReducer = (state, { type, payload }) => {
       );
       state.listTasks[taskIndex].completed = payload.newValue;
       return { ...state };
+    }
+    case ACTIONS.NOTES_GET_USER: {
+      return { ...state, notes: payload };
+    }
+    case ACTIONS.NOTES_CREATE: {
+      state.notes.push(payload);
+      console.log(state.notes);
+      return { ...state };
+    }
+    case ACTIONS.NOTES_UPDATE: {
+      state.notes[payload.noteIdx] = payload.newNote;
+      return { ...state };
+    }
+    case ACTIONS.NOTES_REMOVE: {
+      state.notes.filter((item) => item.id !== payload);
+      return {
+        ...state,
+      };
     }
     default:
       return state;

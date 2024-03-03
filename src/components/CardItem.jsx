@@ -65,14 +65,14 @@ const CardItem = ({ task }) => {
   };
 
   useEffect(() => {
-    if (!!task.dueDate) {
+    if (task?.dueDate) {
       if (task.dueDate.includes("1900-01-01")) {
         setDueDate("");
       } else {
         setDueDate(task.dueDate.substr(0, 10));
       }
     }
-  }, [task]);
+  }, [task?.dueDate]);
 
   return (
     <li key={task.id}>
@@ -95,25 +95,25 @@ const CardItem = ({ task }) => {
             className="mr-3"
           />
           {edit ? (
-            <div className="flex w-full items-center justify-between">
+            <form
+              onSubmit={() => {
+                handleUpdateTask(task.id, "task_title", editInput);
+                setEdit(!edit);
+              }}
+              className="flex w-full items-center justify-between"
+            >
               <input
                 type="text"
-                className="w-[70%] text-slate-950 font-normal"
+                className="flex-1 text-slate-950 font-normal"
                 value={editInput}
                 onChange={(e) => {
                   setEditInput(e.target.value);
                 }}
               />
               <span className="flex items-center">
-                <img
-                  src={IMG_Save}
-                  alt=""
-                  className="icon-md"
-                  onClick={() => {
-                    handleUpdateTask(task.id, "task_title", editInput);
-                    setEdit(!edit);
-                  }}
-                />
+                <button>
+                  <img src={IMG_Save} alt="" className="icon-md" />
+                </button>
                 <img
                   src={IMG_Cancel}
                   alt=""
@@ -121,7 +121,7 @@ const CardItem = ({ task }) => {
                   onClick={() => setEdit(!edit)}
                 />
               </span>
-            </div>
+            </form>
           ) : (
             <div className="w-full flex items-center justify-between">
               <div className="flex flex-col">

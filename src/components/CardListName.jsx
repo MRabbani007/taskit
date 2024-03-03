@@ -85,7 +85,11 @@ const CardListName = ({ taskList }) => {
               >
                 {taskList.title}
               </span>
-              <p>{summary?.total + " tasks, " + summary?.pending + " open"}</p>
+              <p>
+                {(summary?.total ? summary?.total : 0) +
+                  (summary?.total === 1 ? " task" : " tasks, ") +
+                  ((summary?.pending ? summary?.pending : 0) + " open")}
+              </p>
             </span>
           </span>
           <span className="flex items-center ml-2 icon-item">

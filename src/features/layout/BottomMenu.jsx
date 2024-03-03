@@ -7,7 +7,7 @@ import { GrDocumentNotes } from "react-icons/gr";
 import { GlobalContext } from "../../context/GlobalState";
 
 const BottomMenu = () => {
-  const { viewTab, setViewTab } = useContext(GlobalContext);
+  const { viewTab, handleViewTab } = useContext(GlobalContext);
 
   return (
     <div className="bottom-menu bg-zinc-950 text-zinc-300 px-3">
@@ -19,7 +19,7 @@ const BottomMenu = () => {
             " icon mr-1 duration-500"
           }
           onClick={() => {
-            setViewTab("user_lists");
+            handleViewTab("user_lists");
           }}
         />
         {/* {viewTab === "user_lists" ? (
@@ -34,7 +34,7 @@ const BottomMenu = () => {
             " icon mr-1 duration-500"
           }
           onClick={() => {
-            setViewTab("create_list");
+            handleViewTab("create_list");
           }}
         />
         {/* {viewTab === "create_list" ? (
@@ -49,7 +49,7 @@ const BottomMenu = () => {
             " icon mr-1 duration-500"
           }
           onClick={() => {
-            setViewTab("tasks");
+            handleViewTab("tasks");
           }}
         />
         {/* {viewTab === "tasks" ? (
@@ -64,7 +64,7 @@ const BottomMenu = () => {
             " icon mr-1 duration-500"
           }
           onClick={() => {
-            setViewTab("notes");
+            handleViewTab("notes");
           }}
         />
         {/* {viewTab === "notes" ? (

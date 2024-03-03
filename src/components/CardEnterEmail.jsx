@@ -35,29 +35,30 @@ const CardEnterEmail = () => {
     <div>
       <span className="mr-2">Email:</span>
       {edit ? (
-        <div className="flex items-center">
-          <form onSubmit={handleSubmit} className="flex items-center">
-            <input
-              type="text"
-              placeholder="Email"
-              value={newEmail}
-              onChange={(e) => {
-                setErrMsg("");
-                setNewEmail(e.target.value);
-              }}
-            />
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-wrap gap-3 items-center"
+        >
+          <input
+            type="text"
+            placeholder="Email"
+            value={newEmail}
+            onChange={(e) => {
+              setErrMsg("");
+              setNewEmail(e.target.value);
+            }}
+          />
+          <span className="min-w-fit">
             <button>
               <CiSquareCheck className="icon" />
             </button>
-          </form>
-          <button>
             <CiSquareRemove
               className="icon"
               onClick={() => {
                 setEdit(false);
               }}
             />
-          </button>
+          </span>
           <p
             ref={errRef}
             className={errMsg !== "" ? "errmsg" : "offscreen"}
@@ -65,7 +66,7 @@ const CardEnterEmail = () => {
           >
             {errMsg}
           </p>
-        </div>
+        </form>
       ) : (
         <>
           {email === "" ? (

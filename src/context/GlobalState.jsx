@@ -16,6 +16,7 @@ import { ACTIONS, SERVER } from "../data/actions";
 // App will display only 1 list with its tasks
 const initialState = {
   listNames: [],
+  notes: [],
   trash: [],
   listTasks: [],
   todayTasks: [],
@@ -50,6 +51,19 @@ export const GlobalProvider = ({ children }) => {
   const [viewCreateList, setViewCreateList] = useState(false);
   const [viewTasks, setViewTasks] = useState(false);
 
+  const handleViewTab = (tab) => {
+    if (tab === "tasks") {
+      handleGetTodayTasks();
+      handleGetWeekTasks();
+      handleGetImportantTasks();
+      handleGetOverdueTasks();
+    }
+    if (tab === "user_lists") {
+      handleListSummary();
+    }
+    setViewTab(tab);
+  };
+
   const toggleCreateList = () => {
     if (viewCreateList) {
       setViewCreateList(false);
@@ -76,7 +90,7 @@ export const GlobalProvider = ({ children }) => {
     const newList = { id: crypto.randomUUID(), title, icon, tasks: [] };
     dispatch({ type: ACTIONS.CREATE_LIST, payload: newList });
     setDisplayList([state.listNames.length]);
-    setViewTab("task_list");
+    handleViewTab("task_list");
     let response = await axiosPrivate.post(SERVER.CREATE_LIST, {
       roles: auth?.roles,
       action: {
@@ -167,7 +181,7 @@ export const GlobalProvider = ({ children }) => {
       roles: auth?.roles,
       action: {
         type: ACTIONS.GET_TASKS_WEEK,
-        payload: { userName: auth?.user, day: getDate(0), offset: getDate(7) },
+        payload: { userName: auth?.user, day: getDate(1), offset: getDate(7) },
       },
     });
     if (response?.data && Array.isArray(response.data)) {
@@ -193,7 +207,7 @@ export const GlobalProvider = ({ children }) => {
       roles: auth?.roles,
       action: {
         type: ACTIONS.GET_TASKS_OVERDUE,
-        payload: { userName: auth?.user, offset: getDate() },
+        payload: { userName: auth?.user, offset: getDate(-1) },
       },
     });
     if (response?.data && Array.isArray(response.data)) {
@@ -263,11 +277,71 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  const handleNotesGetUser = async () => {
+    let response = await axiosPrivate.post(SERVER.NOTES_GET_USER, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.NOTES_GET_USER,
+        payload: { userName: auth?.user },
+      },
+    });
+    if (response?.data && Array.isArray(response.data)) {
+      dispatch({ type: ACTIONS.NOTES_GET_USER, payload: response.data });
+    }
+  };
+
+  const handleNotesCreate = async (title = "") => {
+    let newNote = {
+      id: crypto.randomUUID(),
+      title,
+      details: "",
+      priority: "normal",
+      tags: [],
+      trash: false,
+    };
+    dispatch({ type: ACTIONS.NOTES_CREATE, payload: newNote });
+    let response = await axiosPrivate.post(SERVER.NOTES_CREATE, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.NOTES_CREATE,
+        payload: { userName: auth?.user, newNote },
+      },
+    });
+  };
+
+  const handleNotesUpdate = async (noteIdx, newNote) => {
+    dispatch({
+      type: ACTIONS.UPDATE_TASK,
+      payload: { noteIdx, newNote },
+    });
+    let response = await axiosPrivate.post(SERVER.NOTES_UPDATE, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.NOTES_UPDATE,
+        payload: {
+          userName: auth?.user,
+          newNote,
+        },
+      },
+    });
+  };
+
+  const handleNotesRemove = async (noteIdx, noteID) => {
+    dispatch({ type: ACTIONS.NOTES_REMOVE, payload: noteID });
+    let response = await axiosPrivate.post(SERVER.REMOVE_TASK, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.NOTES_REMOVE,
+        payload: { userName: auth?.user, noteID },
+      },
+    });
+  };
+
   // Handle opening new todo List
   const handleOpen = (listID) => {
     let listIndex = state.listNames.findIndex((list) => list.id === listID);
     handleGetTasks(listID);
-    setViewTab("task_list");
+    handleViewTab("task_list");
     // setViewCreateList(false);
     setDisplayList([listIndex]);
     // setDisplayList((currentDisplayList) => {
@@ -287,7 +361,7 @@ export const GlobalProvider = ({ children }) => {
         (listIndex) => state.listNames[listIndex].id !== listID
       );
     });
-    setViewTab("user_lists");
+    handleViewTab("user_lists");
     // TODO: remove tasks related to list from state
   }
 
@@ -299,6 +373,7 @@ export const GlobalProvider = ({ children }) => {
       handleGetWeekTasks();
       handleGetImportantTasks();
       handleGetOverdueTasks();
+      handleNotesGetUser();
     }
   }, [auth?.user]);
 
@@ -307,28 +382,37 @@ export const GlobalProvider = ({ children }) => {
       value={{
         listNames: state.listNames,
         trash: state.trash,
+        notes: state.notes,
+
         listSummary: listSummary,
         displayList: displayList,
+
         listTasks: state.listTasks,
         todayTasks: todayTasks,
         weekTasks: weekTasks,
         importantTasks: importantTasks,
         overdueTasks: overdueTasks,
+
         viewTab,
-        setViewTab,
-        viewCreateList,
+        handleViewTab,
         viewTasks,
         setViewTasks,
+
         toggleCreateList,
         handleCreateList,
         handleUpdateList,
         handleRemoveList,
         handleOpen,
         handleClose,
+
         handleAddTask,
         handleUpdateTask,
         handleDeleteTask,
         handleToggleTask,
+
+        handleNotesCreate,
+        handleNotesUpdate,
+        handleNotesRemove,
       }}
     >
       {children}

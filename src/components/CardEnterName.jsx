@@ -22,33 +22,34 @@ const CardEnterName = () => {
     <div>
       <span className="mr-2">Name:</span>
       {edit ? (
-        <div className="flex items-center">
-          <form onSubmit={handleSubmit} className="flex items-center">
-            <input
-              type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-wrap gap-3 items-center"
+        >
+          <input
+            type="text"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <span className="min-w-fit">
             <button>
               <CiSquareCheck className="icon" />
             </button>
-          </form>
-          <button>
             <CiSquareRemove
               className="icon"
               onClick={() => {
                 setEdit(false);
               }}
             />
-          </button>
-        </div>
+          </span>
+        </form>
       ) : (
         <>
           {name === "" ? (

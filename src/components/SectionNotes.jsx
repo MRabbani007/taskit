@@ -5,16 +5,11 @@ import { SlArrowRight } from "react-icons/sl";
 import { MdOutlineNotificationImportant } from "react-icons/md";
 import { GrNotes } from "react-icons/gr";
 import CardNote from "./CardNote";
+import SectionNotesList from "./SectionNotesList";
 
 const SectionNotes = () => {
-  const { overdueTasks, handleOpen } = useContext(GlobalContext);
+  const { notes } = useContext(GlobalContext);
   const [expand, setExpand] = useState(true);
-
-  const notes = [
-    { title: "First Note", priority: "normal", text: "" },
-    { title: "Second Note", priority: "normal", text: "" },
-    { title: "Third Note", priority: "normal", text: "" },
-  ];
 
   return (
     <div className="w-full min-w-fit">
@@ -39,10 +34,11 @@ const SectionNotes = () => {
           " p-3 duration-300 flex flex-wrap gap-3"
         }
       >
-        {Array.isArray(notes) &&
+        <SectionNotesList />
+        {/* {Array.isArray(notes) &&
           notes.map((item, index) => {
             return <CardNote key={index} note={item} />;
-          })}
+          })} */}
         {notes?.length === 0 && "No Notes"}
       </div>
     </div>

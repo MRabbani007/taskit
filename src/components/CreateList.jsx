@@ -68,7 +68,7 @@ const CreateList = ({}) => {
             <div
               key={index}
               onClick={() => handleCreate(item.name, item.icon)}
-              className="w-[120px] min-h-[80px] py-3 rounded-lg bg-slate-300 text-slate-950 flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-400 duration-300"
+              className="w-[100px] min-h-[70px] py-2 rounded-lg bg-slate-300 text-slate-950 flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-400 duration-300"
             >
               {/* <Icon className="icon" /> */}
               <img src={IMAGES_Icons + item.icon} alt="" className="icon-lg" />

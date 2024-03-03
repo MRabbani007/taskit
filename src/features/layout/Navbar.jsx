@@ -33,9 +33,11 @@ const Navbar = () => {
         <Link to="/settings">
           <IoSettingsOutline className="icon" />
         </Link>
-        <Link to="/admin">
-          <RiAdminLine className="icon mx-3" />
-        </Link>
+        {auth?.roles && Object.values(auth?.roles).includes(5150) && (
+          <Link to="/admin">
+            <RiAdminLine className="icon mx-3" />
+          </Link>
+        )}
       </span>
       <span>
         {/* <MdOutlineDarkMode className="icon mx-3" /> */}
