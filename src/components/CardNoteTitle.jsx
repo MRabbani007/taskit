@@ -43,29 +43,29 @@ const CardNoteTitle = ({ note, idx }) => {
       {editTitle ? (
         <form
           onSubmit={handleSubmitTitle}
-          className="flex flex-wrap items-center p-2 rounded-t-md gap-3 bg-yellow-300"
+          className="flex flex-wrap justify-between px-2 items-center rounded-t-md gap-3 bg-yellow-300"
         >
           <input
             type="text"
             placeholder="Title"
-            className="border-0 bg-inherit"
+            className="flex-1 border-0 bg-inherit"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <span className="flex items-center ml-2">
+          <span className="flex items-center">
             <button>
               <img
                 src={IMG_Save}
                 alt="Save"
                 title="Save"
-                className="icon-md mr-1"
+                className="icon-md mr-2"
               />
             </button>
             <img
               src={IMG_Cancel}
               alt="Cancel"
               title="Cancel"
-              className="icon-md mr-1"
+              className="icon-md"
               onClick={() => {
                 setEditTitle(false);
               }}
@@ -73,11 +73,8 @@ const CardNoteTitle = ({ note, idx }) => {
           </span>
         </form>
       ) : (
-        <span className="group p-2 bg-yellow-300 flex justify-between items-center rounded-t-md">
-          <span
-            className="p-2 cursor-pointer"
-            onClick={() => setEditTitle(true)}
-          >
+        <span className="group p-2 bg-yellow-300 font-semibold text-slate-600 flex justify-between items-center rounded-t-md">
+          <span className="cursor-pointer" onClick={() => setEditTitle(true)}>
             {note.title}
           </span>
           {/* <img
@@ -105,7 +102,7 @@ const CardNoteTitle = ({ note, idx }) => {
           {details}
         </pre>
       ) : (
-        <form onSubmit={handleSubmiteDetails}>
+        <form className="relative" onSubmit={handleSubmiteDetails}>
           <textarea
             name=""
             id=""
@@ -120,7 +117,7 @@ const CardNoteTitle = ({ note, idx }) => {
               src={IMG_Save}
               alt="Save"
               title="Save"
-              className="icon-md mr-1"
+              className="icon mr-1 absolute top-0 right-0"
             />
           </button>
         </form>

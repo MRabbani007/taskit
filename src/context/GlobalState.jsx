@@ -61,7 +61,15 @@ export const GlobalProvider = ({ children }) => {
     if (tab === "user_lists") {
       handleListSummary();
     }
-    setViewTab(tab);
+    if (tab === "task_list") {
+      if (displayList?.length === 0) {
+        setViewTab("user_lists");
+      } else {
+        setViewTab("task_list");
+      }
+    } else {
+      setViewTab(tab);
+    }
   };
 
   const toggleCreateList = () => {
@@ -341,7 +349,7 @@ export const GlobalProvider = ({ children }) => {
   const handleOpen = (listID) => {
     let listIndex = state.listNames.findIndex((list) => list.id === listID);
     handleGetTasks(listID);
-    handleViewTab("task_list");
+    setViewTab("task_list");
     // setViewCreateList(false);
     setDisplayList([listIndex]);
     // setDisplayList((currentDisplayList) => {

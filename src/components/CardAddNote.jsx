@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { GlobalContext } from "../context/GlobalState";
+import { IoAdd, IoAddCircleOutline, IoCloseOutline } from "react-icons/io5";
 
 const CardAddNote = () => {
   const { handleNotesCreate } = useContext(GlobalContext);
@@ -19,6 +20,10 @@ const CardAddNote = () => {
     setAdd(false);
   };
 
+  const createNote = () => {
+    handleNotesCreate("New Note");
+  };
+
   return (
     <div>
       {add ? (
@@ -34,13 +39,16 @@ const CardAddNote = () => {
           />
           <span>
             <button>
-              <FaPlus className="icon" />
+              <IoAdd className="icon" />
             </button>
-            <FaTimes className="icon" onClick={() => setAdd(false)} />
+            <IoCloseOutline className="icon" onClick={() => setAdd(false)} />
           </span>
         </form>
       ) : (
-        <FaPlus onClick={() => setAdd(true)} />
+        <IoAddCircleOutline
+          className="icon text-yellow-600"
+          onClick={createNote}
+        />
       )}
     </div>
   );

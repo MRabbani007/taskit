@@ -5,6 +5,7 @@ import { TbReportAnalytics } from "react-icons/tb";
 import { GrTask } from "react-icons/gr";
 import { GrDocumentNotes } from "react-icons/gr";
 import { GlobalContext } from "../../context/GlobalState";
+import { CiCircleList } from "react-icons/ci";
 
 const BottomMenu = () => {
   const { viewTab, handleViewTab } = useContext(GlobalContext);
@@ -25,6 +26,18 @@ const BottomMenu = () => {
         {/* {viewTab === "user_lists" ? (
           <span className="text-yellow-500">Lists</span>
         ) : null} */}
+      </span>
+      <span>
+        <CiCircleList
+          title="Task List"
+          className={
+            (viewTab === "task_list" ? "text-yellow-500" : "") +
+            " icon mr-1 duration-500"
+          }
+          onClick={() => {
+            handleViewTab("task_list");
+          }}
+        />
       </span>
       <span className="flex items-center">
         <IoAddCircleOutline
