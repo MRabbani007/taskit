@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 // Imported Components
 // Imported Icons
 // Imported Media
-import CardEnterName from "../components/CardEnterName";
-import CardEnterEmail from "../components/CardEnterEmail";
-import CardUserRoles from "../components/CardUserRoles";
+import CardEnterEmail from "../features/user/CardEnterEmail";
+import CardEnterName from "../features/user/CardEnterName";
+import CardUserRoles from "../features/user/CardUserRoles";
 
 const SettingsPage = () => {
   return (

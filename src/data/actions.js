@@ -4,6 +4,7 @@ export const ACTIONS = {
   REMOVE_LIST: "REMOVE_LIST",
   UPDATE_LIST: "UPDATE_LIST",
   GET_LIST_SUMMARY: "GET_LIST_SUMMARY",
+
   GET_TASKS_LIST: "GET_TASKS_LIST",
   GET_TASKS_TODAY: "GET_TASKS_TODAY",
   GET_TASKS_WEEK: "GET_TASKS_WEEK",
@@ -13,6 +14,13 @@ export const ACTIONS = {
   REMOVE_TASK: "REMOVE_TASK",
   UPDATE_TASK: "UPDATE_TASK",
   TOGGLE_TASK: "TOGGLE_TASK",
+
+  GET_TAGS_ALL: "GET_TAGS_ALL",
+  GET_TAGS_TASK: "GET_TAGS_TASK",
+  CREATE_TAG: "CREATE_TAG",
+  UPDATE_TAG: "UPDATE_TAG",
+  REMOVE_TAG: "REMOVE_TAG",
+
   NOTES_GET_USER: "NOTES_GET_USER",
   NOTES_CREATE: "NOTES_CREATE",
   NOTES_UPDATE: "NOTES_UPDATE",
@@ -41,6 +49,12 @@ export const SERVER = {
   CREATE_TASK: "/tasks/create",
   REMOVE_TASK: "/tasks/remove",
   UPDATE_TASK: "/tasks/update",
+
+  GET_TAGS_ALL: "/tags/getAll",
+  GET_TAGS_TASK: "/tags/getTask",
+  CREATE_TAG: "/tags/create",
+  UPDATE_TAG: "/tags/update",
+  REMOVE_TAG: "/tags/remove",
 
   NOTES_GET_USER: "/notes/getNotes",
   NOTES_CREATE: "/notes/getNotes",

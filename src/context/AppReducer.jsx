@@ -83,12 +83,30 @@ export const appReducer = (state, { type, payload }) => {
         state.listTasks[taskIndex].details = payload.newValue;
       } else if (payload?.updateItem === "priority") {
         state.listTasks[taskIndex].priority = payload.newValue;
-      } else if (payload?.updateItem === "add_tag") {
-        state.listTasks[taskIndex].tags.push(payload.newValue);
       }
       return {
         ...state,
       };
+    }
+    case ACTIONS.GET_TAGS_ALL: {
+      return { ...state, tags: payload };
+    }
+    case ACTIONS.GET_TAGS_TASK: {
+      return { ...state, taskTags: payload };
+    }
+    case ACTIONS.CREATE_TAG: {
+      state.tags.push(payload);
+      return { ...state, tags: [...state.tags] };
+    }
+    case ACTIONS.UPDATE_TAG: {
+      const tagIndex = state.tags.findIndex((tag) => tag.id === payload.tag.id);
+      state.tags[tagIndex].name = payload.tag.name;
+      return { ...state, tags: [...state.tags] };
+    }
+    case ACTIONS.REMOVE_TAG: {
+      const tagIndex = state.tags.findIndex((tag) => tag.id === payload.tag.id);
+      state.tags.splice(tagIndex, 1);
+      return { ...state, tags: [...state.tags] };
     }
     case ACTIONS.TOGGLE_TASK: {
       let taskIndex = state.listTasks.findIndex(
@@ -102,7 +120,6 @@ export const appReducer = (state, { type, payload }) => {
     }
     case ACTIONS.NOTES_CREATE: {
       state.notes.push(payload);
-      console.log(state.notes);
       return { ...state };
     }
     case ACTIONS.NOTES_UPDATE: {

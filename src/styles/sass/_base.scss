@@ -1,0 +1,113 @@
+:root{ 
+  --font-general-Sans: 'General Sans', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
+  --font-supreme: 'Supreme', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+
+  --primary: #ea40a4;
+  --business: #3a82ee;
+  --personal: var(--primary);
+
+  --navbar-height: 50px;
+  --nav-width: 200px;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::after, *::before{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-roboto)
+}
+
+menu {
+  position: fixed;
+  top: 0rem;
+  left: 0rem;
+  right: 0rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  height: var(--navbar-height);
+  @include flexBetween;
+  background-color: $clr-slate-950;
+  color: $clr-slate-200;
+  border-radius: .0rem;
+  z-index: 50;
+}
+
+nav {
+  // position: fixed;
+  // top: .5rem;
+  // left: .5rem;
+  // bottom: .5rem;
+  padding: 1rem;
+  width: fit-content;
+  // max-height: 90vh;
+  position: fixed;
+  top: var(--navbar-height);
+  left: 0;
+  bottom: 0;
+  @include flexColBetween;
+  gap: .75rem;
+  background-color: $clr-slate-950;
+  color: $clr-slate-200;
+  // border-radius: .5rem;
+  transition: all 2s ease-in-out 0;
+  display: none;
+  font-weight: 200;
+  z-index: 40;
+}
+
+nav div > span {
+  cursor: pointer;
+}
+
+// .expanded{
+//   width: var(--nav-width);
+//   transition: all .5s ease-in-out 0;
+// }
+
+input {
+  outline: none;
+  outline-color: transparent;
+  border: none;
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: .5rem;
+}
+
+input:focus, input:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
+  // border: none;
+}
+
+input[type="checkbox"]{
+  width: 1rem;
+  height: 1rem;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  display: block;
+}
+
+@media screen and (min-width: 576px) {
+  menu {
+    // display: none;
+  }
+  nav {
+    display: flex;
+  }
+}

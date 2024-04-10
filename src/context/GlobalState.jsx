@@ -1,10 +1,11 @@
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
   useReducer,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
 // Imported Data
 import { appReducer } from "./AppReducer";
 import { getDate } from "../data/utils";
@@ -19,6 +20,8 @@ const initialState = {
   notes: [],
   trash: [],
   listTasks: [],
+  tags: [],
+  taskTags: [],
   todayTasks: [],
   overdueTasks: [],
   thisWeekTasks: [],
@@ -31,9 +34,12 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const { auth } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
+  const [userTasks, setUserTasks] = useState([]);
 
   // Store data
   const [state, dispatch] = useReducer(appReducer, initialState);
+
+  const navigate = useNavigate();
 
   // Display today and this week tasks
   const [todayTasks, setTodayTasks] = useState([]);
@@ -45,7 +51,7 @@ export const GlobalProvider = ({ children }) => {
   // Task list displayed in main container
   const [displayList, setDisplayList] = useState([]);
 
-  const [viewTab, setViewTab] = useState("tasks");
+  const [viewTab, setViewTab] = useState("user_lists");
 
   // View Create List Component
   const [viewCreateList, setViewCreateList] = useState(false);
@@ -60,6 +66,7 @@ export const GlobalProvider = ({ children }) => {
     }
     if (tab === "user_lists") {
       handleListSummary();
+      handleGetTasks("task_list");
     }
     if (tab === "task_list") {
       if (displayList?.length === 0) {
@@ -70,6 +77,7 @@ export const GlobalProvider = ({ children }) => {
     } else {
       setViewTab(tab);
     }
+    navigate("/");
   };
 
   const toggleCreateList = () => {
@@ -227,6 +235,7 @@ export const GlobalProvider = ({ children }) => {
     const newTask = {
       id: crypto.randomUUID(),
       listID,
+      tags: [],
       title: taskTitle,
       completed: false,
     };
@@ -251,7 +260,7 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const handleUpdateTask = async (taskID, updateItem, newValue) => {
+  const handleUpdateTask = async (taskID, updateItem, newValue, listID) => {
     dispatch({
       type: ACTIONS.UPDATE_TASK,
       payload: { taskID, updateItem, newValue },
@@ -280,6 +289,77 @@ export const GlobalProvider = ({ children }) => {
         payload: {
           userName: auth?.user,
           updateData: { taskID, updateItem: "task_complete", newValue },
+        },
+      },
+    });
+  };
+
+  const handleTagsGetAll = async (taskID) => {
+    let response = await axiosPrivate.post(SERVER.GET_TAGS_ALL, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.GET_TAGS_ALL,
+        payload: { userName: auth?.user },
+      },
+    });
+    if (response?.data && Array.isArray(response.data)) {
+      dispatch({ type: ACTIONS.GET_TAGS_ALL, payload: response.data });
+    }
+  };
+
+  const handleTagsGetTask = async (taskID) => {
+    let response = await axiosPrivate.post(SERVER.GET_TAGS_TASK, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.GET_TAGS_TASK,
+        payload: { userName: auth?.user, taskID },
+      },
+    });
+    if (response?.data && Array.isArray(response.data)) {
+      dispatch({ type: ACTIONS.GET_TAGS_TASK, payload: response.data });
+    }
+  };
+
+  const handleCreateTag = async (tag) => {
+    dispatch({ type: ACTIONS.CREATE_TAG, payload: tag });
+    let response = await axiosPrivate.post(SERVER.CREATE_TAG, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.CREATE_TAG,
+        payload: { userName: auth?.user, tag },
+      },
+    });
+  };
+
+  const handleUpdateTag = async (tag) => {
+    dispatch({
+      type: ACTIONS.UPDATE_TASK,
+      payload: { tag },
+    });
+    let response = await axiosPrivate.post(SERVER.UPDATE_TASK, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.UPDATE_TASK,
+        payload: {
+          userName: auth?.user,
+          tag,
+        },
+      },
+    });
+  };
+
+  const handleDeleteTag = async (tag) => {
+    dispatch({
+      type: ACTIONS.REMOVE_TAG,
+      payload: { tag },
+    });
+    let response = await axiosPrivate.post(SERVER.REMOVE_TAG, {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.REMOVE_TAG,
+        payload: {
+          userName: auth?.user,
+          tag,
         },
       },
     });
@@ -352,6 +432,7 @@ export const GlobalProvider = ({ children }) => {
     setViewTab("task_list");
     // setViewCreateList(false);
     setDisplayList([listIndex]);
+    navigate("/tasklist");
     // setDisplayList((currentDisplayList) => {
     //   return [
     //     // remove list from display if list already open
@@ -373,6 +454,20 @@ export const GlobalProvider = ({ children }) => {
     // TODO: remove tasks related to list from state
   }
 
+  async function deleteAllTags() {
+    let response = await axiosPrivate.post("/tasks/deleteAllTags", {
+      roles: auth?.roles,
+      action: {
+        type: ACTIONS.NOTES_UPDATE,
+        payload: {
+          userName: auth?.user,
+        },
+      },
+    });
+  }
+
+  // useEffect(()=>{},[])
+
   useEffect(() => {
     if (auth?.user) {
       handleGetLists();
@@ -382,6 +477,9 @@ export const GlobalProvider = ({ children }) => {
       handleGetImportantTasks();
       handleGetOverdueTasks();
       handleNotesGetUser();
+      handleGetTasks("task_list");
+      handleTagsGetAll();
+      // deleteAllTags();
     }
   }, [auth?.user]);
 
@@ -391,6 +489,7 @@ export const GlobalProvider = ({ children }) => {
         listNames: state.listNames,
         trash: state.trash,
         notes: state.notes,
+        tags: state.tags,
 
         listSummary: listSummary,
         displayList: displayList,
@@ -405,6 +504,10 @@ export const GlobalProvider = ({ children }) => {
         handleViewTab,
         viewTasks,
         setViewTasks,
+
+        handleCreateTag,
+        handleUpdateTag,
+        handleDeleteTag,
 
         toggleCreateList,
         handleCreateList,
