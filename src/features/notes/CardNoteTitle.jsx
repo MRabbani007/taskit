@@ -52,7 +52,7 @@ const CardNoteTitle = ({ note, idx }) => {
   };
 
   return (
-    <li className="flex flex-col flex-1 max-w-[400px] w-full">
+    <li className="flex flex-col flex-1 max-w-[400px] min-w-[400px] sm:w-full">
       {/* title */}
       <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full">
         {editTitle ? (

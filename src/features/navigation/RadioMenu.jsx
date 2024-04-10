@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 
 const RadioMenu = () => {
-  const [firstMenu, setFirstMenu] = useState(true);
+  const [firstMenu, setFirstMenu] = useState(false);
   const [secondMenu, setSecondMenu] = useState(false);
   const expand = false;
 
@@ -22,8 +22,10 @@ const RadioMenu = () => {
   };
 
   const closeMenu = (e) => {
-    if (!menuRef.current.contains(e.target)) {
-      toggleMenu();
+    if (firstMenu) {
+      if (!menuRef?.current?.contains(e.target)) {
+        toggleMenu();
+      }
     }
   };
 
