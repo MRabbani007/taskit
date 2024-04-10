@@ -19,7 +19,7 @@ const Layout = () => {
         </div>
       </div>
       <RadioMenu />
-      <BottomMenu />
+      {/* <BottomMenu /> */}
     </>
   );
 };

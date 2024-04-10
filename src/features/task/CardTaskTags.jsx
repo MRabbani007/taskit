@@ -8,8 +8,6 @@ const CardTaskTags = ({ task = {}, addTag, setAddTag }) => {
   const { tags, handleCreateTag, handleUpdateTag, handleDeleteTag } =
     useContext(GlobalContext);
 
-  console.log(tags);
-
   const [taskTags, setTaskTags] = useState(() => {
     return tags.filter((tag) => tag.taskID === task.id);
   });
@@ -17,7 +15,6 @@ const CardTaskTags = ({ task = {}, addTag, setAddTag }) => {
   const [tagInput, setTagInput] = useState("");
 
   useEffect(() => {
-    console.log("useeffect");
     setTaskTags(() => {
       return tags.filter((tag) => tag.taskID === task.id);
     });

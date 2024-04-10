@@ -31,7 +31,7 @@ const SectionNotes = () => {
           (expand
             ? "translate-y-[0] opacity-100 "
             : "translate-y-[-20px] opacity-0 ") +
-          " p-3 duration-300 flex flex-wrap gap-3"
+          " p-3 duration-300 flex flex-wrap flex-1 gap-3"
         }
       >
         <SectionNotesList />

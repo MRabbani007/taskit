@@ -3,9 +3,20 @@
   gap: 1rem;
   padding-top: calc(var(--navbar-height) + 20px);
   padding-bottom: 20px;// calc(var(--navbar-height) + 40px);
-  padding-left: calc(var(--navbar-height) + 30px);
-  padding-right: 1rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   min-height: 100vh;
+}
+
+.radio-menu {
+  display: block;
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 9999px;
+  padding: .5rem;
 }
 
 .bottom-menu {
@@ -135,6 +146,10 @@ input:checked ~ .bubble::after {
   }
   .page-container {
     // padding-top: 20px;
-    // padding-left: var(--nav-width);
+    padding-left: calc(var(--navbar-height) + 30px);
+    padding-right: 1rem;
+  }
+  .radio-menu {
+    display: none;
   }
 }

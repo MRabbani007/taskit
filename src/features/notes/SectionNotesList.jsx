@@ -7,7 +7,7 @@ import CardNote from "./CardNote";
 const SectionNotesList = () => {
   const { notes } = useContext(GlobalContext);
   return (
-    <div className="flex flex-wrap gap-3 py-3">
+    <div className="flex flex-col flex-wrap flex-1 w-full gap-3 py-3">
       {Array.isArray(notes) &&
         notes.map((note, idx) => {
           if (note.trash === true) return;

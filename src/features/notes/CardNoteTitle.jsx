@@ -52,7 +52,7 @@ const CardNoteTitle = ({ note, idx }) => {
   };
 
   return (
-    <li className="flex flex-col flex-1 max-w-[400px] ">
+    <li className="flex flex-col flex-1 max-w-[400px] w-full">
       {/* title */}
       <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full">
         {editTitle ? (
@@ -109,7 +109,7 @@ const CardNoteTitle = ({ note, idx }) => {
         )}
       </div>
       {/* Body */}
-      <div className="p-2 bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans">
+      <div className="p-2 w-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans">
         {!editDetails ? (
           <pre
             className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans"

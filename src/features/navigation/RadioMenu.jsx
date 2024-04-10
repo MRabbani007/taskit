@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import {
   IoAdd,
@@ -14,20 +14,28 @@ const RadioMenu = () => {
   const [secondMenu, setSecondMenu] = useState(false);
   const expand = false;
 
+  const menuRef = useRef(null);
+
   const toggleMenu = () => {
     setFirstMenu(!firstMenu);
     setSecondMenu(!secondMenu);
   };
 
+  const closeMenu = (e) => {
+    if (!menuRef.current.contains(e.target)) {
+      toggleMenu();
+    }
+  };
+
   useEffect(() => {
-    document.addEventListener("mousedown", toggleMenu);
+    document.addEventListener("mousedown", (e) => closeMenu(e));
     return () => {
-      document.removeEventListener("mousedown", toggleMenu);
+      document.removeEventListener("mousedown", closeMenu);
     };
   }, []);
 
   return (
-    <div className="fixed bottom-4 right-4 bg-zinc-800 text-zinc-50 rounded-full p-2">
+    <div ref={menuRef} className="radio-menu bg-zinc-800 text-zinc-50">
       <BsThreeDots className="icon cursor-pointer" onClick={toggleMenu} />
       <div className="relative">
         <div
