@@ -26,6 +26,12 @@ export const ACTIONS = {
   NOTES_UPDATE: "NOTES_UPDATE",
   NOTES_REMOVE: "NOTES_REMOVE",
   NOTES_GET_ALL: "NOTES_GET_ALL",
+
+  JOURNAL_GET: "JOURNAL_GET",
+  JOURNAL_CREATE: "JOURNAL_CREATE",
+  JOURNAL_UPDATE: "JOURNAL_UPDATE",
+  JOURNAL_DELETE: "JOURNAL_DELETE",
+
   USER_EDIT_NAME: "EDIT_NAME",
   USER_EDIT_EMAIL: "EDIT_EMAIL",
   USER_EDIT_ROLES: "EDIT_ROLES",
@@ -61,6 +67,11 @@ export const SERVER = {
   NOTES_UPDATE: "/notes/getNotes",
   NOTES_REMOVE: "/notes/getNotes",
   NOTES_GET_ALL: "/notes/getNotes",
+
+  JOURNAL_GET: "/journal/get",
+  JOURNAL_CREATE: "/journal/create",
+  JOURNAL_UPDATE: "/journal/update",
+  JOURNAL_DELETE: "/journal/delete",
 
   USER_SIGNIN: "/user/auth",
   USER_SIGNUP: "/user/register",

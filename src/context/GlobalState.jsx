@@ -34,7 +34,6 @@ export const GlobalContext = createContext(initialState);
 export const GlobalProvider = ({ children }) => {
   const { auth } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
-  const [userTasks, setUserTasks] = useState([]);
 
   // Store data
   const [state, dispatch] = useReducer(appReducer, initialState);
