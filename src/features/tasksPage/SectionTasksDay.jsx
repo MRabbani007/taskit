@@ -34,7 +34,7 @@ const SectionTasksDay = () => {
         }
       >
         {todayTasks?.length === 0 ? (
-          "No Tasks"
+          "No tasks assign for today"
         ) : (
           <Timeline className="max-h-[80vh] overflow-y-scroll">
             {todayTasks.map((task, index) => {

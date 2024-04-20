@@ -15,7 +15,7 @@ import {
   IoTodayOutline,
 } from "react-icons/io5";
 import { RxDoubleArrowLeft, RxDoubleArrowRight } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { GlobalContext } from "../../context/GlobalState";
 import useAuth from "../../hooks/useAuth";
 import { FiUser } from "react-icons/fi";
@@ -25,6 +25,11 @@ const Sidebar = () => {
   const { auth } = useAuth();
   const [expand, setExpand] = useState(false);
 
+  const location = useLocation();
+
+  const isActive = (page) => location.pathname.includes(page);
+  const isHomePage = location.pathname.split("/")[2] === "";
+
   return (
     <nav className="">
       {/* Top Block */}
@@ -32,7 +37,9 @@ const Sidebar = () => {
         <Link
           to="/tasks/today"
           title="Today's Tasks"
-          className="flex items-center"
+          className={
+            (isActive("today") ? "text-yellow-400" : "") + " flex items-center"
+          }
         >
           <IoTodayOutline className="icon" />
           <span
@@ -47,7 +54,9 @@ const Sidebar = () => {
         <Link
           to="/tasks/week"
           title="Tasks for this Week"
-          className="flex items-center"
+          className={
+            (isActive("week") ? "text-yellow-400" : "") + " flex items-center"
+          }
         >
           <IoCalendarOutline className="icon" />
           <span
@@ -62,7 +71,10 @@ const Sidebar = () => {
         <Link
           to="/tasks/important"
           title="Important Tasks"
-          className="flex items-center"
+          className={
+            (isActive("important") ? "text-yellow-400" : "") +
+            " flex items-center"
+          }
         >
           <IoStarOutline className="icon" />
           <span
@@ -77,7 +89,10 @@ const Sidebar = () => {
         <Link
           to="/tasks/overdue"
           title="Overdue Tasks"
-          className="flex items-center"
+          className={
+            (isActive("overdue") ? "text-yellow-400" : "") +
+            " flex items-center"
+          }
         >
           <IoRepeatOutline className="icon" />
           <span
@@ -202,7 +217,10 @@ const Sidebar = () => {
         <Link
           to="/createList"
           title="Create New List"
-          className="flex items-center"
+          className={
+            (isActive("createList") ? "text-yellow-400" : "") +
+            " flex items-center"
+          }
         >
           <IoAdd className="icon" />
           <span

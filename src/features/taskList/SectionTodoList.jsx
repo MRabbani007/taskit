@@ -112,12 +112,12 @@ const SectionTodoList = ({ displayList }) => {
         {/* <FaTimes  /> */}
       </div>
       {/* List Todo Items */}
-      <div className="p-2">
+      <div className="p-0">
         {/* Add new todo Item */}
         {/* Note: list ID passed from TodoList to enable opening multiple lists */}
         <CardAddTask listID={displayList.id} />
         {/* Display Todo Items */}
-        <ul className="flex flex-wrap justify-center items-stretch gap-3 py-3 md:px-0">
+        <ul className="flex flex-wrap justify-center items-stretch gap-3 py-3 px-0">
           {Array.isArray(tasks) &&
             tasks.map((task) => {
               return <CardTaskBlock key={task.id} task={task} />;
