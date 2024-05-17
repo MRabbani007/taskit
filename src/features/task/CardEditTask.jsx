@@ -1,16 +1,15 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
-import IMG_Save from "../../assets/save.png";
-import IMG_Cancel from "../../assets/cancel.png";
-import { CiSquareCheck, CiSquareRemove } from "react-icons/ci";
+import { BiCheck, BiX } from "react-icons/bi";
+import { ACTIONS } from "../../data/actions";
 
 const CardEditTask = ({ task, setEdit }) => {
   const { handleUpdateTask } = useContext(GlobalContext);
-  const [editInput, setEditInput] = useState(task?.title);
+  const [title, setTitle] = useState(task?.title);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleUpdateTask(task.id, "task_title", editInput);
+    handleUpdateTask(ACTIONS.UPDATE_TASK_TITLE, { id: task.id, title });
     setEdit(false);
   };
 
@@ -22,23 +21,23 @@ const CardEditTask = ({ task, setEdit }) => {
     <form
       onSubmit={handleSubmit}
       onReset={handleReset}
-      className="flex flex-1 items-center text-white"
+      className="flex items-center"
     >
       <input
         type="text"
         autoFocus
-        className="flex-1 w-[50%] bg-transparent font-normal outline-none border-none"
-        value={editInput}
+        className="bg-transparent outline-none border-none p-0 m-0"
+        value={title}
         onChange={(e) => {
-          setEditInput(e.target.value);
+          setTitle(e.target.value);
         }}
       />
       <span className="flex items-center">
         <button type="submit">
-          <CiSquareCheck className="icon-md" />
+          <BiCheck size={32} />
         </button>
         <button type="reset">
-          <CiSquareRemove className="icon-md" />
+          <BiX size={32} />
         </button>
       </span>
     </form>

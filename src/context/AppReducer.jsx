@@ -71,19 +71,47 @@ export const appReducer = (state, { type, payload }) => {
         listTasks: temp,
       };
     }
-    case ACTIONS.UPDATE_TASK: {
+    case ACTIONS.UPDATE_TASK_TITLE: {
       let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.taskID
+        (item) => item.id === payload.id
       );
-      if (payload?.updateItem === "task_title") {
-        state.listTasks[taskIndex].title = payload.newValue;
-      } else if (payload?.updateItem === "due_date") {
-        state.listTasks[taskIndex].dueDate = payload.newValue;
-      } else if (payload?.updateItem === "detail") {
-        state.listTasks[taskIndex].details = payload.newValue;
-      } else if (payload?.updateItem === "priority") {
-        state.listTasks[taskIndex].priority = payload.newValue;
-      }
+      state.listTasks[taskIndex].title = payload.title;
+      return {
+        ...state,
+      };
+    }
+    case ACTIONS.UPDATE_TASK_DUEDATE: {
+      let taskIndex = state.listTasks.findIndex(
+        (item) => item.id === payload.id
+      );
+      state.listTasks[taskIndex].dueDate = payload.dueDate;
+      return {
+        ...state,
+      };
+    }
+    case ACTIONS.UPDATE_TASK_COMPLETE: {
+      let taskIndex = state.listTasks.findIndex(
+        (item) => item.id === payload.id
+      );
+      state.listTasks[taskIndex].completed = payload.completed;
+      return {
+        ...state,
+      };
+    }
+    case ACTIONS.UPDATE_TASK_DETAILS: {
+      let taskIndex = state.listTasks.findIndex(
+        (item) => item.id === payload.id
+      );
+      state.listTasks[taskIndex].details = payload.details;
+      return {
+        ...state,
+      };
+    }
+    case ACTIONS.UPDATE_TASK_PRIORITY: {
+      let taskIndex = state.listTasks.findIndex(
+        (item) => item.id === payload.id
+      );
+      state.listTasks[taskIndex].priority = payload.priority;
       return {
         ...state,
       };
@@ -107,13 +135,6 @@ export const appReducer = (state, { type, payload }) => {
       const tagIndex = state.tags.findIndex((tag) => tag.id === payload.tag.id);
       state.tags.splice(tagIndex, 1);
       return { ...state, tags: [...state.tags] };
-    }
-    case ACTIONS.TOGGLE_TASK: {
-      let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.taskID
-      );
-      state.listTasks[taskIndex].completed = payload.newValue;
-      return { ...state };
     }
     case ACTIONS.NOTES_GET_USER: {
       return { ...state, notes: payload };

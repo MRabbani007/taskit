@@ -1,15 +1,19 @@
 import { useContext, useState } from "react";
 import { CiSquareCheck, CiSquareRemove } from "react-icons/ci";
 import { GlobalContext } from "../../context/GlobalState";
+import { ACTIONS } from "../../data/actions";
 
 const CardTaskDetails = ({ task }) => {
   const { handleUpdateTask } = useContext(GlobalContext);
   const [addDetail, setAddDetail] = useState(false);
   const [detailInput, setDetailInput] = useState(task?.details || "");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    handleUpdateTask(task?.id, "detail", detailInput);
+    await handleUpdateTask(ACTIONS.UPDATE_TASK_DETAILS, {
+      id: task?.id,
+      details: detailInput,
+    });
     setAddDetail(false);
   };
 

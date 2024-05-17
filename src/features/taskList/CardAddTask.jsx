@@ -25,7 +25,7 @@ const CardAddTask = ({ listID }) => {
     >
       <input
         type="text"
-        className="max-w-[90%] flex-1 text-lg border-2"
+        className="max-w-[90%] flex-1 text-lg "
         value={newTaskTitle}
         placeholder="New Task"
         onChange={(e) => {
@@ -33,7 +33,7 @@ const CardAddTask = ({ listID }) => {
         }}
       />
       <button
-        className="bg-yellow-300 rounded-full w-12 h-12 m-0 p-0"
+        className="bg-yellow-300 hover:bg-yellow-200 duration-200 rounded-full w-12 h-12 m-0 p-0"
         type="submit"
       >
         <IoAddOutline className="icon" />

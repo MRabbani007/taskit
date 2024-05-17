@@ -165,12 +165,11 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  // Get list Tasks
   const handleGetTasks = async (listID) => {
-    let response = await axiosPrivate.post(SERVER.GET_TASKS_LIST, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TASKS_LIST,
-        payload: { userName: auth?.user, listID },
+    let response = await axiosPrivate.get(SERVER.TASKS, {
+      params: {
+        listID,
       },
     });
     if (response?.data && Array.isArray(response.data)) {
@@ -237,9 +236,12 @@ export const GlobalProvider = ({ children }) => {
       tags: [],
       title: taskTitle,
       completed: false,
+      priority: "low",
+      dueDate: "",
+      details: "",
     };
     dispatch({ type: ACTIONS.CREATE_TASK, payload: newTask });
-    let response = await axiosPrivate.post(SERVER.CREATE_TASK, {
+    let response = await axiosPrivate.post(SERVER.TASKS, {
       roles: auth?.roles,
       action: {
         type: ACTIONS.CREATE_TASK,
@@ -248,49 +250,36 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const handleDeleteTask = async (taskID) => {
-    dispatch({ type: ACTIONS.REMOVE_TASK, payload: taskID });
-    let response = await axiosPrivate.post(SERVER.REMOVE_TASK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.REMOVE_TASK,
-        payload: { userName: auth?.user, taskID },
-      },
-    });
-  };
-
-  const handleUpdateTask = async (taskID, updateItem, newValue, listID) => {
-    dispatch({
-      type: ACTIONS.UPDATE_TASK,
-      payload: { taskID, updateItem, newValue },
-    });
-    let response = await axiosPrivate.post(SERVER.UPDATE_TASK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.UPDATE_TASK,
-        payload: {
-          userName: auth?.user,
-          updateData: { taskID, updateItem, newValue },
+  const handleDeleteTask = async (id) => {
+    console.log(id);
+    dispatch({ type: ACTIONS.REMOVE_TASK, payload: id });
+    let response = await axiosPrivate.delete(SERVER.TASKS, {
+      data: {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.REMOVE_TASK,
+          payload: { userName: auth?.user, id: id },
         },
       },
     });
   };
 
-  const handleToggleTask = async (taskID, newValue) => {
+  const handleUpdateTask = async (type, task) => {
     dispatch({
-      type: ACTIONS.TOGGLE_TASK,
-      payload: { taskID, newValue },
+      type: type,
+      payload: task,
     });
-    let response = await axiosPrivate.post(SERVER.UPDATE_TASK, {
+    let response = await axiosPrivate.patch(SERVER.TASKS, {
       roles: auth?.roles,
       action: {
-        type: ACTIONS.UPDATE_TASK,
+        type: type,
         payload: {
           userName: auth?.user,
-          updateData: { taskID, updateItem: "task_complete", newValue },
+          task: task,
         },
       },
     });
+    return response?.data;
   };
 
   const handleTagsGetAll = async (taskID) => {
@@ -518,7 +507,6 @@ export const GlobalProvider = ({ children }) => {
         handleAddTask,
         handleUpdateTask,
         handleDeleteTask,
-        handleToggleTask,
 
         handleNotesCreate,
         handleNotesUpdate,

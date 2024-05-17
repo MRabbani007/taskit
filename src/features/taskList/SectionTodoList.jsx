@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 // Imported Components
 import CardIcons from "../createTaskList/CardIcons";
 import CardAddTask from "./CardAddTask";
-import CardTask from "../task/CardTask";
 import CardTaskBlock from "../task/CardTaskBlock";
 // Imported Data
 import { IMAGES_Icons } from "../../data/templates";
@@ -112,12 +111,12 @@ const SectionTodoList = ({ displayList }) => {
         {/* <FaTimes  /> */}
       </div>
       {/* List Todo Items */}
-      <div className="p-0">
+      <div className="flex flex-col flex-1 w-full gap-3 items-center justify-center py-3 md:px-3 px-0">
         {/* Add new todo Item */}
         {/* Note: list ID passed from TodoList to enable opening multiple lists */}
         <CardAddTask listID={displayList.id} />
         {/* Display Todo Items */}
-        <ul className="flex flex-wrap justify-center items-stretch gap-3 py-3 px-0">
+        <ul className="flex flex-wrap justify-center items-stretch gap-1 py-3 px-0">
           {Array.isArray(tasks) &&
             tasks.map((task) => {
               return <CardTaskBlock key={task.id} task={task} />;
