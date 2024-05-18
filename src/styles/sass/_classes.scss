@@ -204,7 +204,8 @@ input:checked ~ .bubble::after {
   }
   .page-container {
     // padding-top: 20px;
-    padding-left: calc(var(--navbar-height) + 30px);
+    // padding-left: calc(var(--navbar-height) + 30px);
+    padding-left: 1rem;
     padding-right: 1rem;
   }
   .radio-menu {

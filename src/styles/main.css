@@ -305,7 +305,7 @@ input:checked ~ .bubble::after {
     display: none;
   }
   .page-container {
-    padding-left: calc(var(--navbar-height) + 30px);
+    padding-left: 1rem;
     padding-right: 1rem;
   }
   .radio-menu {

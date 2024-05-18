@@ -38,7 +38,7 @@ const SectionNotes = () => {
       >
         {Array.isArray(notes) &&
           notes.map((note, idx) => {
-            if (note.trash === true) return;
+            if (note?.trash === true) return;
             return <CardNoteTitle note={note} idx={idx} key={idx} />;
           })}
         {notes?.length === 0 || (notes?.length === undefined && "Add Notes")}

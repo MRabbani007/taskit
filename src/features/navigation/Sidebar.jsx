@@ -104,11 +104,6 @@ const Sidebar = () => {
             Overdue
           </span>
         </Link>
-        {/* <button onClick={() => setExpand(!expand)}>
-          <RxDoubleArrowRight
-            className={(expand ? "rotate-180" : "") + " icon duration-500"}
-          />
-        </button> */}
       </div>
 
       {/* Middle Block */}

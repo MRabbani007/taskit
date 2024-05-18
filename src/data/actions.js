@@ -51,16 +51,13 @@ export const SERVER = {
   GET_LIST_SUMMARY: "/lists/summary",
 
   TASKS: "/tasks/main",
+  NOTES: "/notes/main",
 
-  GET_TASKS_LIST: "/tasks/getList",
   GET_TASKS_TODAY: "/tasks/getToday",
   GET_TASKS_WEEK: "/tasks/getWeek",
   GET_TASKS_IMPORTANT: "/tasks/getImportant",
   GET_TASKS_OVERDUE: "/tasks/getOverdue",
   GET_TASKS_ALL: "/tasks/getAll",
-  CREATE_TASK: "/tasks/create",
-  REMOVE_TASK: "/tasks/remove",
-  UPDATE_TASK: "/tasks/update",
 
   GET_TAGS_ALL: "/tags/getAll",
   GET_TAGS_TASK: "/tags/getTask",
@@ -68,10 +65,6 @@ export const SERVER = {
   UPDATE_TAG: "/tags/update",
   REMOVE_TAG: "/tags/remove",
 
-  NOTES_GET_USER: "/notes/getNotes",
-  NOTES_CREATE: "/notes/getNotes",
-  NOTES_UPDATE: "/notes/getNotes",
-  NOTES_REMOVE: "/notes/getNotes",
   NOTES_GET_ALL: "/notes/getNotes",
 
   JOURNAL_GET: "/journal/get",

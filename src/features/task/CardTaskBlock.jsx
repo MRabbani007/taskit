@@ -52,7 +52,7 @@ const CardTaskBlock = ({ task }) => {
   }, []);
 
   return (
-    <div className="min-w-[250px] w-full flex flex-col">
+    <div className="flex flex-col flex-1">
       {/* Header */}
       <div className="flex items-stretch">
         {/* Priority */}

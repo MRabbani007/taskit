@@ -48,42 +48,16 @@ export const GlobalProvider = ({ children }) => {
   const [listSummary, setListSummary] = useState([]);
 
   // Task list displayed in main container
-  const [displayList, setDisplayList] = useState([]);
-
-  const [viewTab, setViewTab] = useState("user_lists");
+  const [displayList, setDisplayList] = useState(null);
 
   // View Create List Component
   const [viewCreateList, setViewCreateList] = useState(false);
-  const [viewTasks, setViewTasks] = useState(false);
-
-  const handleViewTab = (tab) => {
-    if (tab === "tasks") {
-      handleGetTodayTasks();
-      handleGetWeekTasks();
-      handleGetImportantTasks();
-      handleGetOverdueTasks();
-    }
-    if (tab === "user_lists") {
-      handleListSummary();
-      handleGetTasks("task_list");
-    }
-    if (tab === "task_list") {
-      if (displayList?.length === 0) {
-        setViewTab("user_lists");
-      } else {
-        setViewTab("task_list");
-      }
-    } else {
-      setViewTab(tab);
-    }
-    navigate("/");
-  };
 
   const toggleCreateList = () => {
     if (viewCreateList) {
       setViewCreateList(false);
     } else {
-      setDisplayList([]);
+      setDisplayList(null);
       setViewCreateList(true);
     }
   };
@@ -104,8 +78,7 @@ export const GlobalProvider = ({ children }) => {
   const handleCreateList = async (title = "", icon = "") => {
     const newList = { id: crypto.randomUUID(), title, icon, tasks: [] };
     dispatch({ type: ACTIONS.CREATE_LIST, payload: newList });
-    setDisplayList([state.listNames.length]);
-    handleViewTab("task_list");
+    setDisplayList(newList);
     let response = await axiosPrivate.post(SERVER.CREATE_LIST, {
       roles: auth?.roles,
       action: {
@@ -131,9 +104,7 @@ export const GlobalProvider = ({ children }) => {
 
   const handleRemoveList = async (listID) => {
     dispatch({ type: ACTIONS.REMOVE_LIST, payload: listID });
-    setDisplayList((prev) => {
-      return prev.filter((item) => item.id !== listID);
-    });
+    setDisplayList(null);
     let response = await axiosPrivate.post(SERVER.REMOVE_LIST, {
       roles: auth?.roles,
       action: {
@@ -166,16 +137,21 @@ export const GlobalProvider = ({ children }) => {
   };
 
   // Get list Tasks
-  const handleGetTasks = async (listID) => {
-    let response = await axiosPrivate.get(SERVER.TASKS, {
-      params: {
-        listID,
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.GET_TASKS_LIST, payload: response.data });
-    }
-  };
+  function handleGetTasks(listID) {
+    axiosPrivate
+      .get(SERVER.TASKS, {
+        params: {
+          listID,
+        },
+      })
+      .then((result) => {
+        if (result?.data && Array.isArray(result.data)) {
+          dispatch({ type: ACTIONS.GET_TASKS_LIST, payload: result.data });
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {});
+  }
 
   const handleGetTodayTasks = async () => {
     let response = await axiosPrivate.post(SERVER.GET_TASKS_TODAY, {
@@ -251,7 +227,6 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const handleDeleteTask = async (id) => {
-    console.log(id);
     dispatch({ type: ACTIONS.REMOVE_TASK, payload: id });
     let response = await axiosPrivate.delete(SERVER.TASKS, {
       data: {
@@ -354,11 +329,9 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const handleNotesGetUser = async () => {
-    let response = await axiosPrivate.post(SERVER.NOTES_GET_USER, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_GET_USER,
-        payload: { userName: auth?.user },
+    let response = await axiosPrivate.get(SERVER.NOTES, {
+      params: {
+        userName: auth?.user,
       },
     });
     if (response?.data && Array.isArray(response.data)) {
@@ -376,7 +349,7 @@ export const GlobalProvider = ({ children }) => {
       trash: false,
     };
     dispatch({ type: ACTIONS.NOTES_CREATE, payload: newNote });
-    let response = await axiosPrivate.post(SERVER.NOTES_CREATE, {
+    let response = await axiosPrivate.post(SERVER.NOTES, {
       roles: auth?.roles,
       action: {
         type: ACTIONS.NOTES_CREATE,
@@ -387,10 +360,10 @@ export const GlobalProvider = ({ children }) => {
 
   const handleNotesUpdate = async (noteIdx, newNote) => {
     dispatch({
-      type: ACTIONS.UPDATE_TASK,
+      type: ACTIONS.NOTES_UPDATE,
       payload: { noteIdx, newNote },
     });
-    let response = await axiosPrivate.post(SERVER.NOTES_UPDATE, {
+    let response = await axiosPrivate.patch(SERVER.NOTES, {
       roles: auth?.roles,
       action: {
         type: ACTIONS.NOTES_UPDATE,
@@ -402,59 +375,38 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const handleNotesRemove = async (noteIdx, noteID) => {
+  const handleNotesRemove = async (noteID) => {
     dispatch({ type: ACTIONS.NOTES_REMOVE, payload: noteID });
-    let response = await axiosPrivate.post(SERVER.REMOVE_TASK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_REMOVE,
-        payload: { userName: auth?.user, noteID },
+    let response = await axiosPrivate.delete(SERVER.NOTES, {
+      data: {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.NOTES_REMOVE,
+          payload: { userName: auth?.user, noteID },
+        },
       },
     });
   };
 
   // Handle opening new todo List
-  const handleOpen = (listID) => {
-    let listIndex = state.listNames.findIndex((list) => list.id === listID);
-    handleGetTasks(listID);
-    setViewTab("task_list");
-    // setViewCreateList(false);
-    setDisplayList([listIndex]);
-    navigate("/tasklist");
-    // setDisplayList((currentDisplayList) => {
-    //   return [
-    //     // remove list from display if list already open
-    //     ...currentDisplayList.filter((listName) => listName.id !== listID),
-    //     // add new list to display
-    //     userLists[listIndex],
-    //   ];
-    // });
-  };
+  function handleOpen(listID) {
+    let list = state.listNames.find((list) => list.id === listID);
+    setDisplayList(list);
+  }
+
+  useEffect(() => {
+    handleGetTasks(displayList?.id);
+    if (displayList?.id === "task_list") {
+      navigate("/tasks");
+    } else {
+      navigate("/tasklist");
+    }
+  }, [displayList?.id]);
 
   // Handle closing todo List
-  function handleClose(listID) {
-    setDisplayList((currentDisplayList) => {
-      return currentDisplayList.filter(
-        (listIndex) => state.listNames[listIndex].id !== listID
-      );
-    });
-    handleViewTab("user_lists");
-    // TODO: remove tasks related to list from state
+  function handleClose() {
+    setDisplayList({ id: "task_list" });
   }
-
-  async function deleteAllTags() {
-    let response = await axiosPrivate.post("/tasks/deleteAllTags", {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_UPDATE,
-        payload: {
-          userName: auth?.user,
-        },
-      },
-    });
-  }
-
-  // useEffect(()=>{},[])
 
   useEffect(() => {
     if (auth?.user) {
@@ -467,7 +419,6 @@ export const GlobalProvider = ({ children }) => {
       handleNotesGetUser();
       handleGetTasks("task_list");
       handleTagsGetAll();
-      // deleteAllTags();
     }
   }, [auth?.user]);
 
@@ -487,11 +438,6 @@ export const GlobalProvider = ({ children }) => {
         weekTasks: weekTasks,
         importantTasks: importantTasks,
         overdueTasks: overdueTasks,
-
-        viewTab,
-        handleViewTab,
-        viewTasks,
-        setViewTasks,
 
         handleCreateTag,
         handleUpdateTag,

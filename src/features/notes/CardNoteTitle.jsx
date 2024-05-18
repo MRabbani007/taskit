@@ -1,12 +1,9 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
-import { FaPlus, FaTimes } from "react-icons/fa";
-import { CiEdit } from "react-icons/ci";
+import { CiTrash } from "react-icons/ci";
 // Imported Media
-import IMG_Delete from "../../assets/trash.png";
-import IMG_Edit from "../../assets/edit.png";
-import IMG_Cancel from "../../assets/cancel.png";
-import IMG_Save from "../../assets/save.png";
+import { BiCheck, BiX } from "react-icons/bi";
+import { AiOutlineSave } from "react-icons/ai";
 
 const CardNoteTitle = ({ note, idx }) => {
   const { handleNotesUpdate } = useContext(GlobalContext);
@@ -37,7 +34,7 @@ const CardNoteTitle = ({ note, idx }) => {
     setEditTitle(false);
   };
 
-  const handleSubmiteDetails = (e) => {
+  const handleSubmitDetails = (e) => {
     e.preventDefault();
     let newNote = note;
     newNote.details = details;
@@ -45,8 +42,12 @@ const CardNoteTitle = ({ note, idx }) => {
     setEditDetails(false);
   };
 
+  const handleResetDetails = () => {
+    setEditDetails(false);
+  };
+
   const handleDelete = () => {
-    let newNote = note;
+    let newNote = { ...note };
     newNote.trash = true;
     handleNotesUpdate(idx, newNote);
   };
@@ -58,6 +59,7 @@ const CardNoteTitle = ({ note, idx }) => {
         {editTitle ? (
           <form
             onSubmit={handleSubmitTitle}
+            onReset={handleResetTitle}
             className="flex flex-nowrap pr-2 items-center"
           >
             <input
@@ -68,22 +70,11 @@ const CardNoteTitle = ({ note, idx }) => {
               onChange={(e) => setTitle(e.target.value)}
             />
             <span className="flex items-center shrink-0">
-              <button>
-                <img
-                  src={IMG_Save}
-                  alt="Save"
-                  title="Save"
-                  className="icon-md"
-                />
+              <button type="submit" title="Save">
+                <BiCheck size={32} />
               </button>
-              <button type="reset">
-                <img
-                  src={IMG_Cancel}
-                  alt="Cancel"
-                  title="Cancel"
-                  className="icon-md"
-                  onClick={handleResetTitle}
-                />
+              <button type="reset" title="Cancel">
+                <BiX size={32} />
               </button>
             </span>
           </form>
@@ -98,13 +89,13 @@ const CardNoteTitle = ({ note, idx }) => {
             title="Edit"
             className="icon-md mr-1 cursor-pointer"
           /> */}
-            <img
-              src={IMG_Delete}
-              alt="Delete"
-              title="Delete"
-              className="icon-md cursor-pointer invisible group-hover:visible"
+            <button
               onClick={handleDelete}
-            />
+              title="Delete Note"
+              className="invisible group-hover:visible"
+            >
+              <CiTrash size={32} />
+            </button>
           </p>
         )}
       </div>
@@ -120,7 +111,11 @@ const CardNoteTitle = ({ note, idx }) => {
             {details}
           </pre>
         ) : (
-          <form className="relative" onSubmit={handleSubmiteDetails}>
+          <form
+            className="relative"
+            onSubmit={handleSubmitDetails}
+            onReset={handleResetDetails}
+          >
             <textarea
               name=""
               id=""
@@ -130,14 +125,14 @@ const CardNoteTitle = ({ note, idx }) => {
               value={details}
               onChange={(e) => setDetails(e.target.value)}
             ></textarea>
-            <button className="absolute bottom-0 right-0">
-              <img
-                src={IMG_Save}
-                alt="Save"
-                title="Save"
-                className="icon mr-1"
-              />
-            </button>
+            <p className="absolute bottom-0 right-0">
+              <button type="Submit" title="Save">
+                <AiOutlineSave size={32} />
+              </button>
+              <button type="Reset" title="Cancel">
+                <BiX size={32} />
+              </button>
+            </p>
           </form>
         )}
       </div>
