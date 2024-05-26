@@ -19,7 +19,7 @@ const AdminTasks = () => {
       let response = await axiosPrivate.post(SERVER.GET_TASKS_ALL, {
         roles: auth?.roles,
         action: {
-          type: ACTIONS.UPDATE_TASK,
+          type: ACTIONS.GET_TASKS_LIST,
           payload: {
             userName: auth?.user,
           },
@@ -41,13 +41,13 @@ const AdminTasks = () => {
 
   return (
     <div>
-      <h1
+      <h2
         onClick={() => {
           setExpand(!expand);
         }}
       >
         AdminTasks
-      </h1>
+      </h2>
       <table className={expand ? "visible" : "invisible h-0"}>
         <thead>
           <tr>

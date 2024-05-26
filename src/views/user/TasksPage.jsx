@@ -3,13 +3,14 @@ import { GlobalContext } from "../../context/GlobalState";
 import { BsCardList } from "react-icons/bs";
 import CardAddTask from "../../features/taskList/CardAddTask";
 import CardTaskBlock from "../../features/task/CardTaskBlock";
+import SidebarUserTasks from "../../features/navigation/SidebarUserTasks";
 
 const TasksPage = () => {
-  const { listTasks: tasks } = useContext(GlobalContext);
+  const { userTasks: tasks } = useContext(GlobalContext);
 
   return (
     <div className="flex-1">
-      <h2 className="bg-zinc-600 p-3 text-white rounded-lg text-center flex items-center gap-3">
+      <h2 className="bg-gradient-to-r from-sky-800 to-sky-600 p-3 text-white rounded-xl text-center flex items-center gap-3 shadow-md shadow-zinc-500">
         <BsCardList className="icon" />
         <span className="whitespace-nowrap">My Tasks</span>
       </h2>
@@ -24,6 +25,7 @@ const TasksPage = () => {
             })}
         </div>
       </div>
+      <SidebarUserTasks />
     </div>
   );
 };

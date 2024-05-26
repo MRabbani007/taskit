@@ -1,5 +1,6 @@
 import { BsCardList, BsJournalText } from "react-icons/bs";
 import {
+  IoCalendarOutline,
   IoHomeOutline,
   IoListOutline,
   IoSettingsOutline,
@@ -57,6 +58,16 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <span>My Tasks</span>
       </button>
       <button
+        title="Calendar"
+        className={
+          (isActive("/calendar") ? "text-yellow-400" : "") + " menu-item"
+        }
+        onClick={() => handleNavigate("calendar")}
+      >
+        <IoCalendarOutline size={iconSize} />
+        <span>Calendar</span>
+      </button>
+      <button
         title="Notes"
         className={(isActive("/notes") ? "text-yellow-400" : "") + " menu-item"}
         onClick={() => handleNavigate("notes")}
@@ -76,7 +87,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
       </button>
       <button
         className={
-          isActive("/settings") ? "text-yellow-400" : "" + " menu-item"
+          (isActive("/settings") ? "text-yellow-400" : "") + " menu-item"
         }
         onClick={() => handleNavigate("settings")}
       >

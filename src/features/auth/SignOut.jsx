@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { genDate } from "../../data/utils";
 import useAuth from "../../hooks/useAuth";
 import useLogout from "../../hooks/useLogout";
@@ -17,9 +18,9 @@ const SignOut = () => {
         </p>
       </div>
       <div>
-        <button className="btn btn-blue" onClick={() => logout()}>
+        <Button danger onClick={() => logout()}>
           Sign Out
-        </button>
+        </Button>
       </div>
     </div>
   );

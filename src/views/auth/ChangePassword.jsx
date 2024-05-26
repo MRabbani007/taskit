@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // Imported Hooks
-import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import useAuth from "../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAuth from "../../hooks/useAuth";
 // Imported Data
-import { SERVER } from "../data/actions";
+import { SERVER } from "../../data/actions";
 // Imported Icons
 import { CiSquareCheck, CiSquareRemove } from "react-icons/ci";
 

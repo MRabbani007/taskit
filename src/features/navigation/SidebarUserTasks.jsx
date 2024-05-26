@@ -15,7 +15,7 @@ export default function SidebarUserTasks() {
   return (
     <ul
       className={
-        "fixed top-[50%] left-0 -translate-y-[50%] flex flex-col items-start"
+        "fixed top-[50%] left-0 -translate-y-[50%] flex flex-col items-start z-10"
       }
     >
       <li className="group">

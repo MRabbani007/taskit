@@ -12,20 +12,22 @@ const JournalPage = () => {
     <JournalProvider>
       <div className="flex flex-col flex-wrap w-full h-full gap-3">
         <h2
-          className="bg-yellow-500 p-3 text-white rounded-lg text-center cursor-pointer relative flex items-center gap-3"
-          onClick={() => setExpand((prev) => !prev)}
+          className="bg-gradient-to-r from-green-600 to-green-400 p-3 text-white rounded-xl text-center cursor-pointer relative flex items-center gap-3 shadow-md shadow-zinc-500"
+          // onClick={() => setExpand((prev) => !prev)}
         >
           <GrNotes className="icon" />
           <span>Journal</span>
-          <SlArrowRight
+          {/* <SlArrowRight
             className={
               (expand ? "rotate-90 " : "") +
               "icon-sm absolute right-2 top-[35%] duration-300"
             }
-          />
+          /> */}
         </h2>
-        <CreateJournal />
-        <SectionJournalItems />
+        <div className="flex flex-col gap-2 sm:px-4 px-0">
+          <CreateJournal />
+          <SectionJournalItems />
+        </div>
       </div>
     </JournalProvider>
   );

@@ -7,13 +7,11 @@ const SectionJournalItems = () => {
   const { journal } = useContext(JournalContext);
 
   return (
-    <div>
-      <Timeline className="max-h-[60vh] overflow-y-scroll">
-        {journal.map((item, index) => {
-          return <CardJournal item={item} key={index} />;
-        })}
-      </Timeline>
-    </div>
+    <Timeline className="max-h-[60vh] overflow-y-scroll flex-1">
+      {journal.map((item, index) => {
+        return <CardJournal item={item} key={index} />;
+      })}
+    </Timeline>
   );
 };
 

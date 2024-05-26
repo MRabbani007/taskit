@@ -51,6 +51,7 @@ export const SERVER = {
   GET_LIST_SUMMARY: "/lists/summary",
 
   TASKS: "/tasks/main",
+  TASKS_USER: "/tasks/user",
   NOTES: "/notes/main",
 
   GET_TASKS_TODAY: "/tasks/getToday",

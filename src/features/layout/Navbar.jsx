@@ -8,6 +8,7 @@ import { FiUser } from "react-icons/fi";
 import { TbReportAnalytics } from "react-icons/tb";
 import {
   IoAddCircleOutline,
+  IoCalendarOutline,
   IoHomeOutline,
   IoListOutline,
   IoSettingsOutline,
@@ -25,13 +26,19 @@ const Navbar = () => {
 
   const location = useLocation();
 
-  const isActive = (page) =>
-    location.pathname.includes(page) &&
-    location.pathname.split("/")[2] === undefined;
-  const isHomePage = location.pathname.split("/")[1] === "";
+  const isActive = (page) => location.pathname.split("/").includes(page);
+
+  const isHomePage =
+    location.pathname.split("/")[1] === "" ||
+    location.pathname.split("/")[1] === "dashboard";
+
+  const isAdmin = auth?.roles && auth.roles.includes(5150);
 
   return (
-    <menu>
+    <div
+      className="menu_bar bg-gradient-to-br from-black to-zinc-600 text-white"
+      id="menu_bar"
+    >
       <button
         className={
           (viewMobileMenu ? "is-active" : "") +
@@ -54,52 +61,59 @@ const Navbar = () => {
           title="Home Page"
           className={isHomePage ? "text-yellow-400" : ""}
         >
-          <IoHomeOutline className="icon" />
+          <IoHomeOutline size={32} />
         </Link>
         <Link
           to="/mylists"
           title="My Lists"
-          className={isActive("/mylists") ? "text-yellow-400" : ""}
+          className={isActive("mylists") ? "text-yellow-400" : ""}
         >
-          <BsCardList className="icon" />
+          <BsCardList size={32} />
         </Link>
         <Link
           to="/tasks"
           title="My Tasks"
-          className={isActive("/tasks") ? "text-yellow-400" : ""}
+          className={isActive("tasks") ? "text-yellow-400" : ""}
         >
-          <IoListOutline className="icon" />
+          <IoListOutline size={32} />
+        </Link>
+        <Link
+          to="/calendar"
+          title="Calendar"
+          className={isActive("calendar") ? "text-yellow-400" : ""}
+        >
+          <IoCalendarOutline size={32} />
         </Link>
         <Link
           to="/notes"
           title="Notes"
-          className={isActive("/notes") ? "text-yellow-400" : ""}
+          className={isActive("notes") ? "text-yellow-400" : ""}
         >
           <SlNotebook className="icon-md" />
         </Link>
         <Link
           to="/journal"
           title="Journal"
-          className={isActive("/journal") ? "text-yellow-400" : ""}
+          className={isActive("journal") ? "text-yellow-400" : ""}
         >
           <BsJournalText className="icon-md" />
         </Link>
         {/* <Link to="/">
-          <TbReportAnalytics className="icon" />
+          <TbReportAnalytics size={32} />
         </Link>
         <Link to="/">
           <IoAddCircleOutline className="icon mx-3" />
         </Link> */}
         {/* {auth?.roles && Object.values(auth?.roles).includes(5150) && (
           <Link to="/admin">
-            <RiAdminLine className="icon" />
+            <RiAdminLine size={32} />
           </Link>
         )} */}
       </span>
       <div className="flex items-center gap-3">
         {/* <MdOutlineDarkMode className="icon mx-3" /> */}
         <Link
-          to="/login"
+          to={isAdmin ? "/admin" : "/login"}
           className={isActive("/login") ? "text-yellow-400" : ""}
         >
           {auth?.user === "" ? "" : auth?.user}
@@ -112,10 +126,10 @@ const Navbar = () => {
             " hidden sm:inline-block"
           }
         >
-          <IoSettingsOutline className="icon" />
+          <IoSettingsOutline size={32} />
         </Link>
       </div>
-    </menu>
+    </div>
   );
 };
 

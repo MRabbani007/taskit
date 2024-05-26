@@ -40,18 +40,11 @@ const ListIcon = ({ list }) => {
             <BiX size={32} />
           </button>
         </form>
-      ) : list?.icon === "" ? (
-        <img
-          src={IMAGES_Icons + "list-2.png"}
-          alt=""
-          className="icon"
-          onClick={() => setEditListIcon(true)}
-        />
       ) : (
         <img
           src={IMAGES_Icons + list?.icon}
           alt=""
-          className="icon mr-2"
+          className="icon mr-2 z-10"
           onClick={() => setEditListIcon(true)}
         />
       )}

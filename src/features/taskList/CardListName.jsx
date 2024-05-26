@@ -40,11 +40,11 @@ const CardListName = ({ taskList }) => {
 
   return (
     <li
-      key={taskList.id}
+      key={taskList?.id}
       className="flex items-center py-1 px-3 shadow-sm shadow-slate-600 rounded-md"
     >
       <div className="flex items-center justify-between gap-3 flex-1 group">
-        <img src={IMAGES_Icons + taskList.icon} className="icon-lg mr-2" />
+        <img src={IMAGES_Icons + taskList?.icon} className="icon-lg mr-2" />
         <div className="flex-1">
           {/* Edit List Title */}
           {edit ? (

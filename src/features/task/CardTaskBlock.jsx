@@ -72,16 +72,19 @@ const CardTaskBlock = ({ task }) => {
                 onChange={() => {}}
                 className="invisible absolute"
               />
-              <button className="bubble" onClick={toggleCompleted}></button>
+              <button
+                className="bubble"
+                onClick={() => toggleCompleted()}
+              ></button>
             </label>
-            <div>
+            <div className="flex flex-col items-start flex-1">
               {edit ? (
                 <CardEditTask task={task} setEdit={setEdit} />
               ) : (
-                <p className="overflow-hidden">
+                <p className="flex-1 overflow-hidden">
                   <span
                     onClick={() => setEdit(true)}
-                    className=" font-light whitespace-nowrap text-ellipsis cursor-pointer"
+                    className=" font-light whitespace-wrap text-ellipsis cursor-pointer"
                     title={task?.title}
                   >
                     {task?.title}

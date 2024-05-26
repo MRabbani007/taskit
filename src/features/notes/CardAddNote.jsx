@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { FaPlus, FaTimes } from "react-icons/fa";
-import { GlobalContext } from "../../context/GlobalState";
 import { IoAdd, IoAddCircleOutline, IoCloseOutline } from "react-icons/io5";
+import { NotesContext } from "../../context/NotesState";
+import { FloatButton } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 const CardAddNote = () => {
-  const { handleNotesCreate } = useContext(GlobalContext);
+  const { handleNoteCreate } = useContext(NotesContext);
 
   const [add, setAdd] = useState(false);
 
@@ -13,15 +14,15 @@ const CardAddNote = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (title === "") {
-      handleNotesCreate("New Note");
+      handleNoteCreate("New Note");
     } else {
-      handleNotesCreate(title);
+      handleNoteCreate(title);
     }
     setAdd(false);
   };
 
   const createNote = () => {
-    handleNotesCreate("New Note");
+    handleNoteCreate("New Note");
   };
 
   return (
@@ -45,10 +46,13 @@ const CardAddNote = () => {
           </span>
         </form>
       ) : (
-        <IoAddCircleOutline
-          className="icon text-yellow-600"
+        <FloatButton
+          type="primary"
+          tooltip="Add New Note"
           onClick={createNote}
-        />
+          icon={<PlusOutlined />}
+          style={{ right: 94 }}
+        ></FloatButton>
       )}
     </div>
   );

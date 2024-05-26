@@ -2,7 +2,7 @@
   width: 100%;
   gap: 1rem;
   padding-top: calc(var(--navbar-height) + 20px);
-  padding-bottom: 20px;// calc(var(--navbar-height) + 40px);
+  padding-bottom: 20px; // calc(var(--navbar-height) + 40px);
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   min-height: 100vh;
@@ -16,28 +16,28 @@
   bottom: 1rem;
   right: 1rem;
   border-radius: 9999px;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .bottom-menu {
   position: fixed;
-  bottom: .25rem;
-  left: .25rem;
-  right: .25rem;
+  bottom: 0.25rem;
+  left: 0.25rem;
+  right: 0.25rem;
   height: var(--navbar-height);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
 .btn {
   border: none;
   outline: none;
-  padding: .25rem 1.25rem;
+  padding: 0.25rem 1.25rem;
   width: fit-content;
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
 .btn-yellow {
@@ -59,7 +59,7 @@
   visibility: hidden;
 }
 
-.icon-cont:hover .icon-item{
+.icon-cont:hover .icon-item {
   visibility: visible;
 }
 
@@ -113,9 +113,9 @@ input:checked ~ .bubble::after {
 .task-menu {
   position: absolute;
   top: 2rem;
-  right: -.25rem;
+  right: -0.25rem;
   width: fit-content;
-  border-radius: .375rem;
+  border-radius: 0.375rem;
   z-index: 10;
   transition: all 200ms;
   display: grid;
@@ -127,8 +127,8 @@ input:checked ~ .bubble::after {
   display: flex;
   align-items: center;
   white-space: nowrap;
-  gap: .5rem;
-  padding: .5rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   background-color: #f8f8f8;
   transition: all 200ms ease-in;
 }
@@ -142,7 +142,7 @@ input:checked ~ .bubble::after {
   display: none;
 }
 
-.mobile-menu .menu-item{
+.mobile-menu .menu-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,31 +151,32 @@ input:checked ~ .bubble::after {
   height: 100%;
   gap: 1rem;
   background-color: $clr-slate-800;
-  border-bottom: 1px solid $clr-slate-200;
   opacity: 0;
   animation-name: menuLink;
-  animation-duration: .2s;
+  animation-duration: 0.1s;
   animation-fill-mode: forwards;
 }
 
-.mobile-menu .menu-item:nth-child(1){
+.mobile-menu .menu-item:nth-child(1) {
+  animation-delay: 0ms;
+}
+.mobile-menu .menu-item:nth-child(2) {
+  animation-delay: 50ms;
+}
+.mobile-menu .menu-item:nth-child(3) {
   animation-delay: 100ms;
 }
-.mobile-menu .menu-item:nth-child(2){
+.mobile-menu .menu-item:nth-child(4) {
+  animation-delay: 150ms;
+}
+.mobile-menu .menu-item:nth-child(5) {
   animation-delay: 200ms;
 }
-.mobile-menu .menu-item:nth-child(3){
+.mobile-menu .menu-item:nth-child(6) {
+  animation-delay: 250ms;
+}
+.mobile-menu .menu-item:nth-child(7) {
   animation-delay: 300ms;
-}
-.mobile-menu .menu-item:nth-child(4){
-  animation-delay: 400ms;
-}
-.mobile-menu .menu-item:nth-child(5){
-  animation-delay: 500ms;
-}
-.mobile-menu .menu-item:nth-child(6){
-  animation-delay: 600ms;
-  border-bottom: none;
 }
 
 .mobile-menu .menu-item > span {
@@ -192,7 +193,7 @@ input:checked ~ .bubble::after {
     transform: translateY(-100px);
     opacity: 0;
   }
-  to { 
+  to {
     transform: translateY(0);
     opacity: 1;
   }
@@ -200,6 +201,9 @@ input:checked ~ .bubble::after {
 
 @media screen and (min-width: 576px) {
   .bottom-menu {
+    display: none;
+  }
+  .mobile-menu {
     display: none;
   }
   .page-container {

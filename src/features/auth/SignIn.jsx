@@ -10,6 +10,8 @@ import { ACTIONS, SERVER } from "../../data/actions";
 // Imported Icons
 import { FaRegUserCircle } from "react-icons/fa";
 import axios from "../../api/axios";
+import { Button, Checkbox, Form, Input } from "antd";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const SignIn = () => {
   const { setAuth } = useAuth();
@@ -23,6 +25,7 @@ const SignIn = () => {
   const errRef = useRef();
 
   const [user, resetUser, userAttribs] = useInput("user", "");
+  const [userName, setUserName] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [check, toggleCheck] = useToggle("persist", false);
@@ -40,13 +43,12 @@ const SignIn = () => {
     setErrMsg("");
   }, [user, pwd]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       let response = await axios.post(SERVER.USER_SIGNIN, {
         type: ACTIONS.USER_SIGNIN,
         payload: {
-          username: user,
+          username: userName,
           password: pwd,
         },
       });
@@ -79,71 +81,84 @@ const SignIn = () => {
   };
 
   return (
-    <main className=" border-2 border-red-500">
-      <section>
-        <h1 className="p-3">Sign In</h1>
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
-      </section>
-      {success ? (
-        <section className="text-slate-950">
-          <p>You are now logged in!</p>
-          <Link to="/">Go to Home Page</Link>
-        </section>
-      ) : (
-        <form className="flex flex-col p-5 w-[400px]" onSubmit={handleSubmit}>
-          <FaRegUserCircle className="text-[80px] mx-auto" />
-          <label htmlFor="username" className="my-2">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            placeholder="UserName"
-            ref={userRef}
-            autoComplete="off"
-            {...userAttribs}
-            required
-          />
-          <label htmlFor="password" className="my-2">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            onChange={(e) => setPwd(e.target.value)}
-            value={pwd}
-            required
-          />
-          <button type="submit" className="btn btn-yellow mx-auto my-2">
-            Signin
-          </button>
-          <div className="persistCheck">
-            <input
-              type="checkbox"
-              id="persist"
-              onChange={toggleCheck}
-              checked={check}
-            />
-            <label htmlFor="persist" className="ml-2">
-              Trust This Device
-            </label>
-          </div>
-        </form>
-      )}
-      <p className="my-2 mx-3">
-        Create account
-        <Link to="/register" className="btn btn-blue ml-2">
-          Signup
-        </Link>
+    <Form
+      onFinish={handleSubmit}
+      name="normal_login"
+      className="login-form"
+      initialValues={{
+        remember: true,
+      }}
+    >
+      <h1 className="text-center">Sign In</h1>
+      <p
+        ref={errRef}
+        className={errMsg ? "errmsg" : "offscreen"}
+        aria-live="assertive"
+      >
+        {errMsg}
       </p>
-    </main>
+      <label htmlFor="username" className="my-2">
+        Username
+      </label>
+      <Form.Item
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: "Please input your Username!",
+          },
+        ]}
+      >
+        <Input
+          id="username"
+          name="username"
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="Username"
+          autoComplete="off"
+          ref={userRef}
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+      </Form.Item>
+      <label htmlFor="password" className="my-2">
+        Password
+      </label>
+      <Form.Item
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Please input password!",
+          },
+        ]}
+      >
+        <Input
+          id="password"
+          name="password"
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
+        />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit" className="login-form-button">
+          Log in
+        </Button>
+        Or <Link to="/register">register now!</Link>
+      </Form.Item>
+      <Form.Item>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox id="persist" onChange={toggleCheck} checked={check}>
+            Remember me
+          </Checkbox>
+        </Form.Item>
+        <Link className="login-form-forgot" to="/forgotpassword">
+          Forgot password
+        </Link>
+      </Form.Item>
+    </Form>
   );
 };
 

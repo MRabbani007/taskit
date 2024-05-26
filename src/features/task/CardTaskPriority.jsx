@@ -38,7 +38,9 @@ const CardTaskPriority = ({ task }) => {
   };
 
   useEffect(() => {
-    handlePriority();
+    if (task?.priority !== debouncePriority) {
+      handlePriority();
+    }
   }, [debouncePriority]);
 
   return (

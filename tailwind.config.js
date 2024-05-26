@@ -7,4 +7,7 @@ export default {
     extend: {},
   },
   plugins: [flowbite.plugin()],
+  corePlugins: {
+    preflight: false,
+  },
 };

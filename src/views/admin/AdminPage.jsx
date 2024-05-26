@@ -1,10 +1,10 @@
-import AdminTasks from "./admin/AdminTasks";
-import AdminUsers from "./admin/AdminUsers";
+import { Button, Flex } from "antd";
+import AdminUsers from "./AdminUsers";
+import { Link } from "react-router-dom";
 
 const AdminPage = () => {
   return (
     <div className="">
-      <h1>AdminPage</h1>
       <AdminUsers />
       {/* <AdminTasks /> */}
     </div>

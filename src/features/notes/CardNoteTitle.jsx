@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
 import { CiTrash } from "react-icons/ci";
 // Imported Media
 import { BiCheck, BiX } from "react-icons/bi";
 import { AiOutlineSave } from "react-icons/ai";
+import { NotesContext } from "../../context/NotesState";
 
 const CardNoteTitle = ({ note, idx }) => {
-  const { handleNotesUpdate } = useContext(GlobalContext);
+  const { handleNoteUpdate } = useContext(NotesContext);
 
   const [editTitle, setEditTitle] = useState(false);
   const [editDetails, setEditDetails] = useState(false);
@@ -26,7 +26,7 @@ const CardNoteTitle = ({ note, idx }) => {
     e.preventDefault();
     let newNote = note;
     newNote.title = title;
-    handleNotesUpdate(idx, newNote);
+    handleNoteUpdate(idx, newNote);
     setEditTitle(false);
   };
 
@@ -38,7 +38,7 @@ const CardNoteTitle = ({ note, idx }) => {
     e.preventDefault();
     let newNote = note;
     newNote.details = details;
-    handleNotesUpdate(idx, newNote);
+    handleNoteUpdate(idx, newNote);
     setEditDetails(false);
   };
 
@@ -49,13 +49,13 @@ const CardNoteTitle = ({ note, idx }) => {
   const handleDelete = () => {
     let newNote = { ...note };
     newNote.trash = true;
-    handleNotesUpdate(idx, newNote);
+    handleNoteUpdate(idx, newNote);
   };
 
   return (
     <li className="flex flex-col flex-1 max-w-[400px] min-w-[400px] sm:w-full">
       {/* title */}
-      <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full">
+      <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full rounded-t-lg">
         {editTitle ? (
           <form
             onSubmit={handleSubmitTitle}
@@ -69,7 +69,7 @@ const CardNoteTitle = ({ note, idx }) => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-            <span className="flex items-center shrink-0">
+            <span className="flex items-center shrink-0 text-white">
               <button type="submit" title="Save">
                 <BiCheck size={32} />
               </button>
@@ -79,7 +79,7 @@ const CardNoteTitle = ({ note, idx }) => {
             </span>
           </form>
         ) : (
-          <p className="group p-2 flex justify-between items-center flex-1">
+          <p className="group py-2 px-4 flex justify-between items-center flex-1">
             <span className="cursor-pointer" onClick={() => setEditTitle(true)}>
               {note.title}
             </span>
@@ -91,7 +91,7 @@ const CardNoteTitle = ({ note, idx }) => {
           /> */}
             <button
               onClick={handleDelete}
-              title="Delete Note"
+              title="Trash Note"
               className="invisible group-hover:visible"
             >
               <CiTrash size={32} />
@@ -100,10 +100,10 @@ const CardNoteTitle = ({ note, idx }) => {
         )}
       </div>
       {/* Body */}
-      <div className="p-2 w-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans">
+      <div className="p-2 w-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans rounded-b-lg">
         {!editDetails ? (
           <pre
-            className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans"
+            className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans rounded-b-lg"
             onClick={() => {
               setEditDetails(true);
             }}

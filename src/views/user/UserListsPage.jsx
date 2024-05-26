@@ -3,6 +3,9 @@ import { GlobalContext } from "../../context/GlobalState";
 import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
 import CardListName from "../../features/taskList/CardListName";
+import { Link } from "react-router-dom";
+import { Button, Flex, FloatButton } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 const UserListsPage = () => {
   const { listNames } = useContext(GlobalContext);
@@ -10,9 +13,9 @@ const UserListsPage = () => {
 
   return (
     // container
-    <div className="flex-1 min-w-fit w-full">
+    <div className="flex-1 min-w-fit w-full pb-20">
       <h2
-        className="bg-zinc-600 p-3 text-white rounded-lg text-center cursor-pointer relative flex items-center justify-between gap-3"
+        className="bg-gradient-to-r from-zinc-600 to-zinc-400 p-3 text-white rounded-xl text-center cursor-pointer relative flex items-center justify-between gap-3 shadow-md shadow-zinc-500"
         onClick={() => setExpand((prev) => !prev)}
       >
         <span className="flex items-center gap-3">
@@ -20,7 +23,8 @@ const UserListsPage = () => {
           <span>My Lists</span>
         </span>
         <SlArrowRight
-          className={(expand ? "rotate-90 " : "") + "icon-sm duration-300"}
+          size={25}
+          className={(expand ? "rotate-90 " : "") + "duration-300"}
         />
       </h2>
       <ul
@@ -39,6 +43,13 @@ const UserListsPage = () => {
           })}
       </ul>
       {listNames?.length === 0 && "No Lists"}
+      <FloatButton
+        type="primary"
+        tooltip="Create New List"
+        icon={<PlusOutlined />}
+        href="createList"
+        style={{ right: 94 }}
+      ></FloatButton>
     </div>
   );
 };

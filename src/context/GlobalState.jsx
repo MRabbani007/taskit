@@ -20,6 +20,7 @@ const initialState = {
   notes: [],
   trash: [],
   listTasks: [],
+  userTasks: [],
   tags: [],
   taskTags: [],
   todayTasks: [],
@@ -46,6 +47,7 @@ export const GlobalProvider = ({ children }) => {
   const [importantTasks, setImportantTasks] = useState([]);
   const [overdueTasks, setOverdueTasks] = useState([]);
   const [listSummary, setListSummary] = useState([]);
+  const [userTasks, setUserTasks] = useState([]);
 
   // Task list displayed in main container
   const [displayList, setDisplayList] = useState(null);
@@ -147,6 +149,22 @@ export const GlobalProvider = ({ children }) => {
       .then((result) => {
         if (result?.data && Array.isArray(result.data)) {
           dispatch({ type: ACTIONS.GET_TASKS_LIST, payload: result.data });
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {});
+  }
+
+  function handleGetTasksUser(listID) {
+    axiosPrivate
+      .get(SERVER.TASKS_USER, {
+        params: {
+          userName: auth?.user,
+        },
+      })
+      .then((result) => {
+        if (result?.data && Array.isArray(result.data)) {
+          setUserTasks(result.data);
         }
       })
       .catch((err) => console.log(err))
@@ -328,70 +346,11 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const handleNotesGetUser = async () => {
-    let response = await axiosPrivate.get(SERVER.NOTES, {
-      params: {
-        userName: auth?.user,
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.NOTES_GET_USER, payload: response.data });
-    }
-  };
-
-  const handleNotesCreate = async (title = "") => {
-    let newNote = {
-      id: crypto.randomUUID(),
-      title,
-      details: "",
-      priority: "normal",
-      tags: [],
-      trash: false,
-    };
-    dispatch({ type: ACTIONS.NOTES_CREATE, payload: newNote });
-    let response = await axiosPrivate.post(SERVER.NOTES, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_CREATE,
-        payload: { userName: auth?.user, newNote },
-      },
-    });
-  };
-
-  const handleNotesUpdate = async (noteIdx, newNote) => {
-    dispatch({
-      type: ACTIONS.NOTES_UPDATE,
-      payload: { noteIdx, newNote },
-    });
-    let response = await axiosPrivate.patch(SERVER.NOTES, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_UPDATE,
-        payload: {
-          userName: auth?.user,
-          newNote,
-        },
-      },
-    });
-  };
-
-  const handleNotesRemove = async (noteID) => {
-    dispatch({ type: ACTIONS.NOTES_REMOVE, payload: noteID });
-    let response = await axiosPrivate.delete(SERVER.NOTES, {
-      data: {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.NOTES_REMOVE,
-          payload: { userName: auth?.user, noteID },
-        },
-      },
-    });
-  };
-
   // Handle opening new todo List
   function handleOpen(listID) {
     let list = state.listNames.find((list) => list.id === listID);
     setDisplayList(list);
+    navigate(`/tasklist/${listID}`);
   }
 
   useEffect(() => {
@@ -399,7 +358,6 @@ export const GlobalProvider = ({ children }) => {
     if (displayList?.id === "task_list") {
       navigate("/tasks");
     } else {
-      navigate("/tasklist");
     }
   }, [displayList?.id]);
 
@@ -416,8 +374,7 @@ export const GlobalProvider = ({ children }) => {
       handleGetWeekTasks();
       handleGetImportantTasks();
       handleGetOverdueTasks();
-      handleNotesGetUser();
-      handleGetTasks("task_list");
+      handleGetTasksUser();
       handleTagsGetAll();
     }
   }, [auth?.user]);
@@ -427,7 +384,6 @@ export const GlobalProvider = ({ children }) => {
       value={{
         listNames: state.listNames,
         trash: state.trash,
-        notes: state.notes,
         tags: state.tags,
 
         listSummary: listSummary,
@@ -438,6 +394,7 @@ export const GlobalProvider = ({ children }) => {
         weekTasks: weekTasks,
         importantTasks: importantTasks,
         overdueTasks: overdueTasks,
+        userTasks: userTasks,
 
         handleCreateTag,
         handleUpdateTag,
@@ -453,10 +410,6 @@ export const GlobalProvider = ({ children }) => {
         handleAddTask,
         handleUpdateTask,
         handleDeleteTask,
-
-        handleNotesCreate,
-        handleNotesUpdate,
-        handleNotesRemove,
       }}
     >
       {children}
