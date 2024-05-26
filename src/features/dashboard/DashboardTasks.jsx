@@ -1,9 +1,10 @@
+import { Button } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 
 export default function DashboardTasks() {
   return (
-    <article className="w-[300px] min-h-[200px] shadow-md rounded-md shadow-slate-400">
+    <article className="flex-1 min-w-[300px] min-h-[200px] shadow-md rounded-md shadow-slate-400">
       <h2 className="border-b-2 py-2 px-4 bg-gradient-to-r from-sky-800 to-sky-600 text-white rounded-t-md">
         My Tasks
       </h2>
@@ -36,10 +37,17 @@ export default function DashboardTasks() {
           <span>Completed</span>
           <span className="w-12">10</span>
         </p>
-        <p className="shadow-md shadow-slate-400 bg-yellow-400 rounded-md py-1 px-2 mt-2 flex items-center justify-evenly font-semibold">
+        {/* <p className="shadow-md shadow-slate-400 bg-yellow-400 rounded-md py-1 px-2 mt-2 flex items-center justify-evenly font-semibold">
           <span className="w-20">Total</span>
           <span className="w-12">47</span>
-        </p>
+        </p> */}
+        <Button
+          type="primary"
+          title="Open Notes Page"
+          className="w-fit mx-auto"
+        >
+          <Link to="/tasks">Open Tasks</Link>
+        </Button>
       </div>
     </article>
   );

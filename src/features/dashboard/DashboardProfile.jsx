@@ -9,7 +9,7 @@ export default function DashboardProfile() {
   const { auth } = useAuth();
 
   return (
-    <div className="rounded-md shadow-lg shadow-slate-400">
+    <div className="flex-1 min-w-[300px] rounded-md shadow-lg shadow-slate-400">
       <h2 className="py-2 px-4 bg-gradient-to-r from-indigo-800 to-indigo-600 text-white rounded-t-md w-full">
         Profile
       </h2>
@@ -59,7 +59,7 @@ export default function DashboardProfile() {
           </ul>
         </div>
         <div className="flex flex-col gap-3 text-white">
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <article className="bg-green-400 rounded-md p-3 w-48 flex gap-3">
               <MdOutlineNextPlan size={32} />
               <div>
@@ -75,7 +75,7 @@ export default function DashboardProfile() {
               </div>
             </article>
           </div>
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <article className="bg-blue-400 rounded-md p-3 w-48 flex gap-3">
               <TbProgressCheck size={32} />
               <div>

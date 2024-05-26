@@ -24,7 +24,7 @@ const SignIn = () => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [user, resetUser, userAttribs] = useInput("user", "");
+  // const [user, resetUser, userAttribs] = useInput("user", "");
   const [userName, setUserName] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
@@ -41,7 +41,7 @@ const SignIn = () => {
   useEffect(() => {
     // Remove error message on user input
     setErrMsg("");
-  }, [user, pwd]);
+  }, [userName, pwd]);
 
   const handleSubmit = async () => {
     try {
@@ -56,12 +56,13 @@ const SignIn = () => {
       if (response?.data?.status === "success") {
         const accessToken = response?.data?.accessToken;
         const roles = response?.data?.roles;
-        setAuth({ user, roles, accessToken });
-        resetUser();
+        setAuth({ user: userName, roles, accessToken });
+        // resetUser();
+        setUserName("");
         setPwd("");
         setSuccess(true);
-        navigate(from, { replace: true });
-        navigate("/", { state: { username: user } });
+        navigate(from, { replace: true, state: { username: userName } });
+        // navigate("/dashboard", { state: { username: userName } });
       } else {
         alert(response);
       }
@@ -84,12 +85,12 @@ const SignIn = () => {
     <Form
       onFinish={handleSubmit}
       name="normal_login"
-      className="login-form"
+      className="login-form border-2 p-8 rounded-xl shadow-md shadow-blue-500"
       initialValues={{
         remember: true,
       }}
     >
-      <h1 className="text-center">Sign In</h1>
+      <h1 className="text-center text-blue-500 font-thin mb-4">Sign In</h1>
       <p
         ref={errRef}
         className={errMsg ? "errmsg" : "offscreen"}
@@ -143,7 +144,11 @@ const SignIn = () => {
         />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="login-form-button mr-2"
+        >
           Log in
         </Button>
         Or <Link to="/register">register now!</Link>

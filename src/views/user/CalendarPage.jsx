@@ -2,6 +2,7 @@ import { Badge, Calendar, Col, Radio, Row, Select, Typography } from "antd";
 import React from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalState";
+import { IoCalendarOutline } from "react-icons/io5";
 
 // const getListData = (value) => {
 //   let listData;
@@ -150,14 +151,21 @@ export default function CalendarPage() {
   };
 
   return (
-    <div>
-      <h1>Calendar</h1>
-      <Calendar
-        cellRender={cellRender}
-        className="max-w-[1000px]"
-        fullscreen={true}
-        onPanelChange={onPanelChange}
-      ></Calendar>
-    </div>
+    <main>
+      <header className="bg-gradient-to-r from-lime-600 to-lime-400 text-white shadow-md shadow-zinc-500">
+        <div>
+          <IoCalendarOutline size={40} />
+          <h1>Calendar</h1>
+        </div>
+      </header>
+      <div>
+        <Calendar
+          cellRender={cellRender}
+          className="max-w-[1000px]"
+          fullscreen={true}
+          onPanelChange={onPanelChange}
+        ></Calendar>
+      </div>
+    </main>
   );
 }

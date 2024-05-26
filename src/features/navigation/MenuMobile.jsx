@@ -25,12 +25,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
   };
 
   return (
-    <div
-      className={
-        (viewMobileMenu ? "flex" : "hidden") +
-        " flex-col items-center justify-evenly fixed top-[50px] bottom-0 left-0 right-0 mobile-menu"
-      }
-    >
+    <div className={(viewMobileMenu ? "flex" : "hidden") + " mobile-menu"}>
       <button
         title="Home Page"
         className={(isHomePage ? "text-yellow-400" : "") + " menu-item"}

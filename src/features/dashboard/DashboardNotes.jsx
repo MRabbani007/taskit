@@ -6,7 +6,7 @@ export default function DashboardNotes() {
   const notes = [];
 
   return (
-    <article className="w-[300px] min-h-[200px] shadow-md rounded-md shadow-slate-400">
+    <article className="flex-1 min-w-[300px] min-h-[200px] shadow-md rounded-md shadow-slate-400">
       <h2 className="border-b-2 py-2 px-4 bg-gradient-to-r from-yellow-500 to-yellow-300 text-white rounded-t-md">
         Notes
       </h2>

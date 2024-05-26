@@ -103,12 +103,12 @@ const Signup = () => {
       <Form
         onFinish={handleSubmit}
         name="normal_login"
-        className="login-form"
+        className="login-form border-2 p-8 rounded-xl shadow-md shadow-blue-500"
         initialValues={{
           remember: true,
         }}
       >
-        <h1 className="text-center">Sign up</h1>
+        <h1 className="text-center text-blue-500 font-thin mb-4">Sign up</h1>
         <p
           ref={errRef}
           className={errMsg ? "errmsg" : "offscreen"}
@@ -151,7 +151,9 @@ const Signup = () => {
         <p
           id="uidnote"
           className={
-            userFocus && userName && !validName ? "instructions" : "offscreen"
+            userFocus && userName && !validName
+              ? "instructions max-w-[200px]"
+              : "offscreen"
           }
         >
           <CiSquareInfo className="icon" />
@@ -194,7 +196,11 @@ const Signup = () => {
         </Form.Item>
         <p
           id="pwdnote"
-          className={pwdFocus && !validPwd ? "instructions" : "offscreen"}
+          className={
+            pwdFocus && !validPwd
+              ? "instructions max-w-[200px] z-2"
+              : "offscreen"
+          }
         >
           <CiSquareInfo className="icon" />
           8 to 24 characters.
@@ -262,7 +268,7 @@ const Signup = () => {
         </Form.Item>
         <Form.Item>
           Already have an account?
-          <Link to="/login" className="login-form-button">
+          <Link to="/login" className="login-form-button ml-2">
             Sign In
           </Link>
         </Form.Item>

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
 import { useNavigate, useParams } from "react-router-dom";
 import ListIcon from "../../features/taskList/ListIcon";
-import ListTitle from "../../features/taskList/ListTitle";
+import ListTitleEdit from "../../features/taskList/ListTitleEdit";
 import { CiCircleRemove } from "react-icons/ci";
 import CardTaskBlock from "../../features/task/CardTaskBlock";
 import CardAddTask from "../../features/taskList/CardAddTask";
@@ -18,6 +18,8 @@ export default function TaskListPage() {
 
   const navigate = useNavigate();
 
+  const [edit, setEdit] = useState(false);
+
   useEffect(() => {
     if (!displayList?.id) {
       navigate("/mylists");
@@ -27,18 +29,21 @@ export default function TaskListPage() {
   useEffect(() => {}, [tasks]);
 
   return (
-    <div className="flex-1">
+    <main>
       {/* List Name */}
-      <h2 className="flex justify-between items-center rounded-xl px-4 py-3 text-xl font-normal bg-gradient-to-r from-blue-800 to-blue-600 text-white icon-cont shadow-md shadow-zinc-500">
-        <ListIcon list={displayList} />
-        <ListTitle list={displayList} />
-        <button
-          onClick={() => handleClose(displayList?.id)}
-          className="ml-auto"
-        >
+      <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white shadow-md shadow-zinc-500">
+        <div>
+          <ListIcon list={displayList} />
+          {!edit ? (
+            <h1>{displayList?.title}</h1>
+          ) : (
+            <ListTitleEdit list={displayList} setEdit={setEdit} />
+          )}
+        </div>
+        <button onClick={() => handleClose(displayList?.id)}>
           <CiCircleRemove size={32} />
         </button>
-      </h2>
+      </header>
       {/* List Todo Items */}
       <div className="flex flex-col flex-1 gap-3 items-center justify-center py-3 md:px-3 px-0">
         {/* Add new todo Item */}
@@ -52,6 +57,6 @@ export default function TaskListPage() {
             })}
         </ul>
       </div>
-    </div>
+    </main>
   );
 }

@@ -22,7 +22,6 @@ import MissingPage from "./views/MissingPage";
 import Unauthorized from "./views/auth/Unauthorized";
 import NotesPage from "./views/user/NotesPage";
 import TasksPage from "./views/user/TasksPage";
-import CreateList from "./features/createTaskList/CreateList";
 import UserListsPage from "./views/user/UserListsPage";
 import TasksTodayPage from "./views/user/TasksTodayPage";
 import TasksWeekPage from "./views/user/TasksWeekPage";
@@ -38,6 +37,7 @@ import AdminUsers from "./views/admin/AdminUsers";
 import LayoutAdmin from "./features/layout/LayoutAdmin";
 import DashboardPage from "./views/user/DashboardPage";
 import CalendarPage from "./views/user/CalendarPage";
+import CreateListPage from "./views/user/CreateListPage";
 
 const ROLES = {
   User: 2001,
@@ -53,6 +53,7 @@ function App() {
             <Route element={<PersistLogin />}>
               <Route path="/" element={<Layout />}>
                 {/* Pages visible to all */}
+                <Route index element={<HomePage />} />
                 <Route path="login" element={<SigninPage />} />
                 <Route path="register" element={<SignupPage />} />
                 <Route path="forgotpassword" element={<ForgotPasswordPage />} />
@@ -64,7 +65,6 @@ function App() {
                     <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
                   }
                 >
-                  <Route index element={<HomePage />} />
                   <Route path="dashboard" element={<DashboardPage />} />
                   <Route path="calendar" element={<CalendarPage />} />
                   <Route path="mylists" element={<UserListsPage />} />
@@ -72,7 +72,7 @@ function App() {
                   <Route path="tasks" element={<TasksPage />} />
                   <Route path="journal" element={<JournalPage />} />
                   <Route path="notes" element={<NotesPage />} />
-                  <Route path="createList" element={<CreateList />} />
+                  <Route path="createList" element={<CreateListPage />} />
                   <Route path="settings" element={<SettingsPage />} />
                   <Route path="changePWD" element={<ChangePassword />} />
                   <Route path="tasks/today" element={<TasksTodayPage />} />

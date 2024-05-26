@@ -104,10 +104,7 @@ const AdminUsers = () => {
           <tr>
             <th>UserID</th>
             <th>Username</th>
-            <th>Email</th>
-            <th>Name</th>
             <th>roles</th>
-            <th>Date Created</th>
             <th>Active</th>
           </tr>
         </thead>
@@ -118,8 +115,6 @@ const AdminUsers = () => {
                 <tr key={index} className="">
                   <td>{user?.id}</td>
                   <td>{user?.username}</td>
-                  <td>{user?.email}</td>
-                  <td>{user?.name}</td>
                   <td
                     onClick={() => {
                       handleSetEdit(index);
@@ -127,7 +122,6 @@ const AdminUsers = () => {
                   >
                     {JSON.stringify(Object.values(user?.roles))}
                   </td>
-                  <td>{user?.createDate}</td>
                   <td>{user?.active}</td>
                 </tr>
               );

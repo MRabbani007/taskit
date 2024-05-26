@@ -9,24 +9,24 @@ const TasksPage = () => {
   const { userTasks: tasks } = useContext(GlobalContext);
 
   return (
-    <div className="flex-1">
-      <h2 className="bg-gradient-to-r from-sky-800 to-sky-600 p-3 text-white rounded-xl text-center flex items-center gap-3 shadow-md shadow-zinc-500">
-        <BsCardList className="icon" />
-        <span className="whitespace-nowrap">My Tasks</span>
-      </h2>
-      <div
-        className={"flex flex-col flex-1 gap-3 items-center justify-center p-3"}
-      >
+    <main>
+      <header className="bg-gradient-to-r from-sky-800 to-sky-600 text-white shadow-md shadow-zinc-500">
+        <div>
+          <BsCardList size={40} />
+          <h1>My Tasks</h1>
+        </div>
+      </header>
+      <div>
         <CardAddTask listID={"task_list"} />
-        <div className="flex flex-col gap-1">
+        <ul className="flex flex-col w-full flex-1 gap-1">
           {Array.isArray(tasks) &&
             tasks.map((task) => {
               return <CardTaskBlock task={task} key={task?.id} />;
             })}
-        </div>
+        </ul>
       </div>
       <SidebarUserTasks />
-    </div>
+    </main>
   );
 };
 

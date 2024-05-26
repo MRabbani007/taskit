@@ -13,11 +13,9 @@ const Layout = () => {
     <>
       <Navbar />
       <div className="page-container">
-        <div className="flex justify-center items-start flex-1">
-          <Suspense fallback={<SkeletonContentPage />}>
-            <Outlet />
-          </Suspense>
-        </div>
+        <Suspense fallback={<SkeletonContentPage />}>
+          <Outlet />
+        </Suspense>
       </div>
       <RadioMenu />
     </>
