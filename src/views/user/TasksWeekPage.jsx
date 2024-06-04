@@ -25,7 +25,7 @@ const TasksWeekPage = () => {
         </Timeline>
         {weekTasks?.length === 0 ? <p>No tasks for this week</p> : null}
       </div>
-      <SidebarUserTasks />
+      {/* <SidebarUserTasks /> */}
     </main>
   );
 };

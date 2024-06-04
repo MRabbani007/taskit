@@ -4,15 +4,16 @@ import { IMAGES_Icons } from "../../data/templates";
 // Imported Media
 import { GlobalContext } from "../../context/GlobalState";
 import { CiEdit, CiTrash } from "react-icons/ci";
-import { BiCheck, BiX } from "react-icons/bi";
+import { BsPinAngle } from "react-icons/bs";
+import ListTitleEdit from "./ListTitleEdit";
 
 const CardListName = ({ taskList }) => {
-  const { handleUpdateList, handleOpen, listSummary } =
-    useContext(GlobalContext);
+  const { handleOpen, listSummary } = useContext(GlobalContext);
 
   const [edit, setEdit] = useState(false);
-  const [editInput, setEditInput] = useState(taskList?.title || "");
   const [summary, setSummary] = useState({});
+
+  const [pinned, setPinned] = useState(false);
 
   useEffect(() => {
     let temp = {};
@@ -24,16 +25,6 @@ const CardListName = ({ taskList }) => {
     }
   }, [listSummary]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleUpdateList(taskList.id, "list_title", editInput);
-    setEdit(false);
-  };
-
-  const handleReset = () => {
-    setEdit(false);
-  };
-
   const handleTrash = () => {
     handleUpdateList(taskList.id, "trash", true);
   };
@@ -41,33 +32,28 @@ const CardListName = ({ taskList }) => {
   return (
     <li
       key={taskList?.id}
-      className="flex items-center py-1 px-3 shadow-sm shadow-slate-600 rounded-md"
+      className="flex items-stretch py-1 pr-4 shadow-sm shadow-slate-600 rounded-md"
     >
+      <div
+        className={
+          (pinned ? "w-[60px]" : "w-[20px] hover:w-[60px]") +
+          " duration-200 group cursor-pointer flex items-center justify-center"
+        }
+      >
+        <button
+          title="Pin List"
+          onClick={() => setPinned((curr) => !curr)}
+          className={pinned ? "" : "hidden group-hover:inline-block"}
+        >
+          <BsPinAngle size={28} />
+        </button>
+      </div>
       <div className="flex items-center justify-between gap-3 flex-1 group">
         <img src={IMAGES_Icons + taskList?.icon} className="icon-lg mr-2" />
         <div className="flex-1">
           {/* Edit List Title */}
           {edit ? (
-            <form
-              onSubmit={handleSubmit}
-              onReset={handleReset}
-              className="flex items-center"
-            >
-              <input
-                type="text"
-                className="w-[150px] h-auto p-0 text-slate-950 font-normal"
-                value={editInput}
-                onChange={(e) => {
-                  setEditInput(e.target.value);
-                }}
-              />
-              <button type="submit" title="Save">
-                <BiCheck size={32} />
-              </button>
-              <button type="reset" title="Cancel">
-                <BiX size={32} />
-              </button>
-            </form>
+            <ListTitleEdit list={taskList} setEdit={setEdit} />
           ) : (
             <p
               className="text-lg font-bold text-slate-800 px-0 cursor-pointer"

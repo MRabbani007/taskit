@@ -28,7 +28,7 @@ const TasksOverduePage = () => {
         </Timeline>
         {overdueTasks?.length === 0 ? <p>No overdue tasks</p> : null}
       </div>
-      <SidebarUserTasks />
+      {/* <SidebarUserTasks /> */}
     </main>
   );
 };

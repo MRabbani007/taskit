@@ -99,7 +99,7 @@ const CardTaskBlock = ({ task }) => {
                   onClick={() => setEditDueDate(true)}
                   className="p-0 m-0 font-light italic"
                 >
-                  {task?.dueDate.substr(0, 10)}
+                  {task?.dueDate ? task.dueDate.substr(0, 10) : "Set Due Date"}
                 </button>
               )}
             </div>

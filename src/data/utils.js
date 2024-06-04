@@ -26,6 +26,18 @@ export const genDate = (offset = 0) => {
   };
 };
 
+export const genDateString = (offset = 0) => {
+  let date = new Date();
+  date.setDate(date.getDate() + offset);
+  return (
+    weekdayShort[date.getDay()] +
+    ", " +
+    date.getDate() +
+    " " +
+    monthShort[date.getMonth()]
+  );
+};
+
 const weekday = [
   "Sunday",
   "Monday",

@@ -24,7 +24,7 @@ const TasksImportantPage = () => {
         </Timeline>
         {importantTasks?.length === 0 ? <p>No tasks marked important</p> : null}
       </div>
-      <SidebarUserTasks />
+      {/* <SidebarUserTasks /> */}
     </main>
   );
 };

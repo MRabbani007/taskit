@@ -1,55 +1,69 @@
-import { useState } from "react";
-import { FaCircle } from "react-icons/fa";
-import { IoCheckmarkOutline, IoCloseOutline } from "react-icons/io5";
+import { useContext, useState } from "react";
+import { CiTrash } from "react-icons/ci";
+import CardNoteEditTitle from "./CardNoteEditTitle";
+import CardNoteEditDetails from "./CardNoteEditDetails";
+import { NotesContext } from "../../context/NotesState";
 
-const CardNote = ({ note }) => {
-  let color = "";
-  if (note.priority === "high") {
-    color = "bg-red-400";
-  } else if (note.priority === "normal") {
-    color = "bg-yellow-300";
-  } else if (note.priority === "low") {
-    color = "bg-green-300";
-  }
+export default function CardNote({ note, idx }) {
+  const { handleNoteUpdate } = useContext(NotesContext);
 
-  const [edit, setEdit] = useState(false);
-  const [content, setContent] = useState(note?.text || "");
+  const [editTitle, setEditTitle] = useState(false);
+  const [editDetails, setEditDetails] = useState(false);
+
+  const handleDelete = () => {
+    handleNoteUpdate(idx, { ...note, trash: true });
+  };
 
   return (
-    <div className="max-w-[400px]">
-      <h2 className={color + " p-2 flex justify-between"}>
-        <span>{note?.title}</span>
-        <span>
-          <IoCheckmarkOutline
-            className="icon-md"
-            onClick={() => setEdit(false)}
+    <li className="flex flex-col flex-1 max-w-[600px] min-w-[200px] w-full">
+      {/* title */}
+      <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full rounded-t-lg">
+        {editTitle ? (
+          <CardNoteEditTitle
+            note={note}
+            setEditTitle={setEditTitle}
+            idx={idx}
           />
-          <IoCloseOutline className="icon-md" />
-        </span>
-      </h2>
-      {!edit ? (
-        <p
-          className="p-2 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer"
-          onClick={() => {
-            setEdit(true);
-          }}
-        >
-          {/* <FaCircle className={color + " icon-sm mr-2"} /> */}
-          {content}
-        </p>
-      ) : (
-        <textarea
-          name=""
-          id=""
-          cols="30"
-          rows="4"
-          className="outline-none border-0 bg-yellow-200 p-2 border-red-700"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
-      )}
-    </div>
+        ) : (
+          <p className="group py-2 px-4 flex justify-between items-center flex-1">
+            <span className="cursor-pointer" onClick={() => setEditTitle(true)}>
+              {note?.title}
+            </span>
+            {/* <img
+            src={IMG_Edit}
+            alt="Edit"
+            title="Edit"
+            className="icon-md mr-1 cursor-pointer"
+          /> */}
+            <button
+              onClick={handleDelete}
+              title="Trash Note"
+              className="invisible group-hover:visible"
+            >
+              <CiTrash size={32} />
+            </button>
+          </p>
+        )}
+      </div>
+      {/* Body */}
+      <div className="p-2 w-full h-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans rounded-b-lg">
+        {!editDetails ? (
+          <pre
+            className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans rounded-b-lg"
+            onClick={() => {
+              setEditDetails(true);
+            }}
+          >
+            {note?.details}
+          </pre>
+        ) : (
+          <CardNoteEditDetails
+            note={note}
+            setEditDetails={setEditDetails}
+            idx={idx}
+          />
+        )}
+      </div>
+    </li>
   );
-};
-
-export default CardNote;
+}

@@ -25,7 +25,7 @@ const TasksTodayPage = () => {
         </Timeline>
         {todayTasks?.length === 0 ? <p>No tasks assigned for today</p> : null}
       </div>
-      <SidebarUserTasks />
+      {/* <SidebarUserTasks /> */}
     </main>
   );
 };

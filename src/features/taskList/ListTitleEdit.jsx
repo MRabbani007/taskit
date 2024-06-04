@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { BiPlus, BiX } from "react-icons/bi";
+import { BiCheck, BiPlus, BiX } from "react-icons/bi";
 import { GlobalContext } from "../../context/GlobalState";
 
 export default function ListTitleEdit({ list, setEdit }) {
@@ -18,15 +18,20 @@ export default function ListTitleEdit({ list, setEdit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} onReset={handleReset}>
+    <form
+      onSubmit={handleSubmit}
+      onReset={handleReset}
+      className="flex items-center"
+    >
       <input
         type="text"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        className="outline-none border-none p-0 m-0 bg-transparent"
       />
       <button type="submit" title="Save">
-        <BiPlus size={32} />
+        <BiCheck size={32} />
       </button>
       <button type="reset" title="Cancel">
         <BiX size={32} />

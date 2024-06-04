@@ -21,13 +21,13 @@ export default function DashboardLists() {
           35 tasks
         </span>
       </div>
-      <ul className="flex flex-wrap p-2 justify-center gap-1 pb-2">
+      <ul className="flex flex-wrap p-2 justify-center gap-1 pb-2 max-h-[300px] overflow-y-scroll">
         {listNames.slice(0, 8).map((list, index) => {
           return (
             <li
               key={index}
               title={list?.title}
-              className="flex-1 min-w-fit bg-slate-300 hover:bg-slate-200 rounded-md p-2 flex items-center gap-2 overflow-hidden cursor-pointer duration-200"
+              className="w-full bg-slate-300 hover:bg-slate-200 rounded-md p-2 flex items-center gap-2 overflow-hidden cursor-pointer duration-200"
               onClick={() => handleOpen(list?.id)}
             >
               <img
@@ -35,7 +35,7 @@ export default function DashboardLists() {
                 alt="icon"
                 className="icon-md"
               />
-              <span className="whitespace-nowrap text-ellipsis">
+              <span className="whitespace-nowrap text-ellipsis flex-1">
                 {list?.title}
               </span>
             </li>

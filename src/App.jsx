@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 // Imported Styles
 import "./styles/styles.css";
-import "./styles/main.css";
+import "./styles/sass/main.css";
 import "./styles/preflight.css";
 // Imported Context
 import { AuthProvider } from "./context/AuthProvider";
@@ -38,6 +38,7 @@ import LayoutAdmin from "./features/layout/LayoutAdmin";
 import DashboardPage from "./views/user/DashboardPage";
 import CalendarPage from "./views/user/CalendarPage";
 import CreateListPage from "./views/user/CreateListPage";
+import { NotesProvider } from "./context/NotesState";
 
 const ROLES = {
   User: 2001,
@@ -49,56 +50,64 @@ function App() {
     <AuthProvider>
       <UserProvider>
         <GlobalProvider>
-          <Routes>
-            <Route element={<PersistLogin />}>
-              <Route path="/" element={<Layout />}>
-                {/* Pages visible to all */}
-                <Route index element={<HomePage />} />
-                <Route path="login" element={<SigninPage />} />
-                <Route path="register" element={<SignupPage />} />
-                <Route path="forgotpassword" element={<ForgotPasswordPage />} />
-                <Route path="unauthorized" element={<Unauthorized />} />
-
-                {/* Pages available to users */}
-                <Route
-                  element={
-                    <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
-                  }
-                >
-                  <Route path="dashboard" element={<DashboardPage />} />
-                  <Route path="calendar" element={<CalendarPage />} />
-                  <Route path="mylists" element={<UserListsPage />} />
-                  <Route path="taskList?/:id" element={<TaskListPage />} />
-                  <Route path="tasks" element={<TasksPage />} />
-                  <Route path="journal" element={<JournalPage />} />
-                  <Route path="notes" element={<NotesPage />} />
-                  <Route path="createList" element={<CreateListPage />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                  <Route path="changePWD" element={<ChangePassword />} />
-                  <Route path="tasks/today" element={<TasksTodayPage />} />
-                  <Route path="tasks/week" element={<TasksWeekPage />} />
+          <NotesProvider>
+            <Routes>
+              <Route element={<PersistLogin />}>
+                <Route path="/" element={<Layout />}>
+                  {/* Pages visible to all */}
+                  <Route index element={<HomePage />} />
+                  <Route path="login" element={<SigninPage />} />
+                  <Route path="register" element={<SignupPage />} />
                   <Route
-                    path="tasks/important"
-                    element={<TasksImportantPage />}
+                    path="forgotpassword"
+                    element={<ForgotPasswordPage />}
                   />
-                  <Route path="tasks/overdue" element={<TasksOverduePage />} />
-                </Route>
+                  <Route path="unauthorized" element={<Unauthorized />} />
 
-                {/* Admin page available to admin */}
-                <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                  <Route path="admin" element={<LayoutAdmin />}>
-                    <Route index element={<AdminPage />} />
-                    <Route path="tasks" element={<AdminTasks />} />
-                    <Route path="notes" element={<AdminNotes />} />
-                    <Route path="lists" element={<AdminLists />} />
-                    <Route path="users" element={<AdminUsers />} />
+                  {/* Pages available to users */}
+                  <Route
+                    element={
+                      <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
+                    }
+                  >
+                    <Route path="dashboard" element={<DashboardPage />} />
+                    <Route path="calendar" element={<CalendarPage />} />
+                    <Route path="mylists" element={<UserListsPage />} />
+                    <Route path="taskList?/:id" element={<TaskListPage />} />
+                    <Route path="tasks" element={<TasksPage />} />
+                    <Route path="journal" element={<JournalPage />} />
+                    <Route path="notes" element={<NotesPage />} />
+                    <Route path="createList" element={<CreateListPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
+                    <Route path="changePWD" element={<ChangePassword />} />
+                    <Route path="tasks/today" element={<TasksTodayPage />} />
+                    <Route path="tasks/week" element={<TasksWeekPage />} />
+                    <Route
+                      path="tasks/important"
+                      element={<TasksImportantPage />}
+                    />
+                    <Route
+                      path="tasks/overdue"
+                      element={<TasksOverduePage />}
+                    />
+                  </Route>
+
+                  {/* Admin page available to admin */}
+                  <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+                    <Route path="admin" element={<LayoutAdmin />}>
+                      <Route index element={<AdminPage />} />
+                      <Route path="tasks" element={<AdminTasks />} />
+                      <Route path="notes" element={<AdminNotes />} />
+                      <Route path="lists" element={<AdminLists />} />
+                      <Route path="users" element={<AdminUsers />} />
+                    </Route>
                   </Route>
                 </Route>
+                {/* catch all */}
+                <Route path="*" element={<MissingPage />} />
               </Route>
-              {/* catch all */}
-              <Route path="*" element={<MissingPage />} />
-            </Route>
-          </Routes>
+            </Routes>
+          </NotesProvider>
         </GlobalProvider>
       </UserProvider>
     </AuthProvider>

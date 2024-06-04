@@ -14,7 +14,7 @@ const SectionTrash = () => {
 
   return (
     // container
-    <div>
+    <div className="w-full">
       <h2
         className="bg-zinc-400 p-3 text-white rounded-lg text-center cursor-pointer relative flex items-center gap-3"
         onClick={() => setExpand((prev) => !prev)}
@@ -33,7 +33,7 @@ const SectionTrash = () => {
           (expand
             ? "translate-y-[0] opacity-100 "
             : "translate-y-[-20px] opacity-0 h-0") +
-          " p-3 duration-300 flex flex-col gap-2"
+          " p-3 duration-300 flex flex-col gap-2 w-full"
         }
       >
         {Array.isArray(trash) &&

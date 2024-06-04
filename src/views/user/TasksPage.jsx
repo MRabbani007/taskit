@@ -4,6 +4,8 @@ import { BsCardList } from "react-icons/bs";
 import CardAddTask from "../../features/taskList/CardAddTask";
 import CardTaskBlock from "../../features/task/CardTaskBlock";
 import SidebarUserTasks from "../../features/navigation/SidebarUserTasks";
+import TaskFilter from "../../features/task/TaskFilter";
+import TaskSort from "../../features/task/TaskSort";
 
 const TasksPage = () => {
   const { userTasks: tasks } = useContext(GlobalContext);
@@ -18,6 +20,8 @@ const TasksPage = () => {
       </header>
       <div>
         <CardAddTask listID={"task_list"} />
+        <TaskFilter />
+        <TaskSort />
         <ul className="flex flex-col w-full flex-1 gap-1">
           {Array.isArray(tasks) &&
             tasks.map((task) => {
@@ -25,7 +29,7 @@ const TasksPage = () => {
             })}
         </ul>
       </div>
-      <SidebarUserTasks />
+      {/* <SidebarUserTasks /> */}
     </main>
   );
 };

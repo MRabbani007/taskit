@@ -1,32 +1,20 @@
-.page-container {
-  width: 100%;
-  gap: 1rem;
-  // padding-top: calc(var(--navbar-height) + 20px);
-  padding-top: 1rem;
-  padding-bottom: 20px; // calc(var(--navbar-height) + 40px);
-  padding-left: 1rem;
-  padding-right: 1rem;
-  min-height: 60vh;
-}
-
 main {
   display: flex;
   flex-direction: column;
-  align-items: start;
-  justify-content: center;
-  min-width: fit-content;
-  max-width: 1000px;
+  align-items: flex-start;
+  justify-content: flex-start;
   width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  height: 100%;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
   padding-bottom: 80px;
 }
 
 main > div {
   @include flexColStart;
   width: 100%;
-  max-width: 1000px;
-  padding: 0.75rem;
+  padding: 1rem 0;
   gap: 0.5rem;
 }
 
@@ -213,12 +201,13 @@ input:checked ~ .bubble::after {
   color: white;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: fixed;
   top: 50px;
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 50;
 }
 
 .mobile-menu .menu-item {
