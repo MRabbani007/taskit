@@ -186,7 +186,7 @@ const Sidebar = () => {
   const username = {
     key: "user",
     label: auth?.user ? auth.user : "Login",
-    style: { height: "fit-content" },
+    style: { paddingTop: "1rem", paddingBottom: "1rem" },
     icon: <FaRegCircleUser size={32} />,
   };
 
@@ -203,6 +203,7 @@ const Sidebar = () => {
         defaultOpenKeys={["grp_pages"]}
         mode="inline"
         items={menuItems}
+        className="bg-zinc-100"
       />
       {/* <nav className="hidden">
         <div className={"flex flex-col items-start gap-3 h-full"}>

@@ -9,10 +9,10 @@ import { BsCardList } from "react-icons/bs";
 export default function DashboardPage() {
   return (
     <main>
-      <header className="bg-gradient-to-tr from-yellow-900 to-yellow-700 text-white shadow-md shadow-zinc-500">
+      <header className="border-b-[1px] bg-zinc-100 border-blue-600 text-blue-600">
         <div>
           <BsCardList size={40} />
-          <h1>Dashboard</h1>
+          <h1 className="font-light">Dashboard</h1>
         </div>
       </header>
       <div>

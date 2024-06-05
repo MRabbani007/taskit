@@ -11,6 +11,7 @@ import {
   IoCalendarOutline,
   IoHomeOutline,
   IoListOutline,
+  IoLogOutOutline,
   IoSettingsOutline,
 } from "react-icons/io5";
 import { RiAdminLine } from "react-icons/ri";
@@ -20,10 +21,76 @@ import { BsCardList, BsJournalText } from "react-icons/bs";
 import { IoIosMenu } from "react-icons/io";
 import MenuMobile from "../navigation/MenuMobile";
 import UserMenu from "../navigation/UserMenu";
+import Logo from "../../assets/todo.svg";
+import { Menu } from "antd";
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import { AiOutlineUser } from "react-icons/ai";
+import { FaRegCircleUser } from "react-icons/fa6";
+
+const items = [
+  {
+    label: (
+      <Link to="/" title="Home Page" className="flex items-center gap-1">
+        <img src={Logo} alt="Logo" className="w-12" />
+        Todo
+      </Link>
+    ),
+    key: "navbar_home",
+  },
+  {
+    label: (
+      <div className="flex items-center gap-1">
+        <AiOutlineUser size={28} />
+        User
+      </div>
+    ),
+    key: "navbar_user",
+    style: { marginLeft: "auto" },
+    children: [
+      {
+        key: "navbar_user_1",
+        label: (
+          <Link to={"/settings"} className="flex items-center gap-1">
+            <FaRegCircleUser size={28} />
+            Profile
+          </Link>
+        ),
+      },
+      {
+        key: "navbar_user_2",
+        label: (
+          <Link to={"/settings"} className="flex items-center gap-1">
+            <IoSettingsOutline size={28} />
+            Settings
+          </Link>
+        ),
+      },
+      {
+        key: "navbar_user_3",
+        label: (
+          <Link to={"/logout"} className="flex items-center gap-1">
+            <IoLogOutOutline size={28} />
+            Sign Out
+          </Link>
+        ),
+      },
+    ],
+  },
+];
 
 const Navbar = () => {
   const { auth } = useAuth();
   const [viewMobileMenu, setViewMobileMenu] = useState(false);
+
+  const [current, setCurrent] = useState("mail");
+  const onClick = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
 
   const location = useLocation();
 
@@ -37,8 +104,15 @@ const Navbar = () => {
 
   return (
     <>
+      <Menu
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+        className="bg-zinc-200 py-2"
+      />
       <menu
-        className="menu_bar sm:py-4 py-2 px-8 w-full bg-gradient-to-br from-black to-zinc-600 text-white"
+        className="hidden sm:py-4 py-2 px-8 w-full bg-gradient-to-br from-black to-zinc-600 text-white"
         id="menu_bar"
       >
         <div className="flex flex-row justify-between max-w-[1000px] mx-auto">
@@ -62,7 +136,8 @@ const Navbar = () => {
               title="Home Page"
               className={isHomePage ? "text-yellow-400" : ""}
             >
-              <IoHomeOutline size={32} />
+              <img src={Logo} alt="Logo" className="icon-lg" />
+              {/* <IoHomeOutline size={32} /> */}
             </Link>
             {auth?.user ? (
               <>

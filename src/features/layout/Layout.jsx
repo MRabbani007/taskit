@@ -12,7 +12,7 @@ const Layout = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="flex gap-2 items-stretch justify-start">
         <Sidebar />
         <Suspense fallback={<SkeletonContentPage />}>
