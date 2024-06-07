@@ -47,8 +47,7 @@ export default function CardFilterDueDate() {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <h3>Due Date</h3>
+    <div className="flex flex-col">
       <Radio.Group onChange={onChange} value={value}>
         <Radio value={1}>From</Radio>
         <Radio value={2}>To</Radio>

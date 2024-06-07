@@ -6,26 +6,26 @@ import { getDate } from "../../data/utils";
 const CreateJournal = () => {
   const { handleJournalCreate } = useContext(JournalContext);
 
-  const [input, setInput] = useState("");
+  const [title, setTitle] = useState("");
+  const [detail, setDetail] = useState("");
   const [date, setDate] = useState(getDate());
   const [time, setTime] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input === "") {
+    if (title === "" && detail === "") {
       return;
     } else {
       const journal = {
         id: crypto.randomUUID(),
-        title: input,
-        detail: "",
+        title,
+        detail,
         onDate: date,
         planDate: date,
         timeFrom: "",
         timeTo: "",
       };
-      handleJournalCreate(journal);
-      setInput("");
+      await handleJournalCreate(journal);
     }
   };
 
@@ -35,25 +35,48 @@ const CreateJournal = () => {
       className="w-full flex flex-1 flex-wrap items-center justify-center gap-2"
       name={"create_journal"}
     >
-      <input
-        type="text"
-        className="max-w-[90%] flex-1 text-lg border-2"
-        value={input}
-        placeholder="Activity, Event..."
-        onChange={(e) => {
-          setInput(e.target.value);
-        }}
-      />
+      <div className="field">
+        <label htmlFor="journal_title" className="field__label">
+          Title
+        </label>
+        <input
+          id="journal_title"
+          name="journal_title"
+          placeholder="Title"
+          type="text"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+          className="field__input"
+        />
+      </div>
+      <div className="field">
+        <label htmlFor="journal_detail" className="field__label">
+          Activity
+        </label>
+        <input
+          id="journal_detail"
+          name="journal_detail"
+          placeholder="Activity, Event..."
+          type="text"
+          value={detail}
+          onChange={(e) => {
+            setDetail(e.target.value);
+          }}
+          className="field__input"
+        />
+      </div>
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
       />
-      <input
+      {/* <input
         type="time"
         value={time}
         onChange={(e) => setTime(e.target.value)}
-      />
+      /> */}
       <button
         className="bg-yellow-300 rounded-full w-12 h-12 m-0 p-0"
         type="submit"

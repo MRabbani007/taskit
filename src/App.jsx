@@ -39,6 +39,13 @@ import DashboardPage from "./views/user/DashboardPage";
 import CalendarPage from "./views/user/CalendarPage";
 import CreateListPage from "./views/user/CreateListPage";
 import { NotesProvider } from "./context/NotesState";
+import SignoutPage from "./views/auth/SignoutPage";
+import TeamsPage from "./views/user/TeamsPage";
+import ActivitiesPage from "./views/user/activities/ActivitiesPage";
+import ActivityDetailsPage from "./views/user/activities/ActivityDetailsPage";
+import CreateActivityPage from "./views/user/activities/CreateActivityPage";
+import { ActivityProvider } from "./context/ActivityState";
+import LayoutActivities from "./features/layout/LayoutActivities";
 
 const ROLES = {
   User: 2001,
@@ -70,26 +77,37 @@ function App() {
                       <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
                     }
                   >
+                    <Route path="logout" element={<SignoutPage />} />
                     <Route path="dashboard" element={<DashboardPage />} />
+                    <Route path="mylists">
+                      <Route index element={<UserListsPage />} />
+                      <Route path="createList" element={<CreateListPage />} />
+                      <Route path="taskList?/:id" element={<TaskListPage />} />
+                    </Route>
+                    <Route path="activities" element={<LayoutActivities />}>
+                      <Route index element={<ActivitiesPage />} />
+                      <Route path="create" element={<CreateActivityPage />} />
+                      <Route
+                        path="activity/:id?"
+                        element={<ActivityDetailsPage />}
+                      />
+                    </Route>
+                    <Route path="tasks">
+                      <Route index element={<TasksPage />} />
+                      <Route path="today" element={<TasksTodayPage />} />
+                      <Route path="week" element={<TasksWeekPage />} />
+                      <Route
+                        path="important"
+                        element={<TasksImportantPage />}
+                      />
+                      <Route path="overdue" element={<TasksOverduePage />} />
+                    </Route>
+                    <Route path="teams" element={<TeamsPage />} />
                     <Route path="calendar" element={<CalendarPage />} />
-                    <Route path="mylists" element={<UserListsPage />} />
-                    <Route path="taskList?/:id" element={<TaskListPage />} />
-                    <Route path="tasks" element={<TasksPage />} />
                     <Route path="journal" element={<JournalPage />} />
                     <Route path="notes" element={<NotesPage />} />
-                    <Route path="createList" element={<CreateListPage />} />
                     <Route path="settings" element={<SettingsPage />} />
                     <Route path="changePWD" element={<ChangePassword />} />
-                    <Route path="tasks/today" element={<TasksTodayPage />} />
-                    <Route path="tasks/week" element={<TasksWeekPage />} />
-                    <Route
-                      path="tasks/important"
-                      element={<TasksImportantPage />}
-                    />
-                    <Route
-                      path="tasks/overdue"
-                      element={<TasksOverduePage />}
-                    />
                   </Route>
 
                   {/* Admin page available to admin */}
@@ -102,9 +120,10 @@ function App() {
                       <Route path="users" element={<AdminUsers />} />
                     </Route>
                   </Route>
+
+                  {/* catch all */}
+                  <Route path="*" element={<MissingPage />} />
                 </Route>
-                {/* catch all */}
-                <Route path="*" element={<MissingPage />} />
               </Route>
             </Routes>
           </NotesProvider>

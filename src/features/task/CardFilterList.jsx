@@ -2,7 +2,7 @@ import { DatePicker, Radio, Select, Space } from "antd";
 import React, { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
 
-export default function CardFilterList() {
+export default function CardFilterList({ setInLists }) {
   const { listNames } = useContext(GlobalContext);
   const lists = listNames.map((item) => {
     return { label: item.title, value: item.id, desc: item.title };
@@ -10,7 +10,9 @@ export default function CardFilterList() {
   const options = lists; //[{ label: "All", value: "all", desc: "All Lists" }, ...lists];
 
   const handleChange = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
+    console.log(value);
+    setInLists(value);
   };
 
   const [value, setValue] = useState(1);
@@ -21,7 +23,7 @@ export default function CardFilterList() {
 
   return (
     <div>
-      <h3>In List</h3>
+      {/* <h3>In List</h3> */}
       <Radio.Group onChange={onChange} value={value}>
         <Radio value={1}>All</Radio>
         <Radio value={2}>Selected</Radio>

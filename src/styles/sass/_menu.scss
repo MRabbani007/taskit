@@ -1,0 +1,74 @@
+.mobile-menu {
+  color: white;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+}
+
+.mobile-menu .menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 1rem;
+  background-color: $clr-slate-800;
+  opacity: 0;
+  animation-name: menuLink;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards;
+}
+
+.mobile-menu .menu-item:nth-child(1) {
+  animation-delay: 0ms;
+}
+.mobile-menu .menu-item:nth-child(2) {
+  animation-delay: 50ms;
+}
+.mobile-menu .menu-item:nth-child(3) {
+  animation-delay: 100ms;
+}
+.mobile-menu .menu-item:nth-child(4) {
+  animation-delay: 150ms;
+}
+.mobile-menu .menu-item:nth-child(5) {
+  animation-delay: 200ms;
+}
+.mobile-menu .menu-item:nth-child(6) {
+  animation-delay: 250ms;
+}
+.mobile-menu .menu-item:nth-child(7) {
+  animation-delay: 300ms;
+}
+
+.mobile-menu .menu-item > span {
+  width: 140px;
+  font-size: 2rem;
+}
+
+.menu-item span {
+  text-align: left;
+}
+
+@keyframes menuLink {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .mobile-menu {
+    display: none;
+  }
+}

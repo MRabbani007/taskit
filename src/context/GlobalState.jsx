@@ -48,6 +48,7 @@ export const GlobalProvider = ({ children }) => {
   const [overdueTasks, setOverdueTasks] = useState([]);
   const [listSummary, setListSummary] = useState([]);
   const [userTasks, setUserTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   // Task list displayed in main container
   const [displayList, setDisplayList] = useState(null);
@@ -155,6 +156,22 @@ export const GlobalProvider = ({ children }) => {
       .finally(() => {});
   }
 
+  function handleGetAllTasks() {
+    axiosPrivate
+      .get(SERVER.TASKS_ALL, {
+        params: {
+          userName: auth?.user,
+        },
+      })
+      .then((result) => {
+        if (result?.data && Array.isArray(result.data)) {
+          setUserTasks(result.data);
+        }
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {});
+  }
+
   function handleGetTasksUser(listID) {
     axiosPrivate
       .get(SERVER.TASKS_USER, {
@@ -164,7 +181,7 @@ export const GlobalProvider = ({ children }) => {
       })
       .then((result) => {
         if (result?.data && Array.isArray(result.data)) {
-          setUserTasks(result.data);
+          setTasks(result.data);
         }
       })
       .catch((err) => console.log(err))
@@ -350,7 +367,7 @@ export const GlobalProvider = ({ children }) => {
   function handleOpen(listID) {
     let list = state.listNames.find((list) => list.id === listID);
     setDisplayList(list);
-    navigate(`/tasklist/${listID}`);
+    navigate(`/myLists/tasklist/${listID}`);
   }
 
   useEffect(() => {
@@ -375,7 +392,8 @@ export const GlobalProvider = ({ children }) => {
       handleGetImportantTasks();
       handleGetOverdueTasks();
       handleGetTasksUser();
-      handleTagsGetAll();
+      handleGetAllTasks();
+      // handleTagsGetAll();
     }
   }, [auth?.user]);
 
@@ -394,6 +412,7 @@ export const GlobalProvider = ({ children }) => {
         weekTasks: weekTasks,
         importantTasks: importantTasks,
         overdueTasks: overdueTasks,
+        tasks: tasks,
         userTasks: userTasks,
 
         handleCreateTag,

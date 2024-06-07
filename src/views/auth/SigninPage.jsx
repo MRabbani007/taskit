@@ -28,6 +28,7 @@ const SigninPage = () => {
   const [check, toggleCheck] = useToggle("persist", false);
 
   const [success, setSuccess] = useState(false);
+  const canSubmit = userName !== "" && pwd !== "";
 
   useEffect(() => {
     if (!success) {
@@ -69,7 +70,7 @@ const SigninPage = () => {
       } else if (err.response?.status === 400) {
         setErrMsg("Missing Username or Password");
       } else if (err.response?.status === 401) {
-        setErrMsg("Unauthorized");
+        setErrMsg("Wrong username or password");
       } else {
         setErrMsg("Login Failed");
       }
@@ -83,10 +84,11 @@ const SigninPage = () => {
       <Form
         onFinish={handleSubmit}
         name="normal_login"
-        className="login-form border-2 p-8 rounded-xl shadow-md shadow-blue-500"
+        className="login-form mx-auto border-2 p-8 rounded-xl shadow-md shadow-blue-500"
         initialValues={{
           remember: true,
         }}
+        layout="vertical"
       >
         <h1 className="text-center text-blue-500 font-thin mb-4">Sign In</h1>
         <p
@@ -96,15 +98,13 @@ const SigninPage = () => {
         >
           {errMsg}
         </p>
-        <label htmlFor="username" className="my-2">
-          Username
-        </label>
         <Form.Item
           name="username"
+          label="Username"
           rules={[
             {
               required: true,
-              message: "Please input your Username!",
+              message: "Please enter username",
             },
           ]}
         >
@@ -119,17 +119,16 @@ const SigninPage = () => {
             onChange={(e) => setUserName(e.target.value)}
           />
         </Form.Item>
-        <label htmlFor="password" className="my-2">
-          Password
-        </label>
         <Form.Item
           name="password"
+          label="Password"
           rules={[
             {
               required: true,
-              message: "Please input password!",
+              message: "Please enter password",
             },
           ]}
+          className="p-0 m-0"
         >
           <Input
             id="password"
@@ -142,24 +141,25 @@ const SigninPage = () => {
           />
         </Form.Item>
         <Form.Item>
+          <Link className="login-form-forgot" to="/forgotpassword">
+            Forgot password
+          </Link>
+        </Form.Item>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
+            disabled={!canSubmit}
             className="login-form-button mr-2"
           >
             Log in
           </Button>
           Or <Link to="/register">register now!</Link>
         </Form.Item>
-        <Form.Item>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox id="persist" onChange={toggleCheck} checked={check}>
-              Remember me
-            </Checkbox>
-          </Form.Item>
-          <Link className="login-form-forgot" to="/forgotpassword">
-            Forgot password
-          </Link>
+        <Form.Item name="remember" valuePropName="checked" noStyle>
+          <Checkbox id="persist" onChange={toggleCheck} checked={check}>
+            Remember me
+          </Checkbox>
         </Form.Item>
       </Form>
     </main>

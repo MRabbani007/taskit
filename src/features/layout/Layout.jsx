@@ -3,18 +3,23 @@ import { Suspense } from "react";
 import Navbar from "./Navbar";
 import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
 import RadioMenu from "../navigation/RadioMenu";
-import { FloatButton } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 import Sidebar from "../navigation/Sidebar";
 
 const Layout = () => {
   const location = useLocation();
 
+  const onAuthPage =
+    location.pathname.includes("login") ||
+    location.pathname.includes("register") ||
+    location.pathname.includes("logout");
+
+  const onHomePage = location.pathname === "/";
+
   return (
     <>
       <Navbar />
-      <div className="flex gap-2 items-stretch justify-start">
-        <Sidebar />
+      <div className="flex gap-2 items-stretch justify-center">
+        {!onAuthPage && !onHomePage ? <Sidebar /> : null}
         <Suspense fallback={<SkeletonContentPage />}>
           <Outlet />
         </Suspense>
