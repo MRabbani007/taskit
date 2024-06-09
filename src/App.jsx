@@ -46,6 +46,7 @@ import ActivityDetailsPage from "./views/user/activities/ActivityDetailsPage";
 import CreateActivityPage from "./views/user/activities/CreateActivityPage";
 import { ActivityProvider } from "./context/ActivityState";
 import LayoutActivities from "./features/layout/LayoutActivities";
+import LayoutUser from "./features/layout/LayoutUser";
 
 const ROLES = {
   User: 2001,
@@ -77,37 +78,42 @@ function App() {
                       <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
                     }
                   >
-                    <Route path="logout" element={<SignoutPage />} />
-                    <Route path="dashboard" element={<DashboardPage />} />
-                    <Route path="mylists">
-                      <Route index element={<UserListsPage />} />
-                      <Route path="createList" element={<CreateListPage />} />
-                      <Route path="taskList?/:id" element={<TaskListPage />} />
+                    <Route element={<LayoutUser />}>
+                      <Route path="logout" element={<SignoutPage />} />
+                      <Route path="dashboard" element={<DashboardPage />} />
+                      <Route path="mylists">
+                        <Route index element={<UserListsPage />} />
+                        <Route path="createList" element={<CreateListPage />} />
+                        <Route
+                          path="taskList?/:id"
+                          element={<TaskListPage />}
+                        />
+                      </Route>
+                      <Route path="activities" element={<LayoutActivities />}>
+                        <Route index element={<ActivitiesPage />} />
+                        <Route path="create" element={<CreateActivityPage />} />
+                        <Route
+                          path="activity/:id?"
+                          element={<ActivityDetailsPage />}
+                        />
+                      </Route>
+                      <Route path="tasks">
+                        <Route index element={<TasksPage />} />
+                        <Route path="today" element={<TasksTodayPage />} />
+                        <Route path="week" element={<TasksWeekPage />} />
+                        <Route
+                          path="important"
+                          element={<TasksImportantPage />}
+                        />
+                        <Route path="overdue" element={<TasksOverduePage />} />
+                      </Route>
+                      <Route path="teams" element={<TeamsPage />} />
+                      <Route path="calendar" element={<CalendarPage />} />
+                      <Route path="journal" element={<JournalPage />} />
+                      <Route path="notes" element={<NotesPage />} />
+                      <Route path="settings" element={<SettingsPage />} />
+                      <Route path="changePWD" element={<ChangePassword />} />
                     </Route>
-                    <Route path="activities" element={<LayoutActivities />}>
-                      <Route index element={<ActivitiesPage />} />
-                      <Route path="create" element={<CreateActivityPage />} />
-                      <Route
-                        path="activity/:id?"
-                        element={<ActivityDetailsPage />}
-                      />
-                    </Route>
-                    <Route path="tasks">
-                      <Route index element={<TasksPage />} />
-                      <Route path="today" element={<TasksTodayPage />} />
-                      <Route path="week" element={<TasksWeekPage />} />
-                      <Route
-                        path="important"
-                        element={<TasksImportantPage />}
-                      />
-                      <Route path="overdue" element={<TasksOverduePage />} />
-                    </Route>
-                    <Route path="teams" element={<TeamsPage />} />
-                    <Route path="calendar" element={<CalendarPage />} />
-                    <Route path="journal" element={<JournalPage />} />
-                    <Route path="notes" element={<NotesPage />} />
-                    <Route path="settings" element={<SettingsPage />} />
-                    <Route path="changePWD" element={<ChangePassword />} />
                   </Route>
 
                   {/* Admin page available to admin */}

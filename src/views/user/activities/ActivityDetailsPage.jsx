@@ -5,6 +5,7 @@ import { Button, Progress } from "antd";
 import { green, red, blue } from "@ant-design/colors";
 import { ActivityContext } from "../../../context/ActivityState";
 import FormActivityTaskAdd from "../../../features/activities/FormActivityTaskAdd";
+import ActivityTask from "../../../features/activities/ActivityTask";
 
 export default function ActivityDetailsPage() {
   const {
@@ -59,11 +60,7 @@ export default function ActivityDetailsPage() {
           <ol className="list-decimal list-inside flex flex-col gap-2">
             {Array.isArray(activity?.tasks) &&
               activity?.tasks.map((item, index) => {
-                return (
-                  <li key={index} className="">
-                    {item?.title}
-                  </li>
-                );
+                return <ActivityTask key={index} task={item} />;
               })}
           </ol>
         </div>

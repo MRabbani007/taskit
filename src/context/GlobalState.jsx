@@ -383,19 +383,19 @@ export const GlobalProvider = ({ children }) => {
     setDisplayList({ id: "task_list" });
   }
 
-  useEffect(() => {
-    if (auth?.user) {
-      handleGetLists();
-      handleListSummary();
-      handleGetTodayTasks();
-      handleGetWeekTasks();
-      handleGetImportantTasks();
-      handleGetOverdueTasks();
-      handleGetTasksUser();
-      handleGetAllTasks();
-      // handleTagsGetAll();
-    }
-  }, [auth?.user]);
+  // useEffect(() => {
+  //   if (auth?.user) {
+  //     handleGetLists();
+  //     handleListSummary();
+  //     handleGetTodayTasks();
+  //     handleGetWeekTasks();
+  //     handleGetImportantTasks();
+  //     handleGetOverdueTasks();
+  //     handleGetTasksUser();
+  //     handleGetAllTasks();
+  //     // handleTagsGetAll();
+  //   }
+  // }, [auth?.user]);
 
   return (
     <GlobalContext.Provider

@@ -18,13 +18,11 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <div className="flex gap-2 items-stretch justify-center">
-        {!onAuthPage && !onHomePage ? <Sidebar /> : null}
-        <Suspense fallback={<SkeletonContentPage />}>
-          <Outlet />
-        </Suspense>
-      </div>
-      <RadioMenu />
+      {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
+      <Suspense fallback={<SkeletonContentPage />}>
+        <Outlet />
+      </Suspense>
+      {/* <RadioMenu /> */}
     </>
   );
 };

@@ -228,7 +228,7 @@ const Sidebar = () => {
       defaultOpenKeys={["grp_pages"]}
       mode="inline"
       items={menuItems}
-      className="bg-zinc-100 hidden md:inline-block"
+      className="bg-zinc-100 hidden md:block static"
     />
   );
 };

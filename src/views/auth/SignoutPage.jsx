@@ -10,7 +10,7 @@ export default function SignoutPage() {
   const todayDate = genDate();
 
   return (
-    <div>
+    <main>
       <div className="">
         <p>Hello {auth.user},</p>
         <p className="btn btn-yellow my-2">
@@ -22,6 +22,6 @@ export default function SignoutPage() {
           Sign Out
         </Button>
       </div>
-    </div>
+    </main>
   );
 }

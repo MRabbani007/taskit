@@ -43,13 +43,17 @@ const SigninPage = () => {
 
   const handleSubmit = async () => {
     try {
-      let response = await axios.post(SERVER.USER_SIGNIN, {
-        type: ACTIONS.USER_SIGNIN,
-        payload: {
-          username: userName,
-          password: pwd,
+      let response = await axios({
+        method: "POST",
+        url: SERVER.USER_SIGNIN,
+        data: {
+          type: ACTIONS.USER_SIGNIN,
+          payload: {
+            username: userName,
+            password: pwd,
+          },
         },
-      });
+      }).catch((e) => {});
 
       if (response?.data?.status === "success") {
         const accessToken = response?.data?.accessToken;
@@ -74,7 +78,6 @@ const SigninPage = () => {
       } else {
         setErrMsg("Login Failed");
       }
-      console.log(err);
       errRef.current.focus();
     }
   };

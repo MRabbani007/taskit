@@ -9,8 +9,8 @@ export default function DashboardProfile() {
   const { auth } = useAuth();
 
   return (
-    <div className="flex-1 min-w-[300px] rounded-md shadow-lg shadow-slate-400">
-      <h2 className="py-2 px-4 bg-gradient-to-r from-indigo-800 to-indigo-600 text-white rounded-t-md w-full">
+    <div className="flex-1 min-w-[300px]">
+      <h2 className="py-2 px-4 bg-gradient-to-br from-indigo-400 to-indigo-200 text-zinc-800 w-full">
         Profile
       </h2>
       <div className="p-3 flex flex-col items-center gap-3">

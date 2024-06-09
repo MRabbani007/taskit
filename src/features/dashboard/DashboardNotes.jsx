@@ -7,17 +7,17 @@ export default function DashboardNotes() {
   const { notes } = useContext(NotesContext);
 
   return (
-    <article className="flex-1 min-w-[300px] min-h-[200px] shadow-md rounded-md shadow-slate-400">
-      <h2 className="border-b-2 py-2 px-4 bg-gradient-to-r from-yellow-500 to-yellow-300 text-white rounded-t-md">
+    <article className="flex-1 min-w-[300px] min-h-[200px]">
+      <h2 className="py-2 px-4 bg-gradient-to-l from-yellow-400 to-yellow-100 text-zinc-800">
         Notes
       </h2>
-      <div className="p-2 h-full max-h-[300px] overflow-y-scroll">
-        <ul className="flex flex-wrap justify-center gap-2">
-          {notes.slice(0, 8).map((note, index) => {
+      <div className="h-full max-h-[300px]  py-2">
+        <ul className="flex flex-wrap justify-center gap-2 overflow-y-auto">
+          {notes.slice(0, 6).map((note, index) => {
             return (
               <li
                 key={index}
-                className="w-full bg-slate-300 rounded-md p-2 flex items-center gap-2"
+                className="w-full bg-slate-300 p-2 flex items-center gap-2"
               >
                 {note.title}
               </li>
