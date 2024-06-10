@@ -19,7 +19,12 @@ export default function CardFilterPriority({ priority, setPriority }) {
     <form className="flex flex-col gap-2">
       {/* <h3>Priority</h3> */}
       <div className="flex items-center gap-2">
-        <Switch checked={pLow} onChange={(e) => setPLow(e)} id="priority_low" />
+        <Switch
+          checked={pLow}
+          onChange={(e) => setPLow(e)}
+          id="priority_low"
+          size="small"
+        />
         <label htmlFor="priority_low">Low</label>
       </div>
       <div className="flex items-center gap-2">
@@ -27,6 +32,7 @@ export default function CardFilterPriority({ priority, setPriority }) {
           checked={pNormal}
           onChange={(e) => setPNormal(e)}
           id="priority_normal"
+          size="small"
         />
         <label htmlFor="priority_normal">Normal</label>
       </div>
@@ -35,6 +41,7 @@ export default function CardFilterPriority({ priority, setPriority }) {
           checked={pHigh}
           onChange={(e) => setPHigh(e)}
           id="priority_high"
+          size="small"
         />
         <label htmlFor="priority_high">High</label>
       </div>

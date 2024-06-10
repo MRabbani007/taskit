@@ -63,8 +63,9 @@ export const SERVER = {
   TASKS: "/tasks/main",
   TASKS_USER: "/tasks/user",
   TASKS_ALL: "/tasks/getAll",
-  NOTES: "/notes/main",
 
+  JOURNAL: "/journal",
+  NOTES: "/notes",
   ACTIVITY: "/activity",
   ACTIVITY_TASK: "/activity/task",
 
@@ -80,11 +81,6 @@ export const SERVER = {
   REMOVE_TAG: "/tags/remove",
 
   NOTES_GET_ALL: "/notes/getNotes",
-
-  JOURNAL_GET: "/journal/get",
-  JOURNAL_CREATE: "/journal/create",
-  JOURNAL_UPDATE: "/journal/update",
-  JOURNAL_DELETE: "/journal/delete",
 
   USER_SIGNIN: "/user/auth",
   USER_SIGNUP: "/user/register",

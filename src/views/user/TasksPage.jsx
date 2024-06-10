@@ -5,6 +5,7 @@ import CardAddTask from "../../features/taskList/CardAddTask";
 import CardTaskBlock from "../../features/task/CardTaskBlock";
 import TaskFilter from "../../features/task/TaskFilter";
 import TaskSort from "../../features/task/TaskSort";
+import { Switch } from "antd";
 
 const filterTasks = (type, payload, lists = []) => {
   // remove items included in filter and keep others
@@ -76,6 +77,9 @@ const sortTasks = (type, payload) => {
 export default function TasksPage() {
   const { userTasks: tasks } = useContext(GlobalContext);
 
+  const [viewFilter, setViewFilter] = useState(false);
+  const [viewSort, setViewSort] = useState(false);
+
   const [filters, setFilters] = useState([]);
   const [sort, setSort] = useState("");
 
@@ -95,12 +99,29 @@ export default function TasksPage() {
       </header>
       <div>
         <CardAddTask listID={"task_list"} />
+        <div className="flex items-center justify-center gap-4">
+          <Switch
+            checked={viewFilter}
+            onChange={() => setViewFilter((curr) => !curr)}
+            id="filter"
+            size="small"
+          />
+          <label htmlFor="filter">Filter</label>
+          <Switch
+            checked={viewSort}
+            onChange={() => setViewSort((curr) => !curr)}
+            id="sort"
+            size="small"
+          />
+          <label htmlFor="sort">Sort</label>
+        </div>
         <TaskFilter
           setFilters={setFilters}
           inLists={inLists}
           setInLists={setInLists}
+          viewFilter={viewFilter}
         />
-        <TaskSort setSort={setSort} />
+        {viewSort && <TaskSort setSort={setSort} />}
         <ul className="flex flex-col w-full flex-1 gap-1">
           {Array.isArray(tasks) &&
             sorted.map((task) => {

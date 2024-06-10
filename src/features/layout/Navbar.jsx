@@ -155,34 +155,35 @@ const Navbar = () => {
     ],
   };
 
-  const items = [
-    {
-      key: "navbar_home",
-      label: (
-        <Link to="/" title="Home Page" className="flex items-center gap-1">
-          <img src={Logo} alt="Logo" className="w-12" />
-          Todo
-        </Link>
-      ),
-    },
-    {
-      key: "navbar_hamburger",
-      label: (
-        <button
-          className={
-            (viewMobileMenu ? "is-active" : "") +
-            " hamburger hamburger--spin md:hidden"
-          }
-          type="button"
-          onClick={() => setViewMobileMenu(!viewMobileMenu)}
-        >
-          <span className="hamburger-box">
-            <span className="hamburger-inner"></span>
-          </span>
-        </button>
-      ),
-    },
-  ];
+  const homeButton = {
+    key: "navbar_home",
+    label: (
+      <Link to="/" title="Home Page" className="flex items-center gap-1">
+        <img src={Logo} alt="Logo" className="w-12" />
+        Todo
+      </Link>
+    ),
+  };
+
+  const mobileMenuButton = {
+    key: "navbar_hamburger",
+    label: (
+      <button
+        className={
+          (viewMobileMenu ? "is-active" : "") +
+          " hamburger hamburger--spin md:hidden pt-6 pb-6"
+        }
+        type="button"
+        onClick={() => setViewMobileMenu(!viewMobileMenu)}
+      >
+        <span className="hamburger-box">
+          <span className="hamburger-inner"></span>
+        </span>
+      </button>
+    ),
+  };
+
+  const items = isLoggedIn ? [homeButton, mobileMenuButton] : [homeButton];
 
   const userMenuItem = isAdmin ? menuAdmin : isLoggedIn ? menuUser : menuGuest;
   items.splice(1, 0, userMenuItem);
@@ -194,7 +195,7 @@ const Navbar = () => {
         selectedKeys={[current]}
         mode="horizontal"
         items={items}
-        className="bg-zinc-200 py-2"
+        className="bg-zinc-200 py-2 h-[70px]"
       />
       <menu
         className="hidden sm:py-4 py-2 px-8 w-full bg-gradient-to-br from-black to-zinc-600 text-white"

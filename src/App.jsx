@@ -1,8 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 // Imported Styles
 import "./styles/styles.css";
-import "./styles/sass/main.css";
+import "./styles/main.css";
 import "./styles/preflight.css";
+import "react-toastify/dist/ReactToastify.css";
 // Imported Context
 import { AuthProvider } from "./context/AuthProvider";
 import { GlobalProvider } from "./context/GlobalState";
@@ -47,6 +48,7 @@ import CreateActivityPage from "./views/user/activities/CreateActivityPage";
 import { ActivityProvider } from "./context/ActivityState";
 import LayoutActivities from "./features/layout/LayoutActivities";
 import LayoutUser from "./features/layout/LayoutUser";
+import { JournalProvider } from "./context/JournalState";
 
 const ROLES = {
   User: 2001,
@@ -59,79 +61,92 @@ function App() {
       <UserProvider>
         <GlobalProvider>
           <NotesProvider>
-            <Routes>
-              <Route element={<PersistLogin />}>
-                <Route path="/" element={<Layout />}>
-                  {/* Pages visible to all */}
-                  <Route index element={<HomePage />} />
-                  <Route path="login" element={<SigninPage />} />
-                  <Route path="register" element={<SignupPage />} />
-                  <Route
-                    path="forgotpassword"
-                    element={<ForgotPasswordPage />}
-                  />
-                  <Route path="unauthorized" element={<Unauthorized />} />
+            <JournalProvider>
+              <Routes>
+                <Route element={<PersistLogin />}>
+                  <Route path="/" element={<Layout />}>
+                    {/* Pages visible to all */}
+                    <Route index element={<HomePage />} />
+                    <Route path="login" element={<SigninPage />} />
+                    <Route path="register" element={<SignupPage />} />
+                    <Route
+                      path="forgotpassword"
+                      element={<ForgotPasswordPage />}
+                    />
+                    <Route path="unauthorized" element={<Unauthorized />} />
 
-                  {/* Pages available to users */}
-                  <Route
-                    element={
-                      <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
-                    }
-                  >
-                    <Route element={<LayoutUser />}>
-                      <Route path="logout" element={<SignoutPage />} />
-                      <Route path="dashboard" element={<DashboardPage />} />
-                      <Route path="mylists">
-                        <Route index element={<UserListsPage />} />
-                        <Route path="createList" element={<CreateListPage />} />
-                        <Route
-                          path="taskList?/:id"
-                          element={<TaskListPage />}
-                        />
+                    {/* Pages available to users */}
+                    <Route
+                      element={
+                        <RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />
+                      }
+                    >
+                      <Route element={<LayoutUser />}>
+                        <Route path="logout" element={<SignoutPage />} />
+                        <Route path="dashboard" element={<DashboardPage />} />
+                        <Route path="mylists">
+                          <Route index element={<UserListsPage />} />
+                          <Route
+                            path="createList"
+                            element={<CreateListPage />}
+                          />
+                          <Route
+                            path="taskList?/:id"
+                            element={<TaskListPage />}
+                          />
+                        </Route>
+                        <Route path="activities" element={<LayoutActivities />}>
+                          <Route index element={<ActivitiesPage />} />
+                          <Route
+                            path="create"
+                            element={<CreateActivityPage />}
+                          />
+                          <Route
+                            path="activity/:id?"
+                            element={<ActivityDetailsPage />}
+                          />
+                        </Route>
+                        <Route path="tasks">
+                          <Route index element={<TasksPage />} />
+                          <Route path="today" element={<TasksTodayPage />} />
+                          <Route path="week" element={<TasksWeekPage />} />
+                          <Route
+                            path="important"
+                            element={<TasksImportantPage />}
+                          />
+                          <Route
+                            path="overdue"
+                            element={<TasksOverduePage />}
+                          />
+                        </Route>
+                        <Route path="teams" element={<TeamsPage />} />
+                        <Route path="calendar" element={<CalendarPage />} />
+                        <Route path="journal" element={<JournalPage />} />
+                        <Route path="notes" element={<NotesPage />} />
+                        <Route path="settings" element={<SettingsPage />} />
+                        <Route path="changePWD" element={<ChangePassword />} />
                       </Route>
-                      <Route path="activities" element={<LayoutActivities />}>
-                        <Route index element={<ActivitiesPage />} />
-                        <Route path="create" element={<CreateActivityPage />} />
-                        <Route
-                          path="activity/:id?"
-                          element={<ActivityDetailsPage />}
-                        />
-                      </Route>
-                      <Route path="tasks">
-                        <Route index element={<TasksPage />} />
-                        <Route path="today" element={<TasksTodayPage />} />
-                        <Route path="week" element={<TasksWeekPage />} />
-                        <Route
-                          path="important"
-                          element={<TasksImportantPage />}
-                        />
-                        <Route path="overdue" element={<TasksOverduePage />} />
-                      </Route>
-                      <Route path="teams" element={<TeamsPage />} />
-                      <Route path="calendar" element={<CalendarPage />} />
-                      <Route path="journal" element={<JournalPage />} />
-                      <Route path="notes" element={<NotesPage />} />
-                      <Route path="settings" element={<SettingsPage />} />
-                      <Route path="changePWD" element={<ChangePassword />} />
                     </Route>
-                  </Route>
 
-                  {/* Admin page available to admin */}
-                  <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-                    <Route path="admin" element={<LayoutAdmin />}>
-                      <Route index element={<AdminPage />} />
-                      <Route path="tasks" element={<AdminTasks />} />
-                      <Route path="notes" element={<AdminNotes />} />
-                      <Route path="lists" element={<AdminLists />} />
-                      <Route path="users" element={<AdminUsers />} />
+                    {/* Admin page available to admin */}
+                    <Route
+                      element={<RequireAuth allowedRoles={[ROLES.Admin]} />}
+                    >
+                      <Route path="admin" element={<LayoutAdmin />}>
+                        <Route index element={<AdminPage />} />
+                        <Route path="tasks" element={<AdminTasks />} />
+                        <Route path="notes" element={<AdminNotes />} />
+                        <Route path="lists" element={<AdminLists />} />
+                        <Route path="users" element={<AdminUsers />} />
+                      </Route>
                     </Route>
-                  </Route>
 
-                  {/* catch all */}
-                  <Route path="*" element={<MissingPage />} />
+                    {/* catch all */}
+                    <Route path="*" element={<MissingPage />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
+              </Routes>
+            </JournalProvider>
           </NotesProvider>
         </GlobalProvider>
       </UserProvider>

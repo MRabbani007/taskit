@@ -20,27 +20,29 @@ export const JournalProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const handleJournalGet = async () => {
-    let response = await axiosPrivate.post(SERVER.JOURNAL_GET, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.JOURNAL_GET,
-        payload: { userName: auth?.user },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.JOURNAL_GET, payload: response.data });
-    }
+    await axiosPrivate
+      .get(SERVER.JOURNAL, {
+        params: { userName: auth?.user },
+      })
+      .then((response) => {
+        if (response.status === 200 && Array.isArray(response.data)) {
+          dispatch({ type: ACTIONS.JOURNAL_GET, payload: response.data });
+        }
+      })
+      .catch((e) => {});
   };
 
   const handleJournalCreate = async (journal) => {
     dispatch({ type: ACTIONS.JOURNAL_CREATE, payload: journal });
-    let response = await axiosPrivate.post(SERVER.JOURNAL_CREATE, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.JOURNAL_CREATE,
-        payload: { userName: auth?.user, journal },
-      },
-    });
+    await axiosPrivate
+      .post(SERVER.JOURNAL, {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.JOURNAL_CREATE,
+          payload: { userName: auth?.user, journal },
+        },
+      })
+      .catch((e) => {});
   };
 
   const handleJournalUpdate = async (journal) => {
@@ -48,16 +50,18 @@ export const JournalProvider = ({ children }) => {
       type: ACTIONS.JOURNAL_UPDATE,
       payload: journal,
     });
-    let response = await axiosPrivate.post(SERVER.JOURNAL_UPDATE, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.JOURNAL_UPDATE,
-        payload: {
-          userName: auth?.user,
-          journal,
+    await axiosPrivate
+      .patch(SERVER.JOURNAL, {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.JOURNAL_UPDATE,
+          payload: {
+            userName: auth?.user,
+            journal,
+          },
         },
-      },
-    });
+      })
+      .catch((e) => {});
   };
 
   const handleJournalDelete = async (journal) => {
@@ -65,23 +69,25 @@ export const JournalProvider = ({ children }) => {
       type: ACTIONS.JOURNAL_DELETE,
       payload: journal.id,
     });
-    let response = await axiosPrivate.post(SERVER.JOURNAL_DELETE, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.JOURNAL_DELETE,
-        payload: {
-          userName: auth?.user,
-          journal,
+    await axiosPrivate
+      .post(SERVER.JOURNAL, {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.JOURNAL_DELETE,
+          payload: {
+            userName: auth?.user,
+            journal,
+          },
         },
-      },
-    });
+      })
+      .catch((e) => {});
   };
 
   useEffect(() => {
     if (auth?.user) {
       handleJournalGet();
     }
-  }, []);
+  }, [auth?.user]);
 
   return (
     <JournalContext.Provider

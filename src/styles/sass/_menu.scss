@@ -4,11 +4,11 @@
   align-items: center;
   justify-content: flex-start;
   position: fixed;
-  top: 50px;
+  top: 70px;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 50;
+  z-index: 10000;
 }
 
 .mobile-menu .menu-item {
@@ -17,12 +17,21 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  gap: 1rem;
+  gap: 2rem;
   background-color: $clr-slate-800;
   opacity: 0;
   animation-name: menuLink;
   animation-duration: 0.1s;
   animation-fill-mode: forwards;
+  justify-content: center;
+}
+
+.menu-item button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  gap: 0.25rem;
 }
 
 .mobile-menu .menu-item:nth-child(1) {
@@ -47,14 +56,14 @@
   animation-delay: 300ms;
 }
 
-.mobile-menu .menu-item > span {
-  width: 140px;
-  font-size: 2rem;
-}
+// .mobile-menu .menu-item > span {
+//   width: 140px;
+//   font-size: 2rem;
+// }
 
-.menu-item span {
-  text-align: left;
-}
+// .menu-item span {
+//   text-align: left;
+// }
 
 @keyframes menuLink {
   from {

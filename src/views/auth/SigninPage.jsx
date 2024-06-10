@@ -66,7 +66,7 @@ const SigninPage = () => {
         navigate(from, { replace: true, state: { username: userName } });
         // navigate("/dashboard", { state: { username: userName } });
       } else {
-        alert(response);
+        setErrMsg("Sign in Failed");
       }
     } catch (err) {
       if (!err?.response) {

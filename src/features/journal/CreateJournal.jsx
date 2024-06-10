@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { IoAddOutline } from "react-icons/io5";
 import { JournalContext } from "../../context/JournalState";
 import { getDate } from "../../data/utils";
+import { toast } from "react-toastify";
 
 const CreateJournal = () => {
   const { handleJournalCreate } = useContext(JournalContext);
@@ -26,6 +27,7 @@ const CreateJournal = () => {
         timeTo: "",
       };
       await handleJournalCreate(journal);
+      toast.success("Item added");
     }
   };
 

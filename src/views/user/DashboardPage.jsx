@@ -9,23 +9,25 @@ import { BsCardList } from "react-icons/bs";
 export default function DashboardPage() {
   return (
     <main>
-      <header className="border-b-[1px] bg-zinc-100 border-blue-600 text-blue-600">
+      <header className="bg-gradient-to-r from-zinc-200 to-zinc-400 text-sky-600">
         <div>
           <BsCardList size={40} />
-          <h1 className="font-light">Dashboard</h1>
+          <h1 className="font-semibold">Dashboard</h1>
         </div>
       </header>
       <div>
         <div className="flex flex-row flex-wrap-reverse lg:flex-nowrap justify-between gap-4">
-          <div className="flex flex-row flex-wrap gap-3">
-            {/* Lists */}
-            <DashboardLists />
-            {/* Tasks */}
-            <DashboardTasks />
+          <div className="flex flex-row flex-wrap-reverse gap-3">
+            <div className="flex-1">
+              {/* Tasks */}
+              <DashboardTasks />
+              {/* Lists */}
+              <DashboardLists />
+              {/* Notes */}
+              <DashboardNotes />
+            </div>
             {/* Journal */}
             <DashboardJournal />
-            {/* Notes */}
-            <DashboardNotes />
           </div>
           <DashboardProfile />
         </div>

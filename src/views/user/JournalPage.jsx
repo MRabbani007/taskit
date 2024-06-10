@@ -9,29 +9,27 @@ const JournalPage = () => {
   const [expand, setExpand] = useState(true);
 
   return (
-    <JournalProvider>
-      <main>
-        <header
-          className="bg-gradient-to-r from-green-600 to-green-400 text-white shadow-md shadow-zinc-500"
-          // onClick={() => setExpand((prev) => !prev)}
-        >
-          <div>
-            <GrNotes size={40} />
-            <h1>Journal</h1>
-          </div>
-          {/* <SlArrowRight
+    <main>
+      <header
+        className="bg-gradient-to-r from-green-600 to-green-400 text-white shadow-md shadow-zinc-500"
+        // onClick={() => setExpand((prev) => !prev)}
+      >
+        <div>
+          <GrNotes size={40} />
+          <h1>Journal</h1>
+        </div>
+        {/* <SlArrowRight
             className={
               (expand ? "rotate-90 " : "") +
               "icon-sm absolute right-2 top-[35%] duration-300"
             }
           /> */}
-        </header>
-        <div>
-          <CreateJournal />
-          <SectionJournalItems />
-        </div>
-      </main>
-    </JournalProvider>
+      </header>
+      <div>
+        <CreateJournal />
+        <SectionJournalItems />
+      </div>
+    </main>
   );
 };
 
