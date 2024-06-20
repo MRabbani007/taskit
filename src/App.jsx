@@ -8,47 +8,55 @@ import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthProvider";
 import { GlobalProvider } from "./context/GlobalState";
 import { UserProvider } from "./context/UserState";
+import { NotesProvider } from "./context/NotesState";
+import { ActivityProvider } from "./context/ActivityState";
+import { JournalProvider } from "./context/JournalState";
 // Authorization & Nav
-import PersistLogin from "./features/auth/PersistLogin";
-import RequireAuth from "./features/auth/RequireAuth";
-import Layout from "./features/layout/Layout";
-// Imported Components
-import HomePage from "./views/HomePage";
 import SigninPage from "./views/auth/SigninPage";
 import SignupPage from "./views/auth/SignupPage";
-import SettingsPage from "./views/user/SettingsPage";
-import ChangePassword from "./views/auth/ChangePassword";
-import AdminPage from "./views/admin/AdminPage";
+import SignoutPage from "./views/auth/SignoutPage";
+import ForgotPasswordPage from "./views/auth/ForgotPasswordPage";
+import PersistLogin from "./features/auth/PersistLogin";
+import RequireAuth from "./features/auth/RequireAuth";
 import MissingPage from "./views/MissingPage";
 import Unauthorized from "./views/auth/Unauthorized";
-import NotesPage from "./views/user/NotesPage";
-import TasksPage from "./views/user/TasksPage";
-import UserListsPage from "./views/user/UserListsPage";
-import TasksTodayPage from "./views/user/TasksTodayPage";
-import TasksWeekPage from "./views/user/TasksWeekPage";
-import TasksImportantPage from "./views/user/TasksImportantPage";
-import TasksOverduePage from "./views/user/TasksOverduePage";
-import TaskListPage from "./views/user/TaskListPage";
-import JournalPage from "./views/user/JournalPage";
-import ForgotPasswordPage from "./views/auth/ForgotPasswordPage";
+// Layouts
+import Layout from "./features/layout/Layout";
+import LayoutAdmin from "./features/layout/LayoutAdmin";
+import LayoutUser from "./features/layout/LayoutUser";
+import LayoutActivities from "./features/layout/LayoutActivities";
+// Website
+import HomePage from "./views/HomePage";
+// Admin
+import AdminPage from "./views/admin/AdminPage";
 import AdminTasks from "./views/admin/AdminTasks";
 import AdminNotes from "./views/admin/AdminNotes";
 import AdminLists from "./views/admin/AdminLists";
 import AdminUsers from "./views/admin/AdminUsers";
-import LayoutAdmin from "./features/layout/LayoutAdmin";
-import DashboardPage from "./views/user/DashboardPage";
-import CalendarPage from "./views/user/CalendarPage";
-import CreateListPage from "./views/user/CreateListPage";
-import { NotesProvider } from "./context/NotesState";
-import SignoutPage from "./views/auth/SignoutPage";
-import TeamsPage from "./views/user/TeamsPage";
+// Tasks
+import TasksPage from "./views/user/tasks/TasksPage";
+import UserListsPage from "./views/user/tasks/UserListsPage";
+import TasksTodayPage from "./views/user/tasks/TasksTodayPage";
+import TasksWeekPage from "./views/user/tasks/TasksWeekPage";
+import TasksImportantPage from "./views/user/tasks/TasksImportantPage";
+import TasksOverduePage from "./views/user/tasks/TasksOverduePage";
+import TaskListPage from "./views/user/tasks/TaskListPage";
+import CreateListPage from "./views/user/tasks/CreateListPage";
+// Activities
 import ActivitiesPage from "./views/user/activities/ActivitiesPage";
 import ActivityDetailsPage from "./views/user/activities/ActivityDetailsPage";
 import CreateActivityPage from "./views/user/activities/CreateActivityPage";
-import { ActivityProvider } from "./context/ActivityState";
-import LayoutActivities from "./features/layout/LayoutActivities";
-import LayoutUser from "./features/layout/LayoutUser";
-import { JournalProvider } from "./context/JournalState";
+// Notes, Journal, Calendar
+import NotesPage from "./views/user/NotesPage";
+import JournalPage from "./views/user/JournalPage";
+import CalendarPage from "./views/user/CalendarPage";
+// User
+import DashboardPage from "./views/user/DashboardPage";
+import SettingsPage from "./views/user/SettingsPage";
+import ChangePassword from "./views/auth/ChangePassword";
+// Imported Components
+import TeamsPage from "./views/user/TeamsPage";
+import ProfilePage from "./views/user/ProfilePage";
 
 const ROLES = {
   User: 2001,
@@ -119,12 +127,20 @@ function App() {
                             element={<TasksOverduePage />}
                           />
                         </Route>
+                        <Route path="pages">
+                          <Route path="calendar" element={<CalendarPage />} />
+                          <Route path="journal" element={<JournalPage />} />
+                          <Route path="notes" element={<NotesPage />} />
+                        </Route>
+                        <Route path="user">
+                          <Route path="profile" element={<ProfilePage />} />
+                          <Route path="settings" element={<SettingsPage />} />
+                          <Route
+                            path="changePWD"
+                            element={<ChangePassword />}
+                          />
+                        </Route>
                         <Route path="teams" element={<TeamsPage />} />
-                        <Route path="calendar" element={<CalendarPage />} />
-                        <Route path="journal" element={<JournalPage />} />
-                        <Route path="notes" element={<NotesPage />} />
-                        <Route path="settings" element={<SettingsPage />} />
-                        <Route path="changePWD" element={<ChangePassword />} />
                       </Route>
                     </Route>
 

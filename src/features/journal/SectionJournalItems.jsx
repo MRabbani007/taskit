@@ -1,11 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { JournalContext } from "../../context/JournalState";
-// import { Timeline } from "flowbite-react";
-import CardJournal from "./CardJournal";
-import { Timeline } from "antd";
+import { Button, Timeline } from "antd";
 import FormJournalEdit from "./FormJournalEdit";
 
-const renderItems = (journal) => {
+const renderItems = (journal, setEditItem) => {
   const days = Array.from(new Set(journal.map((item) => item.onDate))).sort(
     (a, b) => a.toString().localeCompare(b.toString())
   );
@@ -38,7 +36,11 @@ const renderItems = (journal) => {
                 <p className="font-semibold">{group}</p>
                 <ul className="px-2">
                   {activities.map((activity, idx) => {
-                    return <li key={idx}>{activity.detail}</li>;
+                    return (
+                      <li key={idx} onClick={() => setEditItem(activity)}>
+                        {activity.detail}
+                      </li>
+                    );
                   })}
                 </ul>
               </div>
@@ -52,13 +54,32 @@ const renderItems = (journal) => {
   return items;
 };
 
-const SectionJournalItems = () => {
+const renderLinear = (journal, setEditItem) => {
+  return journal.map((item) => {
+    return {
+      label: item?.onDate.substr(0, 10),
+      color: item?.color || "green",
+      children: (
+        <div onClick={() => setEditItem(item)}>
+          <p className="font-semibold">{item?.title}</p>
+          <p>{item?.detail}</p>
+        </div>
+      ),
+    };
+  });
+};
+
+export default function SectionJournalItems() {
   const { journal } = useContext(JournalContext);
 
-  const [editItem, setEditItem] = useState(false);
+  const [group, setGroup] = useState(true);
 
-  const items = renderItems(journal);
-  console.log(items);
+  const [editItem, setEditItem] = useState(null);
+
+  const items = group
+    ? renderItems(journal, setEditItem)
+    : renderLinear(journal, setEditItem);
+
   return (
     // <Timeline className="max-h-[60vh] overflow-y-scroll flex-1 w-full">
     //   {Array.isArray(journal) &&
@@ -67,12 +88,13 @@ const SectionJournalItems = () => {
     //     })}
     // </Timeline>
     <>
+      <Button type="primary" onClick={() => setGroup((curr) => !curr)}>
+        {group ? "un-group" : "Group"}
+      </Button>
       <Timeline mode="left" items={items} className="w-full" />
       {editItem?.id ? (
         <FormJournalEdit journalItem={editItem} setEdit={setEditItem} />
       ) : null}
     </>
   );
-};
-
-export default SectionJournalItems;
+}

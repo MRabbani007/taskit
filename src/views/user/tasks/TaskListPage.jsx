@@ -1,19 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { GlobalContext } from "../../../context/GlobalState";
 import { useNavigate, useParams } from "react-router-dom";
-import ListIcon from "../../features/taskList/ListIcon";
-import ListTitleEdit from "../../features/taskList/ListTitleEdit";
+import ListIcon from "../../../features/taskList/ListIcon";
+import ListTitleEdit from "../../../features/taskList/ListTitleEdit";
 import { CiCircleRemove, CiEdit } from "react-icons/ci";
-import CardTaskBlock from "../../features/task/CardTaskBlock";
-import CardAddTask from "../../features/taskList/CardAddTask";
+import CardTaskBlock from "../../../features/task/CardTaskBlock";
+import CardAddTask from "../../../features/taskList/CardAddTask";
 import { BsPinAngle } from "react-icons/bs";
 
 export default function TaskListPage() {
-  const {
-    displayList,
-    listTasks: tasks,
-    handleClose,
-  } = useContext(GlobalContext);
+  const { tasks, status, handleGetTasks, displayList, handleClose } =
+    useContext(GlobalContext);
+
+  useEffect(() => {
+    handleGetTasks("LIST", { listID: displayList?.id });
+  }, []);
 
   const params = useParams();
 
@@ -28,7 +29,24 @@ export default function TaskListPage() {
     }
   }, []);
 
-  useEffect(() => {}, [tasks]);
+  let content;
+
+  if (status?.isLoading === true) {
+    content = <p>Loading...</p>;
+  } else if (status?.isError === true) {
+    content = <p>Error Loading Tasks</p>;
+  } else if (status?.isSuccess === true) {
+    content =
+      tasks.length === 0 ? (
+        <p>No tasks in this list, add new tasks</p>
+      ) : (
+        <ul className="flex flex-col gap-3 w-full max-w-[1000px]">
+          {tasks.map((task) => {
+            return <CardTaskBlock key={task?.id} task={task} />;
+          })}
+        </ul>
+      );
+  }
 
   return (
     <main>
@@ -58,14 +76,17 @@ export default function TaskListPage() {
             )}
           </div>
         </div>
-        <span>
+        <div className="flex items-center gap-2">
           <button title="Edit Title" onClick={() => setEdit(true)}>
             <CiEdit size={32} />
           </button>
-          <button onClick={() => handleClose(displayList?.id)}>
+          <button
+            title="Close List"
+            onClick={() => handleClose(displayList?.id)}
+          >
             <CiCircleRemove size={32} />
           </button>
-        </span>
+        </div>
       </header>
       {/* List Todo Items */}
       <div className="flex flex-col flex-1 gap-3 items-center justify-center py-3 md:px-3 px-0">
@@ -73,12 +94,7 @@ export default function TaskListPage() {
         {/* Note: list ID passed from TodoList to enable opening multiple lists */}
         <CardAddTask listID={displayList?.id} />
         {/* Display Tasks */}
-        <ul className="flex flex-col gap-3 w-full max-w-[1000px]">
-          {Array.isArray(tasks) &&
-            tasks.map((task) => {
-              return <CardTaskBlock key={task?.id} task={task} />;
-            })}
-        </ul>
+        {content}
       </div>
     </main>
   );

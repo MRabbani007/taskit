@@ -58,100 +58,19 @@ export const appReducer = (state, { type, payload }) => {
         ...state,
       };
     }
-    case ACTIONS.GET_TASKS_LIST: {
-      return { ...state, listTasks: payload };
+    case "GET_TASKS": {
+      return payload;
     }
     case ACTIONS.CREATE_TASK: {
-      return { ...state, listTasks: [...state.listTasks, payload] };
+      return [...state, payload];
     }
     case ACTIONS.REMOVE_TASK: {
-      let temp = state.listTasks.filter((item) => item.id !== payload);
-      return {
-        ...state,
-        listTasks: temp,
-      };
+      return [...state.filter((item) => item.id !== payload)];
     }
-    case ACTIONS.UPDATE_TASK_TITLE: {
-      let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.id
-      );
-      state.listTasks[taskIndex].title = payload.title;
-      return {
-        ...state,
-      };
-    }
-    case ACTIONS.UPDATE_TASK_DUEDATE: {
-      let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.id
-      );
-      state.listTasks[taskIndex].dueDate = payload.dueDate;
-      return {
-        ...state,
-      };
-    }
-    case ACTIONS.UPDATE_TASK_COMPLETE: {
-      let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.id
-      );
-      state.listTasks[taskIndex].completed = payload.completed;
-      return {
-        ...state,
-      };
-    }
-    case ACTIONS.UPDATE_TASK_DETAILS: {
-      let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.id
-      );
-      state.listTasks[taskIndex].details = payload.details;
-      return {
-        ...state,
-      };
-    }
-    case ACTIONS.UPDATE_TASK_PRIORITY: {
-      let taskIndex = state.listTasks.findIndex(
-        (item) => item.id === payload.id
-      );
-      state.listTasks[taskIndex].priority = payload.priority;
-      return {
-        ...state,
-      };
-    }
-    case ACTIONS.GET_TAGS_ALL: {
-      return { ...state, tags: payload };
-    }
-    case ACTIONS.GET_TAGS_TASK: {
-      return { ...state, taskTags: payload };
-    }
-    case ACTIONS.CREATE_TAG: {
-      state.tags.push(payload);
-      return { ...state, tags: [...state.tags] };
-    }
-    case ACTIONS.UPDATE_TAG: {
-      const tagIndex = state.tags.findIndex((tag) => tag.id === payload.tag.id);
-      state.tags[tagIndex].name = payload.tag.name;
-      return { ...state, tags: [...state.tags] };
-    }
-    case ACTIONS.REMOVE_TAG: {
-      const tagIndex = state.tags.findIndex((tag) => tag.id === payload.tag.id);
-      state.tags.splice(tagIndex, 1);
-      return { ...state, tags: [...state.tags] };
-    }
-    case ACTIONS.NOTES_GET_USER: {
-      return { ...state, notes: payload };
-    }
-    case ACTIONS.NOTES_CREATE: {
-      state.notes.push(payload);
-      return { ...state };
-    }
-    case ACTIONS.NOTES_UPDATE: {
-      state.notes[payload.noteIdx] = payload.newNote;
-      return { ...state };
-    }
-    case ACTIONS.NOTES_REMOVE: {
-      state.notes.filter((item) => item.id !== payload);
-      return {
-        ...state,
-      };
+    case ACTIONS.UPDATE_TASK: {
+      let taskIndex = state.findIndex((item) => item.id === payload.id);
+      state.splice(taskIndex, 1, payload);
+      return [...state];
     }
     default:
       return state;

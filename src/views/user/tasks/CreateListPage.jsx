@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { RiPlayListAddLine } from "react-icons/ri";
 import { IoAddOutline } from "react-icons/io5";
-import { GlobalContext } from "../../context/GlobalState";
-import { IMAGES_Icons, listTemplates } from "../../data/templates";
+import { GlobalContext } from "../../../context/GlobalState";
+import { IMAGES_Icons, listTemplates } from "../../../data/templates";
 
 const CreateListPage = () => {
   const { handleCreateList } = useContext(GlobalContext);

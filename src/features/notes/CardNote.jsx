@@ -15,9 +15,9 @@ export default function CardNote({ note, idx }) {
   };
 
   return (
-    <li className="flex flex-col flex-1 max-w-[600px] min-w-[200px] w-full">
+    <li className="flex flex-col flex-1 w-full">
       {/* title */}
-      <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full rounded-t-lg">
+      <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full">
         {editTitle ? (
           <CardNoteEditTitle
             note={note}
@@ -46,10 +46,10 @@ export default function CardNote({ note, idx }) {
         )}
       </div>
       {/* Body */}
-      <div className="p-2 w-full h-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans rounded-b-lg">
+      <div className="p-2 w-full h-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans ">
         {!editDetails ? (
           <pre
-            className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans rounded-b-lg"
+            className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans "
             onClick={() => {
               setEditDetails(true);
             }}

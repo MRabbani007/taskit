@@ -178,8 +178,8 @@ button {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  border: 2px solid var(--business);
-  box-shadow: var(--business-glow);
+  border: 2px solid blue;
+  box-shadow: blue;
 }
 
 .bubble.personal {
@@ -193,8 +193,8 @@ button {
   opacity: 0;
   width: 0px;
   height: 0px;
-  background-color: var(--business);
-  box-shadow: var(--business-glow);
+  background-color: blue;
+  box-shadow: blue;
   border-radius: 50%;
   transition: 0.2s ease-in-out;
 }

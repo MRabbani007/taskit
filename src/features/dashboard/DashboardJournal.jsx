@@ -18,7 +18,7 @@ export default function DashboardJournal() {
 
   const content = lastItems.map((item, index) => {
     return (
-      <div className="w-full flex gap-2 p-2 bg-zinc-100">
+      <div key={index} className="w-full flex gap-2 p-2 bg-zinc-100">
         <p className="text-nowrap">
           {new Date(item?.createDate).toUTCString().substring(0, 11)}
         </p>

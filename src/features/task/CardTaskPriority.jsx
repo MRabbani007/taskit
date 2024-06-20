@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
 import { IoAlertCircle } from "react-icons/io5";
 import useDebounce from "../../hooks/useDebounce";
-import { ACTIONS } from "../../data/actions";
 
 const CardTaskPriority = ({ task }) => {
   const { handleUpdateTask } = useContext(GlobalContext);
@@ -31,10 +30,7 @@ const CardTaskPriority = ({ task }) => {
   };
 
   const handlePriority = async () => {
-    handleUpdateTask(ACTIONS.UPDATE_TASK_PRIORITY, {
-      id: task.id,
-      priority: debouncePriority,
-    });
+    handleUpdateTask({ ...task, priority: debouncePriority });
   };
 
   useEffect(() => {
@@ -46,7 +42,7 @@ const CardTaskPriority = ({ task }) => {
   return (
     <div
       className={
-        "rounded-l-full w-[40px] hover:w-[60px] duration-200 cursor-pointer flex items-center justify-center group"
+        "w-[20px] hover:w-[60px] duration-200 cursor-pointer flex items-center justify-center group"
       }
       style={{ backgroundColor: bgColor }}
       title={"Priority " + task?.priority}

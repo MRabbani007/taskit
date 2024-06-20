@@ -1,15 +1,14 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
-import { BiCheck, BiX } from "react-icons/bi";
-import { ACTIONS } from "../../data/actions";
+import { DatePicker, Form, Input, Modal } from "antd";
 
 const CardEditTask = ({ task, setEdit }) => {
   const { handleUpdateTask } = useContext(GlobalContext);
-  const [title, setTitle] = useState(task?.title);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    handleUpdateTask(ACTIONS.UPDATE_TASK_TITLE, { id: task.id, title });
+  const [form] = Form.useForm();
+
+  const handleSubmit = async (values) => {
+    handleUpdateTask({ ...task, ...values });
     setEdit(false);
   };
 
@@ -18,29 +17,43 @@ const CardEditTask = ({ task, setEdit }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      onReset={handleReset}
-      className="flex items-center"
+    <Modal
+      open={true}
+      title="Edit Task"
+      okText="Save"
+      cancelText="Cancel"
+      okButtonProps={{ autoFocus: true, htmlType: "submit" }}
+      onCancel={handleReset}
+      destroyOnClose="true"
+      modalRender={(dom) => (
+        <Form
+          layout="vertical"
+          form={form}
+          name="form_in_modal"
+          initialValues={task}
+          clearondestroy
+          onFinish={handleSubmit}
+        >
+          {dom}
+        </Form>
+      )}
     >
-      <input
-        type="text"
-        autoFocus
-        className="bg-transparent outline-none border-none p-0 m-0"
-        value={title}
-        onChange={(e) => {
-          setTitle(e.target.value);
-        }}
-      />
-      <span className="flex items-center">
-        <button type="submit">
-          <BiCheck size={32} />
-        </button>
-        <button type="reset">
-          <BiX size={32} />
-        </button>
-      </span>
-    </form>
+      <Form.Item
+        name="title"
+        label="Title"
+        rules={[
+          {
+            required: true,
+            message: "Please enter task",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+      <Form.Item name="details" label="Details">
+        <Input type="text" />
+      </Form.Item>
+    </Modal>
   );
 };
 

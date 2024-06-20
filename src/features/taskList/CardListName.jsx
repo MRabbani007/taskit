@@ -32,7 +32,7 @@ const CardListName = ({ taskList }) => {
   return (
     <li
       key={taskList?.id}
-      className="flex items-stretch py-1 pr-4 shadow-sm shadow-slate-600 rounded-md"
+      className="flex items-stretch py-1 pr-4 shadow-sm shadow-slate-600"
     >
       <div
         className={
@@ -58,7 +58,7 @@ const CardListName = ({ taskList }) => {
             <p
               className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
               onClick={() => {
-                handleOpen(taskList.id);
+                handleOpen(taskList);
               }}
             >
               {taskList.title}

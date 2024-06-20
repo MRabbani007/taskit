@@ -1,13 +1,14 @@
-import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { useContext, useEffect, useState } from "react";
+import { GlobalContext } from "../../../context/GlobalState";
 import { BsCardList } from "react-icons/bs";
-import CardAddTask from "../../features/taskList/CardAddTask";
-import CardTaskBlock from "../../features/task/CardTaskBlock";
-import TaskFilter from "../../features/task/TaskFilter";
-import TaskSort from "../../features/task/TaskSort";
+import CardAddTask from "../../../features/taskList/CardAddTask";
+import CardTaskBlock from "../../../features/task/CardTaskBlock";
+import TaskFilter from "../../../features/task/TaskFilter";
+import TaskSort from "../../../features/task/TaskSort";
 import { Switch } from "antd";
 
 const filterTasks = (type, payload, lists = []) => {
+  if (!Array.isArray(payload)) return [];
   // remove items included in filter and keep others
   let result = payload;
   if (type.includes("completed")) {
@@ -75,7 +76,11 @@ const sortTasks = (type, payload) => {
 };
 
 export default function TasksPage() {
-  const { userTasks: tasks } = useContext(GlobalContext);
+  const { tasks, status, handleGetTasks } = useContext(GlobalContext);
+
+  useEffect(() => {
+    handleGetTasks("ALL");
+  }, []);
 
   const [viewFilter, setViewFilter] = useState(false);
   const [viewSort, setViewSort] = useState(false);
@@ -88,6 +93,24 @@ export default function TasksPage() {
   const filtered = filterTasks(filters, tasks, inLists);
 
   const sorted = sortTasks(sort, filtered);
+
+  let content;
+
+  if (status.isLoading) {
+    content = <p>Loading...</p>;
+  } else if (status.isError) {
+    content = <p>Error Loading Tasks</p>;
+  } else if (status.isSuccess && tasks.length === 0) {
+    content = <p>No tasks create new</p>;
+  } else if (status.isSuccess) {
+    content = (
+      <ul className="flex flex-col w-full flex-1 gap-2">
+        {sorted.map((task) => {
+          return <CardTaskBlock task={task} key={task?.id} openList={true} />;
+        })}
+      </ul>
+    );
+  }
 
   return (
     <main>
@@ -122,12 +145,7 @@ export default function TasksPage() {
           viewFilter={viewFilter}
         />
         {viewSort && <TaskSort setSort={setSort} />}
-        <ul className="flex flex-col w-full flex-1 gap-1">
-          {Array.isArray(tasks) &&
-            sorted.map((task) => {
-              return <CardTaskBlock task={task} key={task?.id} />;
-            })}
-        </ul>
+        {content}
       </div>
     </main>
   );

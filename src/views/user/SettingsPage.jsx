@@ -6,12 +6,16 @@ import { Link } from "react-router-dom";
 import CardEnterEmail from "../../features/user/CardEnterEmail";
 import CardEnterName from "../../features/user/CardEnterName";
 import CardUserRoles from "../../features/user/CardUserRoles";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const SettingsPage = () => {
   return (
     <main>
-      <header>
-        <h1>Settings</h1>
+      <header className="bg-gradient-to-r from-zinc-200 to-zinc-400 text-sky-600">
+        <div>
+          <IoSettingsOutline size={40} />
+          <h1 className="font-semibold">Settings</h1>
+        </div>
       </header>
       <div>
         <section className="border-2 border-slate-400 rounded-lg p-3 my-3 w-full">

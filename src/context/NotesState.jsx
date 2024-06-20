@@ -1,10 +1,23 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import AuthContext from "./AuthProvider";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { notesReducer } from "./NotesReducer";
 import { ACTIONS, SERVER } from "../data/actions";
 
 const initialState = [];
+
+const initialStatus = {
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  error: {},
+};
 
 export const NotesContext = createContext(initialState);
 
@@ -14,16 +27,40 @@ export const NotesProvider = ({ children }) => {
 
   // Store data
   const [state, dispatch] = useReducer(notesReducer, initialState);
+  const [status, setStatus] = useState(initialStatus);
 
   const handleNotesGetUser = async () => {
-    let response = await axiosPrivate.get(SERVER.NOTES, {
-      params: {
-        userName: auth?.user,
-      },
+    setStatus({
+      isLoading: true,
+      isSuccess: false,
+      isError: false,
+      error: {},
     });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.NOTES_GET_USER, payload: response.data });
-    }
+    await axiosPrivate
+      .get(SERVER.NOTES, {
+        params: {
+          userName: auth?.user,
+        },
+      })
+      .then((response) => {
+        if (response?.data && Array.isArray(response.data)) {
+          dispatch({ type: ACTIONS.NOTES_GET_USER, payload: response.data });
+          setStatus({
+            isLoading: false,
+            isSuccess: true,
+            isError: false,
+            error: {},
+          });
+        }
+      })
+      .catch((err) =>
+        setStatus({
+          isLoading: false,
+          isSuccess: false,
+          isError: true,
+          error: {},
+        })
+      );
   };
 
   const handleNoteCreate = async (title = "") => {
@@ -85,6 +122,7 @@ export const NotesProvider = ({ children }) => {
     <NotesContext.Provider
       value={{
         notes: state,
+        status,
         handleNoteCreate,
         handleNoteUpdate,
         handleNoteDelete,

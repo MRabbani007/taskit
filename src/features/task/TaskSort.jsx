@@ -4,7 +4,7 @@ import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 
 export default function TaskSort({ setSort }) {
   return (
-    <div className="w-full sm:px-8 py-2">
+    <div className="w-full sm:px-8">
       <div className="flex flex-wrap gap-6 justify-center">
         <div className="flex items-center gap-2">
           <Button

@@ -12,6 +12,13 @@ import { ACTIONS, SERVER } from "../data/actions";
 
 const initialState = [];
 
+const initialStatus = {
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  error: {},
+};
+
 // Create context
 export const ActivityContext = createContext(initialState);
 
@@ -21,20 +28,37 @@ export const ActivityProvider = ({ children }) => {
 
   // Store data
   const [state, dispatch] = useReducer(activityReducer, initialState);
+
   const [fetchTasks, setFetchTasks] = useState(true);
   const [openActivity, setOpenActivity] = useState(null);
 
-  const [loading, setLoading] = useState(false);
-  const [loadingCreate, setLoadingCreate] = useState(false);
+  const [status, setStatus] = useState(initialStatus);
 
   const handleActivityGet = async () => {
-    let response = await axiosPrivate.get(SERVER.ACTIVITY, {
-      roles: auth?.roles,
-      params: { userName: auth?.user },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.ACTIVITY_GET, payload: response.data });
-    }
+    await axiosPrivate
+      .get(SERVER.ACTIVITY, {
+        roles: auth?.roles,
+        params: { userName: auth?.user },
+      })
+      .then((response) => {
+        if (response?.data && Array.isArray(response.data)) {
+          dispatch({ type: ACTIONS.ACTIVITY_GET, payload: response.data });
+          setStatus({
+            isLoading: false,
+            isSuccess: true,
+            isError: false,
+            error: {},
+          });
+        }
+      })
+      .catch((e) => {
+        setStatus({
+          isLoading: false,
+          isSuccess: false,
+          isError: true,
+          error: {},
+        });
+      });
   };
 
   const handleActivityCreate = async (activity) => {
@@ -161,6 +185,12 @@ export const ActivityProvider = ({ children }) => {
 
   useEffect(() => {
     if (auth?.user) {
+      setStatus({
+        isLoading: true,
+        isSuccess: false,
+        isError: false,
+        error: {},
+      });
       handleActivityGet();
     }
   }, []);
@@ -177,6 +207,7 @@ export const ActivityProvider = ({ children }) => {
       value={{
         activities: state,
         openActivity: openActivity,
+        status: status,
         handleActivityCreate,
         handleActivityUpdate,
         handleActivityDelete,

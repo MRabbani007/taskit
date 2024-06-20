@@ -9,7 +9,7 @@ export default function ListTitleEdit({ list, setEdit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdateList(list?.id, "list_title", editInput);
+    handleUpdateList(list?.id, "list_title", title);
     setEdit(false);
   };
 

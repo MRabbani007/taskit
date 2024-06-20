@@ -42,9 +42,9 @@ const ListIcon = ({ list }) => {
         </form>
       ) : (
         <img
-          src={IMAGES_Icons + list?.icon}
+          src={"icons/" + list?.icon}
           alt=""
-          className="icon mr-2 z-10"
+          className="w-12"
           onClick={() => setEditListIcon(true)}
         />
       )}

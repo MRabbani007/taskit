@@ -28,8 +28,9 @@ import {
 import { SlNotebook } from "react-icons/sl";
 import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
 import { FaListCheck, FaRegCircleUser } from "react-icons/fa6";
-import { RiPagesLine } from "react-icons/ri";
+import { RiAdminLine, RiPagesLine } from "react-icons/ri";
 import { GrGroup } from "react-icons/gr";
+import { FiUsers } from "react-icons/fi";
 
 const items = [
   // {
@@ -60,7 +61,7 @@ const items = [
       {
         key: "grp_pages_2",
         label: (
-          <Link title="Calendar" to={"/calendar"}>
+          <Link title="Calendar" to={"/pages/calendar"}>
             Calendar
           </Link>
         ),
@@ -69,7 +70,7 @@ const items = [
       {
         key: "grp_pages_3",
         label: (
-          <Link title="Journal" to={"/journal"}>
+          <Link title="Journal" to={"/pages/journal"}>
             Journal
           </Link>
         ),
@@ -78,7 +79,7 @@ const items = [
       {
         key: "grp_pages_4",
         label: (
-          <Link title="Notes" to={"/notes"}>
+          <Link title="Notes" to={"/pages/notes"}>
             Notes
           </Link>
         ),
@@ -176,19 +177,66 @@ const items = [
     children: [
       {
         key: "grp_user_1",
-        label: <Link to={"/settings"}>Profile</Link>,
+        label: <Link to={"/user/profile"}>Profile</Link>,
         icon: <FaRegCircleUser size={28} />,
       },
       {
         key: "grp_user_2",
-        label: <Link to={"/settings"}>Settings</Link>,
+        label: <Link to={"/user/settings"}>Settings</Link>,
         icon: <IoSettingsOutline size={28} />,
       },
       {
         key: "grp_user_3",
-        label: <Link to={"/login"}>Sign Out</Link>,
+        label: <Link to={"/logout"}>Sign Out</Link>,
         icon: <IoLogOutOutline size={28} />,
       },
+    ],
+  },
+];
+
+const adminItems = [
+  {
+    key: "grp_admin",
+    label: "Admin",
+    icon: <RiAdminLine size={28} />,
+    children: [
+      {
+        key: "grp_admin_1",
+        label: (
+          <Link title="Users" to={"/admin/users"}>
+            Users
+          </Link>
+        ),
+        icon: <FiUsers size={28} />,
+        // path: "/",
+      },
+      {
+        key: "grp_admin_2",
+        label: (
+          <Link title="Lists" to={"/admin/lists"}>
+            Lists
+          </Link>
+        ),
+        icon: <IoListOutline size={28} />,
+      },
+      // {
+      //   key: "grp_admin_3",
+      //   label: (
+      //     <Link title="Journal" to={"/pages/journal"}>
+      //       Journal
+      //     </Link>
+      //   ),
+      //   icon: <BsJournalText size={28} />,
+      // },
+      // {
+      //   key: "grp_admin_4",
+      //   label: (
+      //     <Link title="Notes" to={"/pages/notes"}>
+      //       Notes
+      //     </Link>
+      //   ),
+      //   icon: <SlNotebook size={28} />,
+      // },
     ],
   },
 ];
@@ -202,6 +250,7 @@ const Sidebar = () => {
 
   const isActive = (page) => location.pathname.includes(page);
   const isHomePage = location.pathname.split("/")[2] === "";
+  const isAdmin = auth?.roles.includes(5150);
 
   const onClick = (e) => {
     // console.log("click ", e);
@@ -216,7 +265,9 @@ const Sidebar = () => {
     icon: <FaRegCircleUser size={32} />,
   };
 
-  let menuItems = [username, ...items];
+  let menuItems = isAdmin
+    ? [username, ...items, ...adminItems]
+    : [username, ...items];
 
   return (
     <Menu

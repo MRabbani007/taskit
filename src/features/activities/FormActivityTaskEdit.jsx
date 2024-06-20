@@ -12,7 +12,7 @@ export default function FormActivityTaskEdit({ task, edit, setEdit }) {
   };
 
   const onChange = (date, dateString) => {
-    console.log(date, dateString);
+    // console.log(date, dateString);
   };
 
   return (

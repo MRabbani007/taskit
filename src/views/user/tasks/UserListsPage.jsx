@@ -1,20 +1,13 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { GlobalContext } from "../../../context/GlobalState";
 import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
-import CardListName from "../../features/taskList/CardListName";
+import CardListName from "../../../features/taskList/CardListName";
 import { Link } from "react-router-dom";
 import { Button, Flex, FloatButton } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import SectionTrash from "../../features/taskList/SectionTrash";
-import {
-  LiaTrashRestoreAltSolid,
-  LiaTrashRestoreSolid,
-  LiaTrashSolid,
-} from "react-icons/lia";
-import { IoSkullOutline } from "react-icons/io5";
-import { IMAGES_Icons } from "../../data/templates";
-import { TbTrash } from "react-icons/tb";
+import { LiaTrashRestoreSolid, LiaTrashSolid } from "react-icons/lia";
+import { IMAGES_Icons } from "../../../data/templates";
 import { CiTrash } from "react-icons/ci";
 
 const UserListsPage = () => {
@@ -44,7 +37,7 @@ const UserListsPage = () => {
             (expand
               ? "translate-y-[0] opacity-100 "
               : "translate-y-[-20px] opacity-0 invisible h-0 ") +
-            " py-4 duration-300 flex flex-1 w-full flex-col gap-2"
+            " py-4 duration-300 flex flex-1 w-full flex-col gap-4"
           }
         >
           {Array.isArray(listNames) &&

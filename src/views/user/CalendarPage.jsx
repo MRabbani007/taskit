@@ -1,5 +1,5 @@
 import { Badge, Calendar, Col, Radio, Row, Select, Typography } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalState";
 import { IoCalendarOutline } from "react-icons/io5";
@@ -86,17 +86,25 @@ function formatDate(date, format = "dd/mm/yyyy") {
 }
 
 export default function CalendarPage() {
-  const { overdueTasks, handleOpen } = useContext(GlobalContext);
+  const { tasks, handleOpen, handleGetTasks, status } =
+    useContext(GlobalContext);
+
+  useEffect(() => {
+    handleGetTasks("ALL", null);
+  }, []);
 
   const onPanelChange = (value, mode) => {
-    console.log(value.format("YYYY-MM-DD"), mode);
+    // console.log(value.format("YYYY-MM-DD"), mode);
   };
 
   const getListData = (value) => {
-    const dayTasks = overdueTasks.filter(
-      (task) =>
-        formatDate(new Date(task.dueDate)) === formatDate(new Date(value))
-    );
+    const dayTasks = tasks
+      .filter((task) => task.completed === false)
+      .filter(
+        (task) =>
+          formatDate(new Date(task.dueDate)) === formatDate(new Date(value))
+      );
+
     const listData = dayTasks.map((task) => {
       return {
         type:
@@ -113,7 +121,7 @@ export default function CalendarPage() {
   };
 
   const getMonthData = (value) => {
-    const dayTasks = overdueTasks.filter(
+    const dayTasks = tasks.filter(
       (task) =>
         formatDate(new Date(task.dueDate), "mm/yyyy") ===
         formatDate(new Date(value), "mm/yyyy")

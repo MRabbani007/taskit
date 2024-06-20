@@ -1,18 +1,16 @@
 import React from "react";
-import { IoListOutline } from "react-icons/io5";
+import { FaRegCircleUser } from "react-icons/fa6";
 
-const AdminLists = () => {
+export default function ProfilePage() {
   return (
     <main>
       <header className="bg-gradient-to-r from-zinc-200 to-zinc-400 text-sky-600">
         <div>
-          <IoListOutline size={40} />
-          <h1 className="font-semibold">Lists</h1>
+          <FaRegCircleUser size={40} />
+          <h1 className="font-semibold">Profile</h1>
         </div>
       </header>
       <div></div>
     </main>
   );
-};
-
-export default AdminLists;
+}

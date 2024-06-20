@@ -1,10 +1,8 @@
 import { useContext, useState } from "react";
 import { GlobalContext } from "../../context/GlobalState";
 import { getDate } from "../../data/utils";
-import { BiCheck, BiX } from "react-icons/bi";
-import { ACTIONS } from "../../data/actions";
 
-const CardTaskDueDate = ({ task, setEdit }) => {
+const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
   const { handleUpdateTask } = useContext(GlobalContext);
 
   // hold due date value
@@ -19,12 +17,8 @@ const CardTaskDueDate = ({ task, setEdit }) => {
   });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    handleUpdateTask(ACTIONS.UPDATE_TASK_DUEDATE, {
-      id: task.id,
-      dueDate,
-    });
-    setEdit(false);
+    // e.preventDefault();
+    handleUpdateTask({ ...task, dueDate: e.target.value });
   };
 
   const handleReset = () => {
@@ -35,27 +29,20 @@ const CardTaskDueDate = ({ task, setEdit }) => {
     <form
       onSubmit={handleSubmit}
       onReset={handleReset}
-      className="flex items-center gap-3"
+      className="flex items-center gap-3 ml-10"
     >
-      {/* date input in format yyyy-mm-dd */}
       <input
         type="date"
         value={dueDate}
-        onChange={(e) => setDueDate(e.target.value)}
-        className="font-light outline-none border-none bg-transparent"
+        onChange={handleSubmit}
+        className="font-light outline-none border-none p-0 m-0 bg-transparent"
         placeholder="Due Date"
       />
-      <input
+      {/* <input
         type="time"
         className="font-light outline-none border-none bg-transparent"
         title="Due Time"
-      />
-      <button type="submit" title="Save">
-        <BiCheck size={28} />
-      </button>
-      <button type="reset" title="Cancel">
-        <BiX size={28} />
-      </button>
+      /> */}
     </form>
   );
 };

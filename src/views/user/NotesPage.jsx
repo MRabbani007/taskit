@@ -1,13 +1,32 @@
 import { useContext, useState } from "react";
 import { GrNotes } from "react-icons/gr";
-import { SlArrowRight } from "react-icons/sl";
 import CardAddNote from "../../features/notes/CardAddNote";
 import { NotesContext } from "../../context/NotesState";
 import CardNote from "../../features/notes/CardNote";
 
 const NotesPage = () => {
   const [expand, setExpand] = useState(true);
-  const { notes } = useContext(NotesContext);
+  const { notes, status } = useContext(NotesContext);
+
+  let content;
+
+  if (status?.isLoading === true) {
+    content = <p>Loading...</p>;
+  } else if (status?.isError === true) {
+    content = <p>Error Loading Notes</p>;
+  } else if (status?.isSuccess === true) {
+    content =
+      notes.length === 0 ? (
+        <p>No notes yet, create new note</p>
+      ) : (
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+          {notes.map((note, idx) => {
+            if (note?.trash === true) return;
+            return <CardNote note={note} idx={idx} key={idx} />;
+          })}
+        </ul>
+      );
+  }
 
   return (
     <main>
@@ -29,13 +48,7 @@ const NotesPage = () => {
             " duration-300 flex flex-wrap flex-1 gap-4 items-stretch"
           }
         >
-          {Array.isArray(notes) &&
-            notes.map((note, idx) => {
-              if (note?.trash === true) return;
-              return <CardNote note={note} idx={idx} key={idx} />;
-            })}
-
-          {notes?.length === 0 && "No Notes"}
+          {content}
         </div>
         <CardAddNote />
       </div>

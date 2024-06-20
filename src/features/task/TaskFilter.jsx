@@ -30,13 +30,13 @@ export default function TaskFilter({
   }, [viewFilter, priority, showCompleted, inLists]);
 
   return (
-    <div className="mx-auto p-2">
+    <div className="mx-auto px-2">
       <div
         className={
           (viewFilter === true
             ? ""
             : "-translate-y-4 opacity-0 invisible h-0") +
-          " duration-200 py-4 flex gap-2"
+          " duration-200 flex gap-2"
         }
       >
         <div className="flex flex-wrap items-start gap-6">

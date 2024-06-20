@@ -1,37 +1,24 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import CardTaskDetails from "./CardTaskDetails";
 import CardTaskDueDate from "./CardTaskDueDate";
-import CardTaskTags from "./CardTaskTags";
 import { GlobalContext } from "../../context/GlobalState";
 import CardEditTask from "./CardEditTask";
-import { BiDotsHorizontalRounded } from "react-icons/bi";
-import TaskDropDown from "./TaskDropDown";
 import CardTaskPriority from "./CardTaskPriority";
-import { IoIosArrowForward } from "react-icons/io";
 import { CiTrash } from "react-icons/ci";
-import { CgMoveTask } from "react-icons/cg";
-import { ACTIONS } from "../../data/actions";
+import { FaTag } from "react-icons/fa6";
+import FormTagAdd from "./FormTagAdd";
+import { IoPricetagOutline } from "react-icons/io5";
+import { AiOutlineUnorderedList } from "react-icons/ai";
 
-const CardTaskBlock = ({ task }) => {
-  const { handleUpdateTask, handleDeleteTask } = useContext(GlobalContext);
+const CardTaskBlock = ({ task, openList = false }) => {
+  const { handleOpen, handleUpdateTask, handleDeleteTask } =
+    useContext(GlobalContext);
 
   // View/hide edit title
   const [edit, setEdit] = useState(false);
-  const [editDueDate, setEditDueDate] = useState(false);
-  // dropdown menu
-  const [dropDown, setDropDown] = useState(false);
-  // Expand/Collapse item block
-  const [expand, setExpand] = useState(false);
-  // Add tags
   const [addTag, setAddTag] = useState(false);
 
-  const menuRef = useRef(null);
-
   const toggleCompleted = async () => {
-    await handleUpdateTask(ACTIONS.UPDATE_TASK_COMPLETE, {
-      id: task?.id,
-      completed: !task.completed,
-    });
+    await handleUpdateTask({ ...task, completed: !task.completed });
   };
 
   const closeMenu = (e) => {
@@ -60,98 +47,89 @@ const CardTaskBlock = ({ task }) => {
         {/* Title */}
         <div
           className={
-            "flex flex-1 items-center justify-between gap-2 py-2 px-4 bg-zinc-300 "
+            "flex flex-1 items-center justify-between gap-2 py-2 px-4 bg-zinc-300 group"
           }
         >
-          <div className="flex items-center gap-2">
-            {/* Completed Button */}
-            <label htmlFor="">
-              <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => {}}
-                className="invisible absolute"
-              />
-              <button
-                className="bubble"
-                onClick={() => toggleCompleted()}
-              ></button>
-            </label>
-            <div className="flex flex-col items-start flex-1">
-              {edit ? (
-                <CardEditTask task={task} setEdit={setEdit} />
-              ) : (
-                <p className="flex-1 overflow-hidden">
-                  <span
-                    onClick={() => setEdit(true)}
-                    className=" font-light whitespace-wrap text-ellipsis cursor-pointer"
-                    title={task?.title}
-                  >
-                    {task?.title}
-                  </span>
-                </p>
-              )}
-              {/* Due Date */}
-              {editDueDate ? (
-                <CardTaskDueDate task={task} setEdit={setEditDueDate} />
-              ) : (
+          <div className="flex flex-col items-start flex-1">
+            <p className="flex flex-1 items-center gap-4 overflow-hidden">
+              {/* Completed Button */}
+              <label htmlFor="" className="w-6">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => {}}
+                  className="invisible absolute"
+                />
                 <button
-                  onClick={() => setEditDueDate(true)}
-                  className="p-0 m-0 font-light italic"
-                >
-                  {task?.dueDate ? task.dueDate.substr(0, 10) : "Set Due Date"}
-                </button>
-              )}
-            </div>
+                  className="bubble"
+                  onClick={() => toggleCompleted()}
+                ></button>
+              </label>
+              <span
+                onClick={() => setEdit(true)}
+                className="font-medium text-zinc-900 whitespace-wrap text-ellipsis cursor-pointer"
+                title={task?.title}
+              >
+                {task?.title}
+              </span>
+            </p>
+            <p
+              onClick={() => setAddDetail(true)}
+              className="whitespace-break-spaces ml-10"
+            >
+              {task?.details}
+            </p>
+            {/* Due Date */}
+            <CardTaskDueDate task={task} />
+            <p className="flex flex-wrap items-center gap-3">
+              {Array.isArray(task.tags)
+                ? task.tags.map((tag, index) => {
+                    return (
+                      <span
+                        key={index}
+                        className=" flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full bg-slate-200"
+                      >
+                        <FaTag className="icon-sm mr-1" />
+                        {tag?.name}
+                        <CiSquareRemove
+                          onClick={() => {
+                            handleDeleteTag(tag);
+                          }}
+                        />
+                      </span>
+                    );
+                  })
+                : null}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={handleDelete}
+              className="invisible group-hover:visible duration-200"
+            >
+              <CiTrash size={32} />
+            </button>
+            {openList === true ? (
+              <button
+                title="Open List"
+                onClick={() => {
+                  console.log(task);
+                  handleOpen(task?.listID);
+                }}
+                className="invisible group-hover:visible duration-200"
+              >
+                <AiOutlineUnorderedList size={32} />
+              </button>
+            ) : null}
+            <button onClick={() => {}}>
+              <IoPricetagOutline size={32} />
+              {/* <IoPricetag /> */}
+            </button>
           </div>
         </div>
-        <div
-          className={
-            "rounded-r-full w-[40px] hover:w-[100px] duration-200 cursor-pointer flex items-center justify-end pr-2 group bg-zinc-300 group"
-          }
-        >
-          <button
-            onClick={handleDelete}
-            className="hidden group-hover:inline-block"
-          >
-            <CiTrash size={28} />
-          </button>
-          <button className="hidden group-hover:inline-block">
-            <CgMoveTask size={32} />
-          </button>
-          <button onClick={() => setExpand((curr) => !curr)}>
-            <IoIosArrowForward
-              size={32}
-              className={(expand ? "rotate-90" : "") + " duration-200"}
-            />
-          </button>
-          {/* <BiDotsHorizontalRounded
-            className="icon cursor-pointer "
-            onClick={() => {
-              setDropDown(!dropDown);
-            }}
-          /> */}
-          {/* <TaskDropDown
-            dropDown={dropDown}
-            ref={menuRef}
-            task={task}
-            setAddTag={setAddTag}
-            setExpand={setExpand}
-          /> */}
-        </div>
       </div>
-      {/* Body */}
-      <div
-        className={
-          (expand ? "" : " invisible opacity-0 h-0 -translate-y-4") +
-          " bg-gray-100 p-2 mx-10 flex flex-col duration-200"
-        }
-      >
-        {/* Details */}
-        <CardTaskDetails task={task} />
-        {/* Tags */}
-        <CardTaskTags task={task} addTag={addTag} setAddTag={setAddTag} />
-      </div>
+      {edit ? <CardEditTask task={task} setEdit={setEdit} /> : null}
+      {addTag ? <FormTagAdd /> : null}
     </div>
   );
 };

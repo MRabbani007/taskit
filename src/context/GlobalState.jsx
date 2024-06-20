@@ -15,17 +15,13 @@ import { ACTIONS, SERVER } from "../data/actions";
 
 // Initial state
 // App will display only 1 list with its tasks
-const initialState = {
-  listNames: [],
-  notes: [],
-  trash: [],
-  listTasks: [],
-  userTasks: [],
-  tags: [],
-  taskTags: [],
-  todayTasks: [],
-  overdueTasks: [],
-  thisWeekTasks: [],
+const initialState = [];
+
+const initialStatus = {
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  error: {},
 };
 
 // Create context
@@ -38,32 +34,15 @@ export const GlobalProvider = ({ children }) => {
 
   // Store data
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const [status, setStatus] = useState(initialStatus);
+
+  const [lists, setLists] = useState([]);
+  const [listSummary, setListSummary] = useState([]);
 
   const navigate = useNavigate();
 
-  // Display today and this week tasks
-  const [todayTasks, setTodayTasks] = useState([]);
-  const [weekTasks, setWeekTasks] = useState([]);
-  const [importantTasks, setImportantTasks] = useState([]);
-  const [overdueTasks, setOverdueTasks] = useState([]);
-  const [listSummary, setListSummary] = useState([]);
-  const [userTasks, setUserTasks] = useState([]);
-  const [tasks, setTasks] = useState([]);
-
   // Task list displayed in main container
   const [displayList, setDisplayList] = useState(null);
-
-  // View Create List Component
-  const [viewCreateList, setViewCreateList] = useState(false);
-
-  const toggleCreateList = () => {
-    if (viewCreateList) {
-      setViewCreateList(false);
-    } else {
-      setDisplayList(null);
-      setViewCreateList(true);
-    }
-  };
 
   const handleGetLists = async () => {
     let response = await axiosPrivate.post(SERVER.GET_LISTS, {
@@ -74,7 +53,7 @@ export const GlobalProvider = ({ children }) => {
       },
     });
     if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.GET_LISTS, payload: response.data });
+      setLists(response.data);
     }
   };
 
@@ -139,105 +118,56 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  // Get list Tasks
-  function handleGetTasks(listID) {
-    axiosPrivate
-      .get(SERVER.TASKS, {
-        params: {
-          listID,
+  const handleGetTasks = async (type, payload = {}) => {
+    setStatus({
+      isLoading: true,
+      isSuccess: false,
+      isError: false,
+      error: {},
+    });
+
+    // let temp;
+    // if (type === "TODAY") {
+    //   temp = { day: getDate(0) };
+    // } else if (type === "WEEK") {
+    //   temp = { day: getDate(1), offset: getDate(7) };
+    // } else if (type === "OVERDUE") {
+    //   temp = { offset: getDate(-1) };
+    // } else if (type === "IMPORTANT") {
+    //   temp = {};
+    // } else if (type === "list") {
+    //   temp = payload;
+    // } else if (type === "all") {
+    //   temp = {};
+    // }
+
+    await axiosPrivate
+      .post("/tasks", {
+        roles: auth?.roles,
+        action: {
+          type: type,
+          payload: { userName: auth?.user, ...payload },
         },
       })
-      .then((result) => {
-        if (result?.data && Array.isArray(result.data)) {
-          dispatch({ type: ACTIONS.GET_TASKS_LIST, payload: result.data });
+      .then((response) => {
+        if (response?.data && Array.isArray(response.data)) {
+          dispatch({ type: "GET_TASKS", payload: response.data });
+          setStatus({
+            isLoading: false,
+            isSuccess: true,
+            isError: false,
+            error: {},
+          });
         }
       })
-      .catch((err) => console.log(err))
-      .finally(() => {});
-  }
-
-  function handleGetAllTasks() {
-    axiosPrivate
-      .get(SERVER.TASKS_ALL, {
-        params: {
-          userName: auth?.user,
-        },
-      })
-      .then((result) => {
-        if (result?.data && Array.isArray(result.data)) {
-          setUserTasks(result.data);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {});
-  }
-
-  function handleGetTasksUser(listID) {
-    axiosPrivate
-      .get(SERVER.TASKS_USER, {
-        params: {
-          userName: auth?.user,
-        },
-      })
-      .then((result) => {
-        if (result?.data && Array.isArray(result.data)) {
-          setTasks(result.data);
-        }
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {});
-  }
-
-  const handleGetTodayTasks = async () => {
-    let response = await axiosPrivate.post(SERVER.GET_TASKS_TODAY, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TASKS_TODAY,
-        payload: { userName: auth?.user, day: getDate(0) },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      setTodayTasks(response.data);
-    }
-  };
-
-  const handleGetWeekTasks = async () => {
-    let response = await axiosPrivate.post(SERVER.GET_TASKS_WEEK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TASKS_WEEK,
-        payload: { userName: auth?.user, day: getDate(1), offset: getDate(7) },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      setWeekTasks(response.data);
-    }
-  };
-
-  const handleGetImportantTasks = async () => {
-    let response = await axiosPrivate.post(SERVER.GET_TASKS_IMPORTANT, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TASKS_IMPORTANT,
-        payload: { userName: auth?.user },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      setImportantTasks(response.data);
-    }
-  };
-
-  const handleGetOverdueTasks = async () => {
-    let response = await axiosPrivate.post(SERVER.GET_TASKS_OVERDUE, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TASKS_OVERDUE,
-        payload: { userName: auth?.user, offset: getDate(-1) },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      setOverdueTasks(response.data);
-    }
+      .catch((err) => {
+        setStatus({
+          isLoading: false,
+          isSuccess: false,
+          isError: true,
+          error: {},
+        });
+      });
   };
 
   const handleAddTask = async (listID, taskTitle) => {
@@ -274,48 +204,21 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const handleUpdateTask = async (type, task) => {
+  const handleUpdateTask = async (task) => {
     dispatch({
-      type: type,
+      type: ACTIONS.UPDATE_TASK,
       payload: task,
     });
     let response = await axiosPrivate.patch(SERVER.TASKS, {
       roles: auth?.roles,
       action: {
-        type: type,
+        type: ACTIONS.UPDATE_TASK,
         payload: {
           userName: auth?.user,
           task: task,
         },
       },
     });
-    return response?.data;
-  };
-
-  const handleTagsGetAll = async (taskID) => {
-    let response = await axiosPrivate.post(SERVER.GET_TAGS_ALL, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TAGS_ALL,
-        payload: { userName: auth?.user },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.GET_TAGS_ALL, payload: response.data });
-    }
-  };
-
-  const handleTagsGetTask = async (taskID) => {
-    let response = await axiosPrivate.post(SERVER.GET_TAGS_TASK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_TAGS_TASK,
-        payload: { userName: auth?.user, taskID },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      dispatch({ type: ACTIONS.GET_TAGS_TASK, payload: response.data });
-    }
   };
 
   const handleCreateTag = async (tag) => {
@@ -364,10 +267,19 @@ export const GlobalProvider = ({ children }) => {
   };
 
   // Handle opening new todo List
-  function handleOpen(listID) {
-    let list = state.listNames.find((list) => list.id === listID);
-    setDisplayList(list);
-    navigate(`/myLists/tasklist/${listID}`);
+  function handleOpen(list) {
+    let temp = null;
+    if (typeof list === "string") {
+      if (list === "task_list") {
+        temp = { id: list };
+      } else {
+        temp = lists.find((item) => item.id === list);
+      }
+    } else if (typeof list === "object") {
+      temp = list;
+    }
+    setDisplayList(temp);
+    navigate(`/myLists/tasklist/${temp?.id}`);
   }
 
   useEffect(() => {
@@ -387,48 +299,33 @@ export const GlobalProvider = ({ children }) => {
     if (auth?.user) {
       handleGetLists();
       handleListSummary();
-      handleGetTodayTasks();
-      handleGetWeekTasks();
-      handleGetImportantTasks();
-      handleGetOverdueTasks();
-      handleGetTasksUser();
-      handleGetAllTasks();
-      // handleTagsGetAll();
     }
   }, [auth?.user]);
 
   return (
     <GlobalContext.Provider
       value={{
-        listNames: state.listNames,
-        trash: state.trash,
-        tags: state.tags,
-
-        listSummary: listSummary,
+        listNames: lists,
+        trash: lists,
+        listSummary,
         displayList: displayList,
 
-        listTasks: state.listTasks,
-        todayTasks: todayTasks,
-        weekTasks: weekTasks,
-        importantTasks: importantTasks,
-        overdueTasks: overdueTasks,
-        tasks: tasks,
-        userTasks: userTasks,
+        tasks: state,
+        status,
+        handleGetTasks,
+        handleAddTask,
+        handleUpdateTask,
+        handleDeleteTask,
 
         handleCreateTag,
         handleUpdateTag,
         handleDeleteTag,
 
-        toggleCreateList,
         handleCreateList,
         handleUpdateList,
         handleRemoveList,
         handleOpen,
         handleClose,
-
-        handleAddTask,
-        handleUpdateTask,
-        handleDeleteTask,
       }}
     >
       {children}
