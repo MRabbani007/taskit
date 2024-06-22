@@ -1,21 +1,30 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import CardTaskDueDate from "./CardTaskDueDate";
-import { GlobalContext } from "../../context/GlobalState";
+// Imported Context
+import { TaskContext } from "../../context/TaskState";
+import { ListContext } from "../../context/ListState";
+// Imported Components
 import CardEditTask from "./CardEditTask";
 import CardTaskPriority from "./CardTaskPriority";
-import { CiTrash } from "react-icons/ci";
-import { FaTag } from "react-icons/fa6";
+import CardTaskDueDate from "./CardTaskDueDate";
 import FormTagAdd from "./FormTagAdd";
+import FormTagEdit from "./FormTagEdit";
+// Icons
 import { IoPricetagOutline } from "react-icons/io5";
 import { AiOutlineUnorderedList } from "react-icons/ai";
+import { CiTrash } from "react-icons/ci";
+import { FaTag } from "react-icons/fa6";
+import { BiX } from "react-icons/bi";
+import { Button, Popconfirm, message } from "antd";
 
 const CardTaskBlock = ({ task, openList = false }) => {
-  const { handleOpen, handleUpdateTask, handleDeleteTask } =
-    useContext(GlobalContext);
+  const { handleOpen } = useContext(ListContext);
+  const { handleUpdateTask, handleDeleteTask, handleDeleteTag } =
+    useContext(TaskContext);
 
   // View/hide edit title
   const [edit, setEdit] = useState(false);
   const [addTag, setAddTag] = useState(false);
+  const [editTag, setEditTag] = useState(null);
 
   const toggleCompleted = async () => {
     await handleUpdateTask({ ...task, completed: !task.completed });
@@ -27,8 +36,20 @@ const CardTaskBlock = ({ task, openList = false }) => {
     // }
   };
 
-  const handleDelete = () => {
-    if (confirm("Delete this task?")) handleDeleteTask(task?.id);
+  const confirm = (e) => {
+    // console.log(e);
+    handleDeleteTask(task?.id);
+    message.success("Task Deleted");
+  };
+
+  const cancel = (e) => {
+    // console.log(e);
+    // message.error("Click on No");
+  };
+
+  const handleTagDelete = (tag) => {
+    if (confirm("Delete this tag?"))
+      handleDeleteTag({ ...tag, taskID: task?.id });
   };
 
   useEffect(() => {
@@ -37,6 +58,22 @@ const CardTaskBlock = ({ task, openList = false }) => {
       document.removeEventListener("mousedown", closeMenu);
     };
   }, []);
+
+  const taskTags = task?.tags.map((tag, index) => (
+    <span
+      key={index}
+      className=" flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full bg-slate-200"
+    >
+      <FaTag className="icon-sm mr-1" />
+      <span onClick={() => setEditTag(tag)}>{tag?.name}</span>
+      <BiX
+        size={28}
+        onClick={() => {
+          handleTagDelete(tag);
+        }}
+      />
+    </span>
+  ));
 
   return (
     <div className="flex flex-col flex-1">
@@ -81,47 +118,35 @@ const CardTaskBlock = ({ task, openList = false }) => {
             </p>
             {/* Due Date */}
             <CardTaskDueDate task={task} />
-            <p className="flex flex-wrap items-center gap-3">
-              {Array.isArray(task.tags)
-                ? task.tags.map((tag, index) => {
-                    return (
-                      <span
-                        key={index}
-                        className=" flex items-center py-1 pl-3 pr-4 m-1 w-fit rounded-full bg-slate-200"
-                      >
-                        <FaTag className="icon-sm mr-1" />
-                        {tag?.name}
-                        <CiSquareRemove
-                          onClick={() => {
-                            handleDeleteTag(tag);
-                          }}
-                        />
-                      </span>
-                    );
-                  })
-                : null}
-            </p>
+            <p className="flex flex-wrap items-center gap-3">{taskTags}</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={handleDelete}
-              className="invisible group-hover:visible duration-200"
+            <Popconfirm
+              title="Delete task"
+              description="Are you sure you want to delete this task?"
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+              placement="topRight"
             >
-              <CiTrash size={32} />
-            </button>
+              <Button
+                type="text"
+                className="invisible group-hover:visible duration-200 flex items-center justify-center m-0 p-0"
+              >
+                <CiTrash size={32} className="inline" />
+              </Button>
+            </Popconfirm>
             {openList === true ? (
               <button
                 title="Open List"
-                onClick={() => {
-                  console.log(task);
-                  handleOpen(task?.listID);
-                }}
+                onClick={() => handleOpen(task?.listID)}
                 className="invisible group-hover:visible duration-200"
               >
                 <AiOutlineUnorderedList size={32} />
               </button>
             ) : null}
-            <button onClick={() => {}}>
+            <button onClick={() => setAddTag(true)}>
               <IoPricetagOutline size={32} />
               {/* <IoPricetag /> */}
             </button>
@@ -129,7 +154,10 @@ const CardTaskBlock = ({ task, openList = false }) => {
         </div>
       </div>
       {edit ? <CardEditTask task={task} setEdit={setEdit} /> : null}
-      {addTag ? <FormTagAdd /> : null}
+      {addTag ? <FormTagAdd task={task} setAddTag={setAddTag} /> : null}
+      {editTag?.name ? (
+        <FormTagEdit task={task} setEditTag={setEditTag} tag={editTag} />
+      ) : null}
     </div>
   );
 };

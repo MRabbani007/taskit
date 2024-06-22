@@ -1,39 +1,43 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 // Context
 import { TaskContext } from "../../context/TaskState";
 // AntD
 import { Form, Input, Modal, message } from "antd";
 
-export default function FormTagAdd({ task = {}, setAddTag = () => {} }) {
-  const { handleCreateTag } = useContext(TaskContext);
+export default function FormTagEdit({
+  task = {},
+  tag = {},
+  setEditTag = () => {},
+}) {
+  const { handleUpdateTag } = useContext(TaskContext);
 
   const [form] = Form.useForm();
 
   const onCreate = (values) => {
-    console.log("Received values of form: ", values);
-    handleCreateTag({
+    handleUpdateTag({
+      ...tag,
       name: values?.name,
-      id: task?.tags.length,
-      taskID: task?.id || "",
+      id: tag?.id,
+      taskID: task?.id,
     });
-    message.success("Tag added");
-    setAddTag(false);
+    setEditTag(false);
+    message.success("Tag updated");
   };
 
   return (
     <Modal
       open={true}
-      title="Create Tag"
-      okText="Create"
+      title="Edit Tag"
+      okText="Save"
       cancelText="Cancel"
       okButtonProps={{ autoFocus: true, htmlType: "submit" }}
-      onCancel={() => setAddTag(false)}
+      onCancel={() => setEditTag(false)}
       modalRender={(dom) => (
         <Form
           layout="vertical"
           form={form}
           name="form_in_modal"
-          initialValues={task}
+          initialValues={tag}
           onFinish={(values) => onCreate(values)}
         >
           {dom}

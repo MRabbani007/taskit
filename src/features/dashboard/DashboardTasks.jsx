@@ -1,35 +1,36 @@
-import { Button } from "antd";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { GlobalContext } from "../../context/GlobalState";
+// Context
+import { TaskContext } from "../../context/TaskState";
+// AntD
+import { Button, Progress } from "antd";
 
 export default function DashboardTasks() {
-  const { todayTasks, weekTasks, importantTasks, overdueTasks } =
-    useContext(GlobalContext);
+  const { tasksSummary } = useContext(TaskContext);
 
   const tasks = [
     {
       name: "Today",
       title: "Show tasks for today",
-      qty: todayTasks?.length || 0,
+      qty: tasksSummary?.today || 0,
       url: "/tasks/today",
     },
     {
       name: "Week",
       title: "Show tasks for this week",
-      qty: weekTasks?.length || 0,
+      qty: tasksSummary?.week || 0,
       url: "/tasks/week",
     },
     {
       name: "Important",
       title: "Show important tasks",
-      qty: importantTasks?.length || 0,
+      qty: tasksSummary?.important || 0,
       url: "/tasks/important",
     },
     {
       name: "Over Due",
       title: "Show overdue tasks",
-      qty: overdueTasks?.length || 0,
+      qty: tasksSummary?.overdue || 0,
       url: "/tasks/overdue",
     },
   ];
@@ -45,6 +46,22 @@ export default function DashboardTasks() {
           Tasks
         </Link>
       </h2>
+      <div className="flex gap-4 items-center justify-evenly p-4">
+        <Progress
+          type="dashboard"
+          steps={10}
+          percent={Math.floor(
+            ((tasksSummary?.completed || 0) / (tasksSummary?.total || 1)) * 100
+          )}
+          trailColor="rgba(0, 0, 0, 0.06)"
+          strokeWidth={20}
+        />
+        <div className="font-semibold">
+          <p className="text-orange-500">{`${tasksSummary?.pending} open`}</p>
+          <p className="text-green-500">{`${tasksSummary?.completed} completed`}</p>
+          <p className="text-sky-500">{`${tasksSummary?.total} tasks`}</p>
+        </div>
+      </div>
       <div className="flex gap-2 py-2 text-zinc-800 font-medium">
         {tasks.map((item, index) => {
           return (
@@ -52,10 +69,12 @@ export default function DashboardTasks() {
               to={item.url}
               title={item.title}
               key={index}
-              className="bg-zinc-100 hover:bg-zinc-200 duration-200 py-1 px-2 flex flex-col items-center justify-evenly w-[45%] md:w-[23%] text-center"
+              className=" hover:bg-zinc-200 duration-200 flex flex-col items-stretch justify-evenly flex-1 text-center"
             >
-              <p>{item.name}</p>
-              <p>{item.qty}</p>
+              <p className="bg-blue-500 text-white py-1 px-2 w-full">
+                {item.name}
+              </p>
+              <p className="py-1 px-2 bg-zinc-200">{item.qty}</p>
             </Link>
           );
         })}

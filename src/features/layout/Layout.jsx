@@ -5,6 +5,7 @@ import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
 import RadioMenu from "../navigation/RadioMenu";
 import Sidebar from "../navigation/Sidebar";
 import { ToastContainer } from "react-toastify";
+import Footer from "./Footer";
 
 const Layout = () => {
   const location = useLocation();
@@ -23,6 +24,7 @@ const Layout = () => {
       <Suspense fallback={<SkeletonContentPage />}>
         <Outlet />
       </Suspense>
+      <Footer />
       <ToastContainer autoClose={1000} />
       {/* <RadioMenu /> */}
     </>

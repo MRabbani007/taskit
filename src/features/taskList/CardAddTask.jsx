@@ -1,18 +1,21 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { TaskContext } from "../../context/TaskState";
 import { IoAddOutline } from "react-icons/io5";
+import { message } from "antd";
 
 const CardAddTask = ({ listID }) => {
-  const { handleAddTask } = useContext(GlobalContext);
+  const { handleAddTask } = useContext(TaskContext);
 
   const [newTaskTitle, setNewTaskTitle] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (newTaskTitle === "") {
+      message.info("Enter new task");
       return;
     } else {
       handleAddTask(listID, newTaskTitle);
+      message.success("Task created");
       setNewTaskTitle("");
     }
   };

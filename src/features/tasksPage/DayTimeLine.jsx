@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { TaskContext } from "../../context/TaskState";
 import { Button, Timeline } from "flowbite-react";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { BsCalendar4Event } from "react-icons/bs";
@@ -7,7 +7,7 @@ import { SlArrowRight } from "react-icons/sl";
 import CardTaskTimeLine from "./CardTaskTimeLine";
 
 const DayTimeLine = () => {
-  const { overdueTasks, handleOpen } = useContext(GlobalContext);
+  const { tasks } = useContext(TaskContext);
   const [expand, setExpand] = useState(true);
 
   return (

@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../../context/GlobalState";
+import { useContext, useEffect, useRef, useState } from "react";
+import { TaskContext } from "../../../context/TaskState";
 import { useNavigate, useParams } from "react-router-dom";
 import ListIcon from "../../../features/taskList/ListIcon";
 import ListTitleEdit from "../../../features/taskList/ListTitleEdit";
@@ -7,20 +7,38 @@ import { CiCircleRemove, CiEdit } from "react-icons/ci";
 import CardTaskBlock from "../../../features/task/CardTaskBlock";
 import CardAddTask from "../../../features/taskList/CardAddTask";
 import { BsPinAngle } from "react-icons/bs";
+import useDebounce from "../../../hooks/useDebounce";
+import { ListContext } from "../../../context/ListState";
+import Loading from "../../../features/components/Loading";
 
 export default function TaskListPage() {
-  const { tasks, status, handleGetTasks, displayList, handleClose } =
-    useContext(GlobalContext);
+  const { displayList, handleUpdateList, handleClose } =
+    useContext(ListContext);
+  const { tasks, status, handleGetTasks } = useContext(TaskContext);
+
+  const [pinned, setPinned] = useState(displayList?.pinned || false);
+  const debouncePin = useDebounce(pinned, 1000);
+
+  const handlePin = () => {
+    handleUpdateList(displayList?.id, "list_pin", debouncePin);
+  };
 
   useEffect(() => {
     handleGetTasks("LIST", { listID: displayList?.id });
   }, []);
 
-  const params = useParams();
+  const mounted = useRef();
 
+  useEffect(() => {
+    if (mounted?.current === true) {
+      handlePin();
+    }
+    mounted.current = true;
+  }, [debouncePin]);
+
+  const params = useParams();
   const navigate = useNavigate();
 
-  const [pinned, setPinned] = useState(false);
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -32,7 +50,7 @@ export default function TaskListPage() {
   let content;
 
   if (status?.isLoading === true) {
-    content = <p>Loading...</p>;
+    content = <Loading />;
   } else if (status?.isError === true) {
     content = <p>Error Loading Tasks</p>;
   } else if (status?.isSuccess === true) {
@@ -41,9 +59,10 @@ export default function TaskListPage() {
         <p>No tasks in this list, add new tasks</p>
       ) : (
         <ul className="flex flex-col gap-3 w-full max-w-[1000px]">
-          {tasks.map((task) => {
-            return <CardTaskBlock key={task?.id} task={task} />;
-          })}
+          {Array.isArray(tasks) &&
+            tasks.map((task) => {
+              return <CardTaskBlock key={task?.id} task={task} />;
+            })}
         </ul>
       );
   }

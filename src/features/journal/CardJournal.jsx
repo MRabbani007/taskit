@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
 import { Timeline } from "flowbite-react";
 import { CiCalendarDate, CiTrash } from "react-icons/ci";
 import { FaTasks } from "react-icons/fa";
@@ -8,9 +7,7 @@ import { JournalContext } from "../../context/JournalState";
 const CardJournal = ({ item }) => {
   const { handleJournalDelete } = useContext(JournalContext);
 
-  const handleClick = () => {
-    // handleOpen(task.listID);
-  };
+  const handleClick = () => {};
 
   const handleDelete = () => {
     handleJournalDelete(item);

@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { TaskContext } from "../../context/TaskState";
 
 const TasksTable = ({ task, idx }) => {
   const [edit, setEdit] = useState(false);
-  const { handleDeleteTask } = useContext(GlobalContext);
+  const { handleDeleteTask } = useContext(TaskContext);
 
   return (
     <tr>

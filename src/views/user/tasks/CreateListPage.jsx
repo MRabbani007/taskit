@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { RiPlayListAddLine } from "react-icons/ri";
 import { IoAddOutline } from "react-icons/io5";
-import { GlobalContext } from "../../../context/GlobalState";
+import { ListContext } from "../../../context/ListState";
 import { IMAGES_Icons, listTemplates } from "../../../data/templates";
 
 const CreateListPage = () => {
-  const { handleCreateList } = useContext(GlobalContext);
+  const { handleCreateList } = useContext(ListContext);
 
   const [newItem, setNewItem] = useState("");
 

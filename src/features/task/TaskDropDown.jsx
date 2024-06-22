@@ -1,14 +1,17 @@
 import { forwardRef, useContext, useEffect, useState } from "react";
+// Context
+import { TaskContext } from "../../context/TaskState";
+// Components
 import CardTaskPriority from "./CardTaskPriority";
+import TaskMoveToList from "./TaskMoveToList";
+// Icons
 import { CiEdit, CiShoppingTag, CiTrash } from "react-icons/ci";
 import { CgMoveTask } from "react-icons/cg";
-import TaskMoveToList from "./TaskMoveToList";
-import { GlobalContext } from "../../context/GlobalState";
 import { BsChevronExpand } from "react-icons/bs";
 
 const TaskDropDown = forwardRef(
   ({ dropDown, setAddTag, setExpand, task }, ref) => {
-    const { handleDeleteTask } = useContext(GlobalContext);
+    const { handleDeleteTask } = useContext(TaskContext);
 
     // toggle Move to List
     const [moveToList, setMoveToList] = useState(false);

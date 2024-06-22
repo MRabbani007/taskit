@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { ListContext } from "../../context/ListState";
 import { Timeline } from "flowbite-react";
 import { CiCalendarDate } from "react-icons/ci";
 import { FaTasks } from "react-icons/fa";
 
 const CardTaskTimeLine = ({ task }) => {
-  const { handleOpen } = useContext(GlobalContext);
+  const { handleOpen } = useContext(ListContext);
 
   const handleClick = () => {
     handleOpen(task.listID);

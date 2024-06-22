@@ -1,10 +1,13 @@
 import { useContext, useState } from "react";
-import { CiSquareCheck, CiSquareRemove } from "react-icons/ci";
-import { GlobalContext } from "../../context/GlobalState";
+// Context
+import { TaskContext } from "../../context/TaskState";
+// Data
 import { ACTIONS } from "../../data/actions";
+// Icons
+import { CiSquareCheck, CiSquareRemove } from "react-icons/ci";
 
 const CardTaskDetails = ({ task }) => {
-  const { handleUpdateTask } = useContext(GlobalContext);
+  const { handleUpdateTask } = useContext(TaskContext);
   const [addDetail, setAddDetail] = useState(false);
   const [detailInput, setDetailInput] = useState(task?.details || "");
 

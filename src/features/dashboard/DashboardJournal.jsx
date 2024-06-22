@@ -35,7 +35,7 @@ export default function DashboardJournal() {
       <h2 className="py-2 px-4 bg-gradient-to-l from-green-300 to-green-100 text-zinc-800 ">
         <Link
           title="Go to Journal"
-          to={"/journal"}
+          to={"/pages/journal"}
           className="hover:text-yellow-500 duration-200"
         >
           Journal

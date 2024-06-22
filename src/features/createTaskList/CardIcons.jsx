@@ -5,7 +5,7 @@ const CardIcons = ({ list }) => {
   const [editListIcon, setEditListIcon] = useState(false);
   // Handle update list icon
   const handleIcon = (icon) => {
-    handleUpdateList(displayList?.id, "list_icon", icon);
+    handleUpdateList(list?.id, "list_icon", icon);
     setEditListIcon(false);
   };
 
@@ -31,7 +31,7 @@ const CardIcons = ({ list }) => {
             className="icon"
           />
         </>
-      ) : displayList?.icon === "" ? (
+      ) : list?.icon === "" ? (
         <img
           src={IMAGES_Icons + "list-2.png"}
           alt=""
@@ -40,7 +40,7 @@ const CardIcons = ({ list }) => {
         />
       ) : (
         <img
-          src={IMAGES_Icons + displayList?.icon}
+          src={IMAGES_Icons + list?.icon}
           alt=""
           className="icon mr-2"
           onClick={() => setEditListIcon(true)}

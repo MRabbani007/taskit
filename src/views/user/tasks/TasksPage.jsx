@@ -1,11 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../../context/GlobalState";
-import { BsCardList } from "react-icons/bs";
+// Context
+import { TaskContext } from "../../../context/TaskState";
+// Components
 import CardAddTask from "../../../features/taskList/CardAddTask";
 import CardTaskBlock from "../../../features/task/CardTaskBlock";
 import TaskFilter from "../../../features/task/TaskFilter";
 import TaskSort from "../../../features/task/TaskSort";
-import { Switch } from "antd";
+// AntD
+import { Pagination, Switch } from "antd";
+// Icons
+import { BsCardList } from "react-icons/bs";
+import Loading from "../../../features/components/Loading";
 
 const filterTasks = (type, payload, lists = []) => {
   if (!Array.isArray(payload)) return [];
@@ -76,11 +81,17 @@ const sortTasks = (type, payload) => {
 };
 
 export default function TasksPage() {
-  const { tasks, status, handleGetTasks } = useContext(GlobalContext);
+  const { tasks, status, handleGetTasks } = useContext(TaskContext);
 
   useEffect(() => {
     handleGetTasks("ALL");
   }, []);
+
+  const [current, setCurrent] = useState(1);
+
+  const onChange = (page) => {
+    setCurrent(page);
+  };
 
   const [viewFilter, setViewFilter] = useState(false);
   const [viewSort, setViewSort] = useState(false);
@@ -94,18 +105,20 @@ export default function TasksPage() {
 
   const sorted = sortTasks(sort, filtered);
 
+  const pageItems = sorted.slice((current - 1) * 10, current * 10);
+
   let content;
 
-  if (status.isLoading) {
-    content = <p>Loading...</p>;
-  } else if (status.isError) {
+  if (status?.isLoading) {
+    content = <Loading />;
+  } else if (status?.isError) {
     content = <p>Error Loading Tasks</p>;
-  } else if (status.isSuccess && tasks.length === 0) {
+  } else if (status?.isSuccess && tasks.length === 0) {
     content = <p>No tasks create new</p>;
-  } else if (status.isSuccess) {
+  } else if (status?.isSuccess) {
     content = (
       <ul className="flex flex-col w-full flex-1 gap-2">
-        {sorted.map((task) => {
+        {pageItems.map((task) => {
           return <CardTaskBlock task={task} key={task?.id} openList={true} />;
         })}
       </ul>
@@ -146,6 +159,13 @@ export default function TasksPage() {
         />
         {viewSort && <TaskSort setSort={setSort} />}
         {content}
+        <Pagination
+          defaultCurrent={1}
+          pageSize={10}
+          total={sorted.length}
+          current={current}
+          onChange={onChange}
+        />
       </div>
     </main>
   );

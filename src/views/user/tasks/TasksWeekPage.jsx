@@ -1,11 +1,12 @@
 import { useContext, useEffect } from "react";
-import { GlobalContext } from "../../../context/GlobalState";
+import { TaskContext } from "../../../context/TaskState";
 import CardTaskTimeLine from "../../../features/tasksPage/CardTaskTimeLine";
 import { BsCalendar4Week } from "react-icons/bs";
 import { Timeline } from "flowbite-react";
+import Loading from "../../../features/components/Loading";
 
 const TasksWeekPage = () => {
-  const { tasks, status, handleGetTasks } = useContext(GlobalContext);
+  const { tasks, status, handleGetTasks } = useContext(TaskContext);
 
   useEffect(() => {
     handleGetTasks("WEEK", null);
@@ -14,7 +15,7 @@ const TasksWeekPage = () => {
   let content;
 
   if (status.isLoading) {
-    content = <p>Loading...</p>;
+    content = <Loading />;
   } else if (status.isError) {
     content = <p>Error Loading Tasks</p>;
   } else if (status.isSuccess && tasks.length === 0) {

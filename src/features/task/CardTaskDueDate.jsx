@@ -1,9 +1,12 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+// Context
+import { TaskContext } from "../../context/TaskState";
+// Data
 import { getDate } from "../../data/utils";
+import { message } from "antd";
 
 const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
-  const { handleUpdateTask } = useContext(GlobalContext);
+  const { handleUpdateTask } = useContext(TaskContext);
 
   // hold due date value
   const [dueDate, setDueDate] = useState(() => {
@@ -19,6 +22,7 @@ const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
   const handleSubmit = async (e) => {
     // e.preventDefault();
     handleUpdateTask({ ...task, dueDate: e.target.value });
+    message.success("Task updated");
   };
 
   const handleReset = () => {

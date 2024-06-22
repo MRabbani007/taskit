@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { IMAGES_Icons, listTemplates } from "../../data/templates";
 import { BiX } from "react-icons/bi";
-import { GlobalContext } from "../../context/GlobalState";
+import { TaskContext } from "../../context/TaskState";
 
 const ListIcon = ({ list }) => {
-  const { handleUpdateList } = useContext(GlobalContext);
+  const { handleUpdateList } = useContext(TaskContext);
 
   const [editListIcon, setEditListIcon] = useState(false);
 

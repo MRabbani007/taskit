@@ -9,7 +9,13 @@ export default function DashboardNotes() {
   return (
     <article className="flex-1 min-w-[300px] min-h-[200px]">
       <h2 className="py-2 px-4 bg-gradient-to-l from-yellow-400 to-yellow-100 text-zinc-800">
-        Notes
+        <Link
+          title="Go to Notes"
+          to="/pages/notes"
+          className="hover:text-yellow-500 duration-200"
+        >
+          Notes
+        </Link>
       </h2>
       <div className="h-full max-h-[300px]  py-2">
         <ul className="flex flex-wrap justify-center gap-2 overflow-y-auto">
@@ -24,11 +30,11 @@ export default function DashboardNotes() {
             );
           })}
         </ul>
-        <div className="w-full flex justify-center items-center p-2">
+        {/* <div className="w-full flex justify-center items-center p-2">
           <Button type="primary" title="Open Notes Page">
             <Link to="/notes">Open Notes</Link>
           </Button>
-        </div>
+        </div> */}
       </div>
     </article>
   );

@@ -1,7 +1,10 @@
+import React, { useEffect, useContext } from "react";
+// Context
+import { TaskContext } from "../../context/TaskState";
+import { ListContext } from "../../context/ListState";
+// AntD
 import { Badge, Calendar, Col, Radio, Row, Select, Typography } from "antd";
-import React, { useEffect } from "react";
-import { useContext } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+// Icons
 import { IoCalendarOutline } from "react-icons/io5";
 
 // const getListData = (value) => {
@@ -86,8 +89,8 @@ function formatDate(date, format = "dd/mm/yyyy") {
 }
 
 export default function CalendarPage() {
-  const { tasks, handleOpen, handleGetTasks, status } =
-    useContext(GlobalContext);
+  const { tasks, handleGetTasks, status } = useContext(TaskContext);
+  const { handleOpen } = useContext(ListContext);
 
   useEffect(() => {
     handleGetTasks("ALL", null);

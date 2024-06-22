@@ -1,14 +1,15 @@
 import { useContext, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
-import { DatePicker, Form, Input, Modal } from "antd";
+import { TaskContext } from "../../context/TaskState";
+import { DatePicker, Form, Input, Modal, message } from "antd";
 
 const CardEditTask = ({ task, setEdit }) => {
-  const { handleUpdateTask } = useContext(GlobalContext);
+  const { handleUpdateTask } = useContext(TaskContext);
 
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
     handleUpdateTask({ ...task, ...values });
+    message.success("Task updated");
     setEdit(false);
   };
 

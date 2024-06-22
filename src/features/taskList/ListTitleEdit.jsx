@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import { BiCheck, BiPlus, BiX } from "react-icons/bi";
-import { GlobalContext } from "../../context/GlobalState";
+import { TaskContext } from "../../context/TaskState";
 
 export default function ListTitleEdit({ list, setEdit }) {
-  const { handleUpdateList } = useContext(GlobalContext);
+  const { handleUpdateList } = useContext(TaskContext);
 
   const [title, setTitle] = useState(list?.title || "");
 

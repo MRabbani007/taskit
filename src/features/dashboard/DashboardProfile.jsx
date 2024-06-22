@@ -13,7 +13,7 @@ export default function DashboardProfile() {
       <h2 className="py-2 px-4 bg-gradient-to-br from-indigo-400 to-indigo-200 text-zinc-800 w-full">
         Profile
       </h2>
-      <div className="p-3 flex flex-col items-center gap-3">
+      <div className="py-3 flex flex-col items-center gap-3">
         <div className="flex items-center gap-3">
           <RxAvatar className="icon-3xl" />
           <div>
@@ -23,7 +23,7 @@ export default function DashboardProfile() {
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap flex-col md:flex-row w-full gap-3 p-3 bg-slate-300 rounded-md">
+        <div className="flex flex-wrap flex-col md:flex-row w-full gap-3 p-3 bg-slate-300">
           <h3 className="font-semibold">Current Focus</h3>
           <ul className="">
             <li className="flex justify-between items-center gap-3">
@@ -60,14 +60,14 @@ export default function DashboardProfile() {
         </div>
         <div className="flex flex-col gap-3 text-white">
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <article className="bg-green-400 rounded-md p-3 w-48 flex gap-3">
+            <article className="bg-green-400 p-3 w-48 flex-1 flex gap-3">
               <MdOutlineNextPlan size={32} />
               <div>
                 <h3 className="font-semibold">Upcoming</h3>
                 <p className="font-light">12 Tasks</p>
               </div>
             </article>
-            <article className="bg-yellow-400 rounded-md p-3 w-48 flex gap-3">
+            <article className="bg-yellow-400 p-3 w-48 flex-1 flex gap-3">
               <TbProgressHelp size={32} />
               <div>
                 <h3 className="font-semibold">In Progress</h3>
@@ -76,14 +76,14 @@ export default function DashboardProfile() {
             </article>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <article className="bg-blue-400 rounded-md p-3 w-48 flex gap-3">
+            <article className="bg-blue-400 p-3 w-48 flex-1 flex gap-3">
               <TbProgressCheck size={32} />
               <div>
                 <h3 className="font-semibold">Completed</h3>
                 <p className="font-light">12 Tasks</p>
               </div>
             </article>
-            <article className="bg-red-500 rounded-md p-3 w-48 flex gap-3">
+            <article className="bg-red-500 p-3 w-48 flex-1 flex gap-3">
               <TbProgressX size={32} />
               <div>
                 <h3 className="font-semibold">Canceled</h3>

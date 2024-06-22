@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "../../context/GlobalState";
+import { TaskContext } from "../../context/TaskState";
 
 const TaskMoveToList = () => {
-  const { listNames } = useContext(GlobalContext);
+  const { listNames } = useContext(TaskContext);
   return (
     <div className="absolute -left-40 top-0 bg-slate-200 rounded-md text-zinc-800 ">
       <p className="p-2">Select List</p>

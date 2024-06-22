@@ -26,7 +26,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
 
   const handleNavigate = (page) => {
     setViewMobileMenu(false);
-    navigate("/" + page);
+    navigate(page);
   };
 
   return (
@@ -35,7 +35,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <button
           title="Home Page"
           className={isHomePage ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("")}
+          onClick={() => handleNavigate("/")}
         >
           <IoHomeOutline size={iconSize} />
           <span>Dashboard</span>
@@ -43,7 +43,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <button
           title="Calendar"
           className={isActive("/calendar") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("calendar")}
+          onClick={() => handleNavigate("/pages/calendar")}
         >
           <IoCalendarOutline size={iconSize} />
           <span>Calendar</span>
@@ -53,7 +53,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <button
           title="My Tasks"
           className={isActive("/tasks") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("tasks")}
+          onClick={() => handleNavigate("/tasks")}
         >
           <IoListOutline size={iconSize} />
           <span>My Tasks</span>
@@ -61,7 +61,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <button
           title="My Lists"
           className={isActive("/mylists") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("mylists")}
+          onClick={() => handleNavigate("/mylists")}
         >
           <BsCardList size={iconSize} />
           <span>My Lists</span>
@@ -71,7 +71,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <button
           title="Notes"
           className={isActive("/notes") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("notes")}
+          onClick={() => handleNavigate("/pages/notes")}
         >
           <SlNotebook size={iconSize} />
           <span>Notes</span>
@@ -79,7 +79,7 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
         <button
           title="Journal"
           className={isActive("/journal") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("journal")}
+          onClick={() => handleNavigate("/pages/journal")}
         >
           <BsJournalText size={iconSize} />
           <span>Journal</span>
@@ -88,14 +88,14 @@ const MenuMobile = ({ viewMobileMenu, setViewMobileMenu }) => {
       <div className="menu-item">
         <button
           className={isActive("/settings") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("settings")}
+          onClick={() => handleNavigate("/user/settings")}
         >
           <IoSettingsOutline size={iconSize} />
           <span>Settings</span>
         </button>
         <button
           className={isActive("/logout") ? "text-yellow-400" : ""}
-          onClick={() => handleNavigate("logout")}
+          onClick={() => handleNavigate("/logout")}
         >
           <AiOutlineLogin size={iconSize} />
           <span>Sign Out</span>

@@ -1,15 +1,16 @@
-// Imported Components
 import { useContext, useState } from "react";
+// Context
+import { TaskContext } from "../../context/TaskState";
+// Components
 import CardListName from "./CardListName";
-import { GlobalContext } from "../../context/GlobalState";
+// Icons
 import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
 import { LiaTrashRestoreAltSolid } from "react-icons/lia";
 import { IoSkullOutline } from "react-icons/io5";
 
 const SectionTrash = () => {
-  const { trash, handleUpdateList, handleRemoveList } =
-    useContext(GlobalContext);
+  const { trash, handleUpdateList, handleRemoveList } = useContext(TaskContext);
   const [expand, setExpand] = useState(false);
 
   return (

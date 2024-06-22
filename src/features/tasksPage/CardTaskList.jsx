@@ -14,9 +14,7 @@ const CardTaskList = ({ task }) => {
       <p
         key={index}
         className="p-1 my-1 flex items-center hover:bg-slate-300 duration-300 cursor-pointer"
-        onClick={() => {
-          handleOpen(task.listID);
-        }}
+        onClick={() => handleOpen(task.listID)}
       >
         <FaCircle className={color + " icon-sm mr-2"} />
         {task.title}

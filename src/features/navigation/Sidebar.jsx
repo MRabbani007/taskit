@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 // Imported Context
-import { GlobalContext } from "../../context/GlobalState";
 import useAuth from "../../hooks/useAuth";
 // Imported Components
 import { Menu } from "antd";
@@ -242,7 +241,6 @@ const adminItems = [
 ];
 
 const Sidebar = () => {
-  const { viewTab, handleViewTab } = useContext(GlobalContext);
   const { auth } = useAuth();
   const [expand, setExpand] = useState(false);
 

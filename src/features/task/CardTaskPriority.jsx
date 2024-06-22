@@ -1,10 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { GlobalContext } from "../../context/GlobalState";
-import { IoAlertCircle } from "react-icons/io5";
+// Context
+import { TaskContext } from "../../context/TaskState";
+// Hooks
 import useDebounce from "../../hooks/useDebounce";
+// Icons
+import { IoAlertCircle } from "react-icons/io5";
+import { message } from "antd";
 
 const CardTaskPriority = ({ task }) => {
-  const { handleUpdateTask } = useContext(GlobalContext);
+  const { handleUpdateTask } = useContext(TaskContext);
   const [priority, setPriority] = useState(task?.priority);
   const debouncePriority = useDebounce(priority, 1000);
 
@@ -31,6 +35,7 @@ const CardTaskPriority = ({ task }) => {
 
   const handlePriority = async () => {
     handleUpdateTask({ ...task, priority: debouncePriority });
+    message.success("Task updated");
   };
 
   useEffect(() => {

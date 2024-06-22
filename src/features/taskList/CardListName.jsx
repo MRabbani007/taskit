@@ -1,19 +1,28 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+// Context
+import { ListContext } from "../../context/ListState";
+// Hooks
+import useDebounce from "../../hooks/useDebounce";
+// Components
+import ListTitleEdit from "./ListTitleEdit";
 // Imported Data
 import { IMAGES_Icons } from "../../data/templates";
 // Imported Media
-import { GlobalContext } from "../../context/GlobalState";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { BsPinAngle } from "react-icons/bs";
-import ListTitleEdit from "./ListTitleEdit";
 
 const CardListName = ({ taskList }) => {
-  const { handleOpen, listSummary } = useContext(GlobalContext);
+  const { listSummary, handleUpdateList, handleOpen } = useContext(ListContext);
 
   const [edit, setEdit] = useState(false);
   const [summary, setSummary] = useState({});
 
-  const [pinned, setPinned] = useState(false);
+  const [pinned, setPinned] = useState(taskList?.pinned || false);
+  const debouncePin = useDebounce(pinned, 1000);
+
+  const handlePin = () => {
+    handleUpdateList(taskList?.id, "list_pin", debouncePin);
+  };
 
   useEffect(() => {
     let temp = {};
@@ -29,23 +38,36 @@ const CardListName = ({ taskList }) => {
     handleUpdateList(taskList.id, "trash", true);
   };
 
+  const mounted = useRef();
+
+  useEffect(() => {
+    if (mounted?.current === true) {
+      handlePin();
+    }
+    mounted.current = true;
+  }, [debouncePin]);
+
   return (
     <li
       key={taskList?.id}
-      className="flex items-stretch py-1 pr-4 shadow-sm shadow-slate-600"
+      className="flex items-stretch py-1 pr-4 border-[1px] border-zinc-300"
     >
       <div
         className={
-          (pinned ? "w-[60px]" : "w-[20px] hover:w-[60px]") +
-          " duration-200 group cursor-pointer flex items-center justify-center"
+          (pinned ? "w-[20px] " : "w-[20px] hover:w-[60px]") +
+          " duration-200 group cursor-pointer flex items-center justify-center relative"
         }
       >
         <button
           title="Pin List"
           onClick={() => setPinned((curr) => !curr)}
-          className={pinned ? "" : "hidden group-hover:inline-block"}
+          className={
+            pinned
+              ? "absolute top-0 left-0 text-sky-800"
+              : "hidden group-hover:inline-block"
+          }
         >
-          <BsPinAngle size={28} />
+          <BsPinAngle size={20} />
         </button>
       </div>
       <div className="flex items-center justify-between gap-3 flex-1 group">
