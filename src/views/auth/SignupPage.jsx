@@ -5,14 +5,7 @@ import axios from "../../api/axios";
 // Imported Data
 import { ACTIONS, SERVER } from "../../data/actions";
 // Imported Icons
-import { FaRegUserCircle } from "react-icons/fa";
-import {
-  CiCircleInfo,
-  CiSquareCheck,
-  CiSquareInfo,
-  CiSquareRemove,
-} from "react-icons/ci";
-import { Button, Checkbox, Form, Input, Space } from "antd";
+import { Button, Checkbox, Form, Input, Space, notification } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -56,8 +49,8 @@ const Signup = () => {
     setErrMsg("");
   }, [userName, pwd, matchPwd]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (values) => {
+    // e.preventDefault();
     // if button enabled with JS hack
     const v1 = USER_REGEX.test(userName);
     const v2 = PWD_REGEX.test(pwd);
@@ -73,7 +66,7 @@ const Signup = () => {
             password: pwd,
           },
         });
-        if (response?.data?.status === "success") {
+        if (response?.status === 201) {
           setSuccess(true);
           //clear state and controlled inputs
           //need value attrib on inputs for this
@@ -81,7 +74,9 @@ const Signup = () => {
           setPwd("");
           setMatchPwd("");
           navigate(from, { replace: true });
-          navigate("login", { state: { username: userName } });
+          navigate("/login", { state: { username: userName } });
+          alert("Success");
+          notification("Success, user registered");
         } else {
           alert(response);
         }
@@ -99,81 +94,82 @@ const Signup = () => {
   };
 
   return (
-    <Form
-      onFinish={handleSubmit}
-      name="normal_login"
-      className="login-form border-2 py-2 px-6 my-4 rounded-xl shadow-md shadow-blue-500"
-      initialValues={{
-        remember: true,
-      }}
-      layout="vertical"
-    >
-      <h1 className="text-center text-blue-500 font-thin mb-2">Sign up</h1>
-      <p
-        ref={errRef}
-        className={errMsg ? "errmsg" : "offscreen"}
-        aria-live="assertive"
+    <main>
+      <Form
+        onFinish={handleSubmit}
+        name="normal_login"
+        className="login-form mx-auto border-2 p-8 rounded-xl shadow-md shadow-blue-500"
+        initialValues={{
+          remember: true,
+        }}
+        layout="vertical"
       >
-        {errMsg}
-      </p>
-      {/* <label htmlFor="username" className="flex items-center">
+        <h1 className="text-center text-blue-500 font-thin mb-2">Sign up</h1>
+        <p
+          ref={errRef}
+          className={errMsg ? "errmsg" : "offscreen"}
+          aria-live="assertive"
+        >
+          {errMsg}
+        </p>
+        {/* <label htmlFor="username" className="flex items-center">
         <CiSquareCheck size={25} className={validName ? "valid" : "hide"} />
         <CiSquareRemove
           size={25}
           className={validName || !userName ? "hide" : "invalid"}
         />
       </label> */}
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: "Please enter username!",
-          },
-          {
-            min: 4,
-            message: "Must be at least 4 characters",
-          },
-          {
-            max: 24,
-            message: "Maximum of 24 characters allowed",
-          },
-          {
-            pattern: new RegExp(/^[A-z][A-z0-9-_]{3,23}$/),
-            message:
-              "Must being with a letter. Letters, numbers, hyphen and underscore are allowed",
-          },
-        ]}
-        label={"Username"}
-        validateStatus={
-          validName === true ? "success" : userName === "" ? "" : "warning"
-        }
-        // help={
-        //   <pre>
-        //     4 to 24 characters
-        //     <br />
-        //     Must begin with a letter
-        //     <br />
-        //     Letters, numbers, underscores, hyphens allowed
-        //   </pre>
-        // }
-      >
-        <Input
-          id="username"
+        <Form.Item
           name="username"
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
-          autoComplete="off"
-          ref={userRef}
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          aria-invalid={validName ? "false" : "true"}
-          aria-describedby="uidnote"
-          onFocus={() => setUserFocus(true)}
-          onBlur={() => setUserFocus(false)}
-        />
-      </Form.Item>
-      {/* <p
+          rules={[
+            {
+              required: true,
+              message: "Please enter username!",
+            },
+            {
+              min: 4,
+              message: "Must be at least 4 characters",
+            },
+            {
+              max: 24,
+              message: "Maximum of 24 characters allowed",
+            },
+            {
+              pattern: new RegExp(/^[A-z][A-z0-9-_]{3,23}$/),
+              message:
+                "Must being with a letter. Letters, numbers, hyphen and underscore are allowed",
+            },
+          ]}
+          label={"Username"}
+          validateStatus={
+            validName === true ? "success" : userName === "" ? "" : "warning"
+          }
+          // help={
+          //   <pre>
+          //     4 to 24 characters
+          //     <br />
+          //     Must begin with a letter
+          //     <br />
+          //     Letters, numbers, underscores, hyphens allowed
+          //   </pre>
+          // }
+        >
+          <Input
+            id="username"
+            name="username"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Username"
+            autoComplete="off"
+            ref={userRef}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            aria-invalid={validName ? "false" : "true"}
+            aria-describedby="uidnote"
+            onFocus={() => setUserFocus(true)}
+            onBlur={() => setUserFocus(false)}
+          />
+        </Form.Item>
+        {/* <p
         id="uidnote"
         className={
           userFocus && userName && !validName
@@ -188,45 +184,45 @@ const Signup = () => {
         <br />
         Letters, numbers, underscores, hyphens allowed.
       </p> */}
-      {/* <label htmlFor="password" className="my-2 flex items-center">
+        {/* <label htmlFor="password" className="my-2 flex items-center">
         <CiSquareCheck size={25} className={validPwd ? "valid" : "hide"} />
         <CiSquareRemove
           size={25}
           className={validPwd || !pwd ? "hide" : "invalid"}
         />
       </label> */}
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please provide password!",
-          },
-          { min: 8, message: "Must be at least 8 characters" },
-          { max: 24, message: "Maximum of 24 characters allowed" },
-          {
-            pattern: new RegExp(PWD_REGEX),
-            message:
-              "Must include uppercase and lowercase letters, a number and a special character (@, #, $, %).",
-          },
-        ]}
-      >
-        <Input
-          id="password"
+        <Form.Item
           name="password"
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-          value={pwd}
-          onChange={(e) => setPwd(e.target.value)}
-          aria-invalid={validPwd ? "false" : "true"}
-          aria-describedby="pwdnote"
-          onFocus={() => setPwdFocus(true)}
-          onBlur={() => setPwdFocus(false)}
-        />
-      </Form.Item>
-      {/* <p
+          label="Password"
+          rules={[
+            {
+              required: true,
+              message: "Please provide password!",
+            },
+            { min: 8, message: "Must be at least 8 characters" },
+            { max: 24, message: "Maximum of 24 characters allowed" },
+            {
+              pattern: new RegExp(PWD_REGEX),
+              message:
+                "Must include uppercase and lowercase letters, a number and a special character (@, #, $, %).",
+            },
+          ]}
+        >
+          <Input
+            id="password"
+            name="password"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password"
+            value={pwd}
+            onChange={(e) => setPwd(e.target.value)}
+            aria-invalid={validPwd ? "false" : "true"}
+            aria-describedby="pwdnote"
+            onFocus={() => setPwdFocus(true)}
+            onBlur={() => setPwdFocus(false)}
+          />
+        </Form.Item>
+        {/* <p
         id="pwdnote"
         className={
           pwdFocus && !validPwd ? "instructions max-w-[200px] z-2" : "offscreen"
@@ -246,7 +242,7 @@ const Signup = () => {
         <span aria-label="dollar sign">$</span>{" "}
         <span aria-label="percent">%</span>
       </p> */}
-      {/* <label htmlFor="confirm_pwd" className="flex items-center">
+        {/* <label htmlFor="confirm_pwd" className="flex items-center">
         <CiSquareCheck
           size={25}
           className={validMatch && matchPwd ? "valid" : "hide"}
@@ -256,65 +252,66 @@ const Signup = () => {
           className={validMatch || !matchPwd ? "hide" : "invalid"}
         />
       </label> */}
-      <Form.Item
-        name="confirm_password"
-        label={"Confirm Password"}
-        dependencies={["password"]}
-        rules={[
-          {
-            required: true,
-            message: "Please confirm password!",
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error("The new password that you entered do not match!")
-              );
-            },
-          }),
-        ]}
-      >
-        <Input
-          id="confirm_password"
+        <Form.Item
           name="confirm_password"
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Confirm Password"
-          value={matchPwd}
-          onChange={(e) => setMatchPwd(e.target.value)}
-          aria-invalid={validMatch ? "false" : "true"}
-          aria-describedby="confirmnote"
-          onFocus={() => setMatchFocus(true)}
-          onBlur={() => setMatchFocus(false)}
-        />
-      </Form.Item>
-      {/* <p
+          label={"Confirm Password"}
+          dependencies={["password"]}
+          rules={[
+            {
+              required: true,
+              message: "Please confirm password!",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error("The new password that you entered do not match!")
+                );
+              },
+            }),
+          ]}
+        >
+          <Input
+            id="confirm_password"
+            name="confirm_password"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Confirm Password"
+            value={matchPwd}
+            onChange={(e) => setMatchPwd(e.target.value)}
+            aria-invalid={validMatch ? "false" : "true"}
+            aria-describedby="confirmnote"
+            onFocus={() => setMatchFocus(true)}
+            onBlur={() => setMatchFocus(false)}
+          />
+        </Form.Item>
+        {/* <p
         id="confirmnote"
         className={matchFocus && !validMatch ? "instructions" : "offscreen"}
       >
         <CiCircleInfo className="icon" />
         Must match the first password input field.
       </p> */}
-      <Form.Item>
-        <Space>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="login-form-button"
-            disabled={!validName || !validPwd || !validMatch ? true : false}
-          >
-            Register
-          </Button>
-          <span>or</span>
-          <Link to="/login" className="login-form-button ml-2">
-            Sign In
-          </Link>
-        </Space>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Space>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+              disabled={!validName || !validPwd || !validMatch ? true : false}
+            >
+              Register
+            </Button>
+            <span>or</span>
+            <Link to="/login" className="login-form-button ml-2">
+              Sign In
+            </Link>
+          </Space>
+        </Form.Item>
+      </Form>
+    </main>
   );
 };
 
