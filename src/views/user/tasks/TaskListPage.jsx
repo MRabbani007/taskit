@@ -66,7 +66,7 @@ export default function TaskListPage() {
           : tasks.filter((item) => item.completed !== true)
         : [];
       content = (
-        <ul className="flex flex-col gap-3 w-full max-w-[1000px]">
+        <ul className="flex flex-col gap-3 w-full">
           {displayTasks.map((task) => {
             return <CardTaskBlock key={task?.id} task={task} />;
           })}
@@ -78,24 +78,29 @@ export default function TaskListPage() {
   return (
     <main>
       {/* List Name */}
-      <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white shadow-md shadow-zinc-500">
+      <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white group relative">
         <div className="flex items-stretch">
           <div
             className={
-              (pinned ? "w-[60px]" : "w-[20px] hover:w-[60px]") +
+              (pinned ? "" : "w-[20px] hover:w-[60px]") +
               " duration-200 group cursor-pointer flex items-center justify-center"
             }
           >
             <button
               title="Pin List"
               onClick={() => setPinned((curr) => !curr)}
-              className={pinned ? "" : "hidden group-hover:inline-block"}
+              className={
+                (pinned
+                  ? "absolute top-2 left-2"
+                  : "hidden group-hover:inline-block") +
+                " hover:text-yellow-400 duration-200"
+              }
             >
               <BsPinAngle size={28} />
             </button>
           </div>
-          <div>
-            <ListIcon list={displayList} />
+          <div className="flex flex-wrap items-center gap-2">
+            {/* <ListIcon list={displayList} /> */}
             {!edit ? (
               <h1>{displayList?.title}</h1>
             ) : (
@@ -103,7 +108,7 @@ export default function TaskListPage() {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 invisible group-hover:visible duration-200">
           <button title="Edit Title" onClick={() => setEdit(true)}>
             <CiEdit size={32} />
           </button>
@@ -116,7 +121,7 @@ export default function TaskListPage() {
         </div>
       </header>
       {/* List Todo Items */}
-      <div className="flex flex-col flex-1 gap-3 items-center justify-center py-3 md:px-3 px-0">
+      <div className="flex flex-col flex-1 gap-3 items-center justify-center py-3 px-0">
         {/* Add new todo Item */}
         {/* Note: list ID passed from TodoList to enable opening multiple lists */}
         <CardAddTask listID={displayList?.id} />

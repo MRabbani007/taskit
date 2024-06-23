@@ -1,9 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // Context
 import { TaskContext } from "../../context/TaskState";
 // Data
 import { getDate } from "../../data/utils";
+// AntD
 import { message } from "antd";
+// Icons
+import { MdOutlineNextPlan } from "react-icons/md";
+import { HiArrowDownTray } from "react-icons/hi2";
+import { useRef } from "react";
 
 const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
   const { handleUpdateTask } = useContext(TaskContext);
@@ -19,29 +24,66 @@ const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
     }
   });
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
-    handleUpdateTask({ ...task, dueDate: e.target.value });
-    message.success("Task updated");
+  const isMounted = useRef(null);
+
+  const handleAssignToday = async () => {
+    setDueDate(getDate());
+  };
+  const handleAssignTomorrow = async () => {
+    setDueDate(getDate(1));
+  };
+  const handleChange = async (e) => {
+    setDueDate(e.target.value);
   };
 
-  const handleReset = () => {
-    setEdit(false);
-  };
+  useEffect(() => {
+    if (
+      isMounted?.current === true &&
+      dueDate !== task?.dueDate.substr(0, 10)
+    ) {
+      handleUpdateTask({
+        ...task,
+        dueDate,
+        prevDueDate: task.dueDate.substr(0, 10),
+      });
+      message.success("Task updated");
+    }
+  }, [dueDate]);
+
+  isMounted.current = true;
 
   return (
     <form
-      onSubmit={handleSubmit}
-      onReset={handleReset}
+      onSubmit={(e) => {
+        e.preventDefault;
+      }}
+      onReset={() => {}}
       className="flex items-center gap-3 ml-10"
     >
       <input
         type="date"
+        name="dueDate"
+        id="dueDate"
+        title="Due Date"
         value={dueDate}
-        onChange={handleSubmit}
+        onChange={handleChange}
         className="font-light outline-none border-none p-0 m-0 bg-transparent"
         placeholder="Due Date"
       />
+      <button
+        title="Assign for today"
+        type="button"
+        onClick={handleAssignToday}
+      >
+        <HiArrowDownTray size={20} />
+      </button>
+      <button
+        title="Assign for tomorrow"
+        type="button"
+        onClick={handleAssignTomorrow}
+      >
+        <MdOutlineNextPlan size={20} />
+      </button>
       {/* <input
         type="time"
         className="font-light outline-none border-none bg-transparent"

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 // Context
 import { ListContext } from "../../../context/ListState";
@@ -19,11 +19,18 @@ const UserListsPage = () => {
   const [expand, setExpand] = useState(true);
   const [expandTrash, setExpandTrash] = useState(false);
 
-  // const [temp, setTemp] = useState(false);
+  const dragItem = useRef();
+  const dragOverItem = useRef();
 
-  // useEffect(() => {
-  //   setTemp((curr) => !curr);
-  // }, [lists, status]);
+  const dragStart = (e, position) => {
+    console.log(position);
+    dragItem.current = position;
+  };
+  // On Drag Over Item
+  const dragEnter = (e, position) => {
+    console.log(position);
+    dragOverItem.current = position;
+  };
 
   const userLists = Array.isArray(lists)
     ? lists.filter((item) => item.trash !== true)
@@ -56,7 +63,14 @@ const UserListsPage = () => {
         >
           {userLists.map((list, index) => {
             if (list?.trash === undefined || list?.trash === false) {
-              return <CardListName key={index} taskList={list} />;
+              return (
+                <CardListName
+                  key={index}
+                  taskList={list}
+                  onDragStart={dragStart}
+                  onDragEnter={dragEnter}
+                />
+              );
             }
           })}
         </ul>

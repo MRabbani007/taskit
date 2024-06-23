@@ -98,8 +98,10 @@ export const TaskProvider = ({ children }) => {
       title: taskTitle,
       completed: false,
       priority: "low",
+      priorityLevel: 1,
       dueDate: "",
       details: "",
+      sortIndex: state.length || 0,
     };
     dispatch({ type: ACTIONS.CREATE_TASK, payload: newTask });
     let response = await axiosPrivate.post(SERVER.TASKS, {

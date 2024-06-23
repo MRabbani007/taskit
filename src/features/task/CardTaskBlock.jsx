@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 // Imported Context
 import { TaskContext } from "../../context/TaskState";
 import { ListContext } from "../../context/ListState";
+// Hooks
+import useDebounce from "../../hooks/useDebounce";
 // Imported Components
 import CardEditTask from "./CardEditTask";
 import CardTaskPriority from "./CardTaskPriority";
@@ -26,9 +28,15 @@ const CardTaskBlock = ({ task, openList = false }) => {
   const [addTag, setAddTag] = useState(false);
   const [editTag, setEditTag] = useState(null);
 
-  const toggleCompleted = async () => {
-    await handleUpdateTask({ ...task, completed: !task.completed });
-  };
+  const [completed, setCompleted] = useState(task?.completed || false);
+  const debounceCompleted = useDebounce(completed, 1000);
+
+  useEffect(() => {
+    if (debounceCompleted !== task?.completed) {
+      handleUpdateTask({ ...task, completed: !task.completed });
+      message.success("Task updated");
+    }
+  }, [debounceCompleted]);
 
   const closeMenu = (e) => {
     // if (!menuRef?.current.contains(e.target)) {
@@ -93,13 +101,13 @@ const CardTaskBlock = ({ task, openList = false }) => {
               <label htmlFor="" className="w-6">
                 <input
                   type="checkbox"
-                  checked={task.completed}
+                  checked={completed}
                   onChange={() => {}}
                   className="invisible absolute"
                 />
                 <button
                   className="bubble"
-                  onClick={() => toggleCompleted()}
+                  onClick={() => setCompleted((curr) => !curr)}
                 ></button>
               </label>
               <span
@@ -129,10 +137,11 @@ const CardTaskBlock = ({ task, openList = false }) => {
               okText="Yes"
               cancelText="No"
               placement="topRight"
+              className=" invisible group-hover:visible duration-200"
             >
               <Button
                 type="text"
-                className="invisible group-hover:visible duration-200 flex items-center justify-center m-0 p-0"
+                className="flex items-center justify-center m-0 p-0"
               >
                 <CiTrash size={32} className="inline" />
               </Button>
@@ -141,13 +150,17 @@ const CardTaskBlock = ({ task, openList = false }) => {
               <button
                 title="Open List"
                 onClick={() => handleOpen(task?.listID)}
-                className="invisible group-hover:visible duration-200"
+                className=" invisible group-hover:visible duration-200"
               >
                 <AiOutlineUnorderedList size={32} />
               </button>
             ) : null}
-            <button onClick={() => setAddTag(true)}>
-              <IoPricetagOutline size={32} />
+            <button
+              title="Add Tag"
+              onClick={() => setAddTag(true)}
+              className=" invisible group-hover:visible duration-200"
+            >
+              <IoPricetagOutline size={25} />
               {/* <IoPricetag /> */}
             </button>
           </div>

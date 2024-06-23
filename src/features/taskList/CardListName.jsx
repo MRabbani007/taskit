@@ -12,7 +12,7 @@ import { CiEdit, CiTrash } from "react-icons/ci";
 import { BsPinAngle } from "react-icons/bs";
 import { Button, Popconfirm, message } from "antd";
 
-const CardListName = ({ taskList }) => {
+const CardListName = ({ taskList, onDragStart, onDragEnter }) => {
   const { listSummary, handleUpdateList, handleOpen } = useContext(ListContext);
 
   const [edit, setEdit] = useState(false);
@@ -53,6 +53,8 @@ const CardListName = ({ taskList }) => {
   return (
     <li
       key={taskList?.id}
+      // draggable
+      // onDrag={onDragStart}
       className="flex items-stretch py-1 pr-4 border-[1px] border-zinc-300"
     >
       <div
