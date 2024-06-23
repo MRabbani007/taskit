@@ -29,12 +29,6 @@ export default function CardNote({ note, idx }) {
             <span className="cursor-pointer" onClick={() => setEditTitle(true)}>
               {note?.title}
             </span>
-            {/* <img
-            src={IMG_Edit}
-            alt="Edit"
-            title="Edit"
-            className="icon-md mr-1 cursor-pointer"
-          /> */}
             <button
               onClick={handleDelete}
               title="Trash Note"
@@ -46,7 +40,7 @@ export default function CardNote({ note, idx }) {
         )}
       </div>
       {/* Body */}
-      <div className="p-2 w-full h-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans ">
+      <div className="w-full h-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans ">
         {!editDetails ? (
           <pre
             className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans "

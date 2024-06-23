@@ -3,7 +3,17 @@ import { NotesContext } from "../../context/NotesState";
 import { AiOutlineSave } from "react-icons/ai";
 import { BiX } from "react-icons/bi";
 
-export default function CardNoteEditDetails({ note, setEditDetails }) {
+// Simple UI
+// Quick Entry/Capture - quickly create tasks, easy editing
+// Filters & sorting
+// Calendar
+// Today List, Future Tasks, important, overdue
+// Prioritization & priority levels
+// Reorder Tasks
+// Recurring Tasks
+// Status Tracking
+
+export default function CardNoteEditDetails({ note, setEditDetails, idx }) {
   const { handleNoteUpdate } = useContext(NotesContext);
 
   const [details, setDetails] = useState(note?.details || "");
@@ -18,9 +28,18 @@ export default function CardNoteEditDetails({ note, setEditDetails }) {
     setEditDetails(false);
   };
 
+  const cols = 30;
+  const initialvalue = 0;
+  const rows = note?.details
+    .split("\n")
+    .reduce(
+      (acc, curr) => acc + 1 + Math.floor(curr.length / cols),
+      initialvalue
+    );
+
   return (
     <form
-      className="relative"
+      className="relative h-full p-2"
       onSubmit={handleSubmitDetails}
       onReset={handleResetDetails}
     >

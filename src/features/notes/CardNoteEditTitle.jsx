@@ -7,15 +7,6 @@ export default function CardNoteEditTitle({ note, setEditTitle, idx }) {
 
   const [title, setTitle] = useState(note?.title || "");
 
-  const cols = 30;
-  const initialvalue = 0;
-  const rows = note?.details
-    .split("\n")
-    .reduce(
-      (acc, curr) => acc + 1 + Math.floor(curr.length / cols),
-      initialvalue
-    );
-
   const handleSubmitTitle = (e) => {
     e.preventDefault();
     handleNoteUpdate(idx, { ...note, title });
