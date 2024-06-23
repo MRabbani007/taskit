@@ -1,21 +1,29 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+// Context
+import { ListContext } from "../../../context/ListState";
+// Components
+import CardListName from "../../../features/taskList/CardListName";
+import CardListTrash from "../../../features/taskList/CardListTrash";
+import Loading from "../../../features/components/Loading";
+// AntD
+import { PlusOutlined } from "@ant-design/icons";
+// Icons
+import { CiTrash } from "react-icons/ci";
 import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
-import CardListName from "../../../features/taskList/CardListName";
-import { Link } from "react-router-dom";
-import { Button, Flex, FloatButton } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { LiaTrashRestoreSolid, LiaTrashSolid } from "react-icons/lia";
-import { IMAGES_Icons } from "../../../data/templates";
-import { CiTrash } from "react-icons/ci";
-import { ListContext } from "../../../context/ListState";
-import Loading from "../../../features/components/Loading";
+import { FloatButton } from "antd";
 
 const UserListsPage = () => {
-  const { lists, handleUpdateList, handleRemoveList, status } =
-    useContext(ListContext);
+  const { lists, status } = useContext(ListContext);
   const [expand, setExpand] = useState(true);
   const [expandTrash, setExpandTrash] = useState(false);
+
+  // const [temp, setTemp] = useState(false);
+
+  // useEffect(() => {
+  //   setTemp((curr) => !curr);
+  // }, [lists, status]);
 
   const userLists = Array.isArray(lists)
     ? lists.filter((item) => item.trash !== true)
@@ -69,31 +77,7 @@ const UserListsPage = () => {
           }
         >
           {trashLists.map((list, index) => {
-            return (
-              <li
-                key={index}
-                className="flex items-center justify-between py-1 px-4 shadow-sm shadow-slate-600 rounded-md"
-              >
-                <div className="flex items-center gap-2">
-                  <img src={IMAGES_Icons + list?.icon} className="icon-lg" />
-                  <span>{list.title}</span>
-                </div>
-                <span>
-                  <button
-                    title="Recover"
-                    onClick={() => handleUpdateList(list.id, "un_trash", true)}
-                  >
-                    <LiaTrashRestoreSolid className="icon text-green-600" />
-                  </button>
-                  <button
-                    title="Delete"
-                    onClick={() => handleRemoveList(list.id)}
-                  >
-                    <LiaTrashSolid className="icon text-red-600" />
-                  </button>
-                </span>
-              </li>
-            );
+            return <CardListTrash list={list} key={index} />;
           })}
         </ul>
       );
@@ -102,6 +86,7 @@ const UserListsPage = () => {
 
   return (
     <main>
+      {/* User Lists */}
       <header
         className="bg-gradient-to-r from-zinc-600 to-zinc-400 text-white shadow-md shadow-zinc-500"
         onClick={() => setExpand((prev) => !prev)}
@@ -116,6 +101,7 @@ const UserListsPage = () => {
         />
       </header>
       <section className="w-full">{contentLists}</section>
+      {/* Trash lists */}
       <header
         className="bg-gradient-to-r from-zinc-600 to-zinc-400 text-white shadow-md shadow-zinc-500"
         onClick={() => setExpandTrash((prev) => !prev)}
@@ -129,7 +115,7 @@ const UserListsPage = () => {
           className={(expandTrash ? "rotate-90 " : "") + "duration-300"}
         />
       </header>
-      {contentTrash}
+      <section className="w-full">{contentTrash}</section>
       <Link to={"/createList"}>
         <FloatButton
           type="primary"

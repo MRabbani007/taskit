@@ -10,11 +10,14 @@ import { BsPinAngle } from "react-icons/bs";
 import useDebounce from "../../../hooks/useDebounce";
 import { ListContext } from "../../../context/ListState";
 import Loading from "../../../features/components/Loading";
+import { Switch } from "antd";
 
 export default function TaskListPage() {
   const { displayList, handleUpdateList, handleClose } =
     useContext(ListContext);
   const { tasks, status, handleGetTasks } = useContext(TaskContext);
+
+  const [showCompleted, setShowCompleted] = useState(false);
 
   const [pinned, setPinned] = useState(displayList?.pinned || false);
   const debouncePin = useDebounce(pinned, 1000);
@@ -54,17 +57,22 @@ export default function TaskListPage() {
   } else if (status?.isError === true) {
     content = <p>Error Loading Tasks</p>;
   } else if (status?.isSuccess === true) {
-    content =
-      tasks.length === 0 ? (
-        <p>No tasks in this list, add new tasks</p>
-      ) : (
+    if (tasks.length === 0)
+      content = <p>No tasks in this list, add new tasks</p>;
+    else {
+      const displayTasks = Array.isArray(tasks)
+        ? showCompleted
+          ? tasks
+          : tasks.filter((item) => item.completed !== true)
+        : [];
+      content = (
         <ul className="flex flex-col gap-3 w-full max-w-[1000px]">
-          {Array.isArray(tasks) &&
-            tasks.map((task) => {
-              return <CardTaskBlock key={task?.id} task={task} />;
-            })}
+          {displayTasks.map((task) => {
+            return <CardTaskBlock key={task?.id} task={task} />;
+          })}
         </ul>
       );
+    }
   }
 
   return (
@@ -112,6 +120,16 @@ export default function TaskListPage() {
         {/* Add new todo Item */}
         {/* Note: list ID passed from TodoList to enable opening multiple lists */}
         <CardAddTask listID={displayList?.id} />
+        <div className="field">
+          <Switch
+            checked={showCompleted}
+            onChange={() => setShowCompleted((curr) => !curr)}
+            id="showCompleted"
+          />
+          <label htmlFor="showCompleted" className="field__label">
+            Show Completed
+          </label>
+        </div>
         {/* Display Tasks */}
         {content}
       </div>

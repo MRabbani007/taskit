@@ -34,7 +34,7 @@ const CreateJournal = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full flex flex-1 flex-wrap items-center justify-center gap-2"
+      className="w-full flex-1 flex flex-wrap flex-col sm:flex-row items-center justify-center gap-2"
       name={"create_journal"}
     >
       <div className="field">

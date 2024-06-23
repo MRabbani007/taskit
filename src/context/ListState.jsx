@@ -118,11 +118,11 @@ export const ListProvider = ({ children }) => {
   };
 
   const handleUpdateList = async (listID, updateItem, newValue) => {
-    // dispatch({
-    //   type: ACTIONS.UPDATE_LIST,
-    //   payload: { listID, updateItem, newValue },
-    // });
-    if (updateItem === "trash") {
+    dispatch({
+      type: ACTIONS.UPDATE_LIST,
+      payload: { listID, updateItem, newValue },
+    });
+    if (updateItem === "trash" && displayList?.id === listID) {
       handleClose(listID);
     }
     let response = await axiosPrivate.post(SERVER.UPDATE_LIST, {

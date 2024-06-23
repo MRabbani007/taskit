@@ -1,11 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { JournalContext } from "../../context/JournalState";
-import { Button, Timeline } from "antd";
+import { Button, Flex, Timeline } from "antd";
 import FormJournalEdit from "./FormJournalEdit";
 
-const renderItems = (journal, setEditItem) => {
+const renderItems = (journal, setEditItem, sortA) => {
   const days = Array.from(new Set(journal.map((item) => item.onDate))).sort(
-    (a, b) => a.toString().localeCompare(b.toString())
+    (a, b) =>
+      sortA === true
+        ? new Date(b).getTime() - new Date(a).getTime()
+        : new Date(a).getTime() - new Date(b).getTime()
   );
 
   const groups = days.map((day) => {
@@ -54,8 +57,16 @@ const renderItems = (journal, setEditItem) => {
   return items;
 };
 
-const renderLinear = (journal, setEditItem) => {
-  return journal.map((item) => {
+const renderLinear = (journal, setEditItem, sortA) => {
+  const items = journal.sort((a, b) =>
+    sortA === true
+      ? new Date(b.onDate.substr(0, 10)).getTime() -
+        new Date(a.onDate.substr(0, 10)).getTime()
+      : new Date(a.onDate.substr(0, 10)).getTime() -
+        new Date(b.onDate.substr(0, 10)).getTime()
+  );
+
+  return items.map((item) => {
     return {
       label: item?.onDate.substr(0, 10),
       color: item?.color || "green",
@@ -73,12 +84,13 @@ export default function SectionJournalItems() {
   const { journal } = useContext(JournalContext);
 
   const [group, setGroup] = useState(true);
+  const [sortA, setSortA] = useState(true);
 
   const [editItem, setEditItem] = useState(null);
 
   const items = group
-    ? renderItems(journal, setEditItem)
-    : renderLinear(journal, setEditItem);
+    ? renderItems(journal, setEditItem, sortA)
+    : renderLinear(journal, setEditItem, sortA);
 
   return (
     // <Timeline className="max-h-[60vh] overflow-y-scroll flex-1 w-full">
@@ -88,9 +100,14 @@ export default function SectionJournalItems() {
     //     })}
     // </Timeline>
     <>
-      <Button type="primary" onClick={() => setGroup((curr) => !curr)}>
-        {group ? "un-group" : "Group"}
-      </Button>
+      <Flex gap={16}>
+        <Button type="primary" onClick={() => setGroup((curr) => !curr)}>
+          {group ? "un-group" : "Group"}
+        </Button>
+        <Button type="primary" onClick={() => setSortA((curr) => !curr)}>
+          {sortA ? "Latest" : "Earliest"}
+        </Button>
+      </Flex>
       <Timeline mode="left" items={items} className="w-full" />
       {editItem?.id ? (
         <FormJournalEdit journalItem={editItem} setEdit={setEditItem} />

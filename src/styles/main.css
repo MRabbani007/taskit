@@ -383,6 +383,17 @@ input:checked ~ .bubble::after {
   cursor: pointer !important;
 }
 
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.field__label {
+  font-weight: 600;
+  color: rgb(61, 61, 61);
+}
+
 tr {
   cursor: pointer;
   transition: all 300ms ease;

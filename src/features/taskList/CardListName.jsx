@@ -10,6 +10,7 @@ import { IMAGES_Icons } from "../../data/templates";
 // Imported Media
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { BsPinAngle } from "react-icons/bs";
+import { Button, Popconfirm, message } from "antd";
 
 const CardListName = ({ taskList }) => {
   const { listSummary, handleUpdateList, handleOpen } = useContext(ListContext);
@@ -36,6 +37,7 @@ const CardListName = ({ taskList }) => {
 
   const handleTrash = () => {
     handleUpdateList(taskList.id, "trash", true);
+    message.success("List moved to trash");
   };
 
   const mounted = useRef();
@@ -43,6 +45,7 @@ const CardListName = ({ taskList }) => {
   useEffect(() => {
     if (mounted?.current === true) {
       handlePin();
+      message.success("Task Pinned");
     }
     mounted.current = true;
   }, [debouncePin]);
@@ -96,9 +99,22 @@ const CardListName = ({ taskList }) => {
           <button onClick={() => setEdit(true)}>
             <CiEdit size={32} />
           </button>
-          <button onClick={handleTrash}>
-            <CiTrash size={32} />
-          </button>
+          <Popconfirm
+            title="Trash List"
+            description="Move list to trash?"
+            onConfirm={handleTrash}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="No"
+            placement="topRight"
+          >
+            <Button
+              type="text"
+              className="flex items-center justify-center m-0 p-1"
+            >
+              <CiTrash size={32} />
+            </Button>
+          </Popconfirm>
         </span>
       </div>
     </li>
