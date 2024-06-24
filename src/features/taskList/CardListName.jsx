@@ -12,7 +12,7 @@ import { CiEdit, CiTrash } from "react-icons/ci";
 import { BsPinAngle } from "react-icons/bs";
 import { Button, Popconfirm, message } from "antd";
 
-const CardListName = ({ taskList, onDragStart, onDragEnter }) => {
+const CardListName = ({ taskList }) => {
   const { listSummary, handleUpdateList, handleOpen } = useContext(ListContext);
 
   const [edit, setEdit] = useState(false);

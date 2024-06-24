@@ -10,8 +10,9 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useLocation, useNavigate } from "react-router-dom";
 import { listReducer } from "./ListReducer";
 import { ACTIONS, SERVER } from "../data/actions";
+import { message } from "antd";
 
-const initialState = [];
+const initialState = { userLists: [], pinnedLists: [], trashLists: [] };
 
 const initialStatus = {
   isLoading: false,
@@ -139,6 +140,33 @@ export const ListProvider = ({ children }) => {
     });
   };
 
+  const handleSort = async (location, newLists) => {
+    const lists = newLists.map((item, index) => {
+      return { ...item, sortIndex: index };
+    });
+    const type =
+      location === "pinnedLists" ? "SORT_LIST_PINNED" : "SORT_LIST_USER";
+    dispatch({ type, payload: lists });
+    const temp = newLists.map((item, index) => {
+      return { id: item.id, sortIndex: index };
+    });
+    await axiosPrivate
+      .patch("/lists/sort", {
+        roles: auth?.roles,
+        action: {
+          type: "SORT_LIST",
+          payload: {
+            userName: auth?.user,
+            lists: temp,
+          },
+        },
+      })
+      .then((response) => {
+        if (response.status === 204) message.success("Sort Saved");
+      })
+      .catch((e) => message.error("Error saving sort"));
+  };
+
   // Handle opening new todo List
   function handleOpen(list) {
     let temp = null;
@@ -186,6 +214,7 @@ export const ListProvider = ({ children }) => {
         handleCreateList,
         handleUpdateList,
         handleRemoveList,
+        handleSort,
       }}
     >
       {children}

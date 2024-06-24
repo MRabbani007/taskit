@@ -13,33 +13,31 @@ import { CiTrash } from "react-icons/ci";
 import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
 import { FloatButton } from "antd";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const UserListsPage = () => {
-  const { lists, status } = useContext(ListContext);
+  const { lists, status, handleSort } = useContext(ListContext);
   const [expand, setExpand] = useState(true);
   const [expandTrash, setExpandTrash] = useState(false);
 
-  const dragItem = useRef();
-  const dragOverItem = useRef();
+  const handleDragEnd = (result) => {
+    console.log(result);
+    if (!result.destination) return;
 
-  const dragStart = (e, position) => {
-    console.log(position);
-    dragItem.current = position;
-  };
-  // On Drag Over Item
-  const dragEnter = (e, position) => {
-    console.log(position);
-    dragOverItem.current = position;
-  };
+    const items =
+      result?.source.droppableId === "pinnedLists"
+        ? Array.from(lists.pinnedLists)
+        : Array.from(lists.userLists);
 
-  const userLists = Array.isArray(lists)
-    ? lists.filter((item) => item.trash !== true)
-    : [];
-  const trashLists = Array.isArray(lists)
-    ? lists.filter((item) => item.trash === true)
-    : [];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    handleSort(result?.source.droppableId, items);
+  };
 
   let contentLists;
+  let contentPinned;
   let contentTrash;
 
   if (status?.isLoading === true) {
@@ -49,34 +47,41 @@ const UserListsPage = () => {
     contentLists = <p>Error Loading Lists</p>;
     contentTrash = <p>Error Loading Lists</p>;
   } else if (status.isSuccess === true) {
-    if (userLists.length === 0) {
+    if (lists.userLists.length === 0) {
       contentLists = <p>You don't have any lists, create new</p>;
     } else {
-      contentLists = (
-        <ul
-          className={
-            (expand
-              ? "translate-y-[0] opacity-100 "
-              : "translate-y-[-20px] opacity-0 invisible h-0 ") +
-            " py-4 duration-300 flex flex-1 w-full flex-col gap-4"
-          }
-        >
-          {userLists.map((list, index) => {
-            if (list?.trash === undefined || list?.trash === false) {
-              return (
-                <CardListName
-                  key={index}
-                  taskList={list}
-                  onDragStart={dragStart}
-                  onDragEnter={dragEnter}
-                />
-              );
-            }
-          })}
-        </ul>
-      );
+      contentPinned = lists.pinnedLists.map((list, index) => {
+        return (
+          <Draggable key={list.id} draggableId={list.id} index={index}>
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+              >
+                <CardListName key={index} taskList={list} />
+              </div>
+            )}
+          </Draggable>
+        );
+      });
+      contentLists = lists.userLists.map((list, index) => {
+        return (
+          <Draggable key={list.id} draggableId={list.id} index={index}>
+            {(provided) => (
+              <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+              >
+                <CardListName key={index} taskList={list} />
+              </div>
+            )}
+          </Draggable>
+        );
+      });
     }
-    if (trashLists.length === 0) {
+    if (lists.trashLists.length === 0) {
       contentTrash = (
         <p className="p-4 font-medium text-zinc-800">No lists in trash</p>
       );
@@ -90,7 +95,7 @@ const UserListsPage = () => {
             " py-4 duration-300 flex flex-col gap-2 w-full"
           }
         >
-          {trashLists.map((list, index) => {
+          {lists.trashLists.map((list, index) => {
             return <CardListTrash list={list} key={index} />;
           })}
         </ul>
@@ -114,7 +119,45 @@ const UserListsPage = () => {
           className={(expand ? "rotate-90 " : "") + "duration-300"}
         />
       </header>
-      <section className="w-full">{contentLists}</section>
+      <section className="w-full">
+        <div
+          className={
+            (expand
+              ? "translate-y-[0] opacity-100 "
+              : "translate-y-[-20px] opacity-0 invisible h-0 ") +
+            " py-4 duration-300"
+          }
+        >
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="pinnedLists">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="flex flex-1 w-full flex-col gap-4"
+                >
+                  {contentPinned}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="userLists">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="flex flex-1 w-full flex-col gap-4 my-4"
+                >
+                  {contentLists}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+      </section>
       {/* Trash lists */}
       <header
         className="bg-gradient-to-r from-zinc-600 to-zinc-400 text-white shadow-md shadow-zinc-500"

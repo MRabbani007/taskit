@@ -3,6 +3,7 @@ import { CiTrash } from "react-icons/ci";
 import CardNoteEditTitle from "./CardNoteEditTitle";
 import CardNoteEditDetails from "./CardNoteEditDetails";
 import { NotesContext } from "../../context/NotesState";
+import { Button, Popconfirm } from "antd";
 
 export default function CardNote({ note, idx }) {
   const { handleNoteUpdate } = useContext(NotesContext);
@@ -29,13 +30,22 @@ export default function CardNote({ note, idx }) {
             <span className="cursor-pointer" onClick={() => setEditTitle(true)}>
               {note?.title}
             </span>
-            <button
-              onClick={handleDelete}
+            <Popconfirm
               title="Trash Note"
-              className="invisible group-hover:visible"
+              description="Move note to trash?"
+              onConfirm={handleDelete}
+              onCancel={() => {}}
+              okText="Yes"
+              cancelText="No"
+              placement="topRight"
             >
-              <CiTrash size={32} />
-            </button>
+              <Button
+                type="text"
+                className="flex items-center justify-center m-0 p-1 invisible group-hover:visible"
+              >
+                <CiTrash size={32} />
+              </Button>
+            </Popconfirm>
           </p>
         )}
       </div>
