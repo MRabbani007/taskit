@@ -57,9 +57,13 @@ export default function DashboardTasks() {
           strokeWidth={20}
         />
         <div className="font-semibold">
-          <p className="text-orange-500">{`${tasksSummary?.pending} open`}</p>
-          <p className="text-green-500">{`${tasksSummary?.completed} completed`}</p>
-          <p className="text-sky-500">{`${tasksSummary?.total} tasks`}</p>
+          <p className="text-orange-500">{`${
+            tasksSummary?.pending || 0
+          } open`}</p>
+          <p className="text-green-500">{`${
+            tasksSummary?.completed || 0
+          } completed`}</p>
+          <p className="text-sky-500">{`${tasksSummary?.total || 0} tasks`}</p>
         </div>
       </div>
       <div className="flex gap-2 py-2 text-zinc-800 font-medium">

@@ -29,13 +29,13 @@ const renderItems = (journal, setEditItem, sortA) => {
       label: day.onDate.substr(0, 10),
       color: "green",
       children: (
-        <div key={day.onDate}>
+        <div key={day.onDate} className="w-full">
           {day.groups.map((group, index) => {
             const activities = journal.filter(
               (item) => item.onDate === day.onDate && item.title === group
             );
             return (
-              <div key={index} className="my-2">
+              <div key={index}>
                 <p className="font-semibold">{group}</p>
                 <ul className="px-2">
                   {activities.map((activity, idx) => {
@@ -71,7 +71,7 @@ const renderLinear = (journal, setEditItem, sortA) => {
       label: item?.onDate.substr(0, 10),
       color: item?.color || "green",
       children: (
-        <div onClick={() => setEditItem(item)}>
+        <div onClick={() => setEditItem(item)} className="w-full">
           <p className="font-semibold">{item?.title}</p>
           <p>{item?.detail}</p>
         </div>
@@ -100,7 +100,7 @@ export default function SectionJournalItems() {
     //     })}
     // </Timeline>
     <>
-      <Flex gap={16}>
+      <Flex gap={16} className="my-2">
         <Button type="primary" onClick={() => setGroup((curr) => !curr)}>
           {group ? "un-group" : "Group"}
         </Button>
@@ -108,7 +108,7 @@ export default function SectionJournalItems() {
           {sortA ? "Latest" : "Earliest"}
         </Button>
       </Flex>
-      <Timeline mode="left" items={items} className="w-full" />
+      <Timeline mode="left" items={items} className="w-fit" />
       {editItem?.id ? (
         <FormJournalEdit journalItem={editItem} setEdit={setEditItem} />
       ) : null}

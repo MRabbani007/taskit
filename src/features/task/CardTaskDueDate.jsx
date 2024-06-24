@@ -15,42 +15,39 @@ const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
 
   // hold due date value
   const [dueDate, setDueDate] = useState(() => {
-    if (task?.dueDate) {
-      if (task.dueDate.includes("1900-01-01")) {
-        return getDate();
-      } else {
-        return task.dueDate.substr(0, 10);
-      }
+    if (!task?.dueDate) {
+      return getDate();
+    } else if (task?.dueDate === "" || task.dueDate.includes("1900-01-01")) {
+      return getDate();
+    } else {
+      return task.dueDate.substr(0, 10);
     }
   });
 
-  const isMounted = useRef(null);
-
   const handleAssignToday = async () => {
-    setDueDate(getDate());
+    handleUpdateTask({
+      ...task,
+      dueDate: getDate(),
+      prevDueDate: task.dueDate.substr(0, 10),
+    });
+    message.success("Task assigned for today");
   };
   const handleAssignTomorrow = async () => {
-    setDueDate(getDate(1));
+    handleUpdateTask({
+      ...task,
+      dueDate: getDate(1),
+      prevDueDate: task.dueDate.substr(0, 10),
+    });
+    message.success("Task assigned for tomorrow");
   };
   const handleChange = async (e) => {
-    setDueDate(e.target.value);
+    handleUpdateTask({
+      ...task,
+      dueDate: e.target.value,
+      prevDueDate: task.dueDate.substr(0, 10),
+    });
+    message.success("Due date updated");
   };
-
-  useEffect(() => {
-    if (
-      isMounted?.current === true &&
-      dueDate !== task?.dueDate.substr(0, 10)
-    ) {
-      handleUpdateTask({
-        ...task,
-        dueDate,
-        prevDueDate: task.dueDate.substr(0, 10),
-      });
-      message.success("Task updated");
-    }
-  }, [dueDate]);
-
-  isMounted.current = true;
 
   return (
     <form
@@ -66,21 +63,21 @@ const CardTaskDueDate = ({ task, setEdit = () => {} }) => {
         id="dueDate"
         title="Due Date"
         value={dueDate}
-        onChange={handleChange}
+        onChange={(e) => handleChange(e)}
         className="font-light outline-none border-none p-0 m-0 bg-transparent"
         placeholder="Due Date"
       />
       <button
         title="Assign for today"
         type="button"
-        onClick={handleAssignToday}
+        onClick={() => handleAssignToday()}
       >
         <HiArrowDownTray size={20} />
       </button>
       <button
         title="Assign for tomorrow"
         type="button"
-        onClick={handleAssignTomorrow}
+        onClick={() => handleAssignTomorrow()}
       >
         <MdOutlineNextPlan size={20} />
       </button>

@@ -31,8 +31,10 @@ const CardTaskBlock = ({ task, openList = false }) => {
   const [completed, setCompleted] = useState(task?.completed || false);
   const debounceCompleted = useDebounce(completed, 1000);
 
+  const isMounted = useRef(null);
+
   useEffect(() => {
-    if (debounceCompleted !== task?.completed) {
+    if (isMounted.current === true && debounceCompleted !== task?.completed) {
       handleUpdateTask({ ...task, completed: !task.completed });
       message.success("Task updated");
     }
@@ -66,6 +68,8 @@ const CardTaskBlock = ({ task, openList = false }) => {
       document.removeEventListener("mousedown", closeMenu);
     };
   }, []);
+
+  isMounted.current = true;
 
   const taskTags = task?.tags.map((tag, index) => (
     <span

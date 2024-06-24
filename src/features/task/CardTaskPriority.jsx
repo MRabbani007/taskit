@@ -67,7 +67,7 @@ const CardTaskPriority = ({ task }) => {
       priority: priorityObj[priorityLevel],
       priorityLevel,
     });
-    message.success("Task updated");
+    message.success("Priority updated");
   };
 
   useEffect(() => {
