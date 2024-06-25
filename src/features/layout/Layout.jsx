@@ -6,6 +6,7 @@ import RadioMenu from "../navigation/RadioMenu";
 import Sidebar from "../navigation/Sidebar";
 import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Layout = () => {
   const location = useLocation();
@@ -19,14 +20,16 @@ const Layout = () => {
 
   return (
     <>
-      <Navbar />
-      {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
-      <Suspense fallback={<SkeletonContentPage />}>
-        <Outlet />
-      </Suspense>
-      <Footer />
-      <ToastContainer autoClose={1000} />
-      {/* <RadioMenu /> */}
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Navbar />
+        {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
+        <Suspense fallback={<SkeletonContentPage />}>
+          <Outlet />
+        </Suspense>
+        <Footer />
+        <ToastContainer autoClose={1000} />
+        {/* <RadioMenu /> */}
+      </ErrorBoundary>
     </>
   );
 };

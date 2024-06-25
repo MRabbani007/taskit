@@ -1,3 +1,4 @@
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 // Imported Styles
 import "./styles/styles.css";
@@ -5,17 +6,12 @@ import "./styles/main.css";
 import "./styles/preflight.css";
 import "react-toastify/dist/ReactToastify.css";
 // Imported Context
-import { AuthProvider } from "./context/AuthProvider";
-import { GlobalProvider } from "./context/GlobalState";
-import { UserProvider } from "./context/UserState";
-import { NotesProvider } from "./context/NotesState";
-import { ActivityProvider } from "./context/ActivityState";
-import { JournalProvider } from "./context/JournalState";
+import Providers from "./context/Providers";
 // Authorization & Nav
 import SigninPage from "./views/auth/SigninPage";
 import SignupPage from "./views/auth/SignupPage";
 import SignoutPage from "./views/auth/SignoutPage";
-import ForgotPasswordPage from "./views/auth/ForgotPasswordPage";
+
 import PersistLogin from "./features/auth/PersistLogin";
 import RequireAuth from "./features/auth/RequireAuth";
 import MissingPage from "./views/MissingPage";
@@ -52,14 +48,14 @@ import JournalPage from "./views/user/JournalPage";
 import CalendarPage from "./views/user/CalendarPage";
 // User
 import DashboardPage from "./views/user/DashboardPage";
-import SettingsPage from "./views/user/SettingsPage";
-import ChangePassword from "./views/auth/ChangePassword";
 // Imported Components
-import TeamsPage from "./views/user/TeamsPage";
-import ProfilePage from "./views/user/ProfilePage";
-import { ListProvider } from "./context/ListState";
-import { TaskProvider } from "./context/TaskState";
-import Providers from "./context/Providers";
+const ForgotPasswordPage = React.lazy(() =>
+  import("./views/auth/ForgotPasswordPage")
+);
+const ChangePassword = React.lazy(() => import("./views/auth/ChangePassword"));
+const SettingsPage = React.lazy(() => import("./views/user/SettingsPage"));
+const TeamsPage = React.lazy(() => import("./views/user/TeamsPage"));
+const ProfilePage = React.lazy(() => import("./views/user/ProfilePage"));
 
 const ROLES = {
   User: 2001,

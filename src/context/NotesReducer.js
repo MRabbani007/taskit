@@ -18,6 +18,9 @@ export const notesReducer = (state, { type, payload }) => {
     case ACTIONS.NOTES_REMOVE: {
       return state.filter((item) => item.id !== payload);
     }
+    case "NOTE_SORT": {
+      return payload;
+    }
     default: {
       return state;
     }

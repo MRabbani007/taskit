@@ -22,13 +22,14 @@ const UserListsPage = () => {
   const [expandTrash, setExpandTrash] = useState(false);
 
   const handleDragEnd = (result) => {
-    console.log(result);
     if (!result.destination) return;
 
     const items =
       result?.source.droppableId === "pinnedLists"
         ? Array.from(lists.pinnedLists)
         : Array.from(lists.userLists);
+
+    if (result.destination.index === result.source.index) return;
 
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
@@ -46,7 +47,7 @@ const UserListsPage = () => {
   } else if (status?.isError === true) {
     contentLists = <p>Error Loading Lists</p>;
     contentTrash = <p>Error Loading Lists</p>;
-  } else if (status.isSuccess === true) {
+  } else if (status?.isSuccess === true) {
     if (lists.userLists.length === 0) {
       contentLists = <p>You don't have any lists, create new</p>;
     } else {
@@ -131,11 +132,7 @@ const UserListsPage = () => {
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="pinnedLists">
               {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="flex flex-1 w-full flex-col gap-4"
-                >
+                <div {...provided.droppableProps} ref={provided.innerRef}>
                   {contentPinned}
                   {provided.placeholder}
                 </div>
@@ -145,11 +142,7 @@ const UserListsPage = () => {
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="userLists">
               {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="flex flex-1 w-full flex-col gap-4 my-4"
-                >
+                <div {...provided.droppableProps} ref={provided.innerRef}>
                   {contentLists}
                   {provided.placeholder}
                 </div>

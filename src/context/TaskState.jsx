@@ -143,6 +143,28 @@ export const TaskProvider = ({ children }) => {
     });
   };
 
+  const handleSortTasksList = async (tasks) => {
+    dispatch({ type: "SORT_TASKS_LIST", payload: tasks });
+    const temp = tasks.map((item, index) => {
+      return { id: item.id, sortIndex: index };
+    });
+    await axiosPrivate
+      .patch("/tasks/sort", {
+        roles: auth?.roles,
+        action: {
+          type: "SORT_TASKS_LIST",
+          payload: {
+            userName: auth?.user,
+            tasks: temp,
+          },
+        },
+      })
+      .then((response) => {
+        if (response.status === 204) message.success("Sort Saved");
+      })
+      .catch((e) => message.error("Error saving sort"));
+  };
+
   const handleCreateTag = async (tag) => {
     dispatch({ type: ACTIONS.CREATE_TAG, payload: tag });
     let response = await axiosPrivate.post("/tasks/tag", {
@@ -252,6 +274,7 @@ export const TaskProvider = ({ children }) => {
         handleAddTask,
         handleUpdateTask,
         handleDeleteTask,
+        handleSortTasksList,
 
         tags,
         handleCreateTag,

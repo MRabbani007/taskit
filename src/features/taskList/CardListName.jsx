@@ -40,7 +40,7 @@ const CardListName = ({ taskList }) => {
     message.success("List moved to trash");
   };
 
-  const mounted = useRef();
+  const mounted = useRef(null);
 
   useEffect(() => {
     if (mounted?.current === true) {
@@ -51,11 +51,11 @@ const CardListName = ({ taskList }) => {
   }, [debouncePin]);
 
   return (
-    <li
+    <div
       key={taskList?.id}
       // draggable
       // onDrag={onDragStart}
-      className="flex items-stretch py-1 pr-4 border-[1px] border-zinc-300"
+      className="flex items-stretch py-1 pr-4 mb-2 border-[1px] border-zinc-300"
     >
       <div
         className={
@@ -119,7 +119,7 @@ const CardListName = ({ taskList }) => {
           </Popconfirm>
         </span>
       </div>
-    </li>
+    </div>
   );
 };
 

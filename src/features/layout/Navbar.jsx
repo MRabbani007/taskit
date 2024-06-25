@@ -29,7 +29,7 @@ const Navbar = () => {
 
   const [current, setCurrent] = useState("mail");
   const onClick = (e) => {
-    console.log("click ", e);
+    // console.log("click ", e);
     setCurrent(e.key);
   };
 
@@ -57,7 +57,7 @@ const Navbar = () => {
       {
         key: "navbar_guest_login",
         label: (
-          <Link to="login" className="flex items-center gap-2">
+          <Link to="/login" className="flex items-center gap-2">
             <AiOutlineLogin size={28} />
             <span>Sign In</span>
           </Link>
@@ -66,7 +66,7 @@ const Navbar = () => {
       {
         key: "navbar_guest_register",
         label: (
-          <Link to="register" className="flex items-center gap-2">
+          <Link to="/register" className="flex items-center gap-2">
             <HiOutlineUserPlus size={28} />
             <span>Sign Up</span>
           </Link>
@@ -88,7 +88,7 @@ const Navbar = () => {
       {
         key: "navbar_user_1",
         label: (
-          <Link to={"/settings"} className="flex items-center gap-1">
+          <Link to={"/user/profile"} className="flex items-center gap-1">
             <FaRegCircleUser size={28} />
             <span>Profile</span>
           </Link>
@@ -97,7 +97,7 @@ const Navbar = () => {
       {
         key: "navbar_user_2",
         label: (
-          <Link to={"/settings"} className="flex items-center gap-1">
+          <Link to={"/user/settings"} className="flex items-center gap-1">
             <IoSettingsOutline size={28} />
             <span>Settings</span>
           </Link>
@@ -128,7 +128,7 @@ const Navbar = () => {
       {
         key: "navbar_admin_1",
         label: (
-          <Link to={"/settings"} className="flex items-center gap-1">
+          <Link to={"/user/profile"} className="flex items-center gap-1">
             <FaRegCircleUser size={28} />
             Profile
           </Link>
@@ -137,7 +137,7 @@ const Navbar = () => {
       {
         key: "navbar_admin_2",
         label: (
-          <Link to={"/settings"} className="flex items-center gap-1">
+          <Link to={"/user/settings"} className="flex items-center gap-1">
             <IoSettingsOutline size={28} />
             Settings
           </Link>

@@ -9,6 +9,7 @@ import AuthContext from "./AuthProvider";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { notesReducer } from "./NotesReducer";
 import { ACTIONS, SERVER } from "../data/actions";
+import { message } from "antd";
 
 const initialState = [];
 
@@ -28,6 +29,8 @@ export const NotesProvider = ({ children }) => {
   // Store data
   const [state, dispatch] = useReducer(notesReducer, initialState);
   const [status, setStatus] = useState(initialStatus);
+  const [notes, setNotes] = useState([]);
+  const [trash, setTrash] = useState([]);
 
   const handleNotesGetUser = async () => {
     setStatus({
@@ -112,6 +115,37 @@ export const NotesProvider = ({ children }) => {
     });
   };
 
+  const handleNotesSort = async (newNotes) => {
+    const notes = newNotes.map((item, index) => {
+      return { ...item, sortIndex: index };
+    });
+    const type = "NOTE_SORT";
+    dispatch({ type, payload: notes });
+    const temp = newNotes.map((item, index) => {
+      return { id: item.id, sortIndex: index };
+    });
+    // await axiosPrivate
+    //   .patch("/notes/sort", {
+    //     roles: auth?.roles,
+    //     action: {
+    //       type: "NOTE_SORT",
+    //       payload: {
+    //         userName: auth?.user,
+    //         notes: temp,
+    //       },
+    //     },
+    //   })
+    //   .then((response) => {
+    //     if (response.status === 204) message.success("Sort Saved");
+    //   })
+    //   .catch((e) => message.error("Error saving sort"));
+  };
+
+  useEffect(() => {
+    setNotes(() => state.filter((item) => item?.trash !== true));
+    setTrash(() => state.filter((item) => item?.trash === true));
+  }, [state]);
+
   useEffect(() => {
     if (auth?.user) {
       handleNotesGetUser();
@@ -121,11 +155,13 @@ export const NotesProvider = ({ children }) => {
   return (
     <NotesContext.Provider
       value={{
-        notes: state,
+        notes: notes,
+        trash: trash,
         status,
         handleNoteCreate,
         handleNoteUpdate,
         handleNoteDelete,
+        handleNotesSort,
       }}
     >
       {children}

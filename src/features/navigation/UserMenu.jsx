@@ -18,12 +18,12 @@ export default function UserMenu() {
   const itemsGuest = [
     {
       key: "1",
-      label: <Link to="login">Sign In</Link>,
+      label: <Link to="/login">Sign In</Link>,
       icon: <LoginOutlined style={{ fontSize: "25px" }} />,
     },
     {
       key: "2",
-      label: <Link to="register">Register</Link>,
+      label: <Link to="/register">Register</Link>,
       icon: <UserAddOutlined style={{ fontSize: "25px" }} />,
       disabled: false,
     },
@@ -32,7 +32,7 @@ export default function UserMenu() {
   const itemsUser = [
     {
       key: "1",
-      label: <Link to="login">Sign Out</Link>,
+      label: <Link to="/login">Sign Out</Link>,
       icon: (
         <LoginOutlined style={{ fontSize: "25px", transform: "rotate(180)" }} />
       ),
@@ -40,13 +40,13 @@ export default function UserMenu() {
     },
     {
       key: "2",
-      label: <Link to="register">Register</Link>,
+      label: <Link to="/register">Register</Link>,
       icon: <UserAddOutlined style={{ fontSize: "25px" }} />,
       disabled: false,
     },
     {
       key: "3",
-      label: <Link to="settings">Settings</Link>,
+      label: <Link to="/user/settings">Settings</Link>,
       icon: <SettingOutlined style={{ fontSize: "25px" }} />,
       disabled: false,
     },
@@ -55,7 +55,7 @@ export default function UserMenu() {
   const itemsAdmin = [
     {
       key: "1",
-      label: <Link to="login">Sign Out</Link>,
+      label: <Link to="/login">Sign Out</Link>,
       icon: (
         <LoginOutlined
           style={{ fontSize: "25px", transform: "rotate(180deg)" }}
@@ -65,13 +65,13 @@ export default function UserMenu() {
     },
     {
       key: "2",
-      label: <Link to="admin">Admin</Link>,
+      label: <Link to="/admin">Admin</Link>,
       icon: <RiAdminLine size={30} />,
       disabled: false,
     },
     {
       key: "3",
-      label: <Link to="settings">Settings</Link>,
+      label: <Link to="/settings">Settings</Link>,
       icon: <SettingOutlined style={{ fontSize: "25px" }} />,
       disabled: false,
     },

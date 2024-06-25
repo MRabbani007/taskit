@@ -35,7 +35,7 @@ export const listReducer = (state, { type, payload }) => {
       } else if (updateItem === "list_icon") {
         state.userLists[listIndex].icon = newValue;
       } else if (updateItem === "list_pin") {
-        state.userLists[listIndex].icon = newValue;
+        state.userLists[listIndex].pinned = newValue;
       } else if (updateItem === "trash") {
         state.userLists[listIndex].trash = true;
       } else if (updateItem === "un_trash") {

@@ -1,33 +1,3 @@
-// TODO: fix user sorting and drag
-
-// Drag List Names
-// Store Index of dragged item
-const dragItem = useRef();
-// Store Index of dragged over item
-const dragOverItem = useRef();
-// On Drag Start
-const dragStart = (e, position) => {
-  dragItem.current = position;
-};
-// On Drag Over Item
-const dragEnter = (e, position) => {
-  dragOverItem.current = position;
-};
-// On Drag End
-const dragEnd = () => {
-  // Dupplicate list names
-  let currentListNames = [...listNames];
-  // Copy dragged item
-  const draggedItemContent = currentListNames.splice(dragItem.current, 1)[0];
-  // insert dragged item into position
-  currentListNames.splice(dragOverItem.current, 0, draggedItemContent);
-  // reset the reference
-  dragItem.current = null;
-  dragOverItem.current = null;
-  // update actual array
-  setListNames(currentListNames);
-};
-
 const dragTodoItem = useRef();
 const dragOverTodoItem = useRef();
 const dragItemStart = (e, listID, position) => {
@@ -83,4 +53,35 @@ const dragItemEnd = () => {
     // update actual array
     setListNames(currentListNames);
   }
+};
+
+// Store Index of dragged item
+const dragItem = useRef();
+// Store Index of dragged over item
+const dragOverItem = useRef();
+// On Drag Start
+const dragStart = ({ id, type, index, title }) => {
+  dragItem.current = { id, type, index, title };
+};
+// On Drag Over Item
+const dragEnter = ({ id, type, index, title }) => {
+  dragOverItem.current = { id, type, index, title };
+};
+const dragEnd = () => {
+  if (!dragItem.current?.index || !dragOverItem.current?.index) {
+    dragItem.current = null;
+    dragOverItem.current = null;
+    return;
+  }
+
+  const item = notes.splice(dragItem.current?.index, 1)[0];
+
+  const newNotes = [...notes];
+  newNotes.splice(dragOverItem.current?.index, 0, item);
+
+  handleNotesSort(newNotes);
+
+  dragItem.current = null;
+  dragOverItem.current = null;
+  message.success("Sort saved");
 };

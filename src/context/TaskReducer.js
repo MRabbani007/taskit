@@ -16,6 +16,12 @@ export const taskReducer = (state, { type, payload }) => {
       state.splice(taskIndex, 1, payload);
       return [...state];
     }
+    case "SORT_TASKS_LIST": {
+      const newTasks = payload.map((item, index) => {
+        return { ...item, sortIndex: index };
+      });
+      return newTasks;
+    }
     case ACTIONS.CREATE_TAG: {
       let taskIndex = state.findIndex((item) => item.id === payload.taskID);
       state[taskIndex]?.tags.push(payload);

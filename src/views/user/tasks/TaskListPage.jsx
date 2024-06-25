@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
 import { useNavigate, useParams } from "react-router-dom";
-import ListIcon from "../../../features/taskList/ListIcon";
 import ListTitleEdit from "../../../features/taskList/ListTitleEdit";
 import { CiCircleRemove, CiEdit } from "react-icons/ci";
 import CardTaskBlock from "../../../features/task/CardTaskBlock";
@@ -10,14 +9,47 @@ import { BsPinAngle } from "react-icons/bs";
 import useDebounce from "../../../hooks/useDebounce";
 import { ListContext } from "../../../context/ListState";
 import Loading from "../../../features/components/Loading";
-import { Switch } from "antd";
+import { Switch, message } from "antd";
 
 export default function TaskListPage() {
   const { displayList, handleUpdateList, handleClose } =
     useContext(ListContext);
-  const { tasks, status, handleGetTasks } = useContext(TaskContext);
+  const { tasks, status, handleGetTasks, handleSortTasksList } =
+    useContext(TaskContext);
 
   const [showCompleted, setShowCompleted] = useState(false);
+
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
+
+  const dragStart = ({ type, id, index }) => {
+    dragItem.current = { type, id, index };
+  };
+  const dragEnter = ({ type, id, index }) => {
+    dragOverItem.current = { type, id, index };
+  };
+  const dragEnd = () => {
+    if (
+      dragItem.current?.index === null ||
+      dragOverItem.current?.index === null
+    ) {
+      dragItem.current = null;
+      dragOverItem.current = null;
+      return;
+    }
+
+    const newTasks = showCompleted
+      ? [...tasks]
+      : tasks.filter((item) => item.completed !== true);
+
+    const moveItem = newTasks.splice(dragItem.current?.index, 1)[0];
+    newTasks.splice(dragOverItem.current.index, 0, moveItem);
+
+    handleSortTasksList(newTasks);
+
+    dragItem.current = null;
+    dragOverItem.current = null;
+  };
 
   const [pinned, setPinned] = useState(displayList?.pinned || false);
   const debouncePin = useDebounce(pinned, 1000);
@@ -28,7 +60,7 @@ export default function TaskListPage() {
 
   useEffect(() => {
     handleGetTasks("LIST", { listID: displayList?.id });
-  }, []);
+  }, [displayList?.id]);
 
   const mounted = useRef();
 
@@ -66,9 +98,19 @@ export default function TaskListPage() {
           : tasks.filter((item) => item.completed !== true)
         : [];
       content = (
-        <ul className="flex flex-col gap-3 w-full">
-          {displayTasks.map((task) => {
-            return <CardTaskBlock key={task?.id} task={task} />;
+        <ul className="w-full" onMouseLeave={dragEnd}>
+          {displayTasks.map((task, idx) => {
+            return (
+              <CardTaskBlock
+                key={task?.id}
+                task={task}
+                idx={idx}
+                isDraggable={true}
+                onDragStart={dragStart}
+                onDragEnter={dragEnter}
+                onDragEnd={dragEnd}
+              />
+            );
           })}
         </ul>
       );

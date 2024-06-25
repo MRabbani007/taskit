@@ -17,8 +17,21 @@ import { CiTrash } from "react-icons/ci";
 import { FaTag } from "react-icons/fa6";
 import { BiX } from "react-icons/bi";
 import { Button, Popconfirm, message } from "antd";
+import { useDrag } from "react-dnd";
 
-const CardTaskBlock = ({ task, openList = false }) => {
+export const AcceptTypes = {
+  Note: "Note",
+};
+
+const CardTaskBlock = ({
+  task,
+  idx,
+  openList = false,
+  isDraggable = false,
+  onDragStart,
+  onDragEnter,
+  onDragEnd,
+}) => {
   const { handleOpen } = useContext(ListContext);
   const { handleUpdateTask, handleDeleteTask, handleDeleteTag } =
     useContext(TaskContext);
@@ -30,6 +43,17 @@ const CardTaskBlock = ({ task, openList = false }) => {
 
   const [completed, setCompleted] = useState(task?.completed || false);
   const debounceCompleted = useDebounce(completed, 1000);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [isOver, setIsOver] = useState(false);
+
+  // const [{ isDragging }, drag] = useDrag({
+  //   type: AcceptTypes.Note,
+  //   item: { id: note.id },
+  //   collect: (monitor) => ({
+  //     isDragging: !!monitor.isDragging(),
+  //   }),
+  // });
 
   const isMounted = useRef(null);
 
@@ -87,87 +111,114 @@ const CardTaskBlock = ({ task, openList = false }) => {
     </span>
   ));
 
+  const handleDragStart = () => {
+    setIsDragging(true);
+    onDragStart({ id: task.id, type: "task", index: idx });
+  };
+  const handleDragEnter = () => {
+    onDragEnter({ id: task.id, type: "task", index: idx });
+    setIsOver(true);
+  };
+  const handleDragLeave = () => {
+    setIsOver(false);
+  };
+  const handleDragEnd = () => {
+    onDragEnd();
+    setIsDragging(false);
+    setIsOver(false);
+  };
+
   return (
-    <div className="flex flex-col flex-1">
-      {/* Header */}
-      <div className="flex items-stretch">
-        {/* Priority */}
-        <CardTaskPriority task={task} />
-        {/* Title */}
-        <div
-          className={
-            "flex flex-1 items-center justify-between gap-2 py-2 px-4 bg-zinc-300 group"
-          }
-        >
-          <div className="flex flex-col items-start flex-1">
-            <p className="flex flex-1 items-center gap-4 overflow-hidden">
-              {/* Completed Button */}
-              <label htmlFor="" className="w-6">
-                <input
-                  type="checkbox"
-                  checked={completed}
-                  onChange={() => {}}
-                  className="invisible absolute"
-                />
-                <button
-                  className="bubble"
-                  onClick={() => setCompleted((curr) => !curr)}
-                ></button>
-              </label>
-              <span
-                onClick={() => setEdit(true)}
-                className="font-medium text-zinc-900 whitespace-wrap text-ellipsis cursor-pointer"
-                title={task?.title}
-              >
-                {task?.title}
-              </span>
-            </p>
-            <p
-              onClick={() => setAddDetail(true)}
-              className="whitespace-break-spaces ml-10"
-            >
-              {task?.details}
-            </p>
-            {/* Due Date */}
-            <CardTaskDueDate task={task} />
-            <p className="flex flex-wrap items-center gap-3">{taskTags}</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Popconfirm
-              title="Delete task"
-              description="Are you sure you want to delete this task?"
-              onConfirm={confirm}
-              onCancel={cancel}
-              okText="Yes"
-              cancelText="No"
-              placement="topRight"
-              className=" invisible group-hover:visible duration-200"
-            >
-              <Button
-                type="text"
-                className="flex items-center justify-center m-0 p-0"
-              >
-                <CiTrash size={32} className="inline" />
-              </Button>
-            </Popconfirm>
-            {openList === true ? (
+    <div
+      draggable={isDraggable}
+      onDragStart={handleDragStart}
+      onDragOver={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragEnd={handleDragEnd}
+      className="flex items-stretch flex-1 mb-4 w-full"
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        borderWidth: isOver ? "2px" : "0px",
+        borderColor: isOver ? "grey" : "",
+        cursor: "move",
+      }}
+    >
+      {/* Priority */}
+      <CardTaskPriority task={task} />
+      {/* Title */}
+      <div
+        className={
+          "flex flex-1 items-center justify-between gap-2 py-2 px-4 bg-zinc-300 group"
+        }
+      >
+        <div className="flex flex-col items-start flex-1">
+          <p className="flex flex-1 items-center gap-4 overflow-hidden">
+            {/* Completed Button */}
+            <label htmlFor="" className="w-6">
+              <input
+                type="checkbox"
+                checked={completed}
+                onChange={() => {}}
+                className="invisible absolute"
+              />
               <button
-                title="Open List"
-                onClick={() => handleOpen(task?.listID)}
-                className=" invisible group-hover:visible duration-200"
-              >
-                <AiOutlineUnorderedList size={32} />
-              </button>
-            ) : null}
+                className="bubble"
+                onClick={() => setCompleted((curr) => !curr)}
+              ></button>
+            </label>
+            <span
+              onClick={() => setEdit(true)}
+              className="font-medium text-zinc-900 whitespace-wrap text-ellipsis cursor-pointer"
+              title={task?.title}
+            >
+              {task?.title}
+            </span>
+          </p>
+          <p
+            onClick={() => setAddDetail(true)}
+            className="whitespace-break-spaces ml-10"
+          >
+            {task?.details}
+          </p>
+          {/* Due Date */}
+          <CardTaskDueDate task={task} />
+          <p className="flex flex-wrap items-center gap-3">{taskTags}</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Popconfirm
+            title="Delete task"
+            description="Are you sure you want to delete this task?"
+            onConfirm={confirm}
+            onCancel={cancel}
+            okText="Yes"
+            cancelText="No"
+            placement="topRight"
+            className=" invisible group-hover:visible duration-200"
+          >
+            <Button
+              type="text"
+              className="flex items-center justify-center m-0 p-0"
+            >
+              <CiTrash size={32} className="inline" />
+            </Button>
+          </Popconfirm>
+          {openList === true ? (
             <button
-              title="Add Tag"
-              onClick={() => setAddTag(true)}
+              title="Open List"
+              onClick={() => handleOpen(task?.listID)}
               className=" invisible group-hover:visible duration-200"
             >
-              <IoPricetagOutline size={25} />
-              {/* <IoPricetag /> */}
+              <AiOutlineUnorderedList size={32} />
             </button>
-          </div>
+          ) : null}
+          <button
+            title="Add Tag"
+            onClick={() => setAddTag(true)}
+            className=" invisible group-hover:visible duration-200"
+          >
+            <IoPricetagOutline size={25} />
+            {/* <IoPricetag /> */}
+          </button>
         </div>
       </div>
       {edit ? <CardEditTask task={task} setEdit={setEdit} /> : null}
