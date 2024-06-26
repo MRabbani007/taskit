@@ -31,7 +31,9 @@ export default function ActivitiesPage() {
           <h1 className="font-light">Activities</h1>
         </div>
       </header>
-      <div className="flex flex-row gap-4 items-start w-full">{content}</div>
+      <div className="flex flex-wrap flex-col sm:flex-row gap-4 items-start w-full">
+        {content}
+      </div>
     </main>
   );
 }

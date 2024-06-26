@@ -182,7 +182,7 @@ export const ListProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (config?.headers) {
+    if (auth?.user && config?.headers) {
       handleGetLists();
       handleListSummary();
     }

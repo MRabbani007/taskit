@@ -91,6 +91,8 @@ export default function TaskListPage() {
 
   const [edit, setEdit] = useState(false);
 
+  console.log(tasks);
+
   useEffect(() => {
     if (!displayList?.id) {
       navigate("/mylists");

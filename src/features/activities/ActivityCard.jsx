@@ -30,7 +30,7 @@ export default function ActivityCard({ activity }) {
   };
 
   return (
-    <div className="border-2 border-zinc-400 max-w-[400px]">
+    <div className="border-2 border-zinc-400 max-w-[500px] w-full flex-1">
       <div className="bg-zinc-100 p-2 flex flex-col gap-2">
         <div className="flex items-center justify-between gap-4 ">
           <h2 className="cursor-pointer" onClick={handleOpen}>

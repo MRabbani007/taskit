@@ -250,15 +250,15 @@ export const TaskProvider = ({ children }) => {
       .catch((err) => console.log("Error fetcing summary"));
   };
 
-  useEffect(() => {
-    if (displayList?.id) {
-      handleGetTasks(displayList?.id);
-    }
-    if (displayList?.id === "task_list") {
-      navigate("/tasks");
-    } else {
-    }
-  }, [displayList?.id]);
+  // useEffect(() => {
+  //   if (displayList?.id) {
+  //     handleGetTasks(displayList?.id);
+  //   }
+  //   if (displayList?.id === "task_list") {
+  //     navigate("/tasks");
+  //   } else {
+  //   }
+  // }, [displayList?.id]);
 
   useEffect(() => {
     if (auth?.user && location.pathname.includes("dashboard")) {
@@ -267,7 +267,7 @@ export const TaskProvider = ({ children }) => {
   }, [auth, location?.pathname]);
 
   useEffect(() => {
-    if (config?.headers) {
+    if (auth?.user && config?.headers) {
       const type = location?.pathname?.split("/").splice(-1, 1)[0];
       handleGetTasks(type);
     }

@@ -20,6 +20,11 @@ const SettingsPage = () => {
       <div>
         <section className="border-2 border-slate-400 rounded-lg p-3 my-3 w-full">
           <h2 className="text-lg mb-1">Display Settings</h2>
+          <div className="flex flex-col gap-1">
+            <p>Tasks</p>
+            <p>Show completed</p>
+            <p>Sort by</p>
+          </div>
         </section>
         <section className="border-2 border-slate-400 rounded-lg p-3 my-3 w-full">
           <h2 className="text-lg mb-1">Account</h2>

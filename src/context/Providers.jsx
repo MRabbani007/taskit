@@ -8,6 +8,7 @@ import { NotesProvider } from "./NotesState";
 import { JournalProvider } from "./JournalState";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { App, ConfigProvider } from "antd";
 
 export default function Providers({ children }) {
   return (
@@ -18,7 +19,13 @@ export default function Providers({ children }) {
             <TaskProvider>
               <NotesProvider>
                 <JournalProvider>
-                  <DndProvider backend={HTML5Backend}>{children}</DndProvider>
+                  <App>
+                    <ConfigProvider>
+                      <DndProvider backend={HTML5Backend}>
+                        {children}
+                      </DndProvider>
+                    </ConfigProvider>
+                  </App>
                 </JournalProvider>
               </NotesProvider>
             </TaskProvider>
