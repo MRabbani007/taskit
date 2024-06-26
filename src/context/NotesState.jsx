@@ -23,7 +23,7 @@ const initialStatus = {
 export const NotesContext = createContext(initialState);
 
 export const NotesProvider = ({ children }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, config } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
 
   // Store data
@@ -40,11 +40,7 @@ export const NotesProvider = ({ children }) => {
       error: {},
     });
     await axiosPrivate
-      .get(SERVER.NOTES, {
-        params: {
-          userName: auth?.user,
-        },
-      })
+      .get(SERVER.NOTES, {}, config)
       .then((response) => {
         if (response?.data && Array.isArray(response.data)) {
           dispatch({ type: ACTIONS.NOTES_GET_USER, payload: response.data });
@@ -76,13 +72,7 @@ export const NotesProvider = ({ children }) => {
       trash: false,
     };
     dispatch({ type: ACTIONS.NOTES_CREATE, payload: newNote });
-    let response = await axiosPrivate.post(SERVER.NOTES, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_CREATE,
-        payload: { userName: auth?.user, newNote },
-      },
-    });
+    let response = await axiosPrivate.post(SERVER.NOTES, { newNote }, config);
   };
 
   const handleNoteUpdate = async (noteIdx, newNote) => {
@@ -90,29 +80,16 @@ export const NotesProvider = ({ children }) => {
       type: ACTIONS.NOTES_UPDATE,
       payload: { noteIdx, newNote },
     });
-    let response = await axiosPrivate.patch(SERVER.NOTES, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.NOTES_UPDATE,
-        payload: {
-          userName: auth?.user,
-          newNote,
-        },
-      },
-    });
+    let response = await axiosPrivate.patch(SERVER.NOTES, { newNote }, config);
   };
 
-  const handleNoteDelete = async (noteID) => {
-    dispatch({ type: ACTIONS.NOTES_REMOVE, payload: noteID });
-    let response = await axiosPrivate.delete(SERVER.NOTES, {
-      data: {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.NOTES_REMOVE,
-          payload: { userName: auth?.user, noteID },
-        },
-      },
-    });
+  const handleNoteDelete = async (id) => {
+    dispatch({ type: ACTIONS.NOTES_REMOVE, payload: id });
+    let response = await axiosPrivate.delete(
+      SERVER.NOTES,
+      { data: { id } },
+      config
+    );
   };
 
   const handleNotesSort = async (newNotes) => {

@@ -22,11 +22,35 @@ const initialStatus = {
   error: {},
 };
 
+// let temp;
+// if (type === "TODAY") {
+//   temp = { day: getDate(0) };
+// } else if (type === "WEEK") {
+//   temp = { day: getDate(1), offset: getDate(7) };
+// } else if (type === "OVERDUE") {
+//   temp = { offset: getDate(-1) };
+// } else if (type === "IMPORTANT") {
+//   temp = {};
+// } else if (type === "list") {
+//   temp = payload;
+// } else if (type === "all") {
+//   temp = {};
+// }
+
+const taskTypes = {
+  today: "TODAY",
+  week: "WEEK",
+  overdue: "OVERDUE",
+  important: "IMPORTANT",
+  tasks: "ALL",
+  planner: "ALL",
+};
+
 // Create context
 export const TaskContext = createContext(initialState);
 // Provider component
 export const TaskProvider = ({ children }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, config } = useContext(AuthContext);
   const { displayList } = useContext(ListContext);
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
@@ -47,29 +71,19 @@ export const TaskProvider = ({ children }) => {
       error: {},
     });
 
-    // let temp;
-    // if (type === "TODAY") {
-    //   temp = { day: getDate(0) };
-    // } else if (type === "WEEK") {
-    //   temp = { day: getDate(1), offset: getDate(7) };
-    // } else if (type === "OVERDUE") {
-    //   temp = { offset: getDate(-1) };
-    // } else if (type === "IMPORTANT") {
-    //   temp = {};
-    // } else if (type === "list") {
-    //   temp = payload;
-    // } else if (type === "all") {
-    //   temp = {};
-    // }
+    const listID = payload?.listID || null;
 
     await axiosPrivate
-      .post("/tasks/get", {
-        roles: auth?.roles,
-        action: {
-          type: type,
-          payload: { userName: auth?.user, ...payload },
+      .get(
+        "/tasks/main",
+        {
+          params: {
+            type,
+            listID,
+          },
         },
-      })
+        config
+      )
       .then((response) => {
         if (response?.data && Array.isArray(response.data)) {
           dispatch({ type: "GET_TASKS", payload: response.data });
@@ -105,26 +119,18 @@ export const TaskProvider = ({ children }) => {
       sortIndex: state.length || 0,
     };
     dispatch({ type: ACTIONS.CREATE_TASK, payload: newTask });
-    let response = await axiosPrivate.post(SERVER.TASKS, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.CREATE_TASK,
-        payload: { userName: auth?.user, newTask },
-      },
-    });
+    let response = await axiosPrivate.post(SERVER.TASKS, { newTask }, config);
   };
 
   const handleDeleteTask = async (id) => {
     dispatch({ type: ACTIONS.REMOVE_TASK, payload: id });
-    let response = await axiosPrivate.delete(SERVER.TASKS, {
-      data: {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.REMOVE_TASK,
-          payload: { userName: auth?.user, id: id },
-        },
+    let response = await axiosPrivate.delete(
+      SERVER.TASKS,
+      {
+        data: { id },
       },
-    });
+      config
+    );
   };
 
   const handleUpdateTask = async (task) => {
@@ -132,16 +138,20 @@ export const TaskProvider = ({ children }) => {
       type: ACTIONS.UPDATE_TASK,
       payload: task,
     });
-    let response = await axiosPrivate.patch(SERVER.TASKS, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.UPDATE_TASK,
-        payload: {
-          userName: auth?.user,
-          task: task,
+    let response = await axiosPrivate.patch(
+      SERVER.TASKS,
+      {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.UPDATE_TASK,
+          payload: {
+            userName: auth?.user,
+            task: task,
+          },
         },
       },
-    });
+      config
+    );
   };
 
   const handleSortTasksList = async (tasks) => {
@@ -150,16 +160,14 @@ export const TaskProvider = ({ children }) => {
       return { id: item.id, sortIndex: index };
     });
     await axiosPrivate
-      .patch("/tasks/sort", {
-        roles: auth?.roles,
-        action: {
+      .patch(
+        "/tasks/sort",
+        {
           type: "SORT_TASKS_LIST",
-          payload: {
-            userName: auth?.user,
-            tasks: temp,
-          },
+          payload: temp,
         },
-      })
+        config
+      )
       .then((response) => {
         if (response.status === 204) message.success("Sort Saved");
       })
@@ -168,13 +176,7 @@ export const TaskProvider = ({ children }) => {
 
   const handleCreateTag = async (tag) => {
     dispatch({ type: ACTIONS.CREATE_TAG, payload: tag });
-    let response = await axiosPrivate.post("/tasks/tag", {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.CREATE_TAG,
-        payload: { userName: auth?.user, tag },
-      },
-    });
+    let response = await axiosPrivate.post("/tasks/tag", { tag }, config);
   };
 
   const handleUpdateTag = async (tag) => {
@@ -182,16 +184,7 @@ export const TaskProvider = ({ children }) => {
       type: ACTIONS.UPDATE_TAG,
       payload: tag,
     });
-    let response = await axiosPrivate.patch("/tasks/tag", {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.UPDATE_TAG,
-        payload: {
-          userName: auth?.user,
-          tag,
-        },
-      },
-    });
+    let response = await axiosPrivate.patch("/tasks/tag", { tag }, config);
   };
 
   const handleDeleteTag = async (tag) => {
@@ -199,18 +192,33 @@ export const TaskProvider = ({ children }) => {
       type: ACTIONS.REMOVE_TAG,
       payload: tag,
     });
-    let response = await axiosPrivate.delete("/tasks/tag", {
-      data: {
-        roles: auth?.roles,
-        action: {
-          type: "REMOVE_TAG",
-          payload: {
-            userName: auth?.user,
-            tag,
-          },
-        },
+    let response = await axiosPrivate.delete(
+      "/tasks/tag",
+      {
+        data: { tag },
       },
-    });
+      config
+    );
+  };
+
+  const handleMoveTaskPlanner = async ({ moveType, moveItem }) => {
+    dispatch({ type: moveType, payload: moveItem });
+    let newTasks = [];
+    if (moveType === "tab") {
+    } else if (moveType === "task") {
+      const temp = state.filter((item) => item?.status === moveItem?.status);
+      newTasks = temp.splice(moveItem.plannerSortIndex).map((item) => {
+        return { id: item?.id, plannerSortIndex: item.plannerSortIndex + 1 };
+      });
+    }
+    await axiosPrivate.patch(
+      "/tasks/sortPlanner",
+      {
+        moveItem,
+        newTasks,
+      },
+      config
+    );
   };
 
   // TODO: implement get all tags
@@ -233,13 +241,7 @@ export const TaskProvider = ({ children }) => {
 
   const fetchTaskSummary = async () => {
     await axiosPrivate
-      .post("/tasks/summary", {
-        roles: auth?.roles,
-        action: {
-          type: "TASK_SUMMARY",
-          payload: { userName: auth?.user },
-        },
-      })
+      .get("/tasks/summary", {}, config)
       .then((response) => {
         if (response.status === 200) {
           setTasksSummary(response.data);
@@ -262,7 +264,14 @@ export const TaskProvider = ({ children }) => {
     if (auth?.user && location.pathname.includes("dashboard")) {
       fetchTaskSummary();
     }
-  }, [auth?.user, location?.pathname]);
+  }, [auth, location?.pathname]);
+
+  useEffect(() => {
+    if (config?.headers) {
+      const type = location?.pathname?.split("/").splice(-1, 1)[0];
+      handleGetTasks(type);
+    }
+  }, [config?.headers?.Authorization, location?.pathname]);
 
   return (
     <TaskContext.Provider
@@ -276,6 +285,7 @@ export const TaskProvider = ({ children }) => {
         handleUpdateTask,
         handleDeleteTask,
         handleSortTasksList,
+        handleMoveTaskPlanner,
 
         tags,
         handleCreateTag,

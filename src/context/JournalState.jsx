@@ -11,7 +11,7 @@ const initialState = [];
 export const JournalContext = createContext(initialState);
 
 export const JournalProvider = ({ children }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, config } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
 
   // Store data
@@ -21,9 +21,7 @@ export const JournalProvider = ({ children }) => {
 
   const handleJournalGet = async () => {
     await axiosPrivate
-      .get(SERVER.JOURNAL, {
-        params: { userName: auth?.user },
-      })
+      .get(SERVER.JOURNAL, {}, config)
       .then((response) => {
         if (response.status === 200 && Array.isArray(response.data)) {
           dispatch({ type: ACTIONS.JOURNAL_GET, payload: response.data });
@@ -35,13 +33,7 @@ export const JournalProvider = ({ children }) => {
   const handleJournalCreate = async (journal) => {
     dispatch({ type: ACTIONS.JOURNAL_CREATE, payload: journal });
     await axiosPrivate
-      .post(SERVER.JOURNAL, {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.JOURNAL_CREATE,
-          payload: { userName: auth?.user, journal },
-        },
-      })
+      .post(SERVER.JOURNAL, { payload: journal }, config)
       .catch((e) => {});
   };
 
@@ -51,16 +43,7 @@ export const JournalProvider = ({ children }) => {
       payload: journal,
     });
     await axiosPrivate
-      .patch(SERVER.JOURNAL, {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.JOURNAL_UPDATE,
-          payload: {
-            userName: auth?.user,
-            journal,
-          },
-        },
-      })
+      .patch(SERVER.JOURNAL, { payload: journal }, config)
       .catch((e) => {});
   };
 
@@ -70,16 +53,7 @@ export const JournalProvider = ({ children }) => {
       payload: journal.id,
     });
     await axiosPrivate
-      .post(SERVER.JOURNAL, {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.JOURNAL_DELETE,
-          payload: {
-            userName: auth?.user,
-            journal,
-          },
-        },
-      })
+      .post(SERVER.JOURNAL, { payload: journal?.id }, config)
       .catch((e) => {});
   };
 

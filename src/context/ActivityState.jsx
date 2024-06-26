@@ -23,7 +23,7 @@ const initialStatus = {
 export const ActivityContext = createContext(initialState);
 
 export const ActivityProvider = ({ children }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, config } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
 
   // Store data
@@ -36,10 +36,14 @@ export const ActivityProvider = ({ children }) => {
 
   const handleActivityGet = async () => {
     await axiosPrivate
-      .get(SERVER.ACTIVITY, {
-        roles: auth?.roles,
-        params: { userName: auth?.user },
-      })
+      .get(
+        SERVER.ACTIVITY,
+        {
+          roles: auth?.roles,
+          params: { userName: auth?.user },
+        },
+        config
+      )
       .then((response) => {
         if (response?.data && Array.isArray(response.data)) {
           dispatch({ type: ACTIONS.ACTIVITY_GET, payload: response.data });
@@ -64,13 +68,17 @@ export const ActivityProvider = ({ children }) => {
   const handleActivityCreate = async (activity) => {
     dispatch({ type: ACTIONS.ACTIVITY_CREATE, payload: activity });
     let response = await axiosPrivate
-      .post(SERVER.ACTIVITY, {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.ACTIVITY_CREATE,
-          payload: { userName: auth?.user, activity },
+      .post(
+        SERVER.ACTIVITY,
+        {
+          roles: auth?.roles,
+          action: {
+            type: ACTIONS.ACTIVITY_CREATE,
+            payload: { userName: auth?.user, activity },
+          },
         },
-      })
+        config
+      )
       .catch((e) => console.log(e));
     if (response?.status === 204) {
       return true;
@@ -84,16 +92,20 @@ export const ActivityProvider = ({ children }) => {
       type: ACTIONS.ACTIVITY_UPDATE,
       payload: activity,
     });
-    let response = await axiosPrivate.patch(SERVER.ACTIVITY, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.ACTIVITY_UPDATE,
-        payload: {
-          userName: auth?.user,
-          activity,
+    let response = await axiosPrivate.patch(
+      SERVER.ACTIVITY,
+      {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.ACTIVITY_UPDATE,
+          payload: {
+            userName: auth?.user,
+            activity,
+          },
         },
       },
-    });
+      config
+    );
   };
 
   const handleActivityDelete = async (activity) => {
@@ -101,16 +113,20 @@ export const ActivityProvider = ({ children }) => {
       type: ACTIONS.ACTIVITY_DELETE,
       payload: activity.id,
     });
-    let response = await axiosPrivate.delete(SERVER.ACTIVITY, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.ACTIVITY_DELETE,
-        payload: {
-          userName: auth?.user,
-          activity,
+    let response = await axiosPrivate.delete(
+      SERVER.ACTIVITY,
+      {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.ACTIVITY_DELETE,
+          payload: {
+            userName: auth?.user,
+            activity,
+          },
         },
       },
-    });
+      config
+    );
   };
 
   const handleOpenActivity = (activityID) => {
@@ -119,10 +135,14 @@ export const ActivityProvider = ({ children }) => {
   };
 
   const handleTasksGet = async (activityID) => {
-    let response = await axiosPrivate.get(SERVER.ACTIVITY_TASK, {
-      roles: auth?.roles,
-      params: { activityID },
-    });
+    let response = await axiosPrivate.get(
+      SERVER.ACTIVITY_TASK,
+      {
+        roles: auth?.roles,
+        params: { activityID },
+      },
+      config
+    );
     if (response?.data && Array.isArray(response.data)) {
       dispatch({
         type: ACTIONS.ACTIVITY_TASK_GET,
@@ -134,13 +154,17 @@ export const ActivityProvider = ({ children }) => {
   const handleTaskCreate = async (activityTask) => {
     dispatch({ type: ACTIONS.ACTIVITY_TASK_CREATE, payload: activityTask });
     let response = await axiosPrivate
-      .post(SERVER.ACTIVITY_TASK, {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.ACTIVITY_TASK_CREATE,
-          payload: { userName: auth?.user, activityTask },
+      .post(
+        SERVER.ACTIVITY_TASK,
+        {
+          roles: auth?.roles,
+          action: {
+            type: ACTIONS.ACTIVITY_TASK_CREATE,
+            payload: { userName: auth?.user, activityTask },
+          },
         },
-      })
+        config
+      )
       .catch((e) => console.log(e));
     if (response?.status === 204) {
       return true;
@@ -154,16 +178,20 @@ export const ActivityProvider = ({ children }) => {
       type: ACTIONS.ACTIVITY_TASK_UPDATE,
       payload: activityTask,
     });
-    let response = await axiosPrivate.patch(SERVER.ACTIVITY_TASK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.ACTIVITY_TASK_UPDATE,
-        payload: {
-          userName: auth?.user,
-          activityTask,
+    let response = await axiosPrivate.patch(
+      SERVER.ACTIVITY_TASK,
+      {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.ACTIVITY_TASK_UPDATE,
+          payload: {
+            userName: auth?.user,
+            activityTask,
+          },
         },
       },
-    });
+      config
+    );
   };
 
   const handleTaskDelete = async (activityTask) => {
@@ -171,16 +199,20 @@ export const ActivityProvider = ({ children }) => {
       type: ACTIONS.ACTIVITY_DELETE,
       payload: activityTask.id,
     });
-    let response = await axiosPrivate.delete(SERVER.ACTIVITY_TASK, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.ACTIVITY_TASK_DELETE,
-        payload: {
-          userName: auth?.user,
-          activityTask,
+    let response = await axiosPrivate.delete(
+      SERVER.ACTIVITY_TASK,
+      {
+        roles: auth?.roles,
+        action: {
+          type: ACTIONS.ACTIVITY_TASK_DELETE,
+          payload: {
+            userName: auth?.user,
+            activityTask,
+          },
         },
       },
-    });
+      config
+    );
   };
 
   useEffect(() => {

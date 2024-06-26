@@ -26,7 +26,7 @@ export const ListContext = createContext(initialState);
 
 // Provider component
 export const ListProvider = ({ children }) => {
-  const { auth } = useContext(AuthContext);
+  const { auth, config } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const navigate = useNavigate();
@@ -56,13 +56,7 @@ export const ListProvider = ({ children }) => {
       error: {},
     });
     await axiosPrivate
-      .post(SERVER.GET_LISTS, {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.GET_LISTS,
-          payload: { userName: auth?.user },
-        },
-      })
+      .get("/lists/main", {}, config)
       .then((response) => {
         if (response.status === 200 && Array.isArray(response?.data)) {
           dispatch({
@@ -91,39 +85,13 @@ export const ListProvider = ({ children }) => {
     const newList = { id: crypto.randomUUID(), title, icon, tasks: [] };
     dispatch({ type: ACTIONS.CREATE_LIST, payload: newList });
     setDisplayList(newList);
-    let response = await axiosPrivate.post(SERVER.CREATE_LIST, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.CREATE_LIST,
-        payload: { userName: auth?.user, newList },
+    let response = await axiosPrivate.post(
+      "/lists/main",
+      {
+        payload: newList,
       },
-    });
-  };
-
-  const handleListSummary = async () => {
-    let response = await axiosPrivate.post(SERVER.GET_LIST_SUMMARY, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.GET_LIST_SUMMARY,
-        payload: { userName: auth?.user },
-      },
-    });
-    if (response?.data && Array.isArray(response.data)) {
-      // console.log(response.data);
-      setListSummary(response.data);
-    }
-  };
-
-  const handleRemoveList = async (listID) => {
-    dispatch({ type: ACTIONS.REMOVE_LIST, payload: listID });
-    setDisplayList(null);
-    let response = await axiosPrivate.post(SERVER.REMOVE_LIST, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.REMOVE_LIST,
-        payload: { userName: auth?.user, listID },
-      },
-    });
+      config
+    );
   };
 
   const handleUpdateList = async (listID, updateItem, newValue) => {
@@ -134,18 +102,31 @@ export const ListProvider = ({ children }) => {
     if (updateItem === "trash" && displayList?.id === listID) {
       handleClose(listID);
     }
-    let response = await axiosPrivate.post(SERVER.UPDATE_LIST, {
-      roles: auth?.roles,
-      action: {
-        type: ACTIONS.UPDATE_LIST,
+    let response = await axiosPrivate.patch(
+      "/lists/main",
+      {
+        type: updateItem,
         payload: {
-          userName: auth?.user,
           listID,
           updateItem,
           newValue,
         },
       },
-    });
+      config
+    );
+  };
+
+  const handleRemoveList = async (id) => {
+    dispatch({ type: ACTIONS.REMOVE_LIST, payload: id });
+    setDisplayList(null);
+    await axiosPrivate
+      .delete("/lists/main", { data: { id } }, config)
+      .then((response) => {
+        if (response.status === 204) {
+          message.success("List deleted");
+        }
+      })
+      .catch((err) => message.error("Error deleting list"));
   };
 
   const handleSort = async (location, newLists) => {
@@ -159,20 +140,24 @@ export const ListProvider = ({ children }) => {
       return { id: item.id, sortIndex: index };
     });
     await axiosPrivate
-      .patch("/lists/sort", {
-        roles: auth?.roles,
-        action: {
-          type: "SORT_LIST",
-          payload: {
-            userName: auth?.user,
-            lists: temp,
-          },
+      .patch(
+        "/lists/sort",
+        {
+          lists: temp,
         },
-      })
+        config
+      )
       .then((response) => {
         if (response.status === 204) message.success("Sort Saved");
       })
       .catch((e) => message.error("Error saving sort"));
+  };
+
+  const handleListSummary = async () => {
+    let response = await axiosPrivate.post(SERVER.GET_LIST_SUMMARY, {}, config);
+    if (response?.data && Array.isArray(response.data)) {
+      setListSummary(response.data);
+    }
   };
 
   // Handle opening new todo List
@@ -197,15 +182,11 @@ export const ListProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (auth?.user && location.pathname.includes("dashboard")) {
+    if (config?.headers) {
       handleGetLists();
       handleListSummary();
     }
-    if (auth?.user && location.pathname.includes("myLists")) {
-      handleGetLists();
-      handleListSummary();
-    }
-  }, [auth?.user, location?.pathname]);
+  }, [config, location?.pathname]);
 
   return (
     <ListContext.Provider
