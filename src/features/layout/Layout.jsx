@@ -7,6 +7,7 @@ import Sidebar from "../navigation/Sidebar";
 import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
 import { ErrorBoundary } from "react-error-boundary";
+import { IoCloseCircle } from "react-icons/io5";
 
 const Layout = () => {
   const location = useLocation();
@@ -20,7 +21,16 @@ const Layout = () => {
 
   return (
     <>
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <ErrorBoundary
+        fallback={
+          <div className="flex w-full h-screen items-center bg-zinc-100">
+            <div className="flex items-center gap-2 bg-red-500 text-white font-semibold rounded-md p-4 w-fit mx-auto my-auto">
+              <IoCloseCircle size={40} className="" />
+              <span>Something went wrong</span>
+            </div>
+          </div>
+        }
+      >
         <Navbar />
         {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
         <Suspense fallback={<SkeletonContentPage />}>

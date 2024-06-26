@@ -17,7 +17,8 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 const UserListsPage = () => {
-  const { lists, status, handleSort } = useContext(ListContext);
+  const { userLists, pinnedLists, trashLists, status, handleSort } =
+    useContext(ListContext);
   const [expand, setExpand] = useState(true);
   const [expandTrash, setExpandTrash] = useState(false);
 
@@ -26,8 +27,8 @@ const UserListsPage = () => {
 
     const items =
       result?.source.droppableId === "pinnedLists"
-        ? Array.from(lists.pinnedLists)
-        : Array.from(lists.userLists);
+        ? Array.from(pinnedLists)
+        : Array.from(userLists);
 
     if (result.destination.index === result.source.index) return;
 
@@ -48,10 +49,10 @@ const UserListsPage = () => {
     contentLists = <p>Error Loading Lists</p>;
     contentTrash = <p>Error Loading Lists</p>;
   } else if (status?.isSuccess === true) {
-    if (lists.userLists.length === 0) {
+    if (userLists.length === 0 && pinnedLists.length === 0) {
       contentLists = <p>You don't have any lists, create new</p>;
     } else {
-      contentPinned = lists.pinnedLists.map((list, index) => {
+      contentPinned = pinnedLists.map((list, index) => {
         return (
           <Draggable key={list.id} draggableId={list.id} index={index}>
             {(provided) => (
@@ -66,7 +67,7 @@ const UserListsPage = () => {
           </Draggable>
         );
       });
-      contentLists = lists.userLists.map((list, index) => {
+      contentLists = userLists.map((list, index) => {
         return (
           <Draggable key={list.id} draggableId={list.id} index={index}>
             {(provided) => (
@@ -82,7 +83,7 @@ const UserListsPage = () => {
         );
       });
     }
-    if (lists.trashLists.length === 0) {
+    if (trashLists.length === 0) {
       contentTrash = (
         <p className="p-4 font-medium text-zinc-800">No lists in trash</p>
       );
@@ -96,7 +97,7 @@ const UserListsPage = () => {
             " py-4 duration-300 flex flex-col gap-2 w-full"
           }
         >
-          {lists.trashLists.map((list, index) => {
+          {trashLists.map((list, index) => {
             return <CardListTrash list={list} key={index} />;
           })}
         </ul>

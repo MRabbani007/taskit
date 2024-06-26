@@ -26,7 +26,7 @@ import {
 } from "react-icons/bs";
 import { SlNotebook } from "react-icons/sl";
 import { AiOutlineDashboard, AiOutlineUser } from "react-icons/ai";
-import { FaListCheck, FaRegCircleUser } from "react-icons/fa6";
+import { FaListCheck, FaRegCircleUser, FaTimeline } from "react-icons/fa6";
 import { RiAdminLine, RiPagesLine } from "react-icons/ri";
 import { GrGroup } from "react-icons/gr";
 import { FiUsers } from "react-icons/fi";
@@ -95,6 +95,11 @@ const items = [
         key: "grp_tasks_1",
         label: <Link to={"/tasks"}>My Tasks</Link>,
         icon: <FaListCheck size={28} />,
+      },
+      {
+        key: "grp_tasks_6",
+        label: <Link to={"/tasks/planner"}>Planner</Link>,
+        icon: <FaTimeline size={28} />,
       },
       {
         key: "grp_tasks_2",

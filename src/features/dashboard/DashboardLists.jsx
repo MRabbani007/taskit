@@ -18,27 +18,25 @@ export default function DashboardLists() {
         </Link>
       </h2>
       <ul className="flex flex-wrap py-2 gap-2 max-h-[300px] overflow-y-auto">
-        {[...lists.pinnedLists, ...lists.userLists]
-          .slice(0, 4)
-          .map((list, index) => {
-            return (
-              <li
-                key={index}
-                title={list?.title}
-                className="bg-slate-100 hover:bg-slate-200 p-2 flex flex-col items-center gap-2 overflow-hidden cursor-pointer duration-200 flex-1"
-                onClick={() => handleOpen(list?.id)}
-              >
-                <img
-                  src={IMAGES_Icons + list?.icon}
-                  alt="icon"
-                  className="w-12"
-                />
-                <span className="text-ellipsis text-center whitespace-break-spaces flex-1 font-semibold text-zinc-800">
-                  {list?.title}
-                </span>
-              </li>
-            );
-          })}
+        {lists.slice(0, 4).map((list, index) => {
+          return (
+            <li
+              key={index}
+              title={list?.title}
+              className="bg-slate-100 hover:bg-slate-200 p-2 flex flex-col items-center gap-2 overflow-hidden cursor-pointer duration-200 flex-1"
+              onClick={() => handleOpen(list?.id)}
+            >
+              <img
+                src={IMAGES_Icons + list?.icon}
+                alt="icon"
+                className="w-12"
+              />
+              <span className="text-ellipsis text-center whitespace-break-spaces flex-1 font-semibold text-zinc-800">
+                {list?.title}
+              </span>
+            </li>
+          );
+        })}
       </ul>
     </article>
   );

@@ -48,6 +48,7 @@ import JournalPage from "./views/user/JournalPage";
 import CalendarPage from "./views/user/CalendarPage";
 // User
 import DashboardPage from "./views/user/DashboardPage";
+import TaskPlannerPage from "./views/user/tasks/TaskPlannerPage";
 // Imported Components
 const ForgotPasswordPage = React.lazy(() =>
   import("./views/auth/ForgotPasswordPage")
@@ -97,6 +98,7 @@ function App() {
                 </Route>
                 <Route path="tasks">
                   <Route index element={<TasksPage />} />
+                  <Route path="planner" element={<TaskPlannerPage />} />
                   <Route path="today" element={<TasksTodayPage />} />
                   <Route path="week" element={<TasksWeekPage />} />
                   <Route path="important" element={<TasksImportantPage />} />

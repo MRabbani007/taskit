@@ -15,13 +15,13 @@ export default function CardFilterList({ setInLists }) {
 
   const handleChange = (value) => {
     // console.log(`selected ${value}`);
-    console.log(value);
+    // console.log(value);
     setInLists(value);
   };
 
   const [value, setValue] = useState(1);
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
+    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 

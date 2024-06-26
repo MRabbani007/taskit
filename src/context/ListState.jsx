@@ -35,6 +35,14 @@ export const ListProvider = ({ children }) => {
   const [state, dispatch] = useReducer(listReducer, initialState);
   const [status, setStatus] = useState(initialStatus);
 
+  // const [userLists, setUserLists] = useState([]);
+  // const [trashLists, setTrashLists] = useState([]);
+
+  // useEffect(() => {
+  //   setUserLists(() => state.filter((item) => item?.trash !== true));
+  //   setTrashLists(() => state.filter((item) => item?.trash === true));
+  // }, [state]);
+
   // Task list displayed in main container
   const [displayList, setDisplayList] = useState(null);
 
@@ -170,7 +178,7 @@ export const ListProvider = ({ children }) => {
   // Handle opening new todo List
   function handleOpen(list) {
     let temp = null;
-    if (typeof list === "string") {
+    if (typeof list === "String") {
       if (list === "task_list") {
         temp = { id: list };
       } else {
@@ -203,8 +211,10 @@ export const ListProvider = ({ children }) => {
     <ListContext.Provider
       value={{
         status,
-        lists: state,
-        trash: state,
+        lists: [...state.pinnedLists, ...state.userLists],
+        userLists: state.userLists,
+        pinnedLists: state.pinnedLists,
+        trashLists: state.trashLists,
         listSummary,
         displayList,
 

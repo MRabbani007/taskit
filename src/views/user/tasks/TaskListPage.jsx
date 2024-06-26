@@ -19,23 +19,32 @@ export default function TaskListPage() {
 
   const [showCompleted, setShowCompleted] = useState(false);
 
+  const [block, setBlock] = useState(false);
+
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
 
-  const dragStart = ({ type, id, index }) => {
+  const dragStart = ({ type = null, id = null, index = null }) => {
     dragItem.current = { type, id, index };
   };
-  const dragEnter = ({ type, id, index }) => {
+  const dragEnter = ({ type = null, id = null, index = null }) => {
     dragOverItem.current = { type, id, index };
   };
   const dragEnd = () => {
     if (
       dragItem.current?.index === null ||
-      dragOverItem.current?.index === null
+      dragItem.current?.index === undefined ||
+      dragOverItem.current?.index === null ||
+      dragOverItem.current?.index === undefined
     ) {
       dragItem.current = null;
       dragOverItem.current = null;
-      return;
+      return null;
+    }
+
+    if (block) {
+      setBlock(false);
+      return null;
     }
 
     const newTasks = showCompleted
@@ -47,6 +56,12 @@ export default function TaskListPage() {
 
     handleSortTasksList(newTasks);
 
+    dragItem.current = null;
+    dragOverItem.current = null;
+  };
+
+  const dragReset = () => {
+    setBlock(true);
     dragItem.current = null;
     dragOverItem.current = null;
   };
@@ -98,7 +113,7 @@ export default function TaskListPage() {
           : tasks.filter((item) => item.completed !== true)
         : [];
       content = (
-        <ul className="w-full" onMouseLeave={dragEnd}>
+        <ul className="w-full" onMouseLeave={dragReset}>
           {displayTasks.map((task, idx) => {
             return (
               <CardTaskBlock
