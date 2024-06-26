@@ -163,7 +163,7 @@ export const ListProvider = ({ children }) => {
   // Handle opening new todo List
   function handleOpen(list) {
     let temp = null;
-    if (typeof list === "String") {
+    if (typeof list === "string") {
       if (list === "task_list") {
         temp = { id: list };
       } else {

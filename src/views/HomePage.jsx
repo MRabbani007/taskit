@@ -16,12 +16,18 @@ const contentStyle = {
   background: "#364d79",
 };
 
+// "Simple", "Fast", "Easy"
+
 const slides = [
-  "Simple UI",
-  "Tasks & Activities",
-  "Planner & Calendar",
-  "Journal & Notes",
-  "Filter & Sort",
+  { title: "Tasks", text: "quick add & track" },
+  { title: "Activities", text: "a place for your projects" },
+  { title: "Routines", text: "repeating tasks" },
+  { title: "Planner", text: "organize, plan & action" },
+  { title: "Calendar", text: "what's comming up" },
+  { title: "Journal", text: "your daily diary" },
+  { title: "Notes", text: "fast & simple" },
+  { title: "Filters", text: "overview, filter & sort" },
+  { title: "Lists", text: "group your tasks" },
 ];
 
 const HomePage = () => {
@@ -29,37 +35,48 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (auth?.user) {
-      navigate("/dashboard");
-    }
+    // if (auth?.user) {
+    //   navigate("/dashboard");
+    // }
   }, [auth?.user]);
 
   return (
     <main className="">
       <div>
-        {/* <h1 className="m-0 p-0">Welcome!</h1> */}
-        <img
-          src="logo.png"
-          alt="Logo"
-          width={100}
-          height={100}
-          className="from-zinc-500/30 to-zinc-500/10 bg-gradient-to-br rounded-full p-3 mx-auto hover:scale-125 hover:-rotate-12 duration-100"
-        />
-        <p className="font-semibold text-2xl text-blue-600">
-          Your Daily Adventure Starts Here
-        </p>
+        <div className="flex flex-wrap justify-center items-center gap-4">
+          <img
+            src="logo.png"
+            alt="Logo"
+            width={100}
+            height={100}
+            className="from-zinc-500/30 to-zinc-500/10 bg-gradient-to-br rounded-full p-3 mx-auto hover:scale-125 hover:-rotate-12 duration-100"
+          />
+          <div>
+            <h1 className="m-0 p-0 text-2xl uppercase text-sky-700">
+              <i>Taskit</i>
+            </h1>
+            <p className="font-medium text-xl text-blue-600">
+              Your Daily Adventure Starts Here
+            </p>
+          </div>
+        </div>
       </div>
       <div>
-        <section className="max-w-[500px] overflow-hidden">
+        <section className="max-w-[80vw] sm:max-w-[500px] md:max-w-[700px] overflow-hidden">
           <Carousel autoplay autoplaySpeed={3000}>
             {slides.map((item, index) => {
               return (
                 <div key={index}>
-                  <div
-                    className="bg-gradient-to-br from-sky-500 to-sky-800 text-white text-4xl h-[300px] font-bold text-center"
-                    style={{ lineHeight: "200px" }}
-                  >
-                    {item}
+                  <div className="flex flex-col justify-center bg-gradient-to-br from-sky-500 to-sky-800 text-white h-[300px] text-center gap-6">
+                    <p
+                      className="text-5xl font-bold uppercase"
+                      // style={{ lineHeight: "200px" }}
+                    >
+                      {item.title}
+                    </p>
+                    <p className="text-2xl font-medium uppercase">
+                      <i>{item.text}</i>
+                    </p>
                   </div>
                 </div>
               );
@@ -67,13 +84,21 @@ const HomePage = () => {
           </Carousel>
         </section>
         <div className="flex items-center flex-1 justify-center gap-2 my-10">
-          <Button type="link" style={{ padding: 0 }}>
-            <Link to="/login">Sign in</Link>
-          </Button>
-          <span>or</span>
-          <Button type="primary">
-            <Link to="/register">Register</Link>
-          </Button>
+          {auth?.user ? (
+            <Button type="primary">
+              <Link to={"/dashboard"}>Go to Dashboard</Link>
+            </Button>
+          ) : (
+            <>
+              <Button type="link" style={{ padding: 0 }}>
+                <Link to="/login">Sign in</Link>
+              </Button>
+              <span>or</span>
+              <Button type="primary">
+                <Link to="/register">Register</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </main>

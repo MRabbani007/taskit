@@ -117,7 +117,7 @@ export default function TasksPage() {
     content = <p>No tasks create new</p>;
   } else if (status?.isSuccess) {
     content = (
-      <ul className="flex flex-col w-full flex-1 gap-2">
+      <ul className="flex flex-col w-full flex-1">
         {pageItems.map((task) => {
           return <CardTaskBlock task={task} key={task?.id} openList={true} />;
         })}

@@ -140,7 +140,7 @@ const CardTaskBlock = ({
         opacity: isDragging ? 0.5 : 1,
         borderWidth: isOver ? "2px" : "0px",
         borderColor: isOver ? "grey" : "",
-        cursor: "move",
+        cursor: isDraggable ? "move" : "default",
       }}
     >
       {/* Priority */}

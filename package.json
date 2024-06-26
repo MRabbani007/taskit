@@ -1,7 +1,7 @@
 {
-  "name": "todo",
+  "name": "taskit",
   "private": true,
-  "homepage": "https://mrabbani007.github.io/todolist/",
+  "homepage": "https://mrabbani007.github.io/taskit/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
