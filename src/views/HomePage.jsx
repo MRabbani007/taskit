@@ -55,7 +55,7 @@ const HomePage = () => {
             <h1 className="m-0 p-0 text-2xl uppercase text-sky-700">
               <i>Taskit</i>
             </h1>
-            <p className="font-medium text-xl text-blue-600">
+            <p className="font-medium text-xl text-blue-600 text-wrap">
               Your Daily Adventure Starts Here
             </p>
           </div>
