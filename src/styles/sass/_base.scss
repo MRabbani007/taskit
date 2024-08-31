@@ -19,25 +19,23 @@
 }
 
 body {
+  display: flex;
+  flex-direction: col;
+  min-height: 100vh;
   font-family: var(--font-roboto);
 }
 
 main {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
-  width: 100%;
-  height: 100%;
-  margin-top: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  padding-bottom: 80px;
+  flex: 1 1 0%;
+  padding: 0.5rem;
 }
 
 main > div {
   @include flexColStart;
-  width: 100%;
   padding: 1rem 0;
   gap: 0.5rem;
 }
@@ -45,7 +43,6 @@ main > div {
 header {
   @include flexBetween;
   padding: 0.75rem 1rem;
-  // border-radius: 1rem;
   width: 100%;
 }
 
@@ -53,28 +50,6 @@ header > div {
   @include flexStart;
   gap: 1rem;
 }
-
-// nav {
-//   padding: 1rem;
-//   width: fit-content;
-//   position: fixed;
-//   top: var(--navbar-height);
-//   left: 0;
-//   bottom: 0;
-//   @include flexColStart;
-//   gap: 0.75rem;
-//   background-color: $clr-slate-950;
-//   color: $clr-slate-200;
-//   // border-radius: .5rem;
-//   transition: all 2s ease-in-out 0;
-//   display: none;
-//   font-weight: 200;
-//   z-index: 40;
-// }
-
-// nav div > span {
-//   cursor: pointer;
-// }
 
 input {
   outline: none;
@@ -103,4 +78,7 @@ button {
 
 // Small Screen
 @media screen and (min-width: 640px) {
+  main {
+    padding: 1rem;
+  }
 }

@@ -67,8 +67,8 @@ function App() {
   return (
     <Providers>
       <Routes>
-        <Route element={<PersistLogin />}>
-          <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout />}>
+          <Route element={<PersistLogin />}>
             {/* Pages visible to all */}
             <Route index element={<HomePage />} />
             <Route path="login" element={<SigninPage />} />

@@ -10,9 +10,7 @@ import { Menu } from "antd";
 import Logo from "../../assets/todo.svg";
 // Imported Icons
 import {
-  IoAddCircleOutline,
   IoCalendarOutline,
-  IoHomeOutline,
   IoListOutline,
   IoLogOutOutline,
   IoSettingsOutline,

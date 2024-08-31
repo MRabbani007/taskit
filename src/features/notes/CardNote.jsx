@@ -16,7 +16,7 @@ export default function CardNote({ note, idx }) {
   };
 
   return (
-    <div className="flex flex-col h-full min-w-[300px] flex-1 shrink-0">
+    <div className="flex flex-col min-w-[300px] flex-1 shrink-0">
       {/* title */}
       <div className="bg-yellow-300 border-b-4 border-yellow-400 font-semibold text-slate-600 h-12 flex items-center w-full">
         {editTitle ? (
@@ -50,7 +50,7 @@ export default function CardNote({ note, idx }) {
         )}
       </div>
       {/* Body */}
-      <div className="w-full h-full bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans ">
+      <div className="flex-1 bg-yellow-200 hover:bg-yellow-100 duration-300 font-sans ">
         {!editDetails ? (
           <pre
             className="whitespace-break-spaces min-h-[50px] h-full cursor-pointer p-2 font-sans "

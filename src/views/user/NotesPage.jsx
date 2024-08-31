@@ -35,22 +35,19 @@ const NotesPage = () => {
 
   return (
     <main>
-      <header
-        className="bg-gradient-to-r from-yellow-500 to-yellow-300 text-white shadow-md shadow-zinc-500"
-        // onClick={() => setExpand((curr) => !curr)}
-      >
+      <header className="bg-gradient-to-r from-yellow-500 to-yellow-300 text-white shadow-md shadow-zinc-500">
         <div>
           <GrNotes size={40} />
           <h1>Notes</h1>
         </div>
       </header>
-      <div className="h-auto">
+      <div className="">
         <div
           className={
             (expand
               ? "translate-y-[0] opacity-100 "
               : "translate-y-[-20px] opacity-0 ") +
-            " flex flex-wrap flex-1 gap-4 items-stretch duration-300"
+            " flex flex-wrap gap-4 items-stretch duration-300"
           }
         >
           {content}

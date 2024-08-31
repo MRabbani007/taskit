@@ -21,6 +21,7 @@ const Layout = () => {
 
   return (
     <>
+      <Navbar />
       <ErrorBoundary
         fallback={
           <div className="flex w-full h-screen items-center bg-zinc-100">
@@ -31,15 +32,14 @@ const Layout = () => {
           </div>
         }
       >
-        <Navbar />
         {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
         <Suspense fallback={<SkeletonContentPage />}>
           <Outlet />
         </Suspense>
-        <Footer />
-        <ToastContainer autoClose={1000} />
         {/* <RadioMenu /> */}
       </ErrorBoundary>
+      <Footer />
+      <ToastContainer autoClose={1000} />
     </>
   );
 };

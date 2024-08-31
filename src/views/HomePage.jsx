@@ -49,56 +49,56 @@ const HomePage = () => {
             alt="Logo"
             width={100}
             height={100}
-            className="from-zinc-500/30 to-zinc-500/10 bg-gradient-to-br rounded-full p-3 mx-auto hover:scale-125 hover:-rotate-12 duration-100"
+            className="from-zinc-500/30 to-zinc-500/10 bg-gradient-to-br rounded-full p-2 mx-auto hover:scale-125 hover:-rotate-12 duration-100 w-20 h-20"
           />
           <div>
             <h1 className="m-0 p-0 text-2xl uppercase text-sky-700">
               <i>Taskit</i>
             </h1>
-            <p className="font-medium text-xl text-blue-600 text-wrap">
+            <div className="font-medium text-xl text-blue-600 text-wrap">
               Your Daily Adventure Starts Here
-            </p>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <section className="max-w-[80vw] sm:max-w-[500px] md:max-w-[700px] overflow-hidden">
-          <Carousel autoplay autoplaySpeed={3000}>
-            {slides.map((item, index) => {
-              return (
-                <div key={index}>
-                  <div className="flex flex-col justify-center bg-gradient-to-br from-sky-500 to-sky-800 text-white h-[300px] text-center gap-6">
-                    <p
-                      className="text-5xl font-bold uppercase"
-                      // style={{ lineHeight: "200px" }}
-                    >
-                      {item.title}
-                    </p>
-                    <p className="text-2xl font-medium uppercase">
-                      <i>{item.text}</i>
-                    </p>
+        <div>
+          <section className="max-w-[80vw] sm:max-w-[500px] md:max-w-[700px] overflow-hidden">
+            <Carousel autoplay autoplaySpeed={3000}>
+              {slides.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <div className="flex flex-col justify-center bg-gradient-to-br from-sky-500 to-sky-800 text-white h-[300px] text-center gap-6">
+                      <p
+                        className="text-5xl font-bold uppercase"
+                        // style={{ lineHeight: "200px" }}
+                      >
+                        {item.title}
+                      </p>
+                      <p className="text-2xl font-medium uppercase">
+                        <i>{item.text}</i>
+                      </p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </Carousel>
-        </section>
-        <div className="flex items-center flex-1 justify-center gap-2 my-10">
-          {auth?.user ? (
-            <Button type="primary">
-              <Link to={"/dashboard"}>Go to Dashboard</Link>
-            </Button>
-          ) : (
-            <>
-              <Button type="link" style={{ padding: 0 }}>
-                <Link to="/login">Sign in</Link>
-              </Button>
-              <span>or</span>
+                );
+              })}
+            </Carousel>
+          </section>
+          <div className="flex items-center flex-1 justify-center gap-2 my-10">
+            {auth?.user ? (
               <Button type="primary">
-                <Link to="/register">Register</Link>
+                <Link to={"/dashboard"}>Go to Dashboard</Link>
               </Button>
-            </>
-          )}
+            ) : (
+              <>
+                <Button type="link" style={{ padding: 0 }}>
+                  <Link to="/login">Sign in</Link>
+                </Button>
+                <span>or</span>
+                <Button type="primary">
+                  <Link to="/register">Register</Link>
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </main>
