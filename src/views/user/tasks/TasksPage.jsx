@@ -11,6 +11,8 @@ import { Pagination, Switch } from "antd";
 // Icons
 import { BsCardList } from "react-icons/bs";
 import Loading from "../../../features/components/Loading";
+import { BiFilter, BiPlus, BiSort } from "react-icons/bi";
+import FormTaskAdd from "../../../features/task/FormTaskAdd";
 
 const filterTasks = (type, payload, lists = []) => {
   if (!Array.isArray(payload)) return [];
@@ -82,9 +84,12 @@ const sortTasks = (type, payload) => {
 
 export default function TasksPage() {
   const { tasks, status, handleGetTasks } = useContext(TaskContext);
+  const [addTask, setAddTask] = useState(false);
 
   useEffect(() => {
     handleGetTasks("ALL");
+
+    return () => setViewFilter(false);
   }, []);
 
   const [current, setCurrent] = useState(1);
@@ -132,10 +137,20 @@ export default function TasksPage() {
           <BsCardList size={40} />
           <h1>My Tasks</h1>
         </div>
+        <div>
+          <button onClick={() => setViewFilter(true)}>
+            <BiFilter size={30} />
+          </button>
+          <button onClick={() => setViewSort(true)}>
+            <BiSort size={30} />
+          </button>
+          <button onClick={() => setAddTask(true)}>
+            <BiPlus size={30} />
+          </button>
+        </div>
       </header>
-      <div>
-        <CardAddTask listID={"task_list"} />
-        <div className="flex items-center justify-center gap-4">
+      {/* <CardAddTask listID={"task_list"} /> */}
+      {/* <div className="flex items-center justify-center gap-4">
           <Switch
             checked={viewFilter}
             onChange={() => setViewFilter((curr) => !curr)}
@@ -150,23 +165,32 @@ export default function TasksPage() {
             size="small"
           />
           <label htmlFor="sort">Sort</label>
-        </div>
+        </div> */}
+      {viewFilter ? (
         <TaskFilter
           setFilters={setFilters}
           inLists={inLists}
           setInLists={setInLists}
           viewFilter={viewFilter}
+          setViewFilter={setViewFilter}
         />
-        {viewSort && <TaskSort setSort={setSort} />}
-        {content}
-        <Pagination
-          defaultCurrent={1}
-          pageSize={10}
-          total={sorted.length}
-          current={current}
-          onChange={onChange}
+      ) : null}
+      {viewSort ? (
+        <TaskSort
+          viewSort={viewSort}
+          setViewSort={setViewSort}
+          setSort={setSort}
         />
-      </div>
+      ) : null}
+      {content}
+      <Pagination
+        defaultCurrent={1}
+        pageSize={10}
+        total={sorted.length}
+        current={current}
+        onChange={onChange}
+      />
+      {addTask ? <FormTaskAdd setAdd={setAddTask} /> : null}
     </main>
   );
 }

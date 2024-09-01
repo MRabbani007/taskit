@@ -18,28 +18,17 @@
 }
 
 body {
-  display: flex;
-  flex-direction: col;
-  min-height: 100vh;
   font-family: var(--font-roboto);
 }
 
 main {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: flex-start;
   flex: 1 1 0%;
   padding: 0.5rem;
-}
-
-main > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1rem 0;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
 header {

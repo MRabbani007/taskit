@@ -30,7 +30,9 @@ export const listReducer = (state, { type, payload }) => {
     case ACTIONS.UPDATE_LIST: {
       const { updateItem, newValue, listID } = payload;
       let listIndex = state.userLists.findIndex((item) => item.id === listID);
-      if (updateItem === "list_title") {
+      if (!listIndex || !state.userLists[listIndex]) {
+        return { ...state };
+      } else if (updateItem === "list_title") {
         state.userLists[listIndex].title = newValue;
       } else if (updateItem === "list_icon") {
         state.userLists[listIndex].icon = newValue;

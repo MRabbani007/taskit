@@ -10,6 +10,9 @@ import useDebounce from "../../../hooks/useDebounce";
 import { ListContext } from "../../../context/ListState";
 import Loading from "../../../features/components/Loading";
 import { Switch, message } from "antd";
+import { IMAGES_Icons } from "../../../data/templates";
+import { BiPlus } from "react-icons/bi";
+import FormTaskAdd from "../../../features/task/FormTaskAdd";
 
 export default function TaskListPage() {
   const { displayList, handleUpdateList, handleClose } =
@@ -19,6 +22,7 @@ export default function TaskListPage() {
 
   const [showCompleted, setShowCompleted] = useState(false);
 
+  const [add, setAdd] = useState(false);
   const [block, setBlock] = useState(false);
 
   const dragItem = useRef(null);
@@ -70,14 +74,16 @@ export default function TaskListPage() {
   const debouncePin = useDebounce(pinned, 1000);
 
   const handlePin = () => {
-    handleUpdateList(displayList?.id, "list_pin", debouncePin);
+    if (displayList?.pinned !== pinned) {
+      handleUpdateList(displayList?.id, "list_pin", debouncePin);
+    }
   };
 
   useEffect(() => {
     handleGetTasks("LIST", { listID: displayList?.id });
   }, [displayList?.id]);
 
-  const mounted = useRef();
+  const mounted = useRef(null);
 
   useEffect(() => {
     if (mounted?.current === true) {
@@ -133,7 +139,7 @@ export default function TaskListPage() {
   }
 
   return (
-    <main>
+    <main className="">
       {/* List Name */}
       <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white group relative">
         <div className="flex items-stretch">
@@ -158,6 +164,7 @@ export default function TaskListPage() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {/* <ListIcon list={displayList} /> */}
+            {/* <img src={IMAGES_Icons + displayList?.icon} /> */}
             {!edit ? (
               <h1>{displayList?.title}</h1>
             ) : (
@@ -165,23 +172,24 @@ export default function TaskListPage() {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-2 invisible group-hover:visible duration-200">
-          <button title="Edit Title" onClick={() => setEdit(true)}>
-            <CiEdit size={32} />
-          </button>
+        <div>
           <button
-            title="Close List"
-            onClick={() => handleClose(displayList?.id)}
+            title="Edit Title"
+            onClick={() => setEdit(true)}
+            className="invisible group-hover:visible duration-200"
           >
-            <CiCircleRemove size={32} />
+            <CiEdit size={30} />
+          </button>
+          <button title="Add Task" onClick={() => setAdd(true)}>
+            <BiPlus size={32} />
           </button>
         </div>
       </header>
       {/* List Todo Items */}
-      <div className="flex flex-col flex-1 gap-3 items-center justify-center py-3 px-0">
+      <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">
         {/* Add new todo Item */}
         {/* Note: list ID passed from TodoList to enable opening multiple lists */}
-        <CardAddTask listID={displayList?.id} />
+        {/* <CardAddTask listID={displayList?.id} /> */}
         <div className="field">
           <Switch
             checked={showCompleted}
@@ -192,9 +200,11 @@ export default function TaskListPage() {
             Show Completed
           </label>
         </div>
+
         {/* Display Tasks */}
-        {content}
+        <div className="flex-1">{content}</div>
       </div>
+      {add ? <FormTaskAdd listID={displayList?.id} setAdd={setAdd} /> : null}
     </main>
   );
 }

@@ -1,4 +1,4 @@
-import { Button, DatePicker, Radio, Select, Space, Switch } from "antd";
+import { Button, DatePicker, Modal, Radio, Select, Space, Switch } from "antd";
 import React, { useEffect, useState } from "react";
 
 import CardFilterPriority from "./CardFilterPriority";
@@ -11,9 +11,8 @@ export default function TaskFilter({
   inLists,
   setInLists,
   viewFilter,
+  setViewFilter,
 }) {
-  const [expand, setExpand] = useState(false);
-
   const [showCompleted, setShowCompleted] = useState(true);
   const [priority, setPriority] = useState([]);
 
@@ -30,36 +29,37 @@ export default function TaskFilter({
   }, [viewFilter, priority, showCompleted, inLists]);
 
   return (
-    <div className="mx-auto px-2">
-      <div
-        className={
-          (viewFilter === true
-            ? ""
-            : "-translate-y-4 opacity-0 invisible h-0") +
-          " duration-200 flex gap-2"
-        }
-      >
-        <div className="flex flex-wrap items-start gap-6">
-          <div>
-            {/* <h3>Show completed</h3> */}
-            <div className="flex items-center gap-2">
-              <Switch
-                size="small"
-                // loading={false}
-                // defaultChecked
-                checked={showCompleted}
-                onChange={(checked) => setShowCompleted(checked)}
-                id="filter_completed"
-                label="Completed"
-              />
-              <label htmlFor="filter_completed">Completed</label>
-            </div>
+    <Modal
+      open={viewFilter}
+      title="Filter Tasks"
+      okText="Apply"
+      cancelText="Cancel"
+      okButtonProps={{ autoFocus: true, htmlType: "submit" }}
+      onCancel={() => setViewFilter(false)}
+      onOk={() => setViewFilter(false)}
+      destroyOnClose={true}
+      modalRender={(dom) => <>{dom}</>}
+    >
+      <div className="flex flex-wrap items-start gap-6">
+        <div>
+          {/* <h3>Show completed</h3> */}
+          <div className="flex items-center gap-2">
+            <Switch
+              size="small"
+              // loading={false}
+              // defaultChecked
+              checked={showCompleted}
+              onChange={(checked) => setShowCompleted(checked)}
+              id="filter_completed"
+              label="Completed"
+            />
+            <label htmlFor="filter_completed">Completed</label>
           </div>
-          <CardFilterPriority setPriority={setPriority} />
-          <CardFilterList setInLists={setInLists} />
-          <CardFilterDueDate />
         </div>
+        <CardFilterPriority setPriority={setPriority} />
+        <CardFilterList setInLists={setInLists} />
+        <CardFilterDueDate />
       </div>
-    </div>
+    </Modal>
   );
 }

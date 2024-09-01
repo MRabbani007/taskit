@@ -15,7 +15,7 @@ const SigninPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/dashboard";
 
   // Set focus to username input on load
   const userRef = useRef();

@@ -1,11 +1,19 @@
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 import React from "react";
 import { IoIosArrowRoundDown, IoIosArrowRoundUp } from "react-icons/io";
 
-export default function TaskSort({ setSort }) {
+export default function TaskSort({ viewSort, setViewSort, setSort }) {
   return (
-    <div className="w-full sm:px-8">
-      <div className="flex flex-wrap gap-6 justify-center">
+    <Modal
+      open={true}
+      title="Sort Tasks"
+      okText="Apply"
+      cancelText="Cancel"
+      okButtonProps={{ autoFocus: true, htmlType: "submit" }}
+      onCancel={() => setViewSort(false)}
+      onOk={() => setViewSort(false)}
+    >
+      <div className="space-y-4">
         <div className="flex items-center gap-2">
           <Button
             onClick={() => setSort("priority_a")}
@@ -51,6 +59,6 @@ export default function TaskSort({ setSort }) {
           <span>Due Date</span>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

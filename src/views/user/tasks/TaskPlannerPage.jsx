@@ -4,6 +4,7 @@ import { FaCircleDot, FaTimeline } from "react-icons/fa6";
 import { BsDot } from "react-icons/bs";
 import PlannerTab from "../../../features/planner/PlannerTab";
 import TaskFilter from "../../../features/task/TaskFilter";
+import { BiFilter } from "react-icons/bi";
 
 export const tabs = [
   {
@@ -159,13 +160,19 @@ export default function TaskPlannerPage() {
           <FaTimeline size={40} />
           <h1>Planner</h1>
         </div>
+        <div>
+          <button onClick={() => setViewFilter(true)}>
+            <BiFilter size={30} />
+          </button>
+        </div>
       </header>
       <div>
         <TaskFilter
           setFilters={setFilters}
           inLists={inLists}
           setInLists={setInLists}
-          viewFilter={true}
+          viewFilter={viewFilter}
+          setViewFilter={setViewFilter}
         />
         <div className="flex flex-wrap gap-2">
           {tabs.map((tab, index) => {

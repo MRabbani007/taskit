@@ -20,16 +20,16 @@ const Layout = () => {
   const onHomePage = location.pathname === "/";
 
   return (
-    <>
+    <div className="flex flex-col items-stretch min-h-screen">
       <Navbar />
       <ErrorBoundary
         fallback={
-          <div className="flex w-full h-screen items-center bg-zinc-100">
+          <main className="flex flex-1 items-center bg-zinc-100">
             <div className="flex items-center gap-2 bg-red-500 text-white font-semibold rounded-md p-4 w-fit mx-auto my-auto">
               <IoCloseCircle size={40} className="" />
               <span>Something went wrong</span>
             </div>
-          </div>
+          </main>
         }
       >
         {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
@@ -40,7 +40,7 @@ const Layout = () => {
       </ErrorBoundary>
       <Footer />
       <ToastContainer autoClose={1000} />
-    </>
+    </div>
   );
 };
 export default Layout;

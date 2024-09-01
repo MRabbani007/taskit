@@ -80,11 +80,8 @@ const renderLinear = (journal, setEditItem, sortA) => {
   });
 };
 
-export default function SectionJournalItems() {
+export default function SectionJournalItems({ group, sortA }) {
   const { journal } = useContext(JournalContext);
-
-  const [group, setGroup] = useState(true);
-  const [sortA, setSortA] = useState(true);
 
   const [editItem, setEditItem] = useState(null);
 
@@ -100,14 +97,14 @@ export default function SectionJournalItems() {
     //     })}
     // </Timeline>
     <>
-      <Flex gap={16} className="my-2">
+      {/* <Flex gap={16}>
         <Button type="primary" onClick={() => setGroup((curr) => !curr)}>
           {group ? "un-group" : "Group"}
         </Button>
         <Button type="primary" onClick={() => setSortA((curr) => !curr)}>
           {sortA ? "Latest" : "Earliest"}
         </Button>
-      </Flex>
+      </Flex> */}
       <Timeline mode="left" items={items} className="w-fit" />
       {editItem?.id ? (
         <FormJournalEdit journalItem={editItem} setEdit={setEditItem} />
