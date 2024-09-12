@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { TaskContext } from "../../context/TaskState";
 // AntD
 import { Button, Progress } from "antd";
+import { MdOutlineTaskAlt } from "react-icons/md";
 
 export default function DashboardTasks() {
   const { tasksSummary } = useContext(TaskContext);
@@ -36,11 +37,14 @@ export default function DashboardTasks() {
   ];
 
   return (
-    <article className="bg-stone-100 rounded-lg p-4 flex flex-col gap-4">
+    <article className="rounded-lg flex flex-col">
       <Link to="/tasks" title="Go to Tasks">
-        <h2 className="">Tasks</h2>
+        <h2 className="flex items-center gap-2 py-2 px-4 font-normal rounded-t-lg bg-sky-600 text-white">
+          <MdOutlineTaskAlt size={24} />
+          Tasks
+        </h2>
       </Link>
-      <div className="flex items-center justify-center gap-4 ">
+      <div className="flex items-center justify-center gap-4 p-2 bg-stone-300">
         <Progress
           type="dashboard"
           steps={10}
@@ -60,7 +64,7 @@ export default function DashboardTasks() {
           <p className="text-sky-500">{`${tasksSummary?.total || 0} tasks`}</p>
         </div>
       </div>
-      <div className="flex items-stretch gap-2 font-medium">
+      <div className="flex items-stretch gap-2 font-medium pb-2 px-4 rounded-b-lg bg-stone-300">
         {tasks.map((item, index) => {
           return (
             <Link

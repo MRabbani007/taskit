@@ -22,7 +22,7 @@ export default function DashboardPage() {
           </p>
         </div>
       </header>
-      <div className="flex flex-row flex-wrap-reverse lg:flex-nowrap gap-4">
+      <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4">
         <div className="flex-1 flex flex-col gap-4">
           <CurrentFocusCard />
           <PlannerSummaryCard />

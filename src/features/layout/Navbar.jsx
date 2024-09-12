@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 // Imported Components
 import MenuMobile from "../navigation/MenuMobile";
 import UserMenu from "../navigation/UserMenu";
-import { Menu } from "antd";
+import { Button, Menu } from "antd";
 // Imported Media
 import Logo from "../../assets/todo.svg";
 // Imported Icons
@@ -45,32 +45,35 @@ const Navbar = () => {
   const menuGuest = {
     key: "navbar_guest",
     label: (
-      <div className="flex items-center gap-2">
-        <AiOutlineUser size={30} />
-        <span>Sign In</span>
-      </div>
+      <Button type="primary">
+        <Link to="/login">Get Started</Link>
+      </Button>
+      // <div className="flex items-center gap-2">
+      //   <AiOutlineUser size={30} />
+      //   <span>Sign In</span>
+      // </div>
     ),
     style: { marginLeft: "auto" },
-    children: [
-      {
-        key: "navbar_guest_login",
-        label: (
-          <Link to="/login" className="flex items-center gap-2">
-            <AiOutlineLogin size={28} />
-            <span>Sign In</span>
-          </Link>
-        ),
-      },
-      {
-        key: "navbar_guest_register",
-        label: (
-          <Link to="/register" className="flex items-center gap-2">
-            <HiOutlineUserPlus size={28} />
-            <span>Sign Up</span>
-          </Link>
-        ),
-      },
-    ],
+    // children: [
+    //   {
+    //     key: "navbar_guest_login",
+    //     label: (
+    //       <Link to="/login" className="flex items-center gap-2">
+    //         <AiOutlineLogin size={28} />
+    //         <span>Sign In</span>
+    //       </Link>
+    //     ),
+    //   },
+    //   {
+    //     key: "navbar_guest_register",
+    //     label: (
+    //       <Link to="/register" className="flex items-center gap-2">
+    //         <HiOutlineUserPlus size={28} />
+    //         <span>Sign Up</span>
+    //       </Link>
+    //     ),
+    //   },
+    // ],
   };
 
   const menuUser = {
@@ -193,7 +196,7 @@ const Navbar = () => {
         selectedKeys={[current]}
         mode="horizontal"
         items={items}
-        className="bg-zinc-200 py-2 h-[70px]"
+        className="bg-zinc-200"
       />
       <menu
         className="hidden sm:py-4 py-2 px-8 w-full bg-gradient-to-br from-black to-zinc-600 text-white"

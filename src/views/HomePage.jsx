@@ -42,7 +42,7 @@ const HomePage = () => {
 
   return (
     <main className="flex-col items-center justify-center lg:flex-row gap-x-8 gap-y-4 lg:mx-auto">
-      <div className=" flex flex-col justify-center items-start gap-2">
+      <div className="flex flex-col justify-center items-start">
         <div className="flex flex-wrap justify-center items-center gap-4 ">
           <img
             src="logo.png"
@@ -52,21 +52,21 @@ const HomePage = () => {
             className="from-zinc-500/80 to-zinc-500/50 bg-gradient-to-br rounded-full p-2 mx-auto hover:scale-110 hover:-rotate-12 duration-100 w-20 h-20"
           />
           <div>
-            <h1 className="m-0 p-0 text-2xl lg:text-7xl uppercase text-sky-700 font-extrabold">
+            <h1 className="m-0 p-0 text-2xl sm:text-7xl uppercase text-sky-700 font-extrabold">
               Taskit
             </h1>
-            <div className="sm:hidden font-medium text-sm sm:text-base md:text-xl lg:text-2xl text-zinc-900/70 text-wrap">
+            <div className="sm:hidden font-medium text-sm text-zinc-900/70 text-wrap">
               Your Daily Adventure Starts Here
             </div>
           </div>
         </div>
-        <div className="hidden sm:inline-block font-medium text-sm sm:text-base md:text-xl lg:text-2xl text-zinc-900/80 text-wrap">
+        <div className="hidden sm:inline-block font-medium text-sm sm:text-2xl text-zinc-900/80 text-wrap">
           Your Daily Adventure Starts Here
         </div>
-        <div className="hidden sm:inline-block font-bold text-zinc-800/70">
+        <div className="hidden sm:inline-block font-bold text-zinc-800/70 mb-2">
           A place to organize your day and keep track of your activities
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div className="hidden sm:flex items-center justify-center gap-2 mx-auto">
           {auth?.user ? (
             <Button type="primary">
               <Link to={"/dashboard"}>Go to Dashboard</Link>

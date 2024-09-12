@@ -99,75 +99,71 @@ const AdminUsers = () => {
 
   return (
     <main>
-      <header className="bg-gradient-to-r from-zinc-200 to-zinc-400 text-sky-600">
-        <div>
-          <FiUsers size={40} />
-          <h1 className="font-semibold">Users</h1>
-        </div>
+      <header>
+        <FiUsers size={40} />
+        <h1 className="font-semibold">Users</h1>
       </header>
+      <table>
+        <thead>
+          <tr>
+            <th>UserID</th>
+            <th>Username</th>
+            <th>roles</th>
+            <th>Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.length !== 0 &&
+            users.map((user, index) => {
+              return (
+                <tr key={index} className="">
+                  <td>{user?.id}</td>
+                  <td>{user?.username}</td>
+                  <td
+                    onClick={() => {
+                      handleSetEdit(index);
+                    }}
+                  >
+                    {JSON.stringify(Object.values(user?.roles))}
+                  </td>
+                  <td>{user?.active}</td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
       <div>
-        <table>
-          <thead>
-            <tr>
-              <th>UserID</th>
-              <th>Username</th>
-              <th>roles</th>
-              <th>Active</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.length !== 0 &&
-              users.map((user, index) => {
-                return (
-                  <tr key={index} className="">
-                    <td>{user?.id}</td>
-                    <td>{user?.username}</td>
-                    <td
-                      onClick={() => {
-                        handleSetEdit(index);
-                      }}
-                    >
-                      {JSON.stringify(Object.values(user?.roles))}
-                    </td>
-                    <td>{user?.active}</td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-        <div>
-          {editRoles !== null && (
-            <form onSubmit={handleRolesSubmit}>
-              <span>{"User: " + users[editRoles].username}</span>
-              <p>Roles</p>
-              <input
-                type="checkbox"
-                id="role_user"
-                checked={roleUser}
-                onChange={(e) => setRoleUser(e.target.checked)}
-              />
-              <label htmlFor="role_user">User</label>
-              <input
-                type="checkbox"
-                id="role_admin"
-                checked={roleAdmin}
-                onChange={(e) => setRoleAdmin(e.target.checked)}
-              />
-              <label htmlFor="role_admin">Admin</label>
-              <div>
-                <button type="submit" className="btn btn-red">
-                  Save
-                </button>
-                <span
-                  className="btn btn-blue"
-                  onClick={() => handleSetEdit(null)}
-                >
-                  Cancel
-                </span>
-              </div>
-            </form>
-          )}
-        </div>
+        {editRoles !== null && (
+          <form onSubmit={handleRolesSubmit}>
+            <span>{"User: " + users[editRoles].username}</span>
+            <p>Roles</p>
+            <input
+              type="checkbox"
+              id="role_user"
+              checked={roleUser}
+              onChange={(e) => setRoleUser(e.target.checked)}
+            />
+            <label htmlFor="role_user">User</label>
+            <input
+              type="checkbox"
+              id="role_admin"
+              checked={roleAdmin}
+              onChange={(e) => setRoleAdmin(e.target.checked)}
+            />
+            <label htmlFor="role_admin">Admin</label>
+            <div>
+              <button type="submit" className="btn btn-red">
+                Save
+              </button>
+              <span
+                className="btn btn-blue"
+                onClick={() => handleSetEdit(null)}
+              >
+                Cancel
+              </span>
+            </div>
+          </form>
+        )}
       </div>
     </main>
   );

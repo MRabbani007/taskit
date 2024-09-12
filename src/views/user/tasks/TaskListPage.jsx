@@ -139,13 +139,13 @@ export default function TaskListPage() {
   }
 
   return (
-    <main className="">
+    <main>
       {/* List Name */}
-      <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white group relative">
-        <div className="flex items-stretch">
+      <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white group relative pl-8 pr-4 py-2">
+        <div className="flex items-stretch flex-1">
           <div
             className={
-              (pinned ? "" : "w-[20px] hover:w-[60px]") +
+              (pinned ? "" : "") +
               " duration-200 group cursor-pointer flex items-center justify-center"
             }
           >

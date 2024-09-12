@@ -85,18 +85,11 @@ const UserListsPage = () => {
     }
     if (trashLists.length === 0) {
       contentTrash = (
-        <p className="p-4 font-medium text-zinc-800">No lists in trash</p>
+        <p className="font-medium text-zinc-800">No lists in trash</p>
       );
     } else {
       contentTrash = (
-        <ul
-          className={
-            (expandTrash
-              ? "translate-y-[0] opacity-100 "
-              : "translate-y-[-20px] opacity-0 h-0") +
-            " py-4 duration-300 flex flex-col gap-2 w-full"
-          }
-        >
+        <ul className="flex flex-col gap-2">
           {trashLists.map((list, index) => {
             return <CardListTrash list={list} key={index} />;
           })}
@@ -109,52 +102,57 @@ const UserListsPage = () => {
     <main>
       <header onClick={() => setExpand((prev) => !prev)}>
         <BsCardList size={40} />
-        <h1 className="flex-1">My Lists</h1>
+        <h1 className="flex-1 font-normal">My Lists</h1>
         <SlArrowRight
           size={25}
-          className={(expand ? "rotate-90 " : "") + "duration-300"}
+          className={(expand ? "rotate-90 " : "") + " duration-300"}
         />
       </header>
-      <section className="w-full">
-        <div
-          className={
-            (expand
-              ? "translate-y-[0] opacity-100 "
-              : "translate-y-[-20px] opacity-0 invisible h-0 ") +
-            " py-4 duration-300"
-          }
-        >
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="pinnedLists">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {contentPinned}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <Droppable droppableId="userLists">
-              {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef}>
-                  {contentLists}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
+      <section
+        className={
+          (expand
+            ? "translate-y-[0] opacity-100 "
+            : "translate-y-[-20px] opacity-0 invisible h-0 ") + " duration-300"
+        }
+      >
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="pinnedLists">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {contentPinned}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="userLists">
+            {(provided) => (
+              <div {...provided.droppableProps} ref={provided.innerRef}>
+                {contentLists}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </section>
       <header onClick={() => setExpandTrash((prev) => !prev)}>
         <CiTrash size={40} />
-        <h2>Trash</h2>
+        <h2 className="flex-1">Trash</h2>
         <SlArrowRight
           size={25}
-          className={(expandTrash ? "rotate-90 " : "") + "duration-300"}
+          className={(expandTrash ? "rotate-90 " : "") + " duration-300"}
         />
       </header>
-      <section className="w-full">{contentTrash}</section>
+      <section
+        className={
+          (expandTrash
+            ? "translate-y-[0] opacity-100 "
+            : "translate-y-[-20px] opacity-0 h-0") + " duration-300"
+        }
+      >
+        {contentTrash}
+      </section>
       <Link to={"/createList"}>
         <FloatButton
           type="primary"

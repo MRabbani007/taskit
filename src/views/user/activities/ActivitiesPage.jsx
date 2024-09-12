@@ -25,11 +25,9 @@ export default function ActivitiesPage() {
 
   return (
     <main>
-      <header className="border-b-[1px] bg-zinc-100 border-blue-600 text-blue-600">
-        <div>
-          <BsCardList size={40} />
-          <h1 className="font-light">Activities</h1>
-        </div>
+      <header>
+        <BsCardList size={40} />
+        <h1 className="font-normal">Activities</h1>
       </header>
       <div className="flex flex-wrap flex-col sm:flex-row gap-4 items-start w-full">
         {content}

@@ -75,11 +75,9 @@ export default function CreateActivityPage() {
 
   return (
     <main>
-      <header className="border-b-[1px] bg-zinc-100 border-blue-600 text-blue-600">
-        <div>
-          <BsActivity size={40} />
-          <h1 className="font-light">Create Activity</h1>
-        </div>
+      <header>
+        <BsActivity size={40} />
+        <h1 className="font-normal">Create Activity</h1>
       </header>
       <div>
         <Form

@@ -36,11 +36,9 @@ export default function ActivityDetailsPage() {
 
   return (
     <main>
-      <header className="border-b-[1px] bg-zinc-100 border-blue-600 text-blue-600">
-        <div>
-          <BsCardList size={40} />
-          <h1 className="font-light">{activity?.title}</h1>
-        </div>
+      <header>
+        <BsCardList size={40} />
+        <h1 className="font-normal">{activity?.title}</h1>
       </header>
       <div className="items-start">
         <Progress

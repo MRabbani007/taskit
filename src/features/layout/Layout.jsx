@@ -30,11 +30,9 @@ const Layout = () => {
           </main>
         }
       >
-        {/* {!onAuthPage && !onHomePage ? <Sidebar /> : null} */}
         <Suspense fallback={<SkeletonContentPage />}>
           <Outlet />
         </Suspense>
-        {/* <RadioMenu /> */}
       </ErrorBoundary>
       <Footer />
       <ToastContainer autoClose={1000} />

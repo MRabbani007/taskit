@@ -2,6 +2,7 @@ import { Button } from "antd";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { JournalContext } from "../../context/JournalState";
+import { BsJournalText } from "react-icons/bs";
 
 export default function DashboardJournal() {
   const { journal } = useContext(JournalContext);
@@ -31,9 +32,12 @@ export default function DashboardJournal() {
   });
 
   return (
-    <article className="min-h-[100px] max-h-[400px] p-4 flex flex-col gap-4 rounded-lg bg-stone-100">
+    <article className="min-h-[100px] max-h-[400px] flex flex-col rounded-lg bg-stone-100">
       <Link title="Go to Journal" to={"/pages/journal"}>
-        <h2>Journal</h2>
+        <h2 className="flex items-center gap-2 py-2 px-4 font-normal rounded-t-lg bg-green-600 text-white">
+          <BsJournalText size={24} className="" />
+          Journal
+        </h2>
       </Link>
       <div className="flex flex-col gap-2 overflow-y-auto">{content}</div>
     </article>
