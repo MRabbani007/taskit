@@ -107,15 +107,9 @@ const UserListsPage = () => {
 
   return (
     <main>
-      {/* User Lists */}
-      <header
-        className="bg-gradient-to-r from-zinc-600 to-zinc-400 text-white shadow-md shadow-zinc-500"
-        onClick={() => setExpand((prev) => !prev)}
-      >
-        <div>
-          <BsCardList size={40} />
-          <h1>My Lists</h1>
-        </div>
+      <header onClick={() => setExpand((prev) => !prev)}>
+        <BsCardList size={40} />
+        <h1 className="flex-1">My Lists</h1>
         <SlArrowRight
           size={25}
           className={(expand ? "rotate-90 " : "") + "duration-300"}
@@ -152,15 +146,9 @@ const UserListsPage = () => {
           </DragDropContext>
         </div>
       </section>
-      {/* Trash lists */}
-      <header
-        className="bg-gradient-to-r from-zinc-600 to-zinc-400 text-white shadow-md shadow-zinc-500"
-        onClick={() => setExpandTrash((prev) => !prev)}
-      >
-        <div>
-          <CiTrash size={40} />
-          <h2>Trash</h2>
-        </div>
+      <header onClick={() => setExpandTrash((prev) => !prev)}>
+        <CiTrash size={40} />
+        <h2>Trash</h2>
         <SlArrowRight
           size={25}
           className={(expandTrash ? "rotate-90 " : "") + "duration-300"}

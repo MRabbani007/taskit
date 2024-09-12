@@ -7,36 +7,37 @@ export default function DashboardLists() {
   const { lists, handleOpen } = useContext(ListContext);
 
   return (
-    <article className="flex-1 min-w-[300px] min-h-[200px]">
-      <h2 className="py-2 px-4 bg-zinc-200 text-zinc-800">
-        <Link
-          title="View Lists"
-          to="/mylists"
-          className="hover:text-yellow-500 duration-200"
-        >
-          Lists
-        </Link>
-      </h2>
-      <ul className="flex flex-wrap py-2 gap-2 max-h-[300px] overflow-y-auto">
-        {lists.slice(0, 4).map((list, index) => {
-          return (
-            <li
-              key={index}
-              title={list?.title}
-              className="bg-slate-100 hover:bg-slate-200 p-2 flex flex-col items-center gap-2 overflow-hidden cursor-pointer duration-200 flex-1"
-              onClick={() => handleOpen(list?.id)}
-            >
-              <img
-                src={IMAGES_Icons + list?.icon}
-                alt="icon"
-                className="w-12"
-              />
-              <span className="text-ellipsis text-center whitespace-break-spaces flex-1 font-semibold text-zinc-800">
-                {list?.title}
-              </span>
-            </li>
-          );
-        })}
+    <article className="flex flex-col gap-4 min-h-[100px] bg-stone-100 rounded-lg p-4">
+      <Link title="View Lists" to="/mylists">
+        <h2>Lists</h2>
+      </Link>
+      <ul className="flex flex-wrap gap-2 overflow-y-auto">
+        {lists.length === 0 ? (
+          <li>
+            You don't have any lists,{" "}
+            <Link to="/myLists/createList">create one</Link>
+          </li>
+        ) : (
+          lists.slice(0, 6).map((list, index) => {
+            return (
+              <li
+                key={index}
+                title={list?.title}
+                className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center"
+                onClick={() => handleOpen(list?.id)}
+              >
+                <img
+                  src={IMAGES_Icons + list?.icon}
+                  alt="icon"
+                  className="w-12"
+                />
+                <span className="text-ellipsis whitespace-nowrap font-semibold text-zinc-800">
+                  {list?.title}
+                </span>
+              </li>
+            );
+          })
+        )}
       </ul>
     </article>
   );

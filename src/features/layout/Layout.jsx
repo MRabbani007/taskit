@@ -2,8 +2,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Suspense } from "react";
 import Navbar from "./Navbar";
 import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
-import RadioMenu from "../navigation/RadioMenu";
-import Sidebar from "../navigation/Sidebar";
 import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
 import { ErrorBoundary } from "react-error-boundary";

@@ -1,8 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
 :root {
-  --font-general-Sans: "General Sans", sans-serif;
   --font-raleway: "Raleway", sans-serif;
-  --font-supreme: "Supreme", sans-serif;
-  --font-roboto: "Roboto", sans-serif;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,27 +18,22 @@
 }
 
 body {
-  font-family: var(--font-roboto);
+  font-family: var(--font-raleway);
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.5rem;
 }
 
 main {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: flex-start;
   flex: 1 1 0%;
   padding: 0.5rem;
-  gap: 1rem;
-}
-
-header {
-  @include flexBetween;
-  padding: 0.75rem 1rem;
-  width: 100%;
-}
-
-header > div {
-  @include flexStart;
   gap: 1rem;
 }
 

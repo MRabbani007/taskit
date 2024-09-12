@@ -67,18 +67,14 @@ const filterTasks = (type, payload, lists = []) => {
 };
 
 export default function TaskPlannerPage() {
-  const { tasks, status, handleGetTasks, handleMoveTaskPlanner } =
-    useContext(TaskContext);
-
-  const [viewFilter, setViewFilter] = useState(false);
-  const [viewSort, setViewSort] = useState(false);
-
-  const [filters, setFilters] = useState([]);
-  const [sort, setSort] = useState("");
-
-  const [inLists, setInLists] = useState([]);
-
-  const filtered = filterTasks(filters, tasks, inLists);
+  const {
+    tasks,
+    status,
+    handleGetTasks,
+    handleMoveTaskPlanner,
+    filters,
+    setFilters,
+  } = useContext(TaskContext);
 
   const [block, setBlock] = useState(false);
 
@@ -155,46 +151,38 @@ export default function TaskPlannerPage() {
 
   return (
     <main>
-      <header className="bg-gradient-to-r from-sky-800 to-sky-600 text-white shadow-md shadow-zinc-500">
+      <header>
+        <FaTimeline size={40} />
+        <h1 className="flex-1">Planner</h1>
         <div>
-          <FaTimeline size={40} />
-          <h1>Planner</h1>
-        </div>
-        <div>
-          <button onClick={() => setViewFilter(true)}>
+          <button
+            onClick={() =>
+              setFilters((curr) => ({ ...curr, viewFilter: true }))
+            }
+          >
             <BiFilter size={30} />
           </button>
         </div>
       </header>
-      <div>
-        <TaskFilter
-          setFilters={setFilters}
-          inLists={inLists}
-          setInLists={setInLists}
-          viewFilter={viewFilter}
-          setViewFilter={setViewFilter}
-        />
-        <div className="flex flex-wrap gap-2">
-          {tabs.map((tab, index) => {
-            const tabTasks = filtered
-              ?.filter((item) => item?.status === tab?.value)
-              .sort((a, b) =>
-                a.plannerSortIndex < b.plannerSortIndex ? 1 : -1
-              );
-            return (
-              <PlannerTab
-                tab={tab}
-                index={index}
-                key={index}
-                tasks={tabTasks}
-                onDragStart={dragStart}
-                onDragEnter={dragEnter}
-                onDragEnd={dragEnd}
-              />
-            );
-          })}
-        </div>
+      <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 max-h-screen overflow-hidden">
+        {tabs.map((tab, index) => {
+          const tabTasks = tasks
+            ?.filter((item) => item?.status === tab?.value)
+            .sort((a, b) => (a.plannerSortIndex < b.plannerSortIndex ? 1 : -1));
+          return (
+            <PlannerTab
+              tab={tab}
+              index={index}
+              key={index}
+              tasks={tabTasks}
+              onDragStart={dragStart}
+              onDragEnter={dragEnter}
+              onDragEnd={dragEnd}
+            />
+          );
+        })}
       </div>
+      {filters?.viewFilter ? <TaskFilter /> : null}
     </main>
   );
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useContext } from "react";
 import { TaskContext } from "../../context/TaskState";
 import { ListContext } from "../../context/ListState";
 // AntD
-import { Badge, Calendar, Col, Radio, Row, Select, Typography } from "antd";
+import { Badge, Calendar } from "antd";
 // Icons
 import { IoCalendarOutline } from "react-icons/io5";
 
@@ -163,20 +163,16 @@ export default function CalendarPage() {
 
   return (
     <main>
-      <header className="bg-gradient-to-r from-lime-600 to-lime-400 text-white shadow-md shadow-zinc-500">
-        <div>
-          <IoCalendarOutline size={40} />
-          <h1>Calendar</h1>
-        </div>
+      <header>
+        <IoCalendarOutline size={40} />
+        <h1>Calendar</h1>
       </header>
-      <div>
-        <Calendar
-          cellRender={cellRender}
-          className="max-w-[1000px]"
-          fullscreen={true}
-          onPanelChange={onPanelChange}
-        ></Calendar>
-      </div>
+      <Calendar
+        cellRender={cellRender}
+        className=""
+        fullscreen={true}
+        onPanelChange={onPanelChange}
+      ></Calendar>
     </main>
   );
 }

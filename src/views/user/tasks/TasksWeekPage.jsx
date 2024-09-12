@@ -32,11 +32,9 @@ const TasksWeekPage = () => {
 
   return (
     <main>
-      <header className="bg-blue-800 text-white">
-        <div>
-          <BsCalendar4Week size={40} />
-          <h1>This Week</h1>
-        </div>
+      <header>
+        <BsCalendar4Week size={40} />
+        <h1>This Week</h1>
       </header>
       {/* Upcoming Tasks - 1 week */}
       <div>{content}</div>

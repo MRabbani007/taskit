@@ -32,11 +32,9 @@ const TasksTodayPage = () => {
 
   return (
     <main>
-      <header className="bg-green-600 text-white">
-        <div>
-          <BsCalendar4Event size={40} />
-          <h1>Today</h1>
-        </div>
+      <header>
+        <BsCalendar4Event size={40} />
+        <h1>Today</h1>
       </header>
       {/* Upcoming Tasks - 1 week */}
       <div>{content}</div>

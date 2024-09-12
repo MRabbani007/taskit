@@ -46,18 +46,18 @@ export default function PlannerTab({
   };
 
   return (
-    <div className="flex-1 rounded-md">
+    <div className="flex-1 rounded bg-zinc-50 flex flex-col">
       <div
         onDragEnter={onDragEnter}
         onDragOver={handleDragEnter}
         onDragLeave={handleDragLeave}
         className={
-          "rounded-t-md text-center py-2 px-4 font-semibold " + tab.className
+          "rounded text-center py-2 px-4 font-semibold " + tab.className
         }
       >
         {tab?.title}
       </div>
-      <div className="max-h-screen overflow-y-auto">
+      <div className="overflow-y-auto flex-1">
         <div
           className="flex flex-col gap-2 p-2 border-2 "
           style={{

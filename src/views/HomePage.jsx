@@ -41,15 +41,15 @@ const HomePage = () => {
   }, [auth?.user]);
 
   return (
-    <main className="flex-col lg:flex-row gap-8 lg:mx-auto">
-      <div className="min-h-[calc(100vh-80px)] lg:min-h-fit flex flex-col justify-center items-start gap-2">
+    <main className="flex-col items-center justify-center lg:flex-row gap-x-8 gap-y-4 lg:mx-auto">
+      <div className=" flex flex-col justify-center items-start gap-2">
         <div className="flex flex-wrap justify-center items-center gap-4 ">
           <img
             src="logo.png"
             alt="Logo"
             width={100}
             height={100}
-            className="from-zinc-500/80 to-zinc-500/50 bg-gradient-to-br rounded-full p-2 mx-auto hover:scale-125 hover:-rotate-12 duration-100 w-20 h-20"
+            className="from-zinc-500/80 to-zinc-500/50 bg-gradient-to-br rounded-full p-2 mx-auto hover:scale-110 hover:-rotate-12 duration-100 w-20 h-20"
           />
           <div>
             <h1 className="m-0 p-0 text-2xl lg:text-7xl uppercase text-sky-700 font-extrabold">
@@ -84,7 +84,7 @@ const HomePage = () => {
           )}
         </div>
       </div>
-      <div className="min-h-[calc(100vh-80px)] lg:min-h-fit flex flex-col justify-center items-start gap-2">
+      <div className="flex flex-col justify-center items-start gap-2">
         <section className="max-w-[80vw] sm:max-w-[500px] md:max-w-[700px] overflow-hidden">
           <Carousel autoplay autoplaySpeed={3000}>
             {slides.map((item, index) => {

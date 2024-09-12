@@ -46,7 +46,7 @@ const Navbar = () => {
     key: "navbar_guest",
     label: (
       <div className="flex items-center gap-2">
-        <AiOutlineUser size={28} className="block" />
+        <AiOutlineUser size={30} />
         <span>Sign In</span>
       </div>
     ),
@@ -77,7 +77,7 @@ const Navbar = () => {
     key: "navbar_user",
     label: (
       <div className="hidden md:flex items-center gap-1">
-        <AiOutlineUser size={28} />
+        <AiOutlineUser size={30} />
         <span>{auth?.user}</span>
       </div>
     ),
@@ -86,7 +86,7 @@ const Navbar = () => {
       {
         key: "navbar_user_1",
         label: (
-          <Link to={"/user/profile"} className="flex items-center gap-1">
+          <Link to={"/user/profile"} className="flex items-center gap-2">
             <FaRegCircleUser size={28} />
             <span>Profile</span>
           </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
       {
         key: "navbar_user_2",
         label: (
-          <Link to={"/user/settings"} className="flex items-center gap-1">
+          <Link to={"/user/settings"} className="flex items-center gap-2">
             <IoSettingsOutline size={28} />
             <span>Settings</span>
           </Link>
@@ -104,7 +104,7 @@ const Navbar = () => {
       {
         key: "navbar_user_3",
         label: (
-          <Link to={"/logout"} className="flex items-center gap-1">
+          <Link to={"/logout"} className="flex items-center gap-2">
             <IoLogOutOutline size={28} />
             <span>Sign Out</span>
           </Link>
@@ -116,8 +116,8 @@ const Navbar = () => {
   const menuAdmin = {
     key: "navbar_admin",
     label: (
-      <div className="hidden md:flex items-center gap-1">
-        <AiOutlineUser size={28} />
+      <div className="hidden md:flex items-center gap-0">
+        <AiOutlineUser size={30} />
         <span>{auth?.user}</span>
       </div>
     ),
@@ -156,9 +156,9 @@ const Navbar = () => {
   const homeButton = {
     key: "navbar_home",
     label: (
-      <Link to="/" title="Home Page" className="flex items-center gap-1">
+      <Link to="/" title="Home Page" className="flex items-center gap-0">
         <img src={Logo} alt="Logo" className="w-12" />
-        Todo
+        <span className="font-bold text-xl">Taskit</span>
       </Link>
     ),
   };
@@ -221,7 +221,6 @@ const Navbar = () => {
               className={isHomePage ? "text-yellow-400" : ""}
             >
               <img src={Logo} alt="Logo" className="icon-lg" />
-              {/* <IoHomeOutline size={32} /> */}
             </Link>
             {auth?.user ? (
               <>

@@ -35,18 +35,16 @@ const NotesPage = () => {
 
   return (
     <main>
-      <header className="bg-gradient-to-r from-yellow-500 to-yellow-300 text-white shadow-md shadow-zinc-500">
-        <div>
-          <GrNotes size={40} />
-          <h1>Notes</h1>
-        </div>
+      <header>
+        <GrNotes size={40} />
+        <h1>Notes</h1>
       </header>
       <div className="">
         <div
           className={
             (expand
-              ? "translate-y-[0] opacity-100 "
-              : "translate-y-[-20px] opacity-0 ") +
+              ? "translate-y-0 opacity-100 "
+              : "-translate-y-6 opacity-0 ") +
             " flex flex-wrap gap-4 items-stretch duration-300"
           }
         >

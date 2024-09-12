@@ -32,11 +32,9 @@ const TasksImportantPage = () => {
 
   return (
     <main>
-      <header className="bg-red-600 text-white">
-        <div>
-          <MdOutlineNotificationImportant size={40} />
-          <h1>Important</h1>
-        </div>
+      <header>
+        <MdOutlineNotificationImportant size={40} />
+        <h1>Important</h1>
       </header>
       {/* Upcoming Tasks - 1 week */}
       <div>{content}</div>

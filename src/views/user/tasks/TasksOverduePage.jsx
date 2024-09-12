@@ -1,7 +1,6 @@
 import { useContext, useEffect } from "react";
 import { TaskContext } from "../../../context/TaskState";
 import { AiOutlineAlert } from "react-icons/ai";
-import SidebarUserTasks from "../../../features/navigation/SidebarUserTasks";
 import { Timeline } from "flowbite-react";
 import CardTaskTimeLine from "../../../features/tasksPage/CardTaskTimeLine";
 import Loading from "../../../features/components/Loading";
@@ -33,14 +32,9 @@ const TasksOverduePage = () => {
 
   return (
     <main>
-      <header
-        className="bg-orange-600 text-white"
-        onClick={() => setExpand((prev) => !prev)}
-      >
-        <div>
-          <AiOutlineAlert size={40} />
-          <h1>Overdue</h1>
-        </div>
+      <header>
+        <AiOutlineAlert size={40} />
+        <h1>Overdue</h1>
       </header>
       {/* Overdue Tasks */}
       <div>{content}</div>

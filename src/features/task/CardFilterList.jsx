@@ -4,24 +4,21 @@ import { ListContext } from "../../context/ListState";
 // AntD
 import { DatePicker, Radio, Select, Space } from "antd";
 
-export default function CardFilterList({ setInLists }) {
+export default function CardFilterList({ filters, setFilters }) {
   const { lists } = useContext(ListContext);
 
   const listOptions = lists.map((item) => {
     return { label: item.title, value: item.id, desc: item.title };
   });
 
-  const options = listOptions; //[{ label: "All", value: "all", desc: "All Lists" }, ...lists];
+  const options = listOptions;
 
   const handleChange = (value) => {
-    // console.log(`selected ${value}`);
-    // console.log(value);
-    setInLists(value);
+    setFilters((curr) => ({ ...curr, inLists: value }));
   };
 
   const [value, setValue] = useState(1);
   const onChange = (e) => {
-    // console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 

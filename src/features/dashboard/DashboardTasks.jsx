@@ -36,17 +36,11 @@ export default function DashboardTasks() {
   ];
 
   return (
-    <article className="flex-1 min-w-[300px]">
-      <h2 className="py-2 px-4 bg-gradient-to-l from-sky-200 to-sky-50 text-zinc-800">
-        <Link
-          to="/tasks"
-          title="Go to Tasks"
-          className="hover:text-yellow-500 duration-200"
-        >
-          Tasks
-        </Link>
-      </h2>
-      <div className="flex gap-4 items-center justify-evenly p-4">
+    <article className="bg-stone-100 rounded-lg p-4 flex flex-col gap-4">
+      <Link to="/tasks" title="Go to Tasks">
+        <h2 className="">Tasks</h2>
+      </Link>
+      <div className="flex items-center justify-center gap-4 ">
         <Progress
           type="dashboard"
           steps={10}
@@ -66,19 +60,19 @@ export default function DashboardTasks() {
           <p className="text-sky-500">{`${tasksSummary?.total || 0} tasks`}</p>
         </div>
       </div>
-      <div className="flex gap-2 py-2 text-zinc-800 font-medium">
+      <div className="flex items-stretch gap-2 font-medium">
         {tasks.map((item, index) => {
           return (
             <Link
               to={item.url}
               title={item.title}
               key={index}
-              className=" hover:bg-zinc-200 duration-200 flex flex-col items-stretch justify-evenly flex-1 text-center"
+              className="flex-1 text-center"
             >
-              <p className="bg-blue-500 text-white py-1 px-2 w-full">
+              <p className="bg-blue-200 py-1 px-2 rounded-t-lg whitespace-nowrap">
                 {item.name}
               </p>
-              <p className="py-1 px-2 bg-zinc-200">{item.qty}</p>
+              <p className="py-1 px-2 bg-zinc-200 rounded-b-lg">{item.qty}</p>
             </Link>
           );
         })}

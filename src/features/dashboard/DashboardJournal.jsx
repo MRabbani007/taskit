@@ -9,11 +9,11 @@ export default function DashboardJournal() {
   const lastItems = Array.isArray(journal)
     ? journal
         .sort((a, b) =>
-          (a?.createDate || "")
+          (b?.createDate || "")
             .toString()
-            .localeCompare((b?.createDate || "").toString())
+            .localeCompare((a?.createDate || "").toString())
         )
-        .slice(-6)
+        .slice(0, 6)
     : [];
 
   const content = lastItems.map((item, index) => {
@@ -31,19 +31,11 @@ export default function DashboardJournal() {
   });
 
   return (
-    <article className="flex-1 min-w-[300px] min-h-[200px]">
-      <h2 className="py-2 px-4 bg-gradient-to-l from-green-300 to-green-100 text-zinc-800 ">
-        <Link
-          title="Go to Journal"
-          to={"/pages/journal"}
-          className="hover:text-yellow-500 duration-200"
-        >
-          Journal
-        </Link>
-      </h2>
-      <div className="w-full flex flex-col h-full gap-2 py-2 max-h-[400px] overflow-y-auto">
-        {content}
-      </div>
+    <article className="min-h-[100px] max-h-[400px] p-4 flex flex-col gap-4 rounded-lg bg-stone-100">
+      <Link title="Go to Journal" to={"/pages/journal"}>
+        <h2>Journal</h2>
+      </Link>
+      <div className="flex flex-col gap-2 overflow-y-auto">{content}</div>
     </article>
   );
 }

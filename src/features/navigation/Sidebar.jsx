@@ -32,31 +32,21 @@ import { GrGroup } from "react-icons/gr";
 import { FiUsers } from "react-icons/fi";
 
 const items = [
-  // {
-  //   key: "user",
-  //   label: "User",
-  //   icon: <FaRegCircleUser size={32} />,
-  //   style: { height: "fit-content" },
-  // },
-  {
-    key: "today_date",
-    label: genDateString(),
-  },
   {
     key: "grp_pages",
     label: "Pages",
     icon: <RiPagesLine size={28} />,
     children: [
-      {
-        key: "grp_pages_1",
-        label: (
-          <Link title="Dashboard" to={"/dashboard"}>
-            Dashboard
-          </Link>
-        ),
-        icon: <AiOutlineDashboard size={28} />,
-        path: "/",
-      },
+      // {
+      //   key: "grp_pages_1",
+      //   label: (
+      //     <Link title="Dashboard" to={"/dashboard"}>
+      //       Dashboard
+      //     </Link>
+      //   ),
+      //   icon: <AiOutlineDashboard size={28} />,
+      //   path: "/",
+      // },
       {
         key: "grp_pages_2",
         label: (
@@ -247,7 +237,6 @@ const adminItems = [
 
 const Sidebar = () => {
   const { auth } = useAuth();
-  const [expand, setExpand] = useState(false);
 
   const location = useLocation();
 
@@ -259,13 +248,14 @@ const Sidebar = () => {
     // console.log("click ", e);
   };
 
-  const todayDate = genDateString();
-
   const username = {
     key: "user",
-    label: auth?.user ? auth.user : "Login",
-    style: { paddingTop: "1rem", paddingBottom: "1rem" },
-    icon: <FaRegCircleUser size={32} />,
+    label: (
+      <Link to={"/dashboard"} className="flex items-stretch gap-2">
+        <FaRegCircleUser size={32} className="my-auto" />
+        <div>{auth?.user ? auth.user : "Login"}</div>
+      </Link>
+    ),
   };
 
   let menuItems = isAdmin

@@ -11,6 +11,7 @@ import {
   FaSortAmountUp,
 } from "react-icons/fa";
 import FormJournalAdd from "../../features/journal/FormJournalAdd";
+import { BsJournalText } from "react-icons/bs";
 
 const JournalPage = () => {
   const [add, setAdd] = useState(false);
@@ -18,15 +19,11 @@ const JournalPage = () => {
   const [group, setGroup] = useState(true);
   const [sortA, setSortA] = useState(true);
 
-  //
-  // border-b-4 border-zinc-600 text-zinc-800 p-0 pb-2
   return (
     <main>
-      <header className="bg-gradient-to-r from-green-600 to-green-400 text-white shadow-md shadow-zinc-500">
-        <div>
-          <GrNotes size={40} />
-          <h1>Journal</h1>
-        </div>
+      <header>
+        <BsJournalText size={40} />
+        <h1 className="flex-1">Journal</h1>
         <div className="space-x-2">
           <button
             title={group ? "un-group" : "Group"}

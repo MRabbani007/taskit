@@ -35,17 +35,7 @@ export const ListProvider = ({ children }) => {
   const [state, dispatch] = useReducer(listReducer, initialState);
   const [status, setStatus] = useState(initialStatus);
 
-  // const [userLists, setUserLists] = useState([]);
-  // const [trashLists, setTrashLists] = useState([]);
-
-  // useEffect(() => {
-  //   setUserLists(() => state.filter((item) => item?.trash !== true));
-  //   setTrashLists(() => state.filter((item) => item?.trash === true));
-  // }, [state]);
-
-  // Task list displayed in main container
   const [displayList, setDisplayList] = useState(null);
-
   const [listSummary, setListSummary] = useState([]);
 
   const handleGetLists = async () => {
@@ -167,7 +157,9 @@ export const ListProvider = ({ children }) => {
       if (list === "task_list") {
         temp = { id: list };
       } else {
-        temp = state.find((item) => item.id === list);
+        temp = [...state.pinnedLists, ...state.userLists].find(
+          (item) => item.id === list
+        );
       }
     } else if (typeof list === "object") {
       temp = list;
