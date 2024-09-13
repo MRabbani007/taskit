@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
 import { useNavigate, useParams } from "react-router-dom";
 import ListTitleEdit from "../../../features/taskList/ListTitleEdit";
-import { CiCircleRemove, CiEdit } from "react-icons/ci";
+import { CiApple, CiCircleRemove, CiEdit } from "react-icons/ci";
 import CardTaskBlock from "../../../features/task/CardTaskBlock";
 import CardAddTask from "../../../features/taskList/CardAddTask";
 import { BsPinAngle } from "react-icons/bs";
@@ -11,7 +11,7 @@ import { ListContext } from "../../../context/ListState";
 import Loading from "../../../features/components/Loading";
 import { Switch, message } from "antd";
 import { IMAGES_Icons } from "../../../data/templates";
-import { BiPlus } from "react-icons/bi";
+import { BiEdit, BiPlus } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";
 
 export default function TaskListPage() {
@@ -141,7 +141,7 @@ export default function TaskListPage() {
   return (
     <main>
       {/* List Name */}
-      <header className="bg-gradient-to-r from-blue-800 to-blue-600 text-white group relative pl-8 pr-4 py-2">
+      <header className="bg-gradient-to-r from-sky-800 to-blue-950 text-white group relative pl-8 pr-4 py-2">
         <div className="flex items-stretch flex-1">
           <div
             className={
@@ -172,18 +172,16 @@ export default function TaskListPage() {
             )}
           </div>
         </div>
-        <div>
-          <button
-            title="Edit Title"
-            onClick={() => setEdit(true)}
-            className="invisible group-hover:visible duration-200"
-          >
-            <CiEdit size={30} />
-          </button>
-          <button title="Add Task" onClick={() => setAdd(true)}>
-            <BiPlus size={32} />
-          </button>
-        </div>
+        <button
+          title="Edit Title"
+          onClick={() => setEdit(true)}
+          className="invisible group-hover:visible duration-200"
+        >
+          <CiEdit size={30} />
+        </button>
+        <button title="Add Task" onClick={() => setAdd(true)}>
+          <BiPlus size={32} />
+        </button>
       </header>
       {/* List Todo Items */}
       <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">

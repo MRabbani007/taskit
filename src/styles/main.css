@@ -230,7 +230,7 @@ input:checked ~ .bubble::after {
   align-items: center;
   justify-content: flex-start;
   position: fixed;
-  top: 70px;
+  top: 48px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -447,11 +447,11 @@ td {
   transition-duration: 0.15s;
   transition-timing-function: linear;
   font: inherit;
-  color: #f7fee7;
   text-transform: none;
   background-color: transparent;
-  border: 0;
   overflow: visible;
+  padding: 0;
+  margin: 0;
 }
 
 .hamburger:hover {
@@ -477,6 +477,8 @@ td {
 
 .hamburger-inner {
   display: block;
+  top: 70%;
+  transform: -translateY(50%);
 }
 
 .hamburger-inner,

@@ -104,8 +104,6 @@ export const TaskProvider = ({ children }) => {
         config
       );
 
-      console.log(response);
-
       if (response?.data && Array.isArray(response.data)) {
         dispatch({ type: "GET_TASKS", payload: response.data });
         setStatus({

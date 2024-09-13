@@ -25,7 +25,7 @@ export default function ActivitiesPage() {
 
   return (
     <main>
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-br from-amber-900 to-amber-900 text-white gap-4">
         <BsCardList size={40} />
         <h1 className="font-normal">Activities</h1>
       </header>

@@ -151,7 +151,7 @@ export default function TaskPlannerPage() {
 
   return (
     <main>
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 text-white gap-4">
         <FaTimeline size={40} />
         <h1 className="flex-1">Planner</h1>
         <div>
@@ -164,7 +164,7 @@ export default function TaskPlannerPage() {
           </button>
         </div>
       </header>
-      <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 max-h-screen overflow-hidden">
+      <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 lg:max-h-screen lg:overflow-hidden">
         {tabs.map((tab, index) => {
           const tabTasks = tasks
             ?.filter((item) => item?.status === tab?.value)

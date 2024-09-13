@@ -17,7 +17,11 @@ import {
   IoStarOutline,
   IoTodayOutline,
 } from "react-icons/io5";
-import { MdOutlineTaskAlt } from "react-icons/md";
+import {
+  MdOutlineChecklist,
+  MdOutlineKeyboardDoubleArrowRight,
+  MdOutlineTaskAlt,
+} from "react-icons/md";
 import {
   BsActivity,
   BsCalendar4Week,
@@ -35,26 +39,26 @@ const items = [
   {
     key: "grp_pages",
     label: "Pages",
-    icon: <RiPagesLine size={28} />,
+    title: "Pages",
+    icon: <RiPagesLine size={28} className="" style={{}} />,
+    style: {
+      // display: "flex",
+      // textIndent: "0px",
+      // alignItems: "center",
+      // justifyContent: "center",
+      // borderWidth: "1px",
+      // borderColor: "red",
+      // paddingRight: "15%",
+      // paddingTop: "5%",
+      // position: "absolute",
+    },
     children: [
-      // {
-      //   key: "grp_pages_1",
-      //   label: (
-      //     <Link title="Dashboard" to={"/dashboard"}>
-      //       Dashboard
-      //     </Link>
-      //   ),
-      //   icon: <AiOutlineDashboard size={28} />,
-      //   path: "/",
-      // },
       {
         key: "grp_pages_2",
-        label: (
-          <Link title="Calendar" to={"/pages/calendar"}>
-            Calendar
-          </Link>
-        ),
-        icon: <IoCalendarOutline size={28} />,
+        title: "Calendar",
+        label: <Link to={"/pages/calendar"}>Calendar</Link>,
+        icon: <IoCalendarOutline size={28} className="inline" />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_pages_3",
@@ -64,6 +68,7 @@ const items = [
           </Link>
         ),
         icon: <BsJournalText size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_pages_4",
@@ -73,60 +78,75 @@ const items = [
           </Link>
         ),
         icon: <SlNotebook size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
     ],
   },
   {
     key: "grp_tasks",
     label: "Tasks",
-    icon: <MdOutlineTaskAlt size={28} />,
+    title: "Tasks",
+    icon: <MdOutlineTaskAlt size={28} className="my-auto mx-auto p-0 m-0" />,
+    inlineIndent: 10,
     children: [
       {
         key: "grp_tasks_1",
+        title: "My Tasks",
         label: <Link to={"/tasks"}>My Tasks</Link>,
-        icon: <FaListCheck size={28} />,
+        icon: <MdOutlineChecklist size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_tasks_6",
         label: <Link to={"/tasks/planner"}>Planner</Link>,
         icon: <FaTimeline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_tasks_2",
         label: <Link to={"/tasks/today"}>Today</Link>,
         icon: <IoTodayOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_tasks_3",
         label: <Link to={"/tasks/week"}>This Week</Link>,
         icon: <BsCalendar4Week size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_tasks_4",
         label: <Link to={"/tasks/important"}>Important</Link>,
         icon: <IoStarOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_tasks_5",
         label: <Link to={"/tasks/overdue"}>Overdue</Link>,
         icon: <IoRepeatOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
     ],
   },
   {
     key: "grp_lists",
     label: "Lists",
+    title: "Lists",
     icon: <BsCardList size={28} />,
     children: [
       {
         key: "grp_lists_1",
-        label: <Link to={"/myLists"}>My Lists</Link>,
+        title: "My Lists",
+        label: <Link to="/myLists">My Lists</Link>,
         icon: <IoListOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_lists_2",
-        label: <Link to={"/myLists/createList"}>Create List</Link>,
+        title: "Create List",
+        label: <Link to="/myLists/createList">Create List</Link>,
         icon: <IoCreateOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
     ],
   },
@@ -140,11 +160,13 @@ const items = [
         key: "grp_activities_1",
         label: <Link to={"/activities"}>My Activities</Link>,
         icon: <GoProjectRoadmap size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_activities_2",
         label: <Link to={"/activities/create"}>Create Activity</Link>,
         icon: <IoCreateOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
     ],
   },
@@ -158,6 +180,7 @@ const items = [
         key: "grp_teams_1",
         label: <Link to={"/teams"}>Teams</Link>,
         icon: <IoListOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
     ],
   },
@@ -173,16 +196,19 @@ const items = [
         key: "grp_user_1",
         label: <Link to={"/user/profile"}>Profile</Link>,
         icon: <FaRegCircleUser size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_user_2",
         label: <Link to={"/user/settings"}>Settings</Link>,
         icon: <IoSettingsOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_user_3",
         label: <Link to={"/logout"}>Sign Out</Link>,
         icon: <IoLogOutOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
     ],
   },
@@ -202,7 +228,7 @@ const adminItems = [
           </Link>
         ),
         icon: <FiUsers size={28} />,
-        // path: "/",
+        style: { display: "flex", alignItems: "center" },
       },
       {
         key: "grp_admin_2",
@@ -212,6 +238,7 @@ const adminItems = [
           </Link>
         ),
         icon: <IoListOutline size={28} />,
+        style: { display: "flex", alignItems: "center" },
       },
       // {
       //   key: "grp_admin_3",
@@ -239,6 +266,7 @@ const Sidebar = () => {
   const { auth } = useAuth();
 
   const location = useLocation();
+  const [collapsed, setCollapsed] = useState(true);
 
   const isActive = (page) => location.pathname.includes(page);
   const isHomePage = location.pathname.split("/")[2] === "";
@@ -250,29 +278,52 @@ const Sidebar = () => {
 
   const username = {
     key: "user",
+    label: <Link to={"/dashboard"}>{auth?.user}</Link>, //,
+    title: auth?.user,
+    icon: <FaRegCircleUser size={30} />,
+    style: {
+      // display: "flex",
+      // flexDirection: "row",
+      // borderWidth: "1px",
+      // borderColor: "red",
+      // alignItems: "center",
+      // justifyContent: "center",
+      // padding: "0",
+    },
+  };
+
+  const collapseButton = {
+    key: "collapse",
+    title: collapsed ? "Expand" : "Collapse",
     label: (
-      <Link to={"/dashboard"} className="flex items-stretch gap-2">
-        <FaRegCircleUser size={32} className="my-auto" />
-        <div>{auth?.user ? auth.user : "Login"}</div>
-      </Link>
+      <button onClick={() => setCollapsed((curr) => !curr)}>
+        <MdOutlineKeyboardDoubleArrowRight
+          size={20}
+          className={collapsed ? "" : "rotate-180" + " duration-200 "}
+        />
+      </button>
     ),
   };
 
   let menuItems = isAdmin
-    ? [username, ...items, ...adminItems]
-    : [username, ...items];
+    ? [username, collapseButton, ...items, ...adminItems]
+    : [username, collapseButton, ...items];
 
   return (
     <Menu
       onClick={onClick}
-      style={{
-        width: 256,
-      }}
-      defaultSelectedKeys={["grp_pages_1"]}
-      defaultOpenKeys={["grp_pages"]}
+      defaultSelectedKeys={["user"]}
+      // defaultOpenKeys={["grp_pages"]}
       mode="inline"
+      // theme="dark"
       items={menuItems}
-      className="bg-zinc-100 hidden md:block static"
+      inlineCollapsed={collapsed}
+      inlineIndent={collapsed ? 0 : 24}
+      className={
+        (collapsed ? "-translate-x-4" : "") +
+        " py-4 hidden md:inline border-t-2 bg-zinc-200"
+      }
+      style={{ maxWidth: collapsed ? "80px" : "200px" }}
     />
   );
 };

@@ -1,16 +1,14 @@
 .hamburger {
-  // padding: 15px 15px;
-  // display: inline-block;
   cursor: pointer;
   transition-property: opacity, filter;
   transition-duration: 0.15s;
   transition-timing-function: linear;
   font: inherit;
-  color: $clr-slate-50;
   text-transform: none;
   background-color: transparent;
-  border: 0;
   overflow: visible;
+  padding: 0;
+  margin: 0;
 }
 
 .hamburger:hover {
@@ -36,7 +34,8 @@
 
 .hamburger-inner {
   display: block;
-  // top: 50%;
+  top: 70%;
+  transform: -translateY(50%);
   // margin-top: -5px;
 }
 

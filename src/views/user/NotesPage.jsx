@@ -7,13 +7,14 @@ import CardNote from "../../features/notes/CardNote";
 // Icons
 import { GrNotes } from "react-icons/gr";
 import { message } from "antd";
+import { BiPlus } from "react-icons/bi";
 
 export const AcceptTypes = {
   Note: "Note",
 };
 
 const NotesPage = () => {
-  const { notes, status } = useContext(NotesContext);
+  const { notes, status, handleNoteCreate } = useContext(NotesContext);
   const [expand, setExpand] = useState(true);
 
   let content;
@@ -35,9 +36,12 @@ const NotesPage = () => {
 
   return (
     <main>
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white gap-4">
         <GrNotes size={40} />
         <h1>Notes</h1>
+        <button onClick={() => handleNoteCreate("New Note")}>
+          <BiPlus size={30} />
+        </button>
       </header>
       <div className="">
         <div
@@ -50,7 +54,7 @@ const NotesPage = () => {
         >
           {content}
         </div>
-        <CardAddNote />
+        {/* <CardAddNote /> */}
       </div>
     </main>
   );

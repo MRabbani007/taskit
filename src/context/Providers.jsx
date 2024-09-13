@@ -20,7 +20,13 @@ export default function Providers({ children }) {
               <NotesProvider>
                 <JournalProvider>
                   <App>
-                    <ConfigProvider>
+                    <ConfigProvider
+                      theme={{
+                        components: {
+                          Menu: { margin: 0 },
+                        },
+                      }}
+                    >
                       <DndProvider backend={HTML5Backend}>
                         {children}
                       </DndProvider>

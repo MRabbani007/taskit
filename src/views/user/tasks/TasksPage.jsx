@@ -12,6 +12,7 @@ import { BsCardList } from "react-icons/bs";
 import Loading from "../../../features/components/Loading";
 import { BiFilter, BiPlus, BiSort } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";
+import { MdOutlineChecklist } from "react-icons/md";
 
 export default function TasksPage() {
   const { tasks, handleGetTasks, status, filters, setFilters } =
@@ -50,24 +51,22 @@ export default function TasksPage() {
 
   return (
     <main>
-      <header>
-        <BsCardList size={40} />
+      <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 text-white gap-4">
+        <MdOutlineChecklist size={40} />
         <h1 className="flex-1">My Tasks</h1>
-        <div>
-          <button
-            onClick={() =>
-              setFilters((curr) => ({ ...curr, viewFilter: true }))
-            }
-          >
-            <BiFilter size={30} />
-          </button>
-          <button onClick={() => setViewSort(true)}>
-            <BiSort size={30} />
-          </button>
-          <button onClick={() => setAddTask(true)}>
-            <BiPlus size={30} />
-          </button>
-        </div>
+        <button
+          onClick={() => setFilters((curr) => ({ ...curr, viewFilter: true }))}
+        >
+          <BiFilter size={30} />
+        </button>
+        <button
+          onClick={() => setFilters((curr) => ({ ...curr, viewSort: true }))}
+        >
+          <BiSort size={30} />
+        </button>
+        <button onClick={() => setAddTask(true)}>
+          <BiPlus size={30} />
+        </button>
       </header>
       {filters?.viewFilter === true ? <TaskFilter /> : null}
       {filters?.viewSort ? <TaskSort /> : null}
@@ -78,6 +77,7 @@ export default function TasksPage() {
         total={tasks.length}
         current={current}
         onChange={onChange}
+        className="mx-auto"
       />
       {addTask ? <FormTaskAdd setAdd={setAddTask} /> : null}
     </main>

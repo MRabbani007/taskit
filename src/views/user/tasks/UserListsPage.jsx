@@ -100,7 +100,10 @@ const UserListsPage = () => {
 
   return (
     <main>
-      <header onClick={() => setExpand((prev) => !prev)}>
+      <header
+        className="py-2 px-4 bg-gradient-to-r from-sky-800 to-blue-950 text-white gap-4"
+        onClick={() => setExpand((prev) => !prev)}
+      >
         <BsCardList size={40} />
         <h1 className="flex-1 font-normal">My Lists</h1>
         <SlArrowRight
@@ -136,7 +139,10 @@ const UserListsPage = () => {
           </Droppable>
         </DragDropContext>
       </section>
-      <header onClick={() => setExpandTrash((prev) => !prev)}>
+      <header
+        className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4"
+        onClick={() => setExpandTrash((prev) => !prev)}
+      >
         <CiTrash size={40} />
         <h2 className="flex-1">Trash</h2>
         <SlArrowRight

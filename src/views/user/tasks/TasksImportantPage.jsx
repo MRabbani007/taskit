@@ -32,7 +32,7 @@ const TasksImportantPage = () => {
 
   return (
     <main>
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 text-white gap-4">
         <MdOutlineNotificationImportant size={40} />
         <h1>Important</h1>
       </header>

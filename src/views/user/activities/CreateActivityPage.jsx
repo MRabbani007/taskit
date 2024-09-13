@@ -75,7 +75,7 @@ export default function CreateActivityPage() {
 
   return (
     <main>
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-br from-amber-900 to-amber-900 text-white gap-4">
         <BsActivity size={40} />
         <h1 className="font-normal">Create Activity</h1>
       </header>

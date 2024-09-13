@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import { TaskContext } from "../../context/TaskState";
 import { tabs } from "../../views/user/tasks/TaskPlannerPage";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 
 const bgColorObj = {
   1: "#0284c7",
@@ -22,6 +24,8 @@ export default function PlannerTask({
 
   const [isDragging, setIsDragging] = useState(false);
   const [isOver, setIsOver] = useState(false);
+
+  const [info, setInfo] = useState(null);
 
   const handleMove = (type) => {
     const length = tasks.reduce((acc, curr) => {
@@ -60,7 +64,7 @@ export default function PlannerTask({
       onDragEnd={handleDragEnd}
       className={
         (task?.completed === true ? "bg-green-300" : "") +
-        " rounded-md bg-zinc-200 flex items-stretch group"
+        " rounded-md bg-zinc-200 flex items-stretch group relative"
       }
       style={{
         opacity: isDragging ? 0.5 : 1,
@@ -81,6 +85,7 @@ export default function PlannerTask({
           {tabs.map((item, index) => (
             <button
               key={index}
+              title={item.value}
               onClick={() => handleMove(item.value)}
               className="uppercase w-6 h-6 text-center rounded-full border-[1px]"
             >
@@ -89,6 +94,17 @@ export default function PlannerTask({
           ))}
         </p>
       </div>
+      <button
+        className="absolute top-1 right-1 invisible group-hover:visible"
+        onClick={() => setInfo(true)}
+      >
+        <InfoCircleOutlined />
+      </button>
+      {/* <Modal open={info} onOk={() => setInfo(false)}>
+        Task Details
+        <p>{task?.title}</p>
+        <p>{task?.details}</p>
+      </Modal> */}
     </div>
   );
 }

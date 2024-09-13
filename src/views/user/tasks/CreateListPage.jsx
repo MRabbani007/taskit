@@ -26,7 +26,7 @@ const CreateListPage = () => {
   return (
     <main>
       {/* Header */}
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-r from-sky-800 to-blue-950 text-white gap-4">
         <RiPlayListAddLine size={40} />
         <h1 className="font-normal">Create New List</h1>
       </header>

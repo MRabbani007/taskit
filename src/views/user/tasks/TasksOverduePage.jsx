@@ -32,7 +32,7 @@ const TasksOverduePage = () => {
 
   return (
     <main>
-      <header>
+      <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 text-white gap-4">
         <AiOutlineAlert size={40} />
         <h1>Overdue</h1>
       </header>

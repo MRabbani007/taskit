@@ -4,9 +4,10 @@ import DashboardTasks from "../../features/dashboard/DashboardTasks";
 import DashboardNotes from "../../features/dashboard/DashboardNotes";
 import DashboardJournal from "../../features/dashboard/DashboardJournal";
 import useAuth from "../../hooks/useAuth";
-import { RxAvatar } from "react-icons/rx";
 import CurrentFocusCard from "../../features/dashboard/CurrentFocusCard";
 import PlannerSummaryCard from "../../features/dashboard/PlannerSummaryCard";
+import { Avatar, Badge } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 export default function DashboardPage() {
   const { auth } = useAuth();
@@ -14,7 +15,9 @@ export default function DashboardPage() {
   return (
     <main>
       <header>
-        <RxAvatar size={40} />
+        <Badge count={10} dot={false}>
+          <Avatar shape="square" size={64} icon={<UserOutlined />} />
+        </Badge>
         <div>
           <p className="font-semibold text-xl">Hi {auth?.user}</p>
           <p className="font-light italic text-sm">
