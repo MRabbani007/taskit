@@ -60,7 +60,6 @@ const CardTaskBlock = ({
   useEffect(() => {
     if (isMounted.current === true && debounceCompleted !== task?.completed) {
       handleUpdateTask({ ...task, completed: !task.completed });
-      message.success("Task updated");
     }
   }, [debounceCompleted]);
 

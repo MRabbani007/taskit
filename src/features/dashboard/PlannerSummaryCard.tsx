@@ -31,7 +31,7 @@ export default function PlannerSummaryCard() {
   ];
 
   return (
-    <div className="flex items-stretch flex-wrap flex-1 gap-2 text-white">
+    <div className="grid grid-cols-2 lg:grid-cols-4 items-stretch flex-wrap flex-1 gap-2 text-white">
       {items.map((item, idx) => (
         <PlannerItem item={item} key={idx} />
       ))}

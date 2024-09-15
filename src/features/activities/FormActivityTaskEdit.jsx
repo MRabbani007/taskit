@@ -23,7 +23,7 @@ export default function FormActivityTaskEdit({ task, edit, setEdit }) {
       cancelText="Cancel"
       okButtonProps={{ autoFocus: true, htmlType: "submit" }}
       onCancel={() => setEdit(false)}
-      destroyOnClose
+      destroyOnClose={true}
       modalRender={(dom) => (
         <Form
           layout="vertical"

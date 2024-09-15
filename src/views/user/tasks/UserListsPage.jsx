@@ -159,7 +159,7 @@ const UserListsPage = () => {
       >
         {contentTrash}
       </section>
-      <Link to={"/createList"}>
+      <Link to={"/myLists/createList"}>
         <FloatButton
           type="primary"
           tooltip="Create New List"

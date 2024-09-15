@@ -14,7 +14,7 @@ export default function DashboardPage() {
 
   return (
     <main>
-      <header>
+      <header className="py-2 ">
         <Badge count={10} dot={false}>
           <Avatar shape="square" size={64} icon={<UserOutlined />} />
         </Badge>

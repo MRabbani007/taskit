@@ -5,6 +5,8 @@ import useAuth from "../../hooks/useAuth";
 // Imported Data
 import { ACTIONS, SERVER } from "../../data/actions";
 import { FiUsers } from "react-icons/fi";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { format } from "date-fns";
 
 const AdminUsers = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -20,7 +22,7 @@ const AdminUsers = () => {
     let isMounted = true;
     const controller = new AbortController();
     const fetchUsers = async () => {
-      return await axiosPrivate.post(SERVER.GET_USER, { roles: auth?.roles });
+      return await axiosPrivate.get("/user/admin");
     };
 
     fetchUsers()
@@ -103,35 +105,28 @@ const AdminUsers = () => {
         <FiUsers size={40} />
         <h1 className="font-semibold">Users</h1>
       </header>
-      <table>
-        <thead>
-          <tr>
-            <th>UserID</th>
-            <th>Username</th>
-            <th>roles</th>
-            <th>Active</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length !== 0 &&
-            users.map((user, index) => {
-              return (
-                <tr key={index} className="">
-                  <td>{user?.id}</td>
-                  <td>{user?.username}</td>
-                  <td
-                    onClick={() => {
-                      handleSetEdit(index);
-                    }}
-                  >
-                    {JSON.stringify(Object.values(user?.roles))}
-                  </td>
-                  <td>{user?.active}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      <div className="flex flex-col gap-2">
+        {users.length !== 0 &&
+          users.map((user, index) => {
+            return (
+              <div key={index} className="flex items-center gap-2">
+                <FaRegCircleUser size={40} />
+                <div>
+                  <p className="text-xl font-semibold">{user?.username}</p>
+                  <p>
+                    <span>{user?.name}</span>
+                    <span>{user?.firstname}</span>
+                    <span>{user?.lastname}</span>
+                  </p>
+                  <p>{user?.email}</p>
+                </div>
+                <p>
+                  {format(user?.createDate.substring(0, 10), "EEEE dd MMM")}
+                </p>
+              </div>
+            );
+          })}
+      </div>
       <div>
         {editRoles !== null && (
           <form onSubmit={handleRolesSubmit}>

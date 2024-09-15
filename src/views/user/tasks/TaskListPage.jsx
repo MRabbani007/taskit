@@ -13,6 +13,7 @@ import { Switch, message } from "antd";
 import { IMAGES_Icons } from "../../../data/templates";
 import { BiEdit, BiPlus } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";
+import FormTaskListEdit from "../../../features/taskList/FormTaskListEdit";
 
 export default function TaskListPage() {
   const { displayList, handleUpdateList, handleClose } =
@@ -163,13 +164,8 @@ export default function TaskListPage() {
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-2">
-            {/* <ListIcon list={displayList} /> */}
-            {/* <img src={IMAGES_Icons + displayList?.icon} /> */}
-            {!edit ? (
-              <h1>{displayList?.title}</h1>
-            ) : (
-              <ListTitleEdit list={displayList} setEdit={setEdit} />
-            )}
+            <img src={displayList?.icon} className="w-10" />
+            <h1>{displayList?.title}</h1>
           </div>
         </div>
         <button
@@ -203,6 +199,13 @@ export default function TaskListPage() {
         <div className="flex-1">{content}</div>
       </div>
       {add ? <FormTaskAdd listID={displayList?.id} setAdd={setAdd} /> : null}
+      {edit ? (
+        <FormTaskListEdit
+          edit={edit}
+          setEdit={setEdit}
+          taskList={displayList}
+        />
+      ) : null}
     </main>
   );
 }

@@ -10,18 +10,16 @@ export default function SignoutPage() {
   const todayDate = genDate();
 
   return (
-    <main>
+    <main className="justify-center items-center">
       <div className="">
         <p>Hello {auth.user},</p>
         <p className="btn btn-yellow my-2">
           {todayDate.day + ", " + todayDate.date + " " + todayDate.month}
         </p>
       </div>
-      <div>
-        <Button danger onClick={() => logout()}>
-          Sign Out
-        </Button>
-      </div>
+      <Button danger onClick={() => logout()}>
+        Sign Out
+      </Button>
     </main>
   );
 }

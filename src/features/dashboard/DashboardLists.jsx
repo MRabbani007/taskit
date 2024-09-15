@@ -30,11 +30,7 @@ export default function DashboardLists() {
                 className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer"
                 onClick={() => handleOpen(list?.id)}
               >
-                <img
-                  src={IMAGES_Icons + list?.icon}
-                  alt="icon"
-                  className="w-12"
-                />
+                <img src={list?.icon} alt="icon" className="w-10" />
                 <span className="text-ellipsis whitespace-nowrap font-semibold text-zinc-800">
                   {list?.title}
                 </span>

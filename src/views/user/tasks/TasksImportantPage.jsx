@@ -1,9 +1,8 @@
 import { useContext, useEffect } from "react";
 import { MdOutlineNotificationImportant } from "react-icons/md";
-import { Timeline } from "flowbite-react";
 import { TaskContext } from "../../../context/TaskState";
-import CardTaskTimeLine from "../../../features/tasksPage/CardTaskTimeLine";
 import Loading from "../../../features/components/Loading";
+import CardTaskBlock from "../../../features/task/CardTaskBlock";
 
 const TasksImportantPage = () => {
   const { tasks, status, handleGetTasks } = useContext(TaskContext);
@@ -22,11 +21,11 @@ const TasksImportantPage = () => {
     content = <p>No tasks marked important</p>;
   } else if (status.isSuccess) {
     content = (
-      <Timeline className="max-h-[80vh] overflow-y-scroll w-full">
+      <ul className="space-y-2">
         {tasks.map((task, index) => {
-          return <CardTaskTimeLine task={task} key={index} />;
+          return <CardTaskBlock task={task} key={index} isDraggable={false} />;
         })}
-      </Timeline>
+      </ul>
     );
   }
 

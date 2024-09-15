@@ -156,20 +156,20 @@ export const TaskProvider = ({ children }) => {
       type: ACTIONS.UPDATE_TASK,
       payload: task,
     });
+
     let response = await axiosPrivate.patch(
       SERVER.TASKS,
       {
-        roles: auth?.roles,
-        action: {
-          type: ACTIONS.UPDATE_TASK,
-          payload: {
-            userName: auth?.user,
-            task: task,
-          },
-        },
+        task,
       },
       config
     );
+
+    if (response?.status === 204) {
+      message.success("Task updated");
+    } else {
+      message.error("Error updating task");
+    }
   };
 
   const handleSortTasksList = async (tasks) => {
@@ -251,22 +251,20 @@ export const TaskProvider = ({ children }) => {
     if (filters.sort === "createDate_d") {
       result = payload.sort(
         (a, b) =>
-          new Date(b?.createDate || 0).getTime() -
-          new Date(a?.createDate || 0).getTime()
+          new Date(b?.createDate).getTime() - new Date(a?.createDate).getTime()
       );
     }
     if (filters.sort === "dueDate_d") {
       result = payload.sort(
         (a, b) =>
-          new Date(a?.dueDate || 0).getTime() -
-          new Date(b?.createDate || 0).getTime()
+          new Date(a?.dueDate).getTime() - new Date(b?.dueDate || 0).getTime()
       );
     }
     if (filters.sort === "dueDate_d") {
       result = payload.sort(
         (a, b) =>
           new Date(b?.dueDate || 0).getTime() -
-          new Date(a?.createDate || 0).getTime()
+          new Date(a?.dueDate || 0).getTime()
       );
     }
 

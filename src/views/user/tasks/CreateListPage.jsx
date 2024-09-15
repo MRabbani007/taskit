@@ -54,9 +54,9 @@ const CreateListPage = () => {
             <div
               key={index}
               onClick={() => handleCreate(item.name, item.icon)}
-              className="w-[100px] min-h-[70px] py-2 rounded-lg bg-slate-300 text-slate-950 flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-slate-400 duration-300"
+              className="p-2 rounded-lg bg-stone-300 text-zinc-950 flex flex-col gap-2 items-center justify-center cursor-pointer hover:bg-stone-400 duration-200 font-mono w-20"
             >
-              <img src={IMAGES_Icons + item.icon} alt="" className="w-12" />
+              <img src={item.icon} alt={item.name} className="w-12" />
               <span>{item.name}</span>
             </div>
           );

@@ -6,15 +6,15 @@ export const taskReducer = (state, { type, payload }) => {
       return payload;
     }
     case ACTIONS.CREATE_TASK: {
-      return [...state, payload];
+      return [payload, ...state];
     }
     case ACTIONS.REMOVE_TASK: {
       return [...state.filter((item) => item.id !== payload)];
     }
     case ACTIONS.UPDATE_TASK: {
       let taskIndex = state.findIndex((item) => item.id === payload.id);
-      state.splice(taskIndex, 1, payload);
-      return [...state];
+      state.splice(taskIndex, 1);
+      return [payload, ...state];
     }
     case "SORT_TASKS_LIST": {
       const newTasks = payload.map((item, index) => {
@@ -24,7 +24,6 @@ export const taskReducer = (state, { type, payload }) => {
     }
     case "tab": {
       const index = state?.findIndex((item) => item?.id === payload?.id);
-      console.log(payload);
       state?.splice(index, 1, payload);
       return [...state];
     }

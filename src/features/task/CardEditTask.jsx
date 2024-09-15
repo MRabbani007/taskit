@@ -1,16 +1,17 @@
 import { useContext, useState } from "react";
 import { TaskContext } from "../../context/TaskState";
-import { DatePicker, Form, Input, Modal, message } from "antd";
+import { DatePicker, Form, Input, Modal, Select, message } from "antd";
 import { getDate } from "../../data/utils";
+import { ListContext } from "../../context/ListState";
 
 const CardEditTask = ({ task, setEdit }) => {
   const { handleUpdateTask } = useContext(TaskContext);
+  const { lists } = useContext(ListContext);
 
   const [form] = Form.useForm();
 
   const handleSubmit = async (values) => {
-    handleUpdateTask({ ...task, ...values });
-    message.success("Task updated");
+    await handleUpdateTask({ ...task, ...values });
     setEdit(false);
   };
 
@@ -26,7 +27,7 @@ const CardEditTask = ({ task, setEdit }) => {
       cancelText="Cancel"
       okButtonProps={{ autoFocus: true, htmlType: "submit" }}
       onCancel={handleReset}
-      destroyOnClose="true"
+      destroyOnClose={true}
       modalRender={(dom) => (
         <Form
           layout="vertical"
@@ -54,6 +55,16 @@ const CardEditTask = ({ task, setEdit }) => {
       </Form.Item>
       <Form.Item name="details" label="Details">
         <Input type="text" />
+      </Form.Item>
+      <Form.Item name="listID" label="List">
+        <Select value={task?.listID}>
+          <Select.Option value={"task_list"}>Select List</Select.Option>
+          {lists.map((item, idx) => (
+            <Select.Option value={item.id} key={idx}>
+              {item.title}
+            </Select.Option>
+          ))}
+        </Select>
       </Form.Item>
     </Modal>
   );

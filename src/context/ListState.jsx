@@ -12,7 +12,8 @@ import { listReducer } from "./ListReducer";
 import { ACTIONS, SERVER } from "../data/actions";
 import { message } from "antd";
 
-const initialState = { userLists: [], pinnedLists: [], trashLists: [] };
+// const initialState = { userLists: [], pinnedLists: [], trashLists: [] };
+const initialState = [];
 
 const initialStatus = {
   isLoading: false,
@@ -45,6 +46,7 @@ export const ListProvider = ({ children }) => {
       isError: false,
       error: {},
     });
+
     await axiosPrivate
       .get("/lists/main", {}, config)
       .then((response) => {
@@ -84,26 +86,25 @@ export const ListProvider = ({ children }) => {
     );
   };
 
-  const handleUpdateList = async (listID, updateItem, newValue) => {
+  const handleUpdateList = async (taskList) => {
     dispatch({
       type: ACTIONS.UPDATE_LIST,
-      payload: { listID, updateItem, newValue },
+      payload: taskList,
     });
-    if (updateItem === "trash" && displayList?.id === listID) {
-      handleClose(listID);
+
+    if (taskList.trash === true && displayList?.id === taskList.id) {
+      handleClose(taskList.id);
     }
+
     let response = await axiosPrivate.patch(
       "/lists/main",
       {
-        type: updateItem,
-        payload: {
-          listID,
-          updateItem,
-          newValue,
-        },
+        taskList,
       },
       config
     );
+
+    return response;
   };
 
   const handleRemoveList = async (id) => {
@@ -157,9 +158,7 @@ export const ListProvider = ({ children }) => {
       if (list === "task_list") {
         temp = { id: list };
       } else {
-        temp = [...state.pinnedLists, ...state.userLists].find(
-          (item) => item.id === list
-        );
+        temp = state.find((item) => item.id === list);
       }
     } else if (typeof list === "object") {
       temp = list;
@@ -184,10 +183,14 @@ export const ListProvider = ({ children }) => {
     <ListContext.Provider
       value={{
         status,
-        lists: [...state.pinnedLists, ...state.userLists],
-        userLists: state.userLists,
-        pinnedLists: state.pinnedLists,
-        trashLists: state.trashLists,
+        lists: state.filter((item) => item.trash !== true),
+        userLists: state.filter(
+          (item) => item.trash !== true && item.pinned !== true
+        ),
+        pinnedLists: state.filter(
+          (item) => item.trash !== true && item.pinned === true
+        ),
+        trashLists: state.filter((item) => item.trash === true),
         listSummary,
         displayList,
 

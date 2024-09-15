@@ -87,7 +87,6 @@ const items = [
     label: "Tasks",
     title: "Tasks",
     icon: <MdOutlineTaskAlt size={28} className="my-auto mx-auto p-0 m-0" />,
-    inlineIndent: 10,
     children: [
       {
         key: "grp_tasks_1",
@@ -318,7 +317,6 @@ const Sidebar = () => {
       // theme="dark"
       items={menuItems}
       inlineCollapsed={collapsed}
-      inlineIndent={collapsed ? 0 : 24}
       className={
         (collapsed ? "-translate-x-4" : "") +
         " py-4 hidden md:inline border-t-2 bg-zinc-200"

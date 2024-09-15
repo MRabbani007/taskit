@@ -11,6 +11,7 @@ import { IMAGES_Icons } from "../../data/templates";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { BsPinAngle } from "react-icons/bs";
 import { Button, Popconfirm, message } from "antd";
+import FormTaskListEdit from "./FormTaskListEdit";
 
 const CardListName = ({ taskList }) => {
   const { listSummary, handleUpdateList, handleOpen } = useContext(ListContext);
@@ -22,7 +23,7 @@ const CardListName = ({ taskList }) => {
   const debouncePin = useDebounce(pinned, 1000);
 
   const handlePin = () => {
-    handleUpdateList(taskList?.id, "list_pin", debouncePin);
+    handleUpdateList({ ...taskList, pinned: debouncePin });
   };
 
   useEffect(() => {
@@ -36,18 +37,15 @@ const CardListName = ({ taskList }) => {
   }, [listSummary]);
 
   const handleTrash = () => {
-    handleUpdateList(taskList.id, "trash", true);
+    handleUpdateList({ ...taskList, trash: true });
     message.success("List moved to trash");
   };
 
-  const mounted = useRef(null);
-
   useEffect(() => {
-    if (mounted?.current === true) {
+    if (debouncePin !== taskList.pinned) {
       handlePin();
-      message.success("Task Pinned");
+      message.success("Task Updated");
     }
-    mounted.current = true;
   }, [debouncePin]);
 
   return (
@@ -76,21 +74,17 @@ const CardListName = ({ taskList }) => {
         </button>
       </div>
       <div className="flex items-center justify-between gap-3 flex-1 group">
-        <img src={IMAGES_Icons + taskList?.icon} className="icon-lg mr-2" />
+        <img src={taskList?.icon} className="w-10" />
         <div className="flex-1">
           {/* Edit List Title */}
-          {edit ? (
-            <ListTitleEdit list={taskList} setEdit={setEdit} />
-          ) : (
-            <p
-              className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
-              onClick={() => {
-                handleOpen(taskList);
-              }}
-            >
-              {taskList.title}
-            </p>
-          )}
+          <p
+            className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
+            onClick={() => {
+              handleOpen(taskList);
+            }}
+          >
+            {taskList.title}
+          </p>
           <p>
             {(summary?.total ? summary?.total : 0) +
               (summary?.total === 1 ? " task" : " tasks, ") +
@@ -119,6 +113,9 @@ const CardListName = ({ taskList }) => {
           </Popconfirm>
         </span>
       </div>
+      {edit ? (
+        <FormTaskListEdit taskList={taskList} edit={edit} setEdit={setEdit} />
+      ) : null}
     </div>
   );
 };

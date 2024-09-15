@@ -94,7 +94,7 @@ const Signup = () => {
   };
 
   return (
-    <main>
+    <main className="justify-center items-center">
       <Form
         onFinish={handleSubmit}
         name="normal_login"
