@@ -8,7 +8,6 @@ import TaskSort from "../../../features/task/TaskSort";
 // AntD
 import { Pagination } from "antd";
 // Icons
-import { BsCardList } from "react-icons/bs";
 import Loading from "../../../features/components/Loading";
 import { BiFilter, BiPlus, BiSort } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";

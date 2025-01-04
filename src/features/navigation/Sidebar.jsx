@@ -35,140 +35,7 @@ import { RiAdminLine, RiPagesLine } from "react-icons/ri";
 import { GrGroup } from "react-icons/gr";
 import { FiUsers } from "react-icons/fi";
 
-const items = [
-  {
-    key: "grp_pages",
-    label: "Pages",
-    title: "Pages",
-    icon: <RiPagesLine size={28} className="" style={{}} />,
-    style: {
-      // display: "flex",
-      // textIndent: "0px",
-      // alignItems: "center",
-      // justifyContent: "center",
-      // borderWidth: "1px",
-      // borderColor: "red",
-      // paddingRight: "15%",
-      // paddingTop: "5%",
-      // position: "absolute",
-    },
-    children: [
-      {
-        key: "grp_pages_2",
-        title: "Calendar",
-        label: <Link to={"/pages/calendar"}>Calendar</Link>,
-        icon: <IoCalendarOutline size={28} className="inline" />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_pages_3",
-        label: (
-          <Link title="Journal" to={"/pages/journal"}>
-            Journal
-          </Link>
-        ),
-        icon: <BsJournalText size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_pages_4",
-        label: (
-          <Link title="Notes" to={"/pages/notes"}>
-            Notes
-          </Link>
-        ),
-        icon: <SlNotebook size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-    ],
-  },
-  {
-    key: "grp_tasks",
-    label: "Tasks",
-    title: "Tasks",
-    icon: <MdOutlineTaskAlt size={28} className="my-auto mx-auto p-0 m-0" />,
-    children: [
-      {
-        key: "grp_tasks_1",
-        title: "My Tasks",
-        label: <Link to={"/tasks"}>My Tasks</Link>,
-        icon: <MdOutlineChecklist size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_tasks_6",
-        label: <Link to={"/tasks/planner"}>Planner</Link>,
-        icon: <FaTimeline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_tasks_2",
-        label: <Link to={"/tasks/today"}>Today</Link>,
-        icon: <IoTodayOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_tasks_3",
-        label: <Link to={"/tasks/week"}>This Week</Link>,
-        icon: <BsCalendar4Week size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_tasks_4",
-        label: <Link to={"/tasks/important"}>Important</Link>,
-        icon: <IoStarOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_tasks_5",
-        label: <Link to={"/tasks/overdue"}>Overdue</Link>,
-        icon: <IoRepeatOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-    ],
-  },
-  {
-    key: "grp_lists",
-    label: "Lists",
-    title: "Lists",
-    icon: <BsCardList size={28} />,
-    children: [
-      {
-        key: "grp_lists_1",
-        title: "My Lists",
-        label: <Link to="/myLists">My Lists</Link>,
-        icon: <IoListOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_lists_2",
-        title: "Create List",
-        label: <Link to="/myLists/createList">Create List</Link>,
-        icon: <IoCreateOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-    ],
-  },
-  // Activities
-  {
-    key: "grp_activities",
-    label: "Activities",
-    icon: <BsActivity size={28} />,
-    children: [
-      {
-        key: "grp_activities_1",
-        label: <Link to={"/activities"}>My Activities</Link>,
-        icon: <GoProjectRoadmap size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-      {
-        key: "grp_activities_2",
-        label: <Link to={"/activities/create"}>Create Activity</Link>,
-        icon: <IoCreateOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
-      },
-    ],
-  },
+const olditems = [
   // Teams
   {
     key: "grp_teams",
@@ -213,117 +80,181 @@ const items = [
   },
 ];
 
-const adminItems = [
+const items = [
   {
-    key: "grp_admin",
-    label: "Admin",
-    icon: <RiAdminLine size={28} />,
+    label: "Pages",
+    url: "",
+    icon: <RiPagesLine size={25} />,
     children: [
       {
-        key: "grp_admin_1",
-        label: (
-          <Link title="Users" to={"/admin/users"}>
-            Users
-          </Link>
-        ),
-        icon: <FiUsers size={28} />,
-        style: { display: "flex", alignItems: "center" },
+        label: "Calendar",
+        icon: <IoCalendarOutline size={25} />,
+        url: "/pages/calendar",
       },
       {
-        key: "grp_admin_2",
-        label: (
-          <Link title="Lists" to={"/admin/lists"}>
-            Lists
-          </Link>
-        ),
-        icon: <IoListOutline size={28} />,
-        style: { display: "flex", alignItems: "center" },
+        label: "Journal",
+        url: "/pages/journal",
+        icon: <BsJournalText size={25} />,
       },
-      // {
-      //   key: "grp_admin_3",
-      //   label: (
-      //     <Link title="Journal" to={"/pages/journal"}>
-      //       Journal
-      //     </Link>
-      //   ),
-      //   icon: <BsJournalText size={28} />,
-      // },
-      // {
-      //   key: "grp_admin_4",
-      //   label: (
-      //     <Link title="Notes" to={"/pages/notes"}>
-      //       Notes
-      //     </Link>
-      //   ),
-      //   icon: <SlNotebook size={28} />,
-      // },
+      {
+        label: "Notes",
+        url: "/pages/notes",
+        icon: <SlNotebook size={28} />,
+      },
+    ],
+  },
+  {
+    label: "Tasks",
+    icon: <MdOutlineTaskAlt size={25} />,
+    children: [
+      {
+        label: "My Tasks",
+        icon: <MdOutlineChecklist size={25} />,
+        url: "/tasks",
+      },
+      {
+        label: "Planner",
+        icon: <FaTimeline size={25} />,
+        url: "/tasks/planner",
+      },
+      {
+        label: "Today",
+        icon: <IoTodayOutline size={25} />,
+        url: "/tasks/today",
+      },
+      {
+        label: "This Week",
+        icon: <BsCalendar4Week size={25} />,
+        url: "/tasks/week",
+      },
+      {
+        label: "Important",
+        icon: <IoStarOutline size={25} />,
+        url: "/tasks/important",
+      },
+      {
+        label: "Overdue",
+        icon: <IoRepeatOutline size={25} />,
+        url: "/tasks/overdue",
+      },
+    ],
+  },
+  {
+    label: "Lists",
+    icon: <BsCardList size={25} />,
+    children: [
+      {
+        label: "My Lists",
+        url: "/myLists",
+        icon: <IoListOutline size={25} />,
+      },
+      {
+        label: "Create List",
+        url: "/myLists/createList",
+        icon: <IoCreateOutline size={25} />,
+      },
+    ],
+  },
+  // Activities
+  {
+    label: "Activities",
+    url: "",
+    icon: <BsActivity size={28} />,
+    children: [
+      {
+        label: "My Activities",
+        url: "/activities",
+        icon: <GoProjectRoadmap size={25} />,
+      },
+      {
+        label: "Create Activity",
+        url: "/activities/create",
+        icon: <IoCreateOutline size={25} />,
+      },
     ],
   },
 ];
 
-const Sidebar = () => {
+const adminItems = [
+  {
+    label: "Admin",
+    icon: <RiAdminLine size={28} />,
+    url: "",
+    children: [
+      {
+        label: "Users",
+        url: "/admin/users",
+        icon: <FiUsers size={25} />,
+      },
+      {
+        label: "Lists",
+        url: "/admin/lists",
+        icon: <IoListOutline size={25} />,
+      },
+    ],
+  },
+];
+
+export default function Sidebar() {
   const { auth } = useAuth();
 
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(true);
 
+  const [expandGroup, setExpandGroup] = useState(-1);
+
   const isActive = (page) => location.pathname.includes(page);
   const isHomePage = location.pathname.split("/")[2] === "";
   const isAdmin = auth?.roles.includes(5150);
 
-  const onClick = (e) => {
-    // console.log("click ", e);
-  };
+  let menuItems = isAdmin ? [...items, ...adminItems] : [...items];
 
-  const username = {
-    key: "user",
-    label: <Link to={"/dashboard"}>{auth?.user}</Link>, //,
-    title: auth?.user,
-    icon: <FaRegCircleUser size={30} />,
-    style: {
-      // display: "flex",
-      // flexDirection: "row",
-      // borderWidth: "1px",
-      // borderColor: "red",
-      // alignItems: "center",
-      // justifyContent: "center",
-      // padding: "0",
-    },
-  };
-
-  const collapseButton = {
-    key: "collapse",
-    title: collapsed ? "Expand" : "Collapse",
-    label: (
-      <button onClick={() => setCollapsed((curr) => !curr)}>
+  return (
+    <nav className="flex flex-col bg-zinc-100 border-r-[1px] border-zinc-400">
+      <Link to={"/dashboard"} className="flex items-center gap-2 py-2 px-4">
+        <FaRegCircleUser size={30} />
+        <span>{auth?.user}</span>
+      </Link>
+      {menuItems.map((menuGroup, idx) => (
+        <div key={idx}>
+          <button
+            onClick={() => setExpandGroup((curr) => (curr === idx ? -1 : idx))}
+            className="font-semibold py-2 px-2 flex items-center gap-2"
+          >
+            {menuGroup.icon}
+            <span>{menuGroup.label}</span>
+          </button>
+          {menuGroup?.children?.length !== 0 && (
+            <div
+              className={
+                (expandGroup === idx
+                  ? ""
+                  : "translate-y-4 h-0 invisible opacity-0") +
+                " duration-200 bg-white"
+              }
+            >
+              {menuGroup.children.map((menuItem, index) => (
+                <Link
+                  to={menuItem.url}
+                  className="flex items-center gap-2 py-2 px-4"
+                >
+                  {menuItem.icon}
+                  <span>{menuItem.label}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+      <button
+        title={collapsed ? "Expand" : "Collapse"}
+        onClick={() => setCollapsed((curr) => !curr)}
+      >
         <MdOutlineKeyboardDoubleArrowRight
           size={20}
           className={collapsed ? "" : "rotate-180" + " duration-200 "}
         />
       </button>
-    ),
-  };
-
-  let menuItems = isAdmin
-    ? [username, collapseButton, ...items, ...adminItems]
-    : [username, collapseButton, ...items];
-
-  return (
-    <Menu
-      onClick={onClick}
-      defaultSelectedKeys={["user"]}
-      // defaultOpenKeys={["grp_pages"]}
-      mode="inline"
-      // theme="dark"
-      items={menuItems}
-      inlineCollapsed={collapsed}
-      className={
-        (collapsed ? "-translate-x-4" : "") +
-        " py-4 hidden md:inline border-t-2 bg-zinc-200"
-      }
-      style={{ maxWidth: collapsed ? "80px" : "200px" }}
-    />
+    </nav>
   );
-};
-
-export default Sidebar;
+}

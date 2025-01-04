@@ -1,36 +1,21 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 // Imported Context
 import useAuth from "../../hooks/useAuth";
 // Imported Components
 import MenuMobile from "../navigation/MenuMobile";
-import UserMenu from "../navigation/UserMenu";
 import { Button, Menu } from "antd";
 // Imported Media
 import Logo from "../../assets/todo.svg";
 // Imported Icons
-import {
-  IoCalendarOutline,
-  IoListOutline,
-  IoLogOutOutline,
-  IoMenu,
-  IoSettingsOutline,
-} from "react-icons/io5";
-import { SlNotebook } from "react-icons/sl";
-import { BsBorderWidth, BsCardList, BsJournalText } from "react-icons/bs";
-import { AiOutlineLogin, AiOutlineUser } from "react-icons/ai";
+import { IoLogOutOutline, IoMenu, IoSettingsOutline } from "react-icons/io5";
+import { AiOutlineUser } from "react-icons/ai";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { HiOutlineUserPlus } from "react-icons/hi2";
+import UserMenu from "../navigation/UserMenu";
 
-const Navbar = () => {
+export default function Navbar() {
   const { auth } = useAuth();
   const [viewMobileMenu, setViewMobileMenu] = useState(false);
-
-  const [current, setCurrent] = useState("mail");
-  const onClick = (e) => {
-    // console.log("click ", e);
-    setCurrent(e.key);
-  };
 
   const location = useLocation();
 
@@ -51,32 +36,7 @@ const Navbar = () => {
           Get Started
         </Link>
       </Button>
-      // <div className="flex items-center gap-2">
-      //   <AiOutlineUser size={30} />
-      //   <span>Sign In</span>
-      // </div>
     ),
-    style: { marginLeft: "auto" },
-    // children: [
-    //   {
-    //     key: "navbar_guest_login",
-    //     label: (
-    //       <Link to="/login" className="flex items-center gap-2">
-    //         <AiOutlineLogin size={28} />
-    //         <span>Sign In</span>
-    //       </Link>
-    //     ),
-    //   },
-    //   {
-    //     key: "navbar_guest_register",
-    //     label: (
-    //       <Link to="/register" className="flex items-center gap-2">
-    //         <HiOutlineUserPlus size={28} />
-    //         <span>Sign Up</span>
-    //       </Link>
-    //     ),
-    //   },
-    // ],
   };
 
   const menuUser = {
@@ -161,17 +121,6 @@ const Navbar = () => {
     ],
   };
 
-  const homeButton = {
-    key: "navbar_home",
-    label: (
-      <Link to="/" title="Home Page" className="flex items-center gap-2">
-        <img src={Logo} alt="Logo" className="w-12" />
-        <span className="font-bold text-xl">Taskit</span>
-      </Link>
-    ),
-    style: { marginRight: "auto" },
-  };
-
   const mobileMenuButton = {
     key: "navbar_hamburger",
     // icon: <IoMenu size={30}  />,
@@ -192,28 +141,32 @@ const Navbar = () => {
     ),
   };
 
-  const items = !isLoggedIn
-    ? [homeButton, menuGuest]
-    : isAdmin
-    ? [homeButton, menuAdmin, mobileMenuButton]
-    : [homeButton, menuUser, mobileMenuButton];
+  // const items = !isLoggedIn
+  //   ? [homeButton, menuGuest]
+  //   : isAdmin
+  //   ? [homeButton, menuAdmin, mobileMenuButton]
+  //   : [homeButton, menuUser, mobileMenuButton];
 
   return (
     <>
-      <Menu
-        onClick={onClick}
-        selectedKeys={[current]}
-        mode="horizontal"
-        // theme="dark"
-        items={items}
-        className="bg-zinc-200"
-      />
+      <nav className="flex items-center justify-between gap-4 py-2 px-4 bg-zinc-200">
+        <Link to="/" title="Home Page" className="flex items-center gap-2">
+          <img src={Logo} alt="Logo" className="w-10" />
+          <span className="font-bold text-xl">Taskit</span>
+        </Link>
+        <button
+          title="Menu"
+          onClick={() => setViewMobileMenu(true)}
+          className="lg:hidden"
+        >
+          <IoMenu size={25} />
+        </button>
+        <UserMenu />
+      </nav>
       <MenuMobile
         viewMobileMenu={viewMobileMenu}
         setViewMobileMenu={setViewMobileMenu}
       />
     </>
   );
-};
-
-export default Navbar;
+}

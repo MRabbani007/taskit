@@ -1,79 +1,66 @@
 import {
-  DownOutlined,
   LoginOutlined,
   SettingOutlined,
-  SmileOutlined,
   UserAddOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
-import { Dropdown, Space } from "antd";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { RiAdminLine } from "react-icons/ri";
+import { AiOutlineUser } from "react-icons/ai";
 
 export default function UserMenu() {
   const { auth } = useAuth();
+  const [show, setShow] = useState(false);
+
+  const dropdownRef = useRef(null);
 
   const itemsGuest = [
     {
-      key: "1",
-      label: <Link to="/login">Sign In</Link>,
-      icon: <LoginOutlined style={{ fontSize: "25px" }} />,
+      label: "Sign In",
+      url: "/login",
+      icon: <LoginOutlined size={25} />,
     },
     {
-      key: "2",
-      label: <Link to="/register">Register</Link>,
-      icon: <UserAddOutlined style={{ fontSize: "25px" }} />,
-      disabled: false,
+      label: "Register",
+      url: "/register",
+      icon: <UserAddOutlined size={25} />,
     },
   ];
 
   const itemsUser = [
     {
-      key: "1",
-      label: <Link to="/login">Sign Out</Link>,
-      icon: (
-        <LoginOutlined style={{ fontSize: "25px", transform: "rotate(180)" }} />
-      ),
-      danger: true,
+      label: "Sign Out",
+      url: "/login",
+      icon: <LoginOutlined size={25} />,
     },
     {
-      key: "2",
-      label: <Link to="/register">Register</Link>,
-      icon: <UserAddOutlined style={{ fontSize: "25px" }} />,
-      disabled: false,
+      label: "Register",
+      url: "/register",
+      icon: <UserAddOutlined size={25} />,
     },
     {
-      key: "3",
-      label: <Link to="/user/settings">Settings</Link>,
-      icon: <SettingOutlined style={{ fontSize: "25px" }} />,
-      disabled: false,
+      label: "Settings",
+      url: "/user/settings",
+      icon: <SettingOutlined size={25} />,
     },
   ];
 
   const itemsAdmin = [
     {
-      key: "1",
-      label: <Link to="/login">Sign Out</Link>,
-      icon: (
-        <LoginOutlined
-          style={{ fontSize: "25px", transform: "rotate(180deg)" }}
-        />
-      ),
-      danger: true,
+      label: "Admin",
+      url: "/admin",
+      icon: <RiAdminLine size={25} />,
     },
     {
-      key: "2",
-      label: <Link to="/admin">Admin</Link>,
-      icon: <RiAdminLine size={30} />,
-      disabled: false,
+      label: "Settings",
+      url: "/settings",
+      icon: <SettingOutlined size={25} />,
     },
     {
-      key: "3",
-      label: <Link to="/settings">Settings</Link>,
-      icon: <SettingOutlined style={{ fontSize: "25px" }} />,
-      disabled: false,
+      label: "Sign Out",
+      url: "/login",
+      icon: <LoginOutlined size={25} />,
     },
   ];
 
@@ -84,19 +71,47 @@ export default function UserMenu() {
       ? itemsUser
       : itemsGuest;
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShow(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <Dropdown
-      menu={{
-        items,
-      }}
-    >
-      <a onClick={(e) => e.preventDefault()}>
-        <Space>
-          {auth?.user}
-          <UserOutlined style={{ fontSize: "30px" }} />
-          <DownOutlined />
-        </Space>
-      </a>
-    </Dropdown>
+    <div ref={dropdownRef} className="relative hidden lg:inline-block">
+      <button
+        onClick={() => setShow((curr) => !curr)}
+        className="flex items-center gap-2 py-2 px-4 rounded-md hover:bg-zinc-100"
+      >
+        <AiOutlineUser size={25} />
+        {auth?.user}
+      </button>
+      <div
+        className={
+          (show
+            ? ""
+            : " -translate-y-4 opacity-0 invisible pointer-events-none") +
+          " duration-200 absolute top-full right-0 flex flex-col"
+        }
+      >
+        {items.map((item) => (
+          <Link
+            to={item.url}
+            className="py-2 px-4 bg-zinc-100 flex items-center gap-2"
+          >
+            {item.icon}
+            <span>{item.label}</span>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
-import { Button, Flex } from "antd";
 import Sidebar from "../navigation/Sidebar";
 
 export default function LayoutAdmin() {
