@@ -7,12 +7,11 @@ export default function CardFilterPriority({ priority, setPriority }) {
   const [pHigh, setPHigh] = useState(true);
 
   useEffect(() => {
-    setPriority(() => {
-      const priorityFilter = pLow ? [] : ["priority_low"];
-      pNormal ? null : priorityFilter.push("priority_normal");
-      pHigh ? null : priorityFilter.push("priority_high");
-      return priorityFilter;
-    });
+    const priorityFilter = pLow ? [] : ["priority_low"];
+    pNormal ? null : priorityFilter.push("priority_normal");
+    pHigh ? null : priorityFilter.push("priority_high");
+
+    setPriority(priorityFilter);
   }, [pLow, pNormal, pHigh]);
 
   return (

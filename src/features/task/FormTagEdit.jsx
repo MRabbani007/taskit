@@ -4,11 +4,7 @@ import { TaskContext } from "../../context/TaskState";
 // AntD
 import { Form, Input, Modal, message } from "antd";
 
-export default function FormTagEdit({
-  task = {},
-  tag = {},
-  setEditTag = () => {},
-}) {
+export default function FormTagEdit({ task, tag, setEditTag }) {
   const { handleUpdateTag } = useContext(TaskContext);
 
   const [form] = Form.useForm();

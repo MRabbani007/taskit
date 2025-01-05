@@ -1,4 +1,3 @@
-import React from "react";
 import { FaCircle } from "react-icons/fa6";
 import { RiFocus3Line } from "react-icons/ri";
 
@@ -31,11 +30,11 @@ function FocusItem({ title, progress }: { title: string; progress: number }) {
       <span className="text-slate-400 flex items-center gap-1">
         {new Array(5)
           .fill("")
-          .map((item, idx) =>
+          .map((_, idx) =>
             progress / 20 > idx ? (
-              <FaCircle className="text-green-500" />
+              <FaCircle className="text-green-500" key={idx} />
             ) : (
-              <FaCircle />
+              <FaCircle key={idx} />
             )
           )}
       </span>

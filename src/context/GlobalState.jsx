@@ -12,7 +12,6 @@ import { getDate } from "../data/utils";
 import AuthContext from "./AuthProvider";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { ACTIONS, SERVER } from "../data/actions";
-import { ListContext } from "./ListState";
 
 // Initial state
 // App will display only 1 list with its tasks
@@ -31,7 +30,6 @@ export const GlobalContext = createContext(initialState);
 // Provider component
 export const GlobalProvider = ({ children }) => {
   const { auth } = useContext(AuthContext);
-  const { displayList } = useContext(ListContext);
   const axiosPrivate = useAxiosPrivate();
   const location = useLocation();
   const navigate = useNavigate();

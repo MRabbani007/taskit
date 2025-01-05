@@ -47,7 +47,6 @@ export const UserProvider = ({ children }) => {
         },
       });
 
-      console.log(response.data);
       if (response.data.status === "success") {
         setUser((prev) => {
           return { ...prev, email };

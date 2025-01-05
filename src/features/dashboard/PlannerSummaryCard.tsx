@@ -1,4 +1,3 @@
-import React from "react";
 import { MdOutlineNextPlan } from "react-icons/md";
 import { TbProgressCheck, TbProgressHelp, TbProgressX } from "react-icons/tb";
 
