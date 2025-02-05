@@ -1,16 +1,13 @@
 // Imported Components
 import { Button, Checkbox, Form, Input } from "antd";
-import SignIn from "../../features/auth/SignIn";
-import SignOut from "../../features/auth/SignOut";
 import useAuth from "../../hooks/useAuth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 import useToggle from "../../hooks/useToggle";
 import axios from "../../api/axios";
-import { ACTIONS, SERVER } from "../../data/actions";
 
-const SigninPage = () => {
+export default function SigninPage() {
   const { setAuth } = useAuth();
 
   const navigate = useNavigate();
@@ -18,8 +15,8 @@ const SigninPage = () => {
   const from = location.state?.from?.pathname || "/dashboard";
 
   // Set focus to username input on load
-  const userRef = useRef();
-  const errRef = useRef();
+  const userRef = useRef<HTMLInputElement>(null);
+  const errRef = useRef<HTMLParagraphElement>(null);
 
   // const [user, resetUser, userAttribs] = useInput("user", "");
   const [userName, setUserName] = useState("");
@@ -32,7 +29,7 @@ const SigninPage = () => {
 
   useEffect(() => {
     if (!success) {
-      userRef.current.focus();
+      userRef?.current?.focus();
     }
   }, []);
 
@@ -45,15 +42,12 @@ const SigninPage = () => {
     try {
       let response = await axios({
         method: "POST",
-        url: SERVER.USER_SIGNIN,
+        url: "/user/auth",
         data: {
-          type: ACTIONS.USER_SIGNIN,
-          payload: {
-            username: userName,
-            password: pwd,
-          },
+          username: userName,
+          password: pwd,
         },
-      }).catch((e) => {});
+      });
 
       if (response?.data?.status === "success") {
         const accessToken = response?.data?.accessToken;
@@ -68,17 +62,18 @@ const SigninPage = () => {
       } else {
         setErrMsg("Sign in Failed");
       }
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else if (err.response?.status === 400) {
-        setErrMsg("Missing Username or Password");
-      } else if (err.response?.status === 401) {
-        setErrMsg("Wrong username or password");
-      } else {
-        setErrMsg("Login Failed");
-      }
-      errRef.current.focus();
+    } catch (error) {
+      console.log(error);
+      // if (!error?.response) {
+      //   setErrMsg("No Server Response");
+      // } else if (error.response?.status === 400) {
+      //   setErrMsg("Missing Username or Password");
+      // } else if (error.response?.status === 401) {
+      //   setErrMsg("Wrong username or password");
+      // } else {
+      //   setErrMsg("Login Failed");
+      // }
+      errRef?.current?.focus();
     }
   };
 
@@ -117,7 +112,6 @@ const SigninPage = () => {
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
             autoComplete="off"
-            ref={userRef}
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
@@ -167,6 +161,4 @@ const SigninPage = () => {
       </Form>
     </main>
   );
-};
-
-export default SigninPage;
+}

@@ -143,7 +143,7 @@ export default function TaskPlannerPage() {
   // };
 
   useEffect(() => {
-    handleGetTasks("ALL");
+    handleGetTasks({ type: "PLANNER" });
   }, []);
 
   return (

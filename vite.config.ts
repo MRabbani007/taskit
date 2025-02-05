@@ -8,7 +8,10 @@ export default defineConfig({
   plugins: [
     react(),
     svgr({
-      // exportAsDefault: true, // Allows importing both ways
+      svgrOptions: {
+        icon: true, // Optional: for optimizing SVG icons
+      },
+      // exportAsDefault: true, // Allows importing both ways // depreciated use above
     }),
   ],
   base: "/taskit/",

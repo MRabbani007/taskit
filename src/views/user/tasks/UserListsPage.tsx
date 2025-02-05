@@ -14,6 +14,7 @@ import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
 import { FloatButton } from "antd";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { IoAddCircleOutline } from "react-icons/io5";
 
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status, handleSort } =
@@ -53,32 +54,32 @@ export default function UserListsPage() {
     } else {
       contentPinned = pinnedLists.map((list, index) => {
         return (
-          <Draggable key={list.id} draggableId={list.id} index={index}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <CardListName key={index} taskList={list} />
-              </div>
-            )}
-          </Draggable>
+          // <Draggable key={list.id} draggableId={list.id} index={index}>
+          //   {(provided) => (
+          //     <div
+          //       ref={provided.innerRef}
+          //       {...provided.draggableProps}
+          //       {...provided.dragHandleProps}
+          //     >
+          <CardListName key={index} taskList={list} />
+          //     </div>
+          //   )}
+          // </Draggable>
         );
       });
       contentLists = userLists.map((list, index) => {
         return (
-          <Draggable key={list.id} draggableId={list.id} index={index}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-              >
-                <CardListName key={index} taskList={list} />
-              </div>
-            )}
-          </Draggable>
+          // <Draggable key={list.id} draggableId={list.id} index={index}>
+          //   {(provided) => (
+          //     <div
+          //       ref={provided.innerRef}
+          //       {...provided.draggableProps}
+          //       {...provided.dragHandleProps}
+          //     >
+          <CardListName key={index} taskList={list} />
+          //     </div>
+          //   )}
+          // </Draggable>
         );
       });
     }
@@ -100,7 +101,7 @@ export default function UserListsPage() {
   return (
     <main>
       <header
-        className="py-2 px-4 bg-gradient-to-r from-sky-800 to-blue-950 text-white gap-4"
+        className="py-2 px-4 bg-gradient-to-r from-sky-800 to-blue-950 text-white gap-4 rounded-lg"
         onClick={() => setExpand((prev) => !prev)}
       >
         <BsCardList size={40} />
@@ -114,10 +115,16 @@ export default function UserListsPage() {
         className={
           (expand
             ? "translate-y-[0] opacity-100 "
-            : "translate-y-[-20px] opacity-0 invisible h-0 ") + " duration-300"
+            : "translate-y-[-20px] opacity-0 invisible h-0 ") +
+          " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 duration-300"
         }
       >
-        <DragDropContext onDragEnd={handleDragEnd}>
+        {contentPinned}
+        {contentLists}
+        <div className="flex flex-col items-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 group">
+          Add
+        </div>
+        {/* <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="pinnedLists">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -126,8 +133,8 @@ export default function UserListsPage() {
               </div>
             )}
           </Droppable>
-        </DragDropContext>
-        <DragDropContext onDragEnd={handleDragEnd}>
+        </DragDropContext> */}
+        {/* <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="userLists">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
@@ -136,9 +143,9 @@ export default function UserListsPage() {
               </div>
             )}
           </Droppable>
-        </DragDropContext>
+        </DragDropContext> */}
       </section>
-      <header
+      {/* <header
         className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4"
         onClick={() => setExpandTrash((prev) => !prev)}
       >
@@ -148,8 +155,8 @@ export default function UserListsPage() {
           size={25}
           className={(expandTrash ? "rotate-90 " : "") + " duration-300"}
         />
-      </header>
-      <section
+      </header> */}
+      {/* <section
         className={
           (expandTrash
             ? "translate-y-[0] opacity-100 "
@@ -157,7 +164,7 @@ export default function UserListsPage() {
         }
       >
         {contentTrash}
-      </section>
+      </section> */}
       <Link to={"/myLists/createList"}>
         <FloatButton
           type="primary"

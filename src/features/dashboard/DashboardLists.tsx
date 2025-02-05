@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ListContext } from "../../context/ListState";
 import { Link } from "react-router-dom";
 import { BsListCheck } from "react-icons/bs";
+import ListImage from "../../assets/list-2.png";
 
 export default function DashboardLists() {
   const { lists, handleOpen } = useContext(ListContext);
@@ -21,23 +22,49 @@ export default function DashboardLists() {
             <Link to="/myLists/createList">create one</Link>
           </li>
         ) : (
-          lists.slice(0, 6).map((list, index) => {
+          lists.slice(0, 6).map((list) => {
             return (
-              <li
-                key={index}
-                title={list?.title}
-                className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer"
-                onClick={() => handleOpen(list?.id)}
-              >
-                <img src={list?.icon} alt="icon" className="w-10" />
-                <span className="text-ellipsis whitespace-nowrap font-semibold text-zinc-800">
-                  {list?.title}
-                </span>
-              </li>
+              <RenderList
+                taskList={list}
+                key={list.id}
+                handleOpen={handleOpen}
+              />
             );
           })
         )}
       </ul>
     </article>
+  );
+}
+
+function RenderList({
+  taskList: list,
+  handleOpen,
+}: {
+  taskList: TaskList;
+  handleOpen: (id: string) => void;
+}) {
+  const [imgSrc, setImgSrc] = useState(list?.icon);
+
+  const handleError = () => {
+    setImgSrc(ListImage);
+  };
+
+  return (
+    <li
+      title={list?.title}
+      className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer"
+      onClick={() => handleOpen(list?.id)}
+    >
+      <img
+        src={imgSrc}
+        alt="icon"
+        className="w-10 h-auto object-cover"
+        onError={handleError}
+      />
+      <span className="text-ellipsis whitespace-nowrap font-semibold text-zinc-800">
+        {list?.title}
+      </span>
+    </li>
   );
 }

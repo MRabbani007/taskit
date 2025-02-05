@@ -225,7 +225,7 @@ export default function Sidebar() {
   return (
     <nav
       className={
-        (collapsed ? "items-center w-20" : "w-40") +
+        (collapsed ? "w-20" : "w-40") +
         " hidden lg:flex flex-col bg-zinc-100 border-r-[1px] border-zinc-400 duration-300"
       }
     >

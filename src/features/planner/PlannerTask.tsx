@@ -78,7 +78,7 @@ export default function PlannerTask({
       }}
     >
       <div
-        className="w-[10px] min-h-full rounded-l-md"
+        className="min-w-[5px] min-h-full rounded-l-md"
         style={{
           backgroundColor:
             bgColorObj[task.priorityLevel as keyof typeof bgColorObj],
@@ -91,10 +91,10 @@ export default function PlannerTask({
             <button
               key={index}
               title={item.value}
-              onClick={() => handleMove(item.value)}
+              onClick={() => handleMove(item?.value ?? "")}
               className="uppercase w-6 h-6 text-center rounded-full border-[1px]"
             >
-              {item.value.substring(0, 1)}
+              {(item?.value ?? "").substring(0, 1)}
             </button>
           ))}
         </p>

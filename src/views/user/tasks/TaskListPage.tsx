@@ -150,9 +150,9 @@ export default function TaskListPage() {
   }
 
   return (
-    <main>
+    <main className="lg:px-40">
       {/* List Name */}
-      <header className="bg-gradient-to-r from-sky-800 to-blue-950 text-white group relative pl-8 pr-4 py-2">
+      {/* <header className="bg-gradient-to-r from-sky-800 to-blue-950 text-white group relative pl-8 pr-4 py-2">
         <div className="flex items-stretch flex-1">
           <div
             className={
@@ -188,7 +188,8 @@ export default function TaskListPage() {
         <button title="Add Task" onClick={() => setAdd(true)}>
           <BiPlus size={32} />
         </button>
-      </header>
+      </header> */}
+      <header>{displayList?.title}</header>
       {/* List Todo Items */}
       <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">
         {/* Add new todo Item */}

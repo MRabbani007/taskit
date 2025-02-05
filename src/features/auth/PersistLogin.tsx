@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
 
-const PersistLogin = () => {
+export default function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
   const { auth } = useAuth();
@@ -28,7 +28,9 @@ const PersistLogin = () => {
     // Avoids unwanted call to verifyRefreshToken
     !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
 
-    return () => (isMounted = false);
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
@@ -41,6 +43,4 @@ const PersistLogin = () => {
       {!persist ? <Outlet /> : isLoading ? <SkeletonContentPage /> : <Outlet />}
     </>
   );
-};
-
-export default PersistLogin;
+}

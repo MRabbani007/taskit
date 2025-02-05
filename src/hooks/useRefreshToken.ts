@@ -1,7 +1,7 @@
 import axios from "../api/axios";
 import useAuth from "./useAuth";
 
-const useRefreshToken = () => {
+export default function useRefreshToken() {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
@@ -24,7 +24,6 @@ const useRefreshToken = () => {
     });
     return response.data.accessToken;
   };
-  return refresh;
-};
 
-export default useRefreshToken;
+  return refresh;
+}

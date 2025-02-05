@@ -1,9 +1,13 @@
 import axios from "axios";
 
-let BASE_URL;
-BASE_URL = "https://todoapp-server-hj1x.onrender.com";
+const local = false && window?.location?.origin.includes("localhost");
+
+let BASE_URL = local
+  ? "http://localhost:3000"
+  : "https://todoapp-server-hj1x.onrender.com";
+
 // BASE_URL = "https://todo-app-server-mohamad-rabanis-projects.vercel.app/";
-// BASE_URL = "http://localhost:3000";
+// BASE_URL = ;
 
 // let ORIGIN = "https://mrabbani007.github.io/todolist/";
 // ORIGIN = "http://localhost:5173";

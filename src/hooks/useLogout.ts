@@ -1,7 +1,7 @@
 import axios from "../api/axios";
 import useAuth from "./useAuth";
 
-const useLogout = () => {
+export default function useLogout() {
   const { setAuth } = useAuth();
 
   const logout = async () => {
@@ -16,6 +16,4 @@ const useLogout = () => {
   };
 
   return logout;
-};
-
-export default useLogout;
+}

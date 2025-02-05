@@ -27,7 +27,7 @@ export default function FormTaskListEdit({
   };
 
   const handleSubmit = async () => {
-    await handleUpdateList(state);
+    const response = await handleUpdateList(state);
 
     setEdit(false);
   };
@@ -54,10 +54,10 @@ export default function FormTaskListEdit({
       )}
     >
       <Form.Item name="title" label="Title">
-        <Input value={state.title} onChange={onChange} />
+        <Input name="title" value={state.title} onChange={onChange} />
       </Form.Item>
       <Form.Item name="detail" label="Detail">
-        <Input value={state.detail} onChange={onChange} />
+        <Input name="detail" value={state.detail} onChange={onChange} />
       </Form.Item>
       {/* <Form.Item name="icon" label="icon">
         <Radio.Group

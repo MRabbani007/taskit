@@ -1,21 +1,16 @@
 // React dependencies
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-// Imported Data
-import { ACTIONS, SERVER } from "../../data/actions";
 // Imported Icons
-import { Button, Checkbox, Form, Input, Space, notification } from "antd";
+import { Button, Form, Input, Space } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-const Signup = () => {
+export default function SignUpPage() {
   const navigate = useNavigate();
-
-  const userRef = useRef();
-  const errRef = useRef();
 
   const [userName, setUserName] = useState("");
   const [validName, setValidName] = useState(false);
@@ -30,11 +25,6 @@ const Signup = () => {
   const [matchFocus, setMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
 
   useEffect(() => {
     setValidName(USER_REGEX.test(userName));
@@ -49,47 +39,47 @@ const Signup = () => {
     setErrMsg("");
   }, [userName, pwd, matchPwd]);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async () => {
     // e.preventDefault();
     // if button enabled with JS hack
     const v1 = USER_REGEX.test(userName);
     const v2 = PWD_REGEX.test(pwd);
+
     if (!v1 || !v2) {
       setErrMsg("Invalid Entry");
       return;
-    } else {
-      try {
-        const response = await axios.post(SERVER.USER_SIGNUP, {
-          type: ACTIONS.USER_SIGNUP,
-          payload: {
-            username: userName,
-            password: pwd,
-          },
-        });
-        if (response?.status === 201) {
-          setSuccess(true);
-          //clear state and controlled inputs
-          //need value attrib on inputs for this
-          setUserName("");
-          setPwd("");
-          setMatchPwd("");
-          navigate(from, { replace: true });
-          navigate("/login", { state: { username: userName } });
-          alert("Success");
-          notification("Success, user registered");
-        } else {
-          alert(response);
-        }
-      } catch (err) {
-        if (!err?.response) {
-          setErrMsg("No Server Response");
-        } else if (err.response?.status === 409) {
-          setErrMsg("Username Taken");
-        } else {
-          setErrMsg("Registration Failed");
-        }
-        errRef.current.focus();
+    }
+
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "/user/register",
+        data: {
+          username: userName,
+          password: pwd,
+        },
+      });
+
+      if (response?.status === 201) {
+        //clear state and controlled inputs
+        //need value attrib on inputs for this
+        setUserName("");
+        setPwd("");
+        setMatchPwd("");
+        navigate("/login", { state: { username: userName } });
+        alert("Success");
+      } else {
+        alert(response);
       }
+    } catch (error) {
+      console.log(error);
+      // if (!err?.response) {
+      //   setErrMsg("No Server Response");
+      // } else if (err.response?.status === 409) {
+      //   setErrMsg("Username Taken");
+      // } else {
+      //   setErrMsg("Registration Failed");
+      // }
     }
   };
 
@@ -105,11 +95,7 @@ const Signup = () => {
         layout="vertical"
       >
         <h1 className="text-center text-blue-500 font-thin mb-2">Sign up</h1>
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
+        <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
           {errMsg}
         </p>
         {/* <label htmlFor="username" className="flex items-center">
@@ -160,7 +146,7 @@ const Signup = () => {
             prefix={<UserOutlined className="site-form-item-icon" />}
             placeholder="Username"
             autoComplete="off"
-            ref={userRef}
+            autoFocus
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             aria-invalid={validName ? "false" : "true"}
@@ -313,6 +299,4 @@ const Signup = () => {
       </Form>
     </main>
   );
-};
-
-export default Signup;
+}

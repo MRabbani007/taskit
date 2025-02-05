@@ -22,7 +22,7 @@ export const AcceptTypes = {
   Note: "Note",
 };
 
-const CardTaskBlock = ({
+export default function CardTaskBlock({
   task,
   idx,
   openList = false,
@@ -38,7 +38,7 @@ const CardTaskBlock = ({
   onDragStart?: (params: any) => void;
   onDragEnter?: (params: any) => void;
   onDragEnd?: (params?: any) => void;
-}) => {
+}) {
   const { handleOpen } = useContext(ListContext);
   const { handleUpdateTask, handleDeleteTask, handleDeleteTag } =
     useContext(TaskContext);
@@ -62,13 +62,17 @@ const CardTaskBlock = ({
   //   }),
   // });
 
-  const isMounted = useRef(null);
+  const isMounted = useRef<boolean>();
 
   useEffect(() => {
-    if (isMounted.current === true && debounceCompleted !== task?.completed) {
+    if (isMounted?.current === true && debounceCompleted !== task?.completed) {
       handleUpdateTask({ ...task, completed: !task.completed });
     }
   }, [debounceCompleted]);
+
+  useEffect(() => {
+    isMounted.current = true;
+  }, []);
 
   const confirm = () => {
     handleDeleteTask(task?.id);
@@ -207,6 +211,4 @@ const CardTaskBlock = ({
       ) : null}
     </div>
   );
-};
-
-export default CardTaskBlock;
+}

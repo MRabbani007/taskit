@@ -82,6 +82,7 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
 
   const handleNoteCreate = async (note: Note) => {
     dispatch({ type: "NOTES_CREATE", payload: note });
+
     await axiosPrivate.post(SERVER.NOTES, { newNote: note }, config);
   };
 
@@ -90,6 +91,7 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
       type: "NOTES_UPDATE",
       payload: newNote,
     });
+
     await axiosPrivate.patch(SERVER.NOTES, { newNote }, config);
   };
 
