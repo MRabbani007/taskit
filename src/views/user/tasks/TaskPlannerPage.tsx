@@ -4,6 +4,7 @@ import { FaTimeline } from "react-icons/fa6";
 import PlannerTab from "../../../features/planner/PlannerTab";
 import TaskFilter from "../../../features/task/TaskFilter";
 import { BiFilter } from "react-icons/bi";
+import PageLinks from "@/features/navigation/PageLinks";
 
 export const tabs: Partial<PlannerTab>[] = [
   {
@@ -148,19 +149,25 @@ export default function TaskPlannerPage() {
 
   return (
     <main>
-      <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 text-white gap-4">
-        <FaTimeline size={40} />
-        <h1 className="flex-1">Planner</h1>
-        <div>
-          <button
-            onClick={() =>
-              setFilters((curr) => ({ ...curr, viewFilter: true }))
-            }
-          >
-            <BiFilter size={30} />
-          </button>
-        </div>
-      </header>
+      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-600 to-sky-950 shadow-md shadow-zinc-500">
+        <header className="text-white gap-4 py-2 px-4 self-stretch">
+          {/* <FaTimeline size={40} /> */}
+          <div className="flex-1">
+            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Planner</h1>
+          </div>
+          <div>
+            <button
+              className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+              onClick={() =>
+                setFilters((curr) => ({ ...curr, viewFilter: true }))
+              }
+            >
+              <BiFilter size={30} />
+            </button>
+          </div>
+        </header>
+        <PageLinks />
+      </div>
       <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 lg:max-h-screen lg:overflow-hidden">
         {tabs.map((tab, index) => {
           const tabTasks = tasks

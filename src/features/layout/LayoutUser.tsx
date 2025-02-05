@@ -7,7 +7,7 @@ import Sidebar from "../navigation/Sidebar";
 export default function LayoutUser() {
   return (
     <div className="flex-1 flex items-stretch justify-center">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <Suspense fallback={<SkeletonContentPage />}>
         <Outlet />
       </Suspense>

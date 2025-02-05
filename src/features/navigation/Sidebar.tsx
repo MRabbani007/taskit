@@ -83,9 +83,24 @@ const items = [
     icon: <RiPagesLine size={25} />,
     children: [
       {
+        label: "My Tasks",
+        icon: <MdOutlineChecklist size={25} />,
+        url: "/tasks",
+      },
+      {
+        label: "My Lists",
+        url: "/myLists",
+        icon: <IoListOutline size={25} />,
+      },
+      {
         label: "Calendar",
         icon: <IoCalendarOutline size={25} />,
         url: "/pages/calendar",
+      },
+      {
+        label: "Kanban",
+        icon: <FaTimeline size={25} />,
+        url: "/tasks/planner",
       },
       {
         label: "Journal",
@@ -99,76 +114,71 @@ const items = [
       },
     ],
   },
-  {
-    label: "Tasks",
-    icon: <MdOutlineTaskAlt size={25} />,
-    children: [
-      {
-        label: "My Tasks",
-        icon: <MdOutlineChecklist size={25} />,
-        url: "/tasks",
-      },
-      {
-        label: "Planner",
-        icon: <FaTimeline size={25} />,
-        url: "/tasks/planner",
-      },
-      {
-        label: "Today",
-        icon: <IoTodayOutline size={25} />,
-        url: "/tasks/today",
-      },
-      {
-        label: "This Week",
-        icon: <BsCalendar4Week size={25} />,
-        url: "/tasks/week",
-      },
-      {
-        label: "Important",
-        icon: <IoStarOutline size={25} />,
-        url: "/tasks/important",
-      },
-      {
-        label: "Overdue",
-        icon: <IoRepeatOutline size={25} />,
-        url: "/tasks/overdue",
-      },
-    ],
-  },
-  {
-    label: "Lists",
-    icon: <BsCardList size={25} />,
-    children: [
-      {
-        label: "My Lists",
-        url: "/myLists",
-        icon: <IoListOutline size={25} />,
-      },
-      {
-        label: "Create List",
-        url: "/myLists/createList",
-        icon: <IoCreateOutline size={25} />,
-      },
-    ],
-  },
+  // {
+  //   label: "Tasks",
+  //   icon: <MdOutlineTaskAlt size={25} />,
+  //   children: [
+  //     {
+  //       label: "My Tasks",
+  //       icon: <MdOutlineChecklist size={25} />,
+  //       url: "/tasks",
+  //     },
+  //     {
+  //       label: "Today",
+  //       icon: <IoTodayOutline size={25} />,
+  //       url: "/tasks/today",
+  //     },
+  //     {
+  //       label: "This Week",
+  //       icon: <BsCalendar4Week size={25} />,
+  //       url: "/tasks/week",
+  //     },
+  //     {
+  //       label: "Important",
+  //       icon: <IoStarOutline size={25} />,
+  //       url: "/tasks/important",
+  //     },
+  //     {
+  //       label: "Overdue",
+  //       icon: <IoRepeatOutline size={25} />,
+  //       url: "/tasks/overdue",
+  //     },
+  //   ],
+  // },
+  // {
+  //   label: "Lists",
+  //   icon: <BsCardList size={25} />,
+  //   children: [
+  //     {
+  //       label: "My Lists",
+  //       url: "/myLists",
+  //       icon: <IoListOutline size={25} />,
+  //     },
+  //     {
+  //       label: "Create List",
+  //       url: "/myLists/createList",
+  //       icon: <IoCreateOutline size={25} />,
+  //     },
+  //   ],
+  // },
   // Activities
-  {
-    label: "Activities",
-    url: "",
-    icon: <BsActivity size={28} />,
-    children: [
-      {
-        label: "My Activities",
-        url: "/activities",
-        icon: <GoProjectRoadmap size={25} />,
-      },
-      {
-        label: "Create Activity",
-        url: "/activities/create",
-        icon: <IoCreateOutline size={25} />,
-      },
-    ],
-  },
+  // {
+  //   label: "Activities",
+  //   url: "",
+  //   icon: <BsActivity size={28} />,
+  //   children: [
+  //     {
+  //       label: "My Activities",
+  //       url: "/activities",
+  //       icon: <GoProjectRoadmap size={25} />,
+  //     },
+  //     {
+  //       label: "Create Activity",
+  //       url: "/activities/create",
+  //       icon: <IoCreateOutline size={25} />,
+  //     },
+  //   ],
+  // },
 ];
 
 const adminItems = [

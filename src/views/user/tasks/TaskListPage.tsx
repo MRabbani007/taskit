@@ -12,6 +12,8 @@ import { BiPlus } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";
 import FormTaskListEdit from "../../../features/taskList/FormTaskListEdit";
 import Pagination from "@/features/navigation/Pagination";
+import CardTask from "@/features/task/CardTask";
+import FormTaskEdit from "@/features/task/FormTaskEdit";
 
 export default function TaskListPage() {
   const [searchParams] = useSearchParams();
@@ -37,6 +39,9 @@ export default function TaskListPage() {
 
   const [add, setAdd] = useState(false);
   const [block, setBlock] = useState(false);
+
+  const [viewEditTask, setViewEditTask] = useState(false);
+  const [editTask, setEditTask] = useState<Task | null>(null);
 
   const [dragItem, setDragItem] = useState<DragItem | null>(null);
   const [dragOverItem, setDragOverItem] = useState<DragItem | null>(null);
@@ -129,32 +134,41 @@ export default function TaskListPage() {
           : tasks.filter((item) => item.completed !== true)
         : [];
       content = (
-        <ul className="w-full" onMouseLeave={dragReset}>
+        <div
+          className="flex items-stretch gap-4 flex-wrap"
+          onMouseLeave={dragReset}
+        >
           {displayTasks.map((task, idx) => {
             return (
-              <CardTaskBlock
-                openList
-                key={task?.id}
+              <CardTask
                 task={task}
-                idx={idx}
-                isDraggable={true}
-                onDragStart={dragStart}
-                onDragEnter={dragEnter}
-                onDragEnd={dragEnd}
+                key={task.id}
+                setEdit={setViewEditTask}
+                setEditItem={setEditTask}
               />
+              // <CardTaskBlock
+              //   openList
+              //   key={task?.id}
+              //   task={task}
+              //   idx={idx}
+              //   isDraggable={true}
+              //   onDragStart={dragStart}
+              //   onDragEnter={dragEnter}
+              //   onDragEnd={dragEnd}
+              // />
             );
           })}
-        </ul>
+        </div>
       );
     }
   }
 
   return (
-    <main className="lg:px-40">
+    <main className="">
       {/* List Name */}
-      {/* <header className="bg-gradient-to-r from-sky-800 to-blue-950 text-white group relative pl-8 pr-4 py-2">
+      <header className="bg-gradient-to-r from-sky-800 to-blue-950 text-white group relative pl-8 pr-4 py-2 rounded-lg">
         <div className="flex items-stretch flex-1">
-          <div
+          {/* <div
             className={
               (pinned ? "" : "") +
               " duration-200 group cursor-pointer flex items-center justify-center"
@@ -172,7 +186,7 @@ export default function TaskListPage() {
             >
               <BsPinAngle size={28} />
             </button>
-          </div>
+          </div> */}
           <div className="flex flex-wrap items-center gap-2">
             <img src={displayList?.icon} className="w-10" />
             <h1>{displayList?.title}</h1>
@@ -188,8 +202,7 @@ export default function TaskListPage() {
         <button title="Add Task" onClick={() => setAdd(true)}>
           <BiPlus size={32} />
         </button>
-      </header> */}
-      <header>{displayList?.title}</header>
+      </header>
       {/* List Todo Items */}
       <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">
         {/* Add new todo Item */}
@@ -211,6 +224,13 @@ export default function TaskListPage() {
       {add ? (
         <FormTaskAdd add={add} listID={displayList?.id ?? ""} setAdd={setAdd} />
       ) : null}
+      {viewEditTask && editTask && (
+        <FormTaskEdit
+          task={editTask}
+          edit={viewEditTask}
+          setEdit={setViewEditTask}
+        />
+      )}
       {edit ? (
         <FormTaskListEdit
           edit={edit}

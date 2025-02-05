@@ -6,21 +6,23 @@ import { ListContext } from "../../../context/ListState";
 import CardListName from "../../../features/taskList/CardListName";
 import CardListTrash from "../../../features/taskList/CardListTrash";
 import Loading from "../../../features/components/Loading";
-// AntD
-import { PlusOutlined } from "@ant-design/icons";
 // Icons
-import { CiTrash } from "react-icons/ci";
 import { BsCardList } from "react-icons/bs";
 import { SlArrowRight } from "react-icons/sl";
 import { FloatButton } from "antd";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { BiPlus } from "react-icons/bi";
+import FormTaskListCreate from "@/features/taskList/FormTaskListCreate";
+import PageLinks from "@/features/navigation/PageLinks";
 
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status, handleSort } =
     useContext(ListContext);
   const [expand, setExpand] = useState(true);
   const [expandTrash, setExpandTrash] = useState(false);
+
+  const [add, setAdd] = useState(false);
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -42,8 +44,20 @@ export default function UserListsPage() {
   let contentPinned: ReactNode;
   let contentTrash;
 
+  const Skeleton = ({ count }: { count: number }) =>
+    Array.from({ length: count }, (_, i) => (
+      <div
+        key={i}
+        className="bg-zinc-100 hover:bg-zinc-200 rounded-lg p-4 animate-pulse min-h-[120px]"
+      ></div>
+    ));
+
   if (status?.isLoading === true) {
-    contentLists = <Loading />;
+    contentLists = (
+      <>
+        <Skeleton count={8} />
+      </>
+    );
     contentTrash = <Loading />;
   } else if (status?.isError === true) {
     contentLists = <p>Error Loading Lists</p>;
@@ -100,17 +114,22 @@ export default function UserListsPage() {
 
   return (
     <main>
-      <header
-        className="py-2 px-4 bg-gradient-to-r from-sky-800 to-blue-950 text-white gap-4 rounded-lg"
-        onClick={() => setExpand((prev) => !prev)}
-      >
-        <BsCardList size={40} />
-        <h1 className="flex-1 font-normal">My Lists</h1>
-        <SlArrowRight
-          size={25}
-          className={(expand ? "rotate-90 " : "") + " duration-300"}
-        />
-      </header>
+      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
+        <header
+          className="text-white gap-4 py-2 px-4 "
+          onClick={() => setExpand((prev) => !prev)}
+        >
+          {/* <BsCardList size={40} /> */}
+          <div className="flex-1">
+            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Lists</h1>
+          </div>
+          {/* <SlArrowRight
+            size={25}
+            className={(expand ? "rotate-90 " : "") + " duration-300"}
+          /> */}
+        </header>
+        <PageLinks />
+      </div>
       <section
         className={
           (expand
@@ -121,9 +140,14 @@ export default function UserListsPage() {
       >
         {contentPinned}
         {contentLists}
-        <div className="flex flex-col items-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 group">
-          Add
-        </div>
+        {status?.isSuccess === true && (
+          <button
+            onClick={() => setAdd(true)}
+            className="flex flex-col items-center justify-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 group"
+          >
+            <BiPlus size={40} className="group-hover:scale-125 duration-200" />
+          </button>
+        )}
         {/* <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="pinnedLists">
             {(provided) => (
@@ -165,14 +189,15 @@ export default function UserListsPage() {
       >
         {contentTrash}
       </section> */}
-      <Link to={"/myLists/createList"}>
+      {/* <Link to={"/myLists/createList"}>
         <FloatButton
           type="primary"
           tooltip="Create New List"
           icon={<PlusOutlined />}
           style={{ right: 94 }}
         />
-      </Link>
+      </Link> */}
+      <FormTaskListCreate show={add} setShow={setAdd} />
     </main>
   );
 }

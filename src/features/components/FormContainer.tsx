@@ -6,6 +6,7 @@ type Props = {
   setShowForm: Dispatch<SetStateAction<boolean>>;
   title: string;
   subtitle?: string | null;
+  submitButton?: string;
   children: ReactNode;
   onSubmit: (event: FormEvent) => void;
   deleteButton?: boolean;
@@ -17,6 +18,7 @@ export default function FormContainer({
   setShowForm,
   title,
   subtitle = null,
+  submitButton = "Submit",
   children,
   onSubmit,
   deleteButton = false,
@@ -53,7 +55,7 @@ export default function FormContainer({
               type="submit"
               className="bg-zinc-800 rounded-md py-2 px-4 text-white"
             >
-              Submit
+              {submitButton}
             </button>
             <button
               type="reset"
