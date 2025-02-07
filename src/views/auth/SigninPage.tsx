@@ -49,6 +49,8 @@ export default function SigninPage() {
         },
       });
 
+      console.log(response);
+
       if (response?.data?.status === "success") {
         const accessToken = response?.data?.accessToken;
         const roles = response?.data?.roles;
