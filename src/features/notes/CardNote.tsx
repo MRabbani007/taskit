@@ -2,6 +2,8 @@ import { ChangeEvent, useContext, useState } from "react";
 import { NotesContext } from "../../context/NotesState";
 import { BiCheck, BiDotsHorizontal, BiX } from "react-icons/bi";
 import { T_NOTE } from "@/lib/templates";
+import { Button, Popconfirm } from "antd";
+import { CiTrash } from "react-icons/ci";
 
 export default function CardNote({ note }: { note: Note }) {
   const { handleNoteUpdate } = useContext(NotesContext);
@@ -23,6 +25,10 @@ export default function CardNote({ note }: { note: Note }) {
     handleNoteUpdate(state);
   };
 
+  const handleDelete = () => {
+    handleNoteUpdate({ ...note, trash: true });
+  };
+
   const cols = 30;
   const initialvalue = 0;
   const rows = note?.details
@@ -38,7 +44,7 @@ export default function CardNote({ note }: { note: Note }) {
     state?.title !== note.title || state?.details !== note?.details;
 
   return (
-    <div className="flex flex-col relative rounded-lg overflow-clip">
+    <div className="flex flex-col relative rounded-lg overflow-clip group">
       <div className="relative flex">
         {/* title */}
         <input
@@ -49,26 +55,27 @@ export default function CardNote({ note }: { note: Note }) {
           value={state?.title}
           onChange={handleChange}
         />
-        <button className="absolute top-1/2 -translate-y-1/2 right-2">
+        <Popconfirm
+          title="Trash Note"
+          description="Move note to trash?"
+          onConfirm={handleDelete}
+          onCancel={() => {}}
+          okText="Yes"
+          cancelText="No"
+          placement="topRight"
+        >
+          <Button
+            type="text"
+            className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center m-0 p-1 bg-transparent invisible group-hover:visible"
+          >
+            <CiTrash size={30} />
+          </Button>
+        </Popconfirm>
+        {/* <button className="absolute top-1/2 -translate-y-1/2 right-2">
           <BiDotsHorizontal size={25} />
-        </button>
+        </button> */}
       </div>
-      {/* <Popconfirm
-              title="Trash Note"
-              description="Move note to trash?"
-              onConfirm={handleDelete}
-              onCancel={() => {}}
-              okText="Yes"
-              cancelText="No"
-              placement="topRight"
-            >
-              <Button
-                type="text"
-                className="flex items-center justify-center m-0 p-1 invisible group-hover:visible"
-              >
-                <CiTrash size={32} />
-              </Button>
-            </Popconfirm> */}
+
       {/* Body */}
       <textarea
         name="details"

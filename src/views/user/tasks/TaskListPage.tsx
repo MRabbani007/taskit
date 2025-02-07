@@ -2,8 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
-import CardTaskBlock from "../../../features/task/CardTaskBlock";
-import { BsPinAngle } from "react-icons/bs";
 import useDebounce from "../../../hooks/useDebounce";
 import { ListContext } from "../../../context/ListState";
 import Loading from "../../../features/components/Loading";
@@ -31,6 +29,7 @@ export default function TaskListPage() {
       type: "LIST",
       listID: displayList?.id,
       page,
+      ipp: 20,
     });
   }, [displayList?.id, showCompleted, page]);
 
@@ -128,11 +127,12 @@ export default function TaskListPage() {
     if (tasks.length === 0)
       content = <p>No tasks in this list, add new tasks</p>;
     else {
-      const displayTasks = Array.isArray(tasks)
-        ? showCompleted
-          ? tasks
-          : tasks.filter((item) => item.completed !== true)
-        : [];
+      // const displayTasks = Array.isArray(tasks)
+      //   ? showCompleted
+      //     ? tasks
+      //     : tasks.filter((item) => item.completed !== true)
+      //   : [];
+      const displayTasks = tasks;
       content = (
         <div
           className="flex items-stretch gap-4 flex-wrap"
@@ -205,7 +205,6 @@ export default function TaskListPage() {
       </header>
       {/* List Todo Items */}
       <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">
-        {/* Add new todo Item */}
         <div className="field">
           <Switch
             checked={showCompleted}
@@ -220,7 +219,12 @@ export default function TaskListPage() {
         {/* Display Tasks */}
         <div className="flex-1">{content}</div>
       </div>
-      <Pagination page={page} count={count} className={"mx-auto"} />
+      <Pagination
+        page={page}
+        count={count}
+        itemsPerPage={20}
+        className={"mx-auto"}
+      />
       {add ? (
         <FormTaskAdd add={add} listID={displayList?.id ?? ""} setAdd={setAdd} />
       ) : null}

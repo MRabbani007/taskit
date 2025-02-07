@@ -129,12 +129,14 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     priority,
     comp,
     page,
+    ipp = 10,
   }: {
     type: string;
     listID?: string;
     priority?: string;
     comp: boolean;
     page?: string;
+    ipp?: number;
   }) => {
     try {
       setStatus({
@@ -151,6 +153,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
           priority,
           comp,
           page,
+          ipp,
         },
         ...config,
       });

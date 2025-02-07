@@ -21,6 +21,7 @@ import {
 } from "react-icons/io5";
 import { BsCalendar4Week } from "react-icons/bs";
 import PageLinks from "@/features/navigation/PageLinks";
+import { Switch } from "antd";
 
 const TaskFilters = [
   {
@@ -67,29 +68,45 @@ export default function TasksPage() {
   const { tasks, count, handleGetTasks, status, filters, setFilters } =
     useContext(TaskContext);
 
+  const [showCompleted, setShowCompleted] = useState(false);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+
   useEffect(() => {
-    handleGetTasks({ type: "PAGE", page });
-  }, [page]);
+    handleGetTasks({
+      type: "PAGE",
+      page,
+      ipp: itemsPerPage,
+      comp: showCompleted,
+    });
+  }, [page, showCompleted]);
 
   const [addTask, setAddTask] = useState(false);
-  const [current, setCurrent] = useState(1);
 
   const [viewEditTask, setViewEditTask] = useState(false);
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  const pageItems = tasks.slice((current - 1) * 10, current * 10);
+  const pageItems = tasks;
 
   let content;
 
   if (status?.isLoading) {
-    content = <Loading />;
+    content = (
+      <div className="grid grid-cols-3 gap-4 ">
+        {Array.from({ length: 9 }, (_, i) => (
+          <div
+            className="w-full h-20 bg-rose-300/30 animate-pulse rounded-lg"
+            key={i}
+          />
+        ))}
+      </div>
+    ); //<Loading />;
   } else if (status?.isError) {
     content = <p>Error Loading Tasks</p>;
   } else if (status?.isSuccess && tasks.length === 0) {
     content = <p>You don't have any tasks, add new tasks</p>;
   } else if (status?.isSuccess) {
     content = (
-      <ul className="flex items-stretch gap-4 flex-wrap">
+      <div className="flex items-stretch gap-4 flex-wrap">
         {pageItems.map((task) => {
           return (
             <CardTask
@@ -107,12 +124,13 @@ export default function TasksPage() {
             // />
           );
         })}
-      </ul>
+      </div>
     );
   }
 
   return (
     <main>
+      {/* Header Block */}
       <div className="bg-gradient-to-r via-sky-800 from-zinc-800 to-sky-600 shadow-md shadow-zinc-500 pt-4 pb-8 px-2 flex flex-col items-start rounded-xl">
         <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 bg-clip-text gap-4 self-stretch text-white">
           {/* <MdOutlineChecklist size={40} /> */}
@@ -158,10 +176,27 @@ export default function TasksPage() {
           <PageLinks />
         </div>
       </div>
+      <div className="field">
+        <Switch
+          checked={showCompleted}
+          onChange={() => setShowCompleted((curr) => !curr)}
+          id="showCompleted"
+        />
+        <label htmlFor="showCompleted" className="field__label">
+          Show Completed
+        </label>
+      </div>
+      {content}
+      <Pagination
+        page={page}
+        count={count}
+        className={"mx-auto"}
+        itemsPerPage={itemsPerPage}
+      />
+
       {filters?.viewFilter === true ? <TaskFilter /> : null}
       {filters?.viewSort ? <TaskSort /> : null}
-      {content}
-      <Pagination page={page} count={count} className={"mx-auto"} />
+
       {addTask ? (
         <FormTaskAdd listID={""} add={addTask} setAdd={setAddTask} />
       ) : null}

@@ -5,18 +5,20 @@ export default function Pagination({
   page,
   count,
   className,
+  itemsPerPage = 15,
 }: {
   page: number;
   count: number;
+  itemsPerPage?: number;
   className?: string;
 }) {
   const [_, setSearchParams] = useSearchParams();
 
   const isFirst = page === 1;
-  const isLast = page === Math.ceil(count / 15);
+  const isLast = page === Math.ceil(count / itemsPerPage);
 
   const handleClick = (newPage: number) => {
-    if (newPage > 0 && newPage <= Math.ceil(count / 15)) {
+    if (newPage > 0 && newPage <= Math.ceil(count / itemsPerPage)) {
       setSearchParams({ page: newPage.toString() });
     }
   };
@@ -30,7 +32,7 @@ export default function Pagination({
       >
         <BiChevronLeft size={25} />
       </button>
-      {Array.from({ length: Math.ceil(count / 15) }, (_, index) => (
+      {Array.from({ length: Math.ceil(count / itemsPerPage) }, (_, index) => (
         <button
           key={index}
           onClick={() => handleClick(index + 1)}

@@ -22,6 +22,7 @@ export default function useRefreshToken() {
         accessToken: response.data.accessToken,
       };
     });
+
     return response.data.accessToken;
   };
 
