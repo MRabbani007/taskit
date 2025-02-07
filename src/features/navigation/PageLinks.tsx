@@ -53,10 +53,13 @@ export default function PageLinks() {
           key={item.label}
           className={
             item.bg +
-            " p-2 rounded-md duration-200 shadow-md shadow-zinc-600 border-[1px] border-white/80"
+            " p-2 rounded-md duration-200 shadow-md shadow-zinc-600 border-[1px] border-white/80 relative group whitespace-nowrap text-xs font-medium"
           }
         >
-          {item.icon}
+          <span>{item.icon}</span>
+          <span className="absolute top-full left-1/2 -translate-x-1/2 -translate-y-4 group-hover:translate-y-2 py-1 px-2 rounded-md bg-zinc-100 invisible group-hover:visible opacity-0 group-hover:opacity-100 duration-200">
+            {item.label}
+          </span>
         </Link>
       ))}
     </div>

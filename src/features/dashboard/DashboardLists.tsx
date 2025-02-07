@@ -1,11 +1,16 @@
 import { useContext, useState } from "react";
 import { ListContext } from "../../context/ListState";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsListCheck } from "react-icons/bs";
 import ListImage from "../../assets/list-2.png";
 
 export default function DashboardLists() {
-  const { lists, handleOpen } = useContext(ListContext);
+  const { lists } = useContext(ListContext);
+
+  const navigate = useNavigate();
+  const handleOpen = (id: string) => {
+    navigate(`/myLists/tasklist?id=${id}`);
+  };
 
   return (
     <article className="flex flex-col min-h-[100px] rounded-lg">

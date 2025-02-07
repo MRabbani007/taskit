@@ -54,7 +54,7 @@ export default function FormJournalAdd({
       />
       <InputField
         label="Detail"
-        name="details"
+        name="detail"
         type="text"
         value={state.detail}
         onChange={handleChange}

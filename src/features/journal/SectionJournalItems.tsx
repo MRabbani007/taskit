@@ -5,6 +5,7 @@ import FormJournalEdit from "./FormJournalEdit";
 
 const renderItems = (
   journal: JournalItem[],
+  setEdit: Dispatch<SetStateAction<boolean>>,
   setEditItem: Dispatch<SetStateAction<JournalItem | null>>,
   sortA: boolean
 ) => {
@@ -44,7 +45,13 @@ const renderItems = (
                 <ul className="px-2">
                   {activities.map((activity, idx) => {
                     return (
-                      <li key={idx} onClick={() => setEditItem(activity)}>
+                      <li
+                        key={idx}
+                        onClick={() => {
+                          setEdit(true);
+                          setEditItem(activity);
+                        }}
+                      >
                         {activity.detail}
                       </li>
                     );
@@ -63,6 +70,7 @@ const renderItems = (
 
 const renderLinear = (
   journal: JournalItem[],
+  setEdit: Dispatch<SetStateAction<boolean>>,
   setEditItem: Dispatch<SetStateAction<JournalItem | null>>,
   sortA: boolean
 ) => {
@@ -79,7 +87,13 @@ const renderLinear = (
       label: item?.onDate.toString().substr(0, 10),
       color: item?.color || "green",
       children: (
-        <div onClick={() => setEditItem(item)} className="w-full">
+        <div
+          onClick={() => {
+            setEdit(true);
+            setEditItem(item);
+          }}
+          className="w-full"
+        >
           <p className="font-semibold">{item?.title}</p>
           <p>{item?.detail}</p>
         </div>
@@ -101,13 +115,13 @@ export default function SectionJournalItems({
   const [editItem, setEditItem] = useState<JournalItem | null>(null);
 
   const items = group
-    ? renderItems(journal, setEditItem, sortA)
-    : renderLinear(journal, setEditItem, sortA);
+    ? renderItems(journal, setEdit, setEditItem, sortA)
+    : renderLinear(journal, setEdit, setEditItem, sortA);
 
   return (
     <>
-      <Timeline mode="left" items={items} className="w-fit" />
-      {editItem?.id ? (
+      <Timeline mode="left" items={items} className="w-fi" />
+      {edit && editItem?.id ? (
         <FormJournalEdit journalItem={editItem} edit={edit} setEdit={setEdit} />
       ) : null}
     </>

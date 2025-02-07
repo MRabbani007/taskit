@@ -25,6 +25,15 @@ const bgColorObj = {
   5: "#dc2626",
 };
 
+const color = {
+  "bg-red-600": "bg-red-600/20",
+  "bg-sky-600": "bg-sky-600/20",
+  "bg-green-600": "bg-green-600/20",
+  "bg-yellow-500": "bg-yellow-500/20",
+  "bg-orange-600": "bg-orange-600/20",
+  "bg-zinc-600": "bg-zinc-600/20",
+};
+
 export default function CardTask({
   task,
   setEdit,
@@ -53,7 +62,14 @@ export default function CardTask({
   const bgColor = bgColorObj[task?.priorityLevel as keyof typeof bgColorObj];
 
   return (
-    <div className="bg-rose-100/60 rounded-lg relative overflow-hidden flex-1 min-w-[300px] flex items-stretch gap-2">
+    <div
+      className={
+        (task?.color === ""
+          ? "bg-rose-100/60 "
+          : `${color[task.color as keyof typeof color]}`) +
+        " rounded-lg relative overflow-hidden flex-1 min-w-[300px] flex items-stretch gap-2"
+      }
+    >
       <div className="py-4 pl-2">
         <input
           type="checkbox"
@@ -86,6 +102,7 @@ export default function CardTask({
           </p>
         </div>
       </div>
+      <div></div>
     </div>
   );
 }

@@ -68,6 +68,8 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [isModified, setIsModified] = useState(false);
+
   // Store data
   const [state, dispatch] = useReducer(listReducer, []);
   const [status, setStatus] = useState(initialStatus);
@@ -105,6 +107,8 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
         isError: true,
         error: { message: "Error fetching lists" },
       });
+    } finally {
+      setIsModified(false);
     }
   };
 
@@ -121,10 +125,10 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleUpdateList = async (taskList: TaskList) => {
-    dispatch({
-      type: "UPDATE_LIST",
-      payload: taskList,
-    });
+    // dispatch({
+    //   type: "UPDATE_LIST",
+    //   payload: taskList,
+    // });
 
     if (taskList.trash === true && displayList?.id === taskList.id) {
       handleClose();
@@ -137,6 +141,11 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
       },
       config
     );
+
+    console.log(response);
+    if (response?.status === 204) {
+      setIsModified(true);
+    }
 
     return response;
   };
@@ -220,6 +229,12 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
       handleListSummary();
     }
   }, [config, location?.pathname]);
+
+  useEffect(() => {
+    if (isModified) {
+      handleGetLists();
+    }
+  }, [isModified]);
 
   return (
     <ListContext.Provider

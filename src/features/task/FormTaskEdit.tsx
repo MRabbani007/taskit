@@ -28,6 +28,15 @@ const bgColorObj = {
   5: "#dc2626",
 };
 
+const taskColors = [
+  "bg-red-600",
+  "bg-sky-600",
+  "bg-green-600",
+  "bg-yellow-500",
+  "bg-orange-600",
+  "bg-zinc-600",
+];
+
 export default function FormTaskEdit({
   task,
   edit,
@@ -121,11 +130,55 @@ export default function FormTaskEdit({
           </button>
         </div>
       </div>
+      <div>
+        <p className="px-2 font-medium">Color</p>
+        <div className="flex items-center gap-2">
+          {taskColors.map((item) => (
+            <div
+              key={item}
+              className={
+                (state?.color === item
+                  ? " border-[2px] border-yellow-300 "
+                  : "") +
+                " w-8 h-8 rounded-md hover:shadow-md hover:shadow-zinc-500 duration-200 inline-block " +
+                item
+              }
+              onClick={() => setState((curr) => ({ ...curr, color: item }))}
+            >
+              {/* <label htmlFor={item}>
+              <input
+                type="radio"
+                name="color"
+                id={item}
+                value={item}
+                title="item"
+                // onChange={() => setState((curr) => ({ ...curr, color: item }))}
+                // className="invisible"
+              />
+            </label> */}
+            </div>
+          ))}
+        </div>
+      </div>
       <InputField
         label="Due Date"
         name="dueDate"
         type="date"
         value={state?.dueDate.toLocaleString().substring(0, 10)}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Link URL"
+        name="link"
+        type="text"
+        value={state.link}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Link Display Text"
+        name="linkText"
+        type="text"
+        value={state.linkText}
         onChange={handleChange}
       />
     </FormContainer>

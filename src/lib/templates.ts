@@ -13,6 +13,9 @@ export const T_TASK: Task = {
   prevDueDate: new Date(),
   createDate: new Date(),
   tags: [],
+  color: "",
+  link: "",
+  linkText: "",
 };
 
 export const T_TASKLIST: TaskList = {

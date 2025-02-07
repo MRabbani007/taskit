@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import useDebounce from "../../../hooks/useDebounce";
 import { ListContext } from "../../../context/ListState";
@@ -12,14 +12,37 @@ import FormTaskListEdit from "../../../features/taskList/FormTaskListEdit";
 import Pagination from "@/features/navigation/Pagination";
 import CardTask from "@/features/task/CardTask";
 import FormTaskEdit from "@/features/task/FormTaskEdit";
+import PageLinks from "@/features/navigation/PageLinks";
+import CardListName from "@/features/taskList/CardListName";
+import ListImage from "../../../assets/list-2.png";
 
 export default function TaskListPage() {
-  const [searchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("page") ?? "1");
-
-  const { displayList, handleUpdateList } = useContext(ListContext);
+  const { lists, handleUpdateList } = useContext(ListContext);
   const { tasks, count, status, handleGetTasks, handleSortTasksList } =
     useContext(TaskContext);
+
+  const [searchParams] = useSearchParams();
+
+  const page = parseInt(searchParams.get("page") ?? "1");
+  const id = searchParams?.get("id") ?? "";
+
+  useEffect(() => {
+    if (!id) {
+      navigate("/myLists");
+    }
+  }, []);
+
+  const displayList = lists.find((item) => item.id === id);
+
+  const [imgSrc, setImgSrc] = useState(displayList?.icon);
+
+  const handleError = () => {
+    setImgSrc(ListImage);
+  };
+
+  useEffect(() => {
+    setImgSrc(displayList?.icon);
+  }, [displayList]);
 
   const [showCompleted, setShowCompleted] = useState(false);
 
@@ -111,12 +134,6 @@ export default function TaskListPage() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (!displayList?.id) {
-      navigate("/mylists");
-    }
-  }, []);
-
   let content;
 
   if (status?.isLoading === true) {
@@ -166,9 +183,10 @@ export default function TaskListPage() {
   return (
     <main className="">
       {/* List Name */}
-      <header className="bg-gradient-to-r from-sky-800 to-blue-950 text-white group relative pl-8 pr-4 py-2 rounded-lg">
-        <div className="flex items-stretch flex-1">
-          {/* <div
+      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
+        <header className="text-white gap-4 py-2 px-4 self-stretch">
+          <div className="flex items-stretch flex-1">
+            {/* <div
             className={
               (pinned ? "" : "") +
               " duration-200 group cursor-pointer flex items-center justify-center"
@@ -187,22 +205,28 @@ export default function TaskListPage() {
               <BsPinAngle size={28} />
             </button>
           </div> */}
-          <div className="flex flex-wrap items-center gap-2">
-            <img src={displayList?.icon} className="w-10" />
-            <h1>{displayList?.title}</h1>
+            <div className="flex flex-wrap items-center gap-2">
+              <img src={imgSrc} className="w-10" onError={handleError} />
+              <h1>{displayList?.title}</h1>
+            </div>
           </div>
-        </div>
-        <button
-          title="Edit Title"
-          onClick={() => setEdit(true)}
-          className="invisible group-hover:visible duration-200"
-        >
-          <CiEdit size={30} />
-        </button>
-        <button title="Add Task" onClick={() => setAdd(true)}>
-          <BiPlus size={32} />
-        </button>
-      </header>
+          <button
+            title="Edit Title"
+            onClick={() => setEdit(true)}
+            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg duration-200"
+          >
+            <CiEdit size={30} />
+          </button>
+          <button
+            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+            title="Add Task"
+            onClick={() => setAdd(true)}
+          >
+            <BiPlus size={32} />
+          </button>
+        </header>
+        <PageLinks />
+      </div>
       {/* List Todo Items */}
       <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">
         <div className="field">
@@ -225,6 +249,15 @@ export default function TaskListPage() {
         itemsPerPage={20}
         className={"mx-auto"}
       />
+      {/* Link to other lists */}
+      <div className="py-2 px-4 bg-zinc-800 rounded-lg text-white text-xl font-medium">
+        <Link to={"/myLists"}>My Lists</Link>
+      </div>
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 duration-300">
+        {lists.slice(0, 4).map((item) => {
+          return <CardListName key={item.id} taskList={item} />;
+        })}
+      </div>
       {add ? (
         <FormTaskAdd add={add} listID={displayList?.id ?? ""} setAdd={setAdd} />
       ) : null}

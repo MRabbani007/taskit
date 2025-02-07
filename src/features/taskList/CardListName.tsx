@@ -8,9 +8,12 @@ import { BsPinAngle } from "react-icons/bs";
 import { Button, Popconfirm, message } from "antd";
 import FormTaskListEdit from "./FormTaskListEdit";
 import ListImage from "../../assets/list-2.png";
+import { useNavigate } from "react-router-dom";
+import { CiEdit, CiTrash } from "react-icons/ci";
 
 export default function CardListName({ taskList }: { taskList: TaskList }) {
-  const { listSummary, handleUpdateList, handleOpen } = useContext(ListContext);
+  const { listSummary, handleUpdateList } = useContext(ListContext);
+  const navigate = useNavigate();
 
   const [edit, setEdit] = useState(false);
   const [summary, setSummary] = useState<ListSummary | null>(null);
@@ -18,6 +21,9 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
   const [pinned, setPinned] = useState(taskList?.pinned || false);
   const debouncePin = useDebounce(pinned, 1000);
 
+  const handleOpen = () => {
+    navigate(`/myLists/tasklist?id=${taskList?.id}`);
+  };
   const handlePin = () => {
     handleUpdateList({ ...taskList, pinned: debouncePin });
   };
@@ -55,7 +61,7 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
       key={taskList?.id}
       // draggable
       // onDrag={onDragStart}
-      className="flex flex-col"
+      className="flex flex-col relative"
     >
       <button
         title="Pin List"
@@ -74,9 +80,7 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
           {/* Edit List Title */}
           <p
             className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
-            onClick={() => {
-              handleOpen(taskList);
-            }}
+            onClick={handleOpen}
           >
             {taskList.title}
           </p>
@@ -86,9 +90,9 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
               ((summary?.pending ? summary?.pending : 0) + " open")}
           </p>
         </div>
-        {/* <span className="flex items-center ml-2 invisible group-hover:visible">
+        <div className="absolute top-1 right-1 flex items-center ml-2 invisible group-hover:visible">
           <button onClick={() => setEdit(true)}>
-            <CiEdit size={32} />
+            <CiEdit size={30} />
           </button>
           <Popconfirm
             title="Trash List"
@@ -103,10 +107,10 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
               type="text"
               className="flex items-center justify-center m-0 p-1"
             >
-              <CiTrash size={32} />
+              <CiTrash size={30} />
             </Button>
           </Popconfirm>
-        </span> */}
+        </div>
       </div>
       {edit ? (
         <FormTaskListEdit taskList={taskList} edit={edit} setEdit={setEdit} />

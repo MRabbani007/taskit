@@ -2,12 +2,15 @@ import { Form, Input, Modal } from "antd";
 import {
   ChangeEvent,
   Dispatch,
+  FormEvent,
   SetStateAction,
   useContext,
   useState,
 } from "react";
 import { ListContext } from "../../context/ListState";
 import { T_TASKLIST } from "@/lib/templates";
+import FormContainer from "../components/FormContainer";
+import InputField from "../components/InputField";
 
 export default function FormTaskListEdit({
   edit,
@@ -22,65 +25,49 @@ export default function FormTaskListEdit({
 
   const [state, setState] = useState({ ...T_TASKLIST, ...taskList });
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setState((curr) => ({ ...curr, [event.target.name]: event.target.value }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+
     const response = await handleUpdateList(state);
+
+    console.log(response);
 
     setEdit(false);
   };
 
   return (
-    <Modal
-      open={edit}
-      onOk={handleSubmit}
+    <FormContainer
       title="Edit List"
-      okText="Save"
-      cancelText="Cancel"
-      okButtonProps={{ autoFocus: true, htmlType: "submit" }}
-      onCancel={() => setEdit(false)}
-      modalRender={(dom) => (
-        <Form
-          layout="vertical"
-          // form={form}
-          name="form_in_modal"
-          initialValues={taskList}
-          onFinish={handleSubmit}
-        >
-          {dom}
-        </Form>
-      )}
+      submitButton="Save"
+      showForm={edit}
+      setShowForm={setEdit}
+      onSubmit={handleSubmit}
     >
-      <Form.Item name="title" label="Title">
-        <Input name="title" value={state.title} onChange={onChange} />
-      </Form.Item>
-      <Form.Item name="detail" label="Detail">
-        <Input name="detail" value={state.detail} onChange={onChange} />
-      </Form.Item>
-      {/* <Form.Item name="icon" label="icon">
-        <Radio.Group
-          className="flex flex-wrap items-center gap-2"
-          name="icon"
-          id="icon"
-          value={state.icon}
-          onChange={onChange}
-        >
-          {listTemplates.map((item, idx) => (
-            <div className="flex items-center gap-2" key={idx}>
-              <Radio value={item?.icon} />
-              <img
-                src={item?.icon}
-                className={
-                  (taskList?.icon === item?.icon ? "bg-yellow-200" : "") +
-                  " duration-200 w-12"
-                }
-              />
-            </div>
-          ))}
-        </Radio.Group>
-      </Form.Item> */}
-    </Modal>
+      <InputField
+        label="List Title"
+        name="title"
+        type="text"
+        value={state?.title}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Subtitle"
+        name="subTitle"
+        type="text"
+        value={state?.subTitle}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Detail"
+        name="detail"
+        type="text"
+        value={state?.detail}
+        onChange={handleChange}
+      />
+    </FormContainer>
   );
 }

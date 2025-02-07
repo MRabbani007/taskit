@@ -13,6 +13,9 @@ type Task = {
   dueDate: Date;
   prevDueDate: Date;
   tags: { _id: string; name: string }[];
+  color?: string;
+  link?: string;
+  linkText?: string;
 };
 
 type Tag = { name: string; _id: string };

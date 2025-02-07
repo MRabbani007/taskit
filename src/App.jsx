@@ -86,7 +86,7 @@ function App() {
                 <Route path="mylists">
                   <Route index element={<UserListsPage />} />
                   <Route path="createList" element={<CreateListPage />} />
-                  <Route path="taskList?/:id" element={<TaskListPage />} />
+                  <Route path="taskList" element={<TaskListPage />} />
                 </Route>
                 <Route path="activities" element={<LayoutActivities />}>
                   <Route index element={<ActivitiesPage />} />

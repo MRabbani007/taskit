@@ -49,8 +49,6 @@ export default function SigninPage() {
         },
       });
 
-      console.log(response);
-
       if (response?.data?.status === "success") {
         const accessToken = response?.data?.accessToken;
         const roles = response?.data?.roles;
@@ -65,7 +63,7 @@ export default function SigninPage() {
         setErrMsg("Sign in Failed");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       // if (!error?.response) {
       //   setErrMsg("No Server Response");
       // } else if (error.response?.status === 400) {
