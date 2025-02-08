@@ -1,5 +1,6 @@
 import { TaskContext } from "@/context/TaskState";
 import useDebounce from "@/hooks/useDebounce";
+import { Button, Popconfirm, message } from "antd";
 import {
   Dispatch,
   SetStateAction,
@@ -8,6 +9,8 @@ import {
   useRef,
   useState,
 } from "react";
+import { CiTrash } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const priorityObj = {
   1: "low",
@@ -43,7 +46,7 @@ export default function CardTask({
   setEdit: Dispatch<SetStateAction<boolean>>;
   setEditItem: Dispatch<SetStateAction<Task | null>>;
 }) {
-  const { handleUpdateTask } = useContext(TaskContext);
+  const { handleUpdateTask, handleDeleteTask } = useContext(TaskContext);
   const [completed, setCompleted] = useState(task?.completed === true);
 
   const debounceCompleted = useDebounce(completed, 1000);
@@ -61,13 +64,18 @@ export default function CardTask({
 
   const bgColor = bgColorObj[task?.priorityLevel as keyof typeof bgColorObj];
 
+  const confirm = () => {
+    handleDeleteTask(task?.id);
+    message.success("Task Deleted");
+  };
+
   return (
     <div
       className={
         (task?.color === ""
           ? "bg-rose-100/60 "
           : `${color[task.color as keyof typeof color]}`) +
-        " rounded-lg relative overflow-hidden flex-1 min-w-[300px] flex items-stretch gap-2"
+        " rounded-lg relative flex-1 min-w-[300px] flex items-stretch gap-2 group/main"
       }
     >
       <div className="py-4 pl-2">
@@ -88,21 +96,55 @@ export default function CardTask({
         >
           {task.title}
         </p>
-        <p className="whitespace-break-spaces text-sm text-zinc-800">
-          {task?.details}
-        </p>
+        {task?.details !== "" && (
+          <p className="whitespace-break-spaces text-sm text-zinc-800">
+            {task?.details}
+          </p>
+        )}
+        {task?.link && task?.link !== "" && (
+          <Link
+            to={task?.link}
+            target="_blank"
+            className="whitespace-break-spaces text-sm text-zinc-800"
+          >
+            {task?.linkText ?? task?.link}
+          </Link>
+        )}
         <div className="flex items-center gap-2 mt-auto">
-          <div
-            style={{ backgroundColor: bgColor }}
-            className="w-3 h-3 shadow-sm shadow-zinc-700 rounded-full "
-          ></div>
+          <div className="relative group flex  text-xs font-medium">
+            <span
+              style={{ backgroundColor: bgColor }}
+              className={
+                (task?.priorityLevel > 3 ? "animate-pulse" : "") +
+                " w-3 h-3 shadow-sm shadow-zinc-700 rounded-full cursor-pointer"
+              }
+            ></span>
+            <span className="absolute top-full left-1/2 -translate-x-1/2 py-1 px-2 bg-zinc-100 rounded-md z-10 invisible opacity-0 -translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-2 duration-200">
+              {task?.priority}
+            </span>
+          </div>
           <p className="text-sm text-zinc-700">
             <span>Due: </span>
-            {task?.dueDate.toLocaleString().substring(0, 10)}
+            <span>{task?.dueDate.toLocaleString().substring(0, 10)}</span>
           </p>
         </div>
       </div>
-      <div></div>
+      <Popconfirm
+        title="Delete task"
+        description="Are you sure you want to delete this task?"
+        onConfirm={confirm}
+        okText="Yes"
+        cancelText="No"
+        placement="topRight"
+        className=" invisible opacity-0 group-hover/main:opacity-100 group-hover/main:visible duration-200"
+      >
+        <Button
+          type="text"
+          className="flex items-center justify-center m-0 p-0"
+        >
+          <CiTrash size={20} className="inline" />
+        </Button>
+      </Popconfirm>
     </div>
   );
 }

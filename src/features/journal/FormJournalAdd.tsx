@@ -31,6 +31,7 @@ export default function FormJournalAdd({
     }));
   };
 
+  console.log(state);
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -57,6 +58,13 @@ export default function FormJournalAdd({
         name="detail"
         type="text"
         value={state.detail}
+        onChange={handleChange}
+      />
+      <InputField
+        label="On Date"
+        name="onDate"
+        type="date"
+        value={state?.onDate.toLocaleString().substring(0, 10)}
         onChange={handleChange}
       />
     </FormContainer>

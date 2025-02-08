@@ -12,14 +12,15 @@ export default function Pagination({
   itemsPerPage?: number;
   className?: string;
 }) {
-  const [_, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const isFirst = page === 1;
   const isLast = page === Math.ceil(count / itemsPerPage);
 
   const handleClick = (newPage: number) => {
     if (newPage > 0 && newPage <= Math.ceil(count / itemsPerPage)) {
-      setSearchParams({ page: newPage.toString() });
+      searchParams.set("page", newPage.toString());
+      setSearchParams(searchParams);
     }
   };
 

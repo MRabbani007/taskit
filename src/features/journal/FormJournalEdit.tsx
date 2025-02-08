@@ -36,7 +36,7 @@ export default function FormJournalEdit({
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    await handleJournalUpdate(state);
+    const response = await handleJournalUpdate(state);
     toast.success("Item created");
     setEdit(false);
   };
@@ -57,9 +57,16 @@ export default function FormJournalEdit({
       />
       <InputField
         label="Detail"
-        name="details"
+        name="detail"
         type="text"
         value={state.detail}
+        onChange={handleChange}
+      />
+      <InputField
+        label="On Date"
+        name="onDate"
+        type="date"
+        value={state?.onDate.toLocaleString().substring(0, 10)}
         onChange={handleChange}
       />
     </FormContainer>

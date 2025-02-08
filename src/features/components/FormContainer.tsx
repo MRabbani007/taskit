@@ -1,4 +1,10 @@
-import { Dispatch, FormEvent, ReactNode, SetStateAction } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+} from "react";
 import { BiX } from "react-icons/bi";
 
 type Props = {
@@ -27,6 +33,22 @@ export default function FormContainer({
   const handleReset = () => {
     setShowForm(false);
   };
+
+  const handleEscape = (ev: globalThis.KeyboardEvent) => {
+    if (ev.key === "Escape") {
+      setShowForm(false);
+    }
+  };
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   return (
     <>

@@ -7,7 +7,6 @@ import {
   FaSortAmountUp,
 } from "react-icons/fa";
 import FormJournalAdd from "../../features/journal/FormJournalAdd";
-import { BsJournalText } from "react-icons/bs";
 import { BiPlus } from "react-icons/bi";
 import PageLinks from "@/features/navigation/PageLinks";
 

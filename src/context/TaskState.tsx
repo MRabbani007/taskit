@@ -116,6 +116,8 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     error: {},
   });
 
+  const [isModified, setIsModified] = useState(false);
+
   const [filters, setFilters] = useState(TASK_FILTER);
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
   const [sortedTasks, setSortedTasks] = useState<Task[]>([]);
@@ -175,34 +177,46 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         isError: true,
         error: {},
       });
+    } finally {
+      setIsModified(false);
     }
   };
 
   const handleAddTask = async (task: Task) => {
-    dispatch({ type: "CREATE_TASK", payload: task });
+    try {
+      dispatch({ type: "CREATE_TASK", payload: task });
 
-    await axiosPrivate.post(SERVER.TASKS, { newTask: task }, config);
+      const response = await axiosPrivate.post(
+        SERVER.TASKS,
+        { newTask: task },
+        config
+      );
+
+      setIsModified(false);
+    } catch (error) {}
   };
 
   const handleUpdateTask = async (task: Task) => {
-    dispatch({
-      type: "UPDATE_TASK",
-      payload: task,
-    });
+    try {
+      dispatch({
+        type: "UPDATE_TASK",
+        payload: task,
+      });
 
-    let response = await axiosPrivate.patch(
-      SERVER.TASKS,
-      {
-        task,
-      },
-      config
-    );
+      const response = await axiosPrivate.patch(
+        SERVER.TASKS,
+        {
+          task,
+        },
+        config
+      );
 
-    if (response?.status === 204) {
-      message.success("Task updated");
-    } else {
-      message.error("Error updating task");
-    }
+      if (response?.status === 204) {
+        message.success("Task updated");
+      } else {
+        message.error("Error updating task");
+      }
+    } catch (error) {}
   };
 
   const handleDeleteTask = async (id: string) => {
@@ -404,6 +418,12 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     handleSortTasks();
   }, [state, filters]);
+
+  // useEffect(() => {
+  //   if (isModified) {
+  //     handleGetTasks();
+  //   }
+  // }, [isModified]);
 
   return (
     <TaskContext.Provider

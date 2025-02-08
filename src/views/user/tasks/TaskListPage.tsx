@@ -137,7 +137,16 @@ export default function TaskListPage() {
   let content;
 
   if (status?.isLoading === true) {
-    content = <Loading />;
+    content = (
+      <div className="grid grid-cols-3 gap-4 ">
+        {Array.from({ length: 9 }, (_, i) => (
+          <div
+            className="w-full h-20 bg-rose-300/30 animate-pulse rounded-lg"
+            key={i}
+          />
+        ))}
+      </div>
+    );
   } else if (status?.isError === true) {
     content = <p>Error Loading Tasks</p>;
   } else if (status?.isSuccess === true) {

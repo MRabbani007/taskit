@@ -113,15 +113,19 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleCreateList = async (taskList: TaskList) => {
-    dispatch({ type: "CREATE_LIST", payload: taskList });
-    setDisplayList(taskList);
-    await axiosPrivate.post(
-      "/lists/main",
-      {
-        payload: taskList,
-      },
-      config
-    );
+    try {
+      dispatch({ type: "CREATE_LIST", payload: taskList });
+      // setDisplayList(taskList);
+      const response = await axiosPrivate.post(
+        "/lists/main",
+        {
+          payload: taskList,
+        },
+        config
+      );
+
+      setIsModified(true);
+    } catch (error) {}
   };
 
   const handleUpdateList = async (taskList: TaskList) => {

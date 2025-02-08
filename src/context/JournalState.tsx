@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useReducer,
+  useState,
 } from "react";
 import AuthContext from "./AuthProvider";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -27,39 +28,76 @@ const initialState: JournalState = {
 // Create context
 export const JournalContext = createContext(initialState);
 
+const initialStatus = {
+  isLoading: false,
+  isSuccess: false,
+  isError: false,
+  error: {},
+};
+
 export const JournalProvider = ({ children }: { children: ReactNode }) => {
   const { auth, config } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
 
   // Store data
   const [state, dispatch] = useReducer(journalReducer, []);
+  const [status, setStatus] = useState(initialStatus);
+  const [isModified, setIsModified] = useState(false);
 
   const handleJournalGet = async () => {
-    const response = await axiosPrivate.get(SERVER.JOURNAL, config);
-    if (response.status === 200 && Array.isArray(response.data)) {
-      dispatch({ type: "JOURNAL_GET", payload: response.data });
+    try {
+      const response = await axiosPrivate.get(SERVER.JOURNAL, config);
+      if (response.status === 200 && Array.isArray(response.data)) {
+        dispatch({ type: "JOURNAL_GET", payload: response.data });
+      }
+    } catch (error) {
+    } finally {
+      setIsModified(false);
     }
   };
 
   const handleJournalCreate = async (journal: JournalItem) => {
-    dispatch({ type: "JOURNAL_CREATE", payload: journal });
-    await axiosPrivate.post(SERVER.JOURNAL, { payload: journal }, config);
+    try {
+      dispatch({ type: "JOURNAL_CREATE", payload: journal });
+      const response = await axiosPrivate.post(
+        SERVER.JOURNAL,
+        { payload: journal },
+        config
+      );
+      setIsModified(true);
+    } catch (error) {}
   };
 
   const handleJournalUpdate = async (journal: JournalItem) => {
-    dispatch({
-      type: "JOURNAL_UPDATE",
-      payload: journal,
-    });
-    await axiosPrivate.patch(SERVER.JOURNAL, { payload: journal }, config);
+    try {
+      dispatch({
+        type: "JOURNAL_UPDATE",
+        payload: journal,
+      });
+      const response = await axiosPrivate.patch(
+        SERVER.JOURNAL,
+        { payload: journal },
+        config
+      );
+      setIsModified(true);
+      return response;
+    } catch (error) {}
   };
 
   const handleJournalDelete = async (id: string) => {
-    dispatch({
-      type: "JOURNAL_DELETE",
-      payload: id,
-    });
-    await axiosPrivate.post(SERVER.JOURNAL, { payload: id }, config);
+    try {
+      dispatch({
+        type: "JOURNAL_DELETE",
+        payload: id,
+      });
+      const response = await axiosPrivate.post(
+        SERVER.JOURNAL,
+        { payload: id },
+        config
+      );
+      setIsModified(true);
+      return response;
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -67,6 +105,12 @@ export const JournalProvider = ({ children }: { children: ReactNode }) => {
       handleJournalGet();
     }
   }, [auth?.user]);
+
+  useEffect(() => {
+    if (auth?.user && isModified) {
+      handleJournalGet();
+    }
+  }, [isModified]);
 
   return (
     <JournalContext.Provider
