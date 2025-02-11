@@ -146,7 +146,6 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
       config
     );
 
-    console.log(response);
     if (response?.status === 204) {
       setIsModified(true);
     }

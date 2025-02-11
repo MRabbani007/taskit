@@ -17,7 +17,8 @@ import CardListName from "@/features/taskList/CardListName";
 import ListImage from "../../../assets/list-2.png";
 
 export default function TaskListPage() {
-  const { lists, handleUpdateList } = useContext(ListContext);
+  const { lists, pinnedLists, userLists, handleUpdateList } =
+    useContext(ListContext);
   const { tasks, count, status, handleGetTasks, handleSortTasksList } =
     useContext(TaskContext);
 
@@ -190,7 +191,7 @@ export default function TaskListPage() {
   }
 
   return (
-    <main className="">
+    <main className="m-0 p-0">
       {/* List Name */}
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
         <header className="text-white gap-4 py-2 px-4 self-stretch">
@@ -263,7 +264,7 @@ export default function TaskListPage() {
         <Link to={"/myLists"}>My Lists</Link>
       </div>
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 duration-300">
-        {lists.slice(0, 4).map((item) => {
+        {[...pinnedLists, ...userLists].slice(0, 4).map((item) => {
           return <CardListName key={item.id} taskList={item} />;
         })}
       </div>

@@ -25,10 +25,10 @@ import LayoutActivities from "./features/layout/LayoutActivities";
 import HomePage from "./views/HomePage";
 // Admin
 import AdminPage from "./views/admin/AdminPage";
-import AdminTasks from "./views/admin/AdminTasks";
+import AdminTasksPage from "./views/admin/AdminTasksPage";
 import AdminNotes from "./views/admin/AdminNotes";
 import AdminLists from "./views/admin/AdminLists";
-import AdminUsers from "./views/admin/AdminUsers";
+import AdminUsersPage from "./views/admin/AdminUsersPage";
 // Tasks
 import TasksPage from "./views/user/tasks/TasksPage";
 import UserListsPage from "./views/user/tasks/UserListsPage";
@@ -122,10 +122,10 @@ function App() {
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
               <Route path="admin" element={<LayoutAdmin />}>
                 <Route index element={<AdminPage />} />
-                <Route path="tasks" element={<AdminTasks />} />
+                <Route path="tasks" element={<AdminTasksPage />} />
                 <Route path="notes" element={<AdminNotes />} />
                 <Route path="lists" element={<AdminLists />} />
-                <Route path="users" element={<AdminUsers />} />
+                <Route path="users" element={<AdminUsersPage />} />
               </Route>
             </Route>
 

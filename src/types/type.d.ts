@@ -107,3 +107,13 @@ type MoveItem =
       plannerSortIndex: number | null;
     } & Task)
   | undefined;
+
+type User = {
+  id: string;
+  username: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  roles: number[];
+  createDate: Date;
+};

@@ -17,7 +17,7 @@ export default function JournalPage() {
   const [sortA, setSortA] = useState(true);
 
   return (
-    <main>
+    <main className="m-0 p-0">
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-950 shadow-md shadow-zinc-500">
         <header className="py-2 px-4 text-white gap-4 self-stretch">
           {/* <BsJournalText size={40} /> */}

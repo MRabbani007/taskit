@@ -13,7 +13,7 @@ type Props = {
   title: string;
   subtitle?: string | null;
   submitButton?: string;
-  children: ReactNode;
+  children?: ReactNode;
   onSubmit: (event: FormEvent) => void;
   deleteButton?: boolean;
   handleDelete?: () => void;

@@ -61,20 +61,20 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
       key={taskList?.id}
       // draggable
       // onDrag={onDragStart}
-      className="flex flex-col relative"
+      className="flex flex-col relative group"
     >
       <button
         title="Pin List"
         onClick={() => setPinned((curr) => !curr)}
         className={
           pinned
-            ? "absolute top-2 left-2 text-sky-800"
-            : "hidden group-hover:inline-block"
+            ? " absolute top-2 left-2 text-sky-800"
+            : " hidden group-hover:inline-block  absolute top-2 left-2"
         }
       >
         <BsPinAngle size={20} />
       </button>
-      <div className="flex flex-col items-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 group flex-1">
+      <div className="flex flex-col items-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 flex-1">
         <img src={imgSrc} className="w-10" onError={handleError} />
         <div className="flex-1">
           {/* Edit List Title */}
@@ -90,7 +90,12 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
               ((summary?.pending ? summary?.pending : 0) + " open")}
           </p>
         </div>
-        <div className="absolute top-1 right-1 flex items-center ml-2 invisible group-hover:visible">
+        {/* <div className="absolute top-1 left-1 invisible group-hover:visible opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 duration-200">
+          <button className="text-zinc-800">
+            <GoPin size={20} />
+          </button>
+        </div> */}
+        <div className="absolute top-1 right-1 flex items-center ml-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 duration-200">
           <button onClick={() => setEdit(true)}>
             <CiEdit size={30} />
           </button>

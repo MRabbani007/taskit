@@ -1,13 +1,10 @@
-import {
-  LoginOutlined,
-  SettingOutlined,
-  UserAddOutlined,
-} from "@ant-design/icons";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { RiAdminLine } from "react-icons/ri";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
+import { IoSettingsOutline } from "react-icons/io5";
+import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
 
 export default function UserMenu() {
   const { auth } = useAuth();
@@ -19,30 +16,25 @@ export default function UserMenu() {
     {
       label: "Sign In",
       url: "/login",
-      icon: <LoginOutlined size={25} />,
+      icon: <IoMdLogIn size={25} />,
     },
     {
       label: "Register",
       url: "/register",
-      icon: <UserAddOutlined size={25} />,
+      icon: <AiOutlineUserAdd size={25} />,
     },
   ];
 
   const itemsUser = [
     {
-      label: "Sign Out",
-      url: "/login",
-      icon: <LoginOutlined size={25} />,
-    },
-    {
-      label: "Register",
-      url: "/register",
-      icon: <UserAddOutlined size={25} />,
-    },
-    {
       label: "Settings",
       url: "/user/settings",
-      icon: <SettingOutlined size={25} />,
+      icon: <IoSettingsOutline size={25} />,
+    },
+    {
+      label: "Sign Out",
+      url: "/login",
+      icon: <IoMdLogOut size={25} />,
     },
   ];
 
@@ -54,13 +46,13 @@ export default function UserMenu() {
     },
     {
       label: "Settings",
-      url: "/settings",
-      icon: <SettingOutlined size={25} />,
+      url: "/user/settings",
+      icon: <IoSettingsOutline size={25} />,
     },
     {
       label: "Sign Out",
       url: "/login",
-      icon: <LoginOutlined size={25} />,
+      icon: <IoMdLogOut size={25} />,
     },
   ];
 
@@ -110,18 +102,18 @@ export default function UserMenu() {
         className={
           (show
             ? ""
-            : " -translate-y-4 opacity-0 invisible pointer-events-none") +
-          " duration-200 absolute top-full right-0 flex flex-col"
+            : " -translate-y-4 opacity-0 invisible pointer-events-none ") +
+          " duration-200 absolute top-full right-0 flex flex-col rounded-md overflow-clip w-[200px]"
         }
       >
         {items.map((item, index) => (
           <Link
             key={index}
             to={item.url}
-            className="py-2 px-4 bg-zinc-100 flex items-center gap-2"
+            className="py-2 px-4 bg-zinc-100 hover:bg-zinc-200 duration-200 flex items-stretch gap-2"
           >
             {item.icon}
-            <span>{item.label}</span>
+            <p>{item.label}</p>
           </Link>
         ))}
       </div>

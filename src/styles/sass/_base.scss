@@ -33,7 +33,7 @@ main {
   flex-direction: column;
   align-items: stretch;
   flex: 1 1 0%;
-  padding: 0.5rem;
+  // padding: 0.5rem;
   gap: 1rem;
 }
 
@@ -65,6 +65,6 @@ button {
 // Small Screen
 @media screen and (min-width: 640px) {
   main {
-    padding: 1rem;
+    // padding: 1rem;
   }
 }

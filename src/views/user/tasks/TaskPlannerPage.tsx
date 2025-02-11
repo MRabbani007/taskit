@@ -148,7 +148,7 @@ export default function TaskPlannerPage() {
   }, []);
 
   return (
-    <main>
+    <main className="m-0 p-0">
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-600 to-sky-950 shadow-md shadow-zinc-500">
         <header className="text-white gap-4 py-2 px-4 self-stretch">
           {/* <FaTimeline size={40} /> */}

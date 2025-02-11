@@ -32,6 +32,7 @@ export default function FormJournalAdd({
   };
 
   console.log(state);
+  console.log(state?.onDate.toISOString().split("T")[0]);
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -64,7 +65,7 @@ export default function FormJournalAdd({
         label="On Date"
         name="onDate"
         type="date"
-        value={state?.onDate.toLocaleString().substring(0, 10)}
+        value={state?.onDate.toISOString().split("T")[0]}
         onChange={handleChange}
       />
     </FormContainer>

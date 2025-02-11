@@ -166,7 +166,7 @@ export default function CalendarPage() {
   };
 
   return (
-    <main>
+    <main className="m-0 p-0">
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-green-600 to-green-950 shadow-md shadow-zinc-500">
         <header className="py-2 px-4 text-white gap-4">
           {/* <IoCalendarOutline size={40} /> */}

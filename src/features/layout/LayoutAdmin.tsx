@@ -1,15 +1,18 @@
 import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
-import Sidebar from "../navigation/Sidebar";
+import { AdminProvider } from "@/context/AdminContext";
+import AdminSideBar from "../navigation/AdminSideBar";
 
 export default function LayoutAdmin() {
   return (
-    <div className="flex items-stretch justify-center gap-2 w-full flex-1 border-2">
-      <Sidebar />
-      <Suspense fallback={<SkeletonContentPage />}>
-        <Outlet />
-      </Suspense>
+    <div className="flex items-stretch justify-center w-full flex-1 bg-gray-950">
+      <AdminSideBar />
+      <AdminProvider>
+        <Suspense fallback={<SkeletonContentPage />}>
+          <Outlet />
+        </Suspense>
+      </AdminProvider>
     </div>
   );
 }

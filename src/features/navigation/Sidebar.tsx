@@ -235,8 +235,8 @@ export default function Sidebar() {
   return (
     <nav
       className={
-        (collapsed ? "w-20" : "w-40") +
-        " hidden lg:flex flex-col bg-zinc-100 border-r-[1px] border-zinc-400 duration-300"
+        (collapsed ? "" : "w-40") +
+        " hidden lg:flex flex-col bg-teal-950 text-zinc-100 duration-300"
       }
     >
       <Link

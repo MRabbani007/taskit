@@ -1,6 +1,6 @@
 import { ChangeEvent, useContext, useState } from "react";
 import { NotesContext } from "../../context/NotesState";
-import { BiCheck, BiDotsHorizontal, BiX } from "react-icons/bi";
+import { BiCheck, BiX } from "react-icons/bi";
 import { T_NOTE } from "@/lib/templates";
 import { Button, Popconfirm } from "antd";
 import { CiTrash } from "react-icons/ci";

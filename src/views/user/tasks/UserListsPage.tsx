@@ -15,6 +15,7 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { BiPlus } from "react-icons/bi";
 import FormTaskListCreate from "@/features/taskList/FormTaskListCreate";
 import PageLinks from "@/features/navigation/PageLinks";
+import { CiTrash } from "react-icons/ci";
 
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status, handleSort } =
@@ -99,7 +100,7 @@ export default function UserListsPage() {
     }
     if (trashLists.length === 0) {
       contentTrash = (
-        <p className="font-medium text-zinc-800">No lists in trash</p>
+        <p className="font-medium text-zinc-800 px-4">No lists in trash</p>
       );
     } else {
       contentTrash = (
@@ -113,8 +114,8 @@ export default function UserListsPage() {
   }
 
   return (
-    <main>
-      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
+    <main className="m-0 p-0">
+      <div className="pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
         <header
           className="text-white gap-4 py-2 px-4 "
           onClick={() => setExpand((prev) => !prev)}
@@ -169,18 +170,18 @@ export default function UserListsPage() {
           </Droppable>
         </DragDropContext> */}
       </section>
-      {/* <header
-        className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4"
-        onClick={() => setExpandTrash((prev) => !prev)}
+      <header
+        className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4 rounded-lg"
+        // onClick={() => setExpandTrash((prev) => !prev)}
       >
-        <CiTrash size={40} />
+        <CiTrash size={30} />
         <h2 className="flex-1">Trash</h2>
-        <SlArrowRight
+        {/* <SlArrowRight
           size={25}
           className={(expandTrash ? "rotate-90 " : "") + " duration-300"}
-        />
-      </header> */}
-      {/* <section
+        /> */}
+      </header>
+      <section
         className={
           (expandTrash
             ? "translate-y-[0] opacity-100 "
@@ -188,7 +189,7 @@ export default function UserListsPage() {
         }
       >
         {contentTrash}
-      </section> */}
+      </section>
       {/* <Link to={"/myLists/createList"}>
         <FloatButton
           type="primary"

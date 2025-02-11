@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const { auth } = useAuth();
 
   return (
-    <main>
+    <main className="m-0 p-0">
       <header className="py-2 ">
         <Badge count={10} dot={false}>
           <Avatar shape="square" size={64} icon={<UserOutlined />} />
@@ -24,7 +24,7 @@ export default function DashboardPage() {
           </p>
         </div>
       </header>
-      <div className="flex flex-row flex-wrap lg:flex-nowrap gap-4">
+      <div className="flex flex-col md:flex-row flex-wrap lg:flex-nowrap gap-4">
         <div className="flex-1 flex flex-col gap-4">
           <CurrentFocusCard />
           <PlannerSummaryCard />

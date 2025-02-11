@@ -129,7 +129,7 @@ export default function TasksPage() {
   }
 
   return (
-    <main>
+    <main className="m-0 p-0">
       {/* Header Block */}
       <div className="bg-gradient-to-r via-sky-800 from-zinc-800 to-sky-600 shadow-md shadow-zinc-500 pt-4 pb-8 px-2 flex flex-col items-start rounded-xl">
         <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 bg-clip-text gap-4 self-stretch text-white">

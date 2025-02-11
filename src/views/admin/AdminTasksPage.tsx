@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import TasksTable from "../../features/admin/TasksTable";
 import { ACTIONS, SERVER } from "../../data/actions";
 import useAuth from "../../hooks/useAuth";
 
-const AdminTasks = () => {
+export default function AdminTasksPage() {
   const axiosPrivate = useAxiosPrivate();
   const { auth } = useAuth();
 
@@ -70,6 +70,4 @@ const AdminTasks = () => {
       </table>
     </div>
   );
-};
-
-export default AdminTasks;
+}

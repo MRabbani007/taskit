@@ -51,6 +51,8 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
   const [notes, setNotes] = useState<Note[]>([]);
   const [trash, setTrash] = useState<Note[]>([]);
 
+  const [isModified, setIsModified] = useState(false);
+
   const handleNotesGetUser = async () => {
     try {
       setStatus({
@@ -77,30 +79,52 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
         isError: true,
         error: {},
       });
+    } finally {
+      setIsModified(false);
     }
   };
 
   const handleNoteCreate = async (note: Note) => {
-    dispatch({ type: "NOTES_CREATE", payload: note });
+    try {
+      // dispatch({ type: "NOTES_CREATE", payload: note });
 
-    await axiosPrivate.post(SERVER.NOTES, { newNote: note }, config);
+      const response = await axiosPrivate.post(
+        SERVER.NOTES,
+        { newNote: note },
+        config
+      );
+
+      setIsModified(true);
+    } catch (error) {}
   };
 
   const handleNoteUpdate = async (newNote: Note) => {
-    dispatch({
-      type: "NOTES_UPDATE",
-      payload: newNote,
-    });
+    try {
+      // dispatch({
+      //   type: "NOTES_UPDATE",
+      //   payload: newNote,
+      // });
 
-    await axiosPrivate.patch(SERVER.NOTES, { newNote }, config);
+      const response = await axiosPrivate.patch(
+        SERVER.NOTES,
+        { newNote },
+        config
+      );
+
+      setIsModified(true);
+    } catch (error) {}
   };
 
   const handleNoteDelete = async (id: string) => {
-    dispatch({ type: "NOTES_REMOVE", payload: id });
-    await axiosPrivate.delete(SERVER.NOTES, {
-      data: { id },
-      ...config,
-    });
+    try {
+      // dispatch({ type: "NOTES_REMOVE", payload: id });
+      const response = await axiosPrivate.delete(SERVER.NOTES, {
+        data: { id },
+        ...config,
+      });
+
+      setIsModified(true);
+    } catch (error) {}
   };
 
   // TODO: complete server side
@@ -140,6 +164,12 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
       handleNotesGetUser();
     }
   }, [auth?.user]);
+
+  useEffect(() => {
+    if (isModified) {
+      handleNotesGetUser();
+    }
+  }, [isModified]);
 
   return (
     <NotesContext.Provider
