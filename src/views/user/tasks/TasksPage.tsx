@@ -22,6 +22,7 @@ import {
 import { BsCalendar4Week } from "react-icons/bs";
 import PageLinks from "@/features/navigation/PageLinks";
 import { Switch } from "antd";
+import { UserContext } from "@/context/UserState";
 
 const TaskFilters = [
   {
@@ -65,11 +66,14 @@ export default function TasksPage() {
   const [searchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") ?? "1");
 
+  const { userSettings } = useContext(UserContext);
   const { tasks, count, handleGetTasks, status, filters, setFilters } =
     useContext(TaskContext);
 
   const [showCompleted, setShowCompleted] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+
+  const taskDisplay = userSettings?.taskView ?? "board";
 
   useEffect(() => {
     handleGetTasks({
@@ -106,7 +110,13 @@ export default function TasksPage() {
     content = <p>You don't have any tasks, add new tasks</p>;
   } else if (status?.isSuccess) {
     content = (
-      <div className="flex items-stretch gap-4 flex-wrap">
+      <div
+        className={
+          (taskDisplay === "list"
+            ? "grid-cols-1"
+            : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3") + " grid gap-4 "
+        }
+      >
         {pageItems.map((task) => {
           return (
             <CardTask

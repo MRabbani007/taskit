@@ -4,7 +4,6 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
 import useDebounce from "../../../hooks/useDebounce";
 import { ListContext } from "../../../context/ListState";
-import Loading from "../../../features/components/Loading";
 import { Switch } from "antd";
 import { BiPlus } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";
@@ -15,14 +14,18 @@ import FormTaskEdit from "@/features/task/FormTaskEdit";
 import PageLinks from "@/features/navigation/PageLinks";
 import CardListName from "@/features/taskList/CardListName";
 import ListImage from "../../../assets/list-2.png";
+import { BsPinAngle } from "react-icons/bs";
+import { UserContext } from "@/context/UserState";
 
 export default function TaskListPage() {
   const { lists, pinnedLists, userLists, handleUpdateList } =
     useContext(ListContext);
-  const { tasks, count, status, handleGetTasks, handleSortTasksList } =
-    useContext(TaskContext);
+  const { tasks, count, status, handleGetTasks } = useContext(TaskContext);
+  const { userSettings } = useContext(UserContext);
 
   const [searchParams] = useSearchParams();
+
+  const taskDisplay = userSettings?.taskView ?? "board";
 
   const page = parseInt(searchParams.get("page") ?? "1");
   const id = searchParams?.get("id") ?? "";
@@ -61,55 +64,55 @@ export default function TaskListPage() {
   const [edit, setEdit] = useState(false);
 
   const [add, setAdd] = useState(false);
-  const [block, setBlock] = useState(false);
+  // const [block, setBlock] = useState(false);
 
   const [viewEditTask, setViewEditTask] = useState(false);
   const [editTask, setEditTask] = useState<Task | null>(null);
 
-  const [dragItem, setDragItem] = useState<DragItem | null>(null);
-  const [dragOverItem, setDragOverItem] = useState<DragItem | null>(null);
+  // const [dragItem, setDragItem] = useState<DragItem | null>(null);
+  // const [dragOverItem, setDragOverItem] = useState<DragItem | null>(null);
 
-  const dragStart = ({ type = null, id = null, index = null }) => {
-    setDragItem({ type, id, index });
-  };
-  const dragEnter = ({ type = null, id = null, index = null }) => {
-    setDragOverItem({ type, id, index });
-  };
-  const dragEnd = () => {
-    if (
-      dragItem?.index === null ||
-      dragItem?.index === undefined ||
-      dragOverItem?.index === null ||
-      dragOverItem?.index === undefined
-    ) {
-      setDragItem(null);
-      setDragOverItem(null);
-      return null;
-    }
+  // const dragStart = ({ type = null, id = null, index = null }) => {
+  //   setDragItem({ type, id, index });
+  // };
+  // const dragEnter = ({ type = null, id = null, index = null }) => {
+  //   setDragOverItem({ type, id, index });
+  // };
+  // const dragEnd = () => {
+  //   if (
+  //     dragItem?.index === null ||
+  //     dragItem?.index === undefined ||
+  //     dragOverItem?.index === null ||
+  //     dragOverItem?.index === undefined
+  //   ) {
+  //     setDragItem(null);
+  //     setDragOverItem(null);
+  //     return null;
+  //   }
 
-    if (block) {
-      setBlock(false);
-      return null;
-    }
+  //   if (block) {
+  //     setBlock(false);
+  //     return null;
+  //   }
 
-    const newTasks = showCompleted
-      ? [...tasks]
-      : tasks.filter((item) => item.completed !== true);
+  //   const newTasks = showCompleted
+  //     ? [...tasks]
+  //     : tasks.filter((item) => item.completed !== true);
 
-    const moveItem = newTasks.splice(dragItem?.index, 1)[0];
-    newTasks.splice(dragOverItem.index, 0, moveItem);
+  //   const moveItem = newTasks.splice(dragItem?.index, 1)[0];
+  //   newTasks.splice(dragOverItem.index, 0, moveItem);
 
-    handleSortTasksList(newTasks);
+  //   handleSortTasksList(newTasks);
 
-    setDragItem(null);
-    setDragOverItem(null);
-  };
+  //   setDragItem(null);
+  //   setDragOverItem(null);
+  // };
 
-  const dragReset = () => {
-    setBlock(true);
-    setDragItem(null);
-    setDragOverItem(null);
-  };
+  // const dragReset = () => {
+  //   setBlock(true);
+  //   setDragItem(null);
+  //   setDragOverItem(null);
+  // };
 
   const [pinned, setPinned] = useState(displayList?.pinned || false);
   const debouncePin = useDebounce(pinned, 1000);
@@ -162,10 +165,14 @@ export default function TaskListPage() {
       const displayTasks = tasks;
       content = (
         <div
-          className="flex items-stretch gap-4 flex-wrap"
-          onMouseLeave={dragReset}
+          className={
+            (taskDisplay === "list"
+              ? "grid-cols-1"
+              : "grid-cols-1 md:grid-cols-2 lg:grid-cols-3") + " grid gap-4 "
+          } //flex items-stretch flex-wrap
+          // onMouseLeave={dragReset}
         >
-          {displayTasks.map((task, idx) => {
+          {displayTasks.map((task) => {
             return (
               <CardTask
                 task={task}
@@ -194,27 +201,27 @@ export default function TaskListPage() {
     <main className="m-0 p-0">
       {/* List Name */}
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
-        <header className="text-white gap-4 py-2 px-4 self-stretch">
+        <header className="text-white gap-4 py-2 px-4 self-stretch group">
           <div className="flex items-stretch flex-1">
-            {/* <div
-            className={
-              (pinned ? "" : "") +
-              " duration-200 group cursor-pointer flex items-center justify-center"
-            }
-          >
-            <button
-              title="Pin List"
-              onClick={() => setPinned((curr) => !curr)}
+            <div
               className={
-                (pinned
-                  ? "absolute top-2 left-2"
-                  : "hidden group-hover:inline-block") +
-                " hover:text-yellow-400 duration-200"
+                (pinned ? "" : "") +
+                " duration-200 cursor-pointer flex items-center justify-center"
               }
             >
-              <BsPinAngle size={28} />
-            </button>
-          </div> */}
+              <button
+                title="Pin List"
+                onClick={() => setPinned((curr) => !curr)}
+                className={
+                  (pinned
+                    ? "absolute top-2 left-2"
+                    : "invisible group-hover:visible") +
+                  " hover:text-yellow-400 duration-200"
+                }
+              >
+                <BsPinAngle size={28} />
+              </button>
+            </div>
             <div className="flex flex-wrap items-center gap-2">
               <img src={imgSrc} className="w-10" onError={handleError} />
               <h1>{displayList?.title}</h1>
