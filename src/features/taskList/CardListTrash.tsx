@@ -1,6 +1,4 @@
 import { useContext } from "react";
-// Data
-import { IMAGES_Icons } from "../../data/templates";
 // AntD
 import { Button, Popconfirm, message } from "antd";
 import { LiaTrashRestoreSolid, LiaTrashSolid } from "react-icons/lia";
@@ -22,7 +20,7 @@ export default function CardListTrash({ list }: { list: TaskList }) {
   return (
     <li className="flex items-center justify-between py-1 px-4 shadow-sm shadow-slate-600 rounded-md group">
       <div className="flex items-center gap-2">
-        <img src={IMAGES_Icons + list?.icon} className="icon-lg" />
+        <img src={list?.icon} className="icon-lg" />
         <span>{list.title}</span>
       </div>
       <span className="flex items-center ml-2 invisible group-hover:visible">

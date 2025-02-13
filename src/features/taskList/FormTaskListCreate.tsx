@@ -6,9 +6,10 @@ import {
   useState,
 } from "react";
 import Drawer from "../components/Drawer";
-import { listTemplates } from "@/data/templates";
 import { ListContext } from "@/context/ListState";
 import { T_TASKLIST } from "@/lib/templates";
+import DisplayFolder from "../components/DisplayFolder";
+import { listTemplates } from "@/lib/taskListTemplates";
 
 export default function FormTaskListCreate({
   show,
@@ -20,8 +21,14 @@ export default function FormTaskListCreate({
   const { handleCreateList } = useContext(ListContext);
   //   const navigate = useNavigate();
 
+  const [state, setState] = useState(T_TASKLIST);
+
   const [other, setOther] = useState(false);
   const [title, setTitle] = useState("");
+
+  const handleSelectIcon = (icon: string) => {
+    setState((curr) => ({ ...curr, icon }));
+  };
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -63,10 +70,7 @@ export default function FormTaskListCreate({
     >
       {other ? (
         <>
-          <div className="h-32 min-w-32 border-2 border-zinc-200 border-dashed rounded-lg mx-auto mb-6 flex items-center justify-center px-6">
-            Drag and drop Icon
-          </div>
-          <div className="flex flex-col gap-1 border-2 border-zinc-200 p-2 rounded-md">
+          <div className="flex flex-col gap-1 border-2 border-zinc-200 p-2 rounded-md mb-4">
             <input
               id="item"
               name="title"
@@ -76,6 +80,13 @@ export default function FormTaskListCreate({
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
+          <p className="font-bold text-zinc-800">Select Icon</p>
+          <DisplayFolder
+            initialFolder="lists"
+            handleSelectIcon={handleSelectIcon}
+            icon={state?.icon}
+          />
+
           <div className="flex items-center justify-center my-6 gap-4">
             <button
               type="submit"

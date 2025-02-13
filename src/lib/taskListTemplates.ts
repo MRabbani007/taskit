@@ -1,5 +1,3 @@
-export const IMAGES_Icons = "icons/";
-
 export const listTemplates = [
   {
     name: "Work",

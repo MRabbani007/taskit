@@ -1,5 +1,4 @@
 import { ReactNode, useContext, useState } from "react";
-import { Link } from "react-router-dom";
 // Context
 import { ListContext } from "../../../context/ListState";
 // Components
@@ -7,15 +6,14 @@ import CardListName from "../../../features/taskList/CardListName";
 import CardListTrash from "../../../features/taskList/CardListTrash";
 import Loading from "../../../features/components/Loading";
 // Icons
-import { BsCardList } from "react-icons/bs";
-import { SlArrowRight } from "react-icons/sl";
-import { FloatButton } from "antd";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { IoAddCircleOutline } from "react-icons/io5";
+// import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { BiPlus } from "react-icons/bi";
 import FormTaskListCreate from "@/features/taskList/FormTaskListCreate";
 import PageLinks from "@/features/navigation/PageLinks";
 import { CiTrash } from "react-icons/ci";
+import { SlArrowRight } from "react-icons/sl";
+import FormTaskListEdit from "@/features/taskList/FormTaskListEdit";
+import FormListIcon from "@/features/taskList/FormListIcon";
 
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status, handleSort } =
@@ -24,22 +22,25 @@ export default function UserListsPage() {
   const [expandTrash, setExpandTrash] = useState(false);
 
   const [add, setAdd] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [editIcon, setEditIcon] = useState(false);
+  const [editItem, setEditItem] = useState<TaskList | null>(null);
 
-  const handleDragEnd = (result: any) => {
-    if (!result.destination) return;
+  // const handleDragEnd = (result: any) => {
+  //   if (!result.destination) return;
 
-    const items =
-      result?.source.droppableId === "pinnedLists"
-        ? Array.from(pinnedLists)
-        : Array.from(userLists);
+  //   const items =
+  //     result?.source.droppableId === "pinnedLists"
+  //       ? Array.from(pinnedLists)
+  //       : Array.from(userLists);
 
-    if (result.destination.index === result.source.index) return;
+  //   if (result.destination.index === result.source.index) return;
 
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+  //   const [reorderedItem] = items.splice(result.source.index, 1);
+  //   items.splice(result.destination.index, 0, reorderedItem);
 
-    handleSort(result?.source.droppableId, items);
-  };
+  //   handleSort(result?.source.droppableId, items);
+  // };
 
   let contentLists: ReactNode;
   let contentPinned: ReactNode;
@@ -76,7 +77,13 @@ export default function UserListsPage() {
           //       {...provided.draggableProps}
           //       {...provided.dragHandleProps}
           //     >
-          <CardListName key={index} taskList={list} />
+          <CardListName
+            key={index}
+            taskList={list}
+            setEdit={setEdit}
+            setEditIcon={setEditIcon}
+            setEditItem={setEditItem}
+          />
           //     </div>
           //   )}
           // </Draggable>
@@ -91,7 +98,13 @@ export default function UserListsPage() {
           //       {...provided.draggableProps}
           //       {...provided.dragHandleProps}
           //     >
-          <CardListName key={index} taskList={list} />
+          <CardListName
+            key={index}
+            taskList={list}
+            setEdit={setEdit}
+            setEditIcon={setEditIcon}
+            setEditItem={setEditItem}
+          />
           //     </div>
           //   )}
           // </Draggable>
@@ -172,14 +185,14 @@ export default function UserListsPage() {
       </section>
       <header
         className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4 rounded-lg"
-        // onClick={() => setExpandTrash((prev) => !prev)}
+        onClick={() => setExpandTrash((prev) => !prev)}
       >
         <CiTrash size={30} />
         <h2 className="flex-1">Trash</h2>
-        {/* <SlArrowRight
+        <SlArrowRight
           size={25}
           className={(expandTrash ? "rotate-90 " : "") + " duration-300"}
-        /> */}
+        />
       </header>
       <section
         className={
@@ -198,7 +211,13 @@ export default function UserListsPage() {
           style={{ right: 94 }}
         />
       </Link> */}
-      <FormTaskListCreate show={add} setShow={setAdd} />
+      {add && <FormTaskListCreate show={add} setShow={setAdd} />}
+      {edit && editItem && (
+        <FormTaskListEdit taskList={editItem} edit={edit} setEdit={setEdit} />
+      )}
+      {editIcon && editItem && (
+        <FormListIcon list={editItem} edit={editIcon} setEdit={setEditIcon} />
+      )}
     </main>
   );
 }

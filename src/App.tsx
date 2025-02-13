@@ -27,7 +27,6 @@ import HomePage from "./views/HomePage";
 import AdminPage from "./views/admin/AdminPage";
 import AdminTasksPage from "./views/admin/AdminTasksPage";
 import AdminNotes from "./views/admin/AdminNotes";
-import AdminLists from "./views/admin/AdminLists";
 import AdminUsersPage from "./views/admin/AdminUsersPage";
 // Tasks
 import TasksPage from "./views/user/tasks/TasksPage";
@@ -49,9 +48,10 @@ import CalendarPage from "./views/user/CalendarPage";
 // User
 import DashboardPage from "./views/user/DashboardPage";
 import TaskPlannerPage from "./views/user/tasks/TaskPlannerPage";
+import AdminListsPage from "./views/admin/AdminListsPage";
 // Imported Components
-const ForgotPasswordPage = React.lazy(() =>
-  import("./views/auth/ForgotPasswordPage")
+const ForgotPasswordPage = React.lazy(
+  () => import("./views/auth/ForgotPasswordPage")
 );
 const ChangePassword = React.lazy(() => import("./views/auth/ChangePassword"));
 const SettingsPage = React.lazy(() => import("./views/user/SettingsPage"));
@@ -124,7 +124,7 @@ function App() {
                 <Route index element={<AdminPage />} />
                 <Route path="tasks" element={<AdminTasksPage />} />
                 <Route path="notes" element={<AdminNotes />} />
-                <Route path="lists" element={<AdminLists />} />
+                <Route path="lists" element={<AdminListsPage />} />
                 <Route path="users" element={<AdminUsersPage />} />
               </Route>
             </Route>

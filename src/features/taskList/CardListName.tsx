@@ -1,4 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 // Context
 import { ListContext } from "../../context/ListState";
 // Hooks
@@ -6,16 +12,25 @@ import useDebounce from "../../hooks/useDebounce";
 // Imported Media
 import { BsPinAngle } from "react-icons/bs";
 import { Button, Popconfirm, message } from "antd";
-import FormTaskListEdit from "./FormTaskListEdit";
 import ListImage from "../../assets/list-2.png";
 import { useNavigate } from "react-router-dom";
-import { CiEdit, CiTrash } from "react-icons/ci";
+import { CiEdit, CiImageOn, CiTrash } from "react-icons/ci";
+import ProgressBar from "../components/ProgressBar";
 
-export default function CardListName({ taskList }: { taskList: TaskList }) {
+export default function CardListName({
+  taskList,
+  setEdit,
+  setEditIcon,
+  setEditItem,
+}: {
+  taskList: TaskList;
+  setEdit: Dispatch<SetStateAction<boolean>>;
+  setEditIcon: Dispatch<SetStateAction<boolean>>;
+  setEditItem: Dispatch<SetStateAction<TaskList | null>>;
+}) {
   const { listSummary, handleUpdateList } = useContext(ListContext);
   const navigate = useNavigate();
 
-  const [edit, setEdit] = useState(false);
   const [summary, setSummary] = useState<ListSummary | null>(null);
 
   const [pinned, setPinned] = useState(taskList?.pinned || false);
@@ -74,21 +89,30 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
       >
         <BsPinAngle size={20} />
       </button>
-      <div className="flex flex-col items-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 flex-1">
-        <img src={imgSrc} className="w-10" onError={handleError} />
-        <div className="flex-1">
-          {/* Edit List Title */}
+      <div className="flex flex-col text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 flex-1">
+        <div className="flex items-center justify-start gap-2 mb-4">
+          <img src={imgSrc} className="w-10" onError={handleError} />
           <p
             className="text-lg font-bold text-slate-800 px-0 cursor-pointer"
             onClick={handleOpen}
           >
             {taskList.title}
           </p>
-          <p>
+        </div>
+        <div className="flex-1">
+          {/* Edit List Title */}
+
+          {/* <p>
             {(summary?.total ? summary?.total : 0) +
               (summary?.total === 1 ? " task" : " tasks, ") +
               ((summary?.pending ? summary?.pending : 0) + " open")}
-          </p>
+          </p> */}
+          {summary?.total && summary?.total !== 0 && (
+            <ProgressBar
+              completed={summary.total - (summary?.pending ?? 0)}
+              total={summary?.total ?? 0}
+            />
+          )}
         </div>
         {/* <div className="absolute top-1 left-1 invisible group-hover:visible opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 duration-200">
           <button className="text-zinc-800">
@@ -96,8 +120,23 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
           </button>
         </div> */}
         <div className="absolute top-1 right-1 flex items-center ml-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 duration-200">
-          <button onClick={() => setEdit(true)}>
-            <CiEdit size={30} />
+          <button
+            onClick={() => {
+              setEdit(true);
+              setEditItem(taskList);
+            }}
+            className="p-1"
+          >
+            <CiEdit size={25} />
+          </button>
+          <button
+            onClick={() => {
+              setEditIcon(true);
+              setEditItem(taskList);
+            }}
+            className="p-1"
+          >
+            <CiImageOn size={25} />
           </button>
           <Popconfirm
             title="Trash List"
@@ -112,14 +151,11 @@ export default function CardListName({ taskList }: { taskList: TaskList }) {
               type="text"
               className="flex items-center justify-center m-0 p-1"
             >
-              <CiTrash size={30} />
+              <CiTrash size={25} />
             </Button>
           </Popconfirm>
         </div>
       </div>
-      {edit ? (
-        <FormTaskListEdit taskList={taskList} edit={edit} setEdit={setEdit} />
-      ) : null}
     </div>
   );
 }

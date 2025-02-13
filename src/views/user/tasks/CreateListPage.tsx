@@ -2,15 +2,21 @@ import { FormEvent, useContext, useState } from "react";
 import { RiPlayListAddLine } from "react-icons/ri";
 import { IoAddOutline } from "react-icons/io5";
 import { ListContext } from "../../../context/ListState";
-import { listTemplates } from "../../../data/templates";
 import { T_TASKLIST } from "@/lib/templates";
 import { useNavigate } from "react-router-dom";
+import DisplayFolder from "@/features/components/DisplayFolder";
 
 export default function CreateListPage() {
   const { handleCreateList } = useContext(ListContext);
   const navigate = useNavigate();
 
+  const [state, setState] = useState(T_TASKLIST);
+
   const [newItem, setNewItem] = useState("");
+
+  const handleSelectIcon = (icon: string) => {
+    setState((curr) => ({ ...curr, icon }));
+  };
 
   // Create new list from user input
   const handleSubmit = async (event: FormEvent) => {
@@ -24,7 +30,6 @@ export default function CreateListPage() {
       ...T_TASKLIST,
       id,
       title: newItem,
-      icon: "food.png",
     });
     setNewItem("");
 
@@ -65,8 +70,13 @@ export default function CreateListPage() {
           <IoAddOutline className="icon" />
         </button>
       </form>
+      <DisplayFolder
+        initialFolder="lists"
+        handleSelectIcon={handleSelectIcon}
+        icon={state?.icon}
+      />
       {/* Select list from template */}
-      <div className="flex flex-wrap justify-center gap-3 my-3 mx-auto lg:w-[600px] font-semibold">
+      {/* <div className="flex flex-wrap justify-center gap-3 my-3 mx-auto lg:w-[600px] font-semibold">
         {listTemplates.map((item, index) => {
           return (
             <div
@@ -79,7 +89,7 @@ export default function CreateListPage() {
             </div>
           );
         })}
-      </div>
+      </div> */}
     </main>
   );
 }

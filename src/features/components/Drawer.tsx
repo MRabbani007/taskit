@@ -57,14 +57,16 @@ export default function Drawer({
       <div
         onClick={() => setShow(false)}
         className={
-          (show ? "" : " translate-y-full ") +
-          " fixed inset-0 bg-zinc-900/50 z-10 duration-100 ease-linear"
+          (show
+            ? " fixed top-0 left-0 bottom-0 right-0 z-10 "
+            : " hidden invisible opacity-0 -z-100") +
+          "  bg-zinc-900/50 duration-100 ease-linear"
         }
-      />
+      ></div>
       <div
         className={
-          (show ? "" : "translate-y-full ") +
-          "fixed bottom-0 left-0 right-0 w-full lg:max-w-[90vw] mx-auto flex items-center justify-center z-20"
+          (show ? "" : " ") +
+          " fixed bottom-0 left-0 right-0 w-full lg:max-w-[90vw] mx-auto flex items-center justify-center z-20"
         }
       >
         <form
