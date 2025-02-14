@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const local = true && window?.location?.origin.includes("localhost");
+const local = false && window?.location?.origin.includes("localhost");
 
 let BASE_URL = local
   ? "http://localhost:3000"
