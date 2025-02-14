@@ -90,15 +90,22 @@ export default function CardListName({
       >
         <BsPinAngle size={20} />
       </button>
-      <div className="flex flex-col text-center bg-zinc-100 hover:bg-cyan-100/40 duration-200 rounded-lg p-4 flex-1">
+      <div className="flex flex-col bg-zinc-100 hover:bg-cyan-100/40 duration-200 rounded-lg p-4 flex-1">
         <div className="flex items-center justify-start gap-2 mb-4">
           <img src={imgSrc} className="w-10" onError={handleError} />
-          <p
-            className="text-lg font-bold text-slate-800 px-0 cursor-pointer hover:text-blue-500 duration-200"
-            onClick={handleOpen}
-          >
-            {taskList.title}
-          </p>
+          <div className="flex-1 flex flex-col items-start">
+            <p
+              className="font-bold lg:text-lg text-zinc-900 p-0 cursor-pointer hover:text-blue-500 duration-200"
+              onClick={handleOpen}
+            >
+              {taskList.title}
+            </p>
+            {taskList?.subTitle.trim() && (
+              <p className="text-sm font-medium text-zinc-700">
+                {taskList?.subTitle}
+              </p>
+            )}
+          </div>
         </div>
         <div className="flex-1">
           {/* Edit List Title */}

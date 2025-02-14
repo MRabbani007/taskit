@@ -88,7 +88,7 @@ export default function CardTask({
         " rounded-lg relative flex-1 flex items-stretch gap-2 group/main"
       }
     >
-      <div className="py-4 pl-2">
+      <div className="py-3 pl-2">
         <input
           type="checkbox"
           className="bg-transparent"

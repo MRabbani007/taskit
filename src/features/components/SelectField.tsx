@@ -22,10 +22,7 @@ export default function SelectField({
         className
       }
     >
-      <label
-        htmlFor="Select"
-        className="text-sm md:text-base font-medium text-zinc-700 p-1"
-      >
+      <label htmlFor="Select" className="text-sm md:text-base font-medium p-1">
         {label}
       </label>
       <select
@@ -37,7 +34,7 @@ export default function SelectField({
         }
         className="px-4 py-2 text-gray-700 bg-white border-[1px] border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[1px] focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
       >
-        <option value="">{`Select ${label}`}</option>
+        {/* <option value="">{`Select ${label}`}</option> */}
         {options.map((item, idx) => (
           <option key={idx} value={item.value}>
             {item.label}

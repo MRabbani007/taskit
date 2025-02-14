@@ -13,7 +13,7 @@ export default function PageHeader({
   return (
     <div
       className={
-        "p-4 flex flex-col items-start gap-4 rounded-xl bg-gradient-to-r shadow-md shadow-zinc-500 " +
+        "p-4 flex flex-col items-start gap-4 rounded-xl bg-sky-800  " +
         className
       }
     >

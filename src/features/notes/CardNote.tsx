@@ -32,6 +32,10 @@ export default function CardNote({ note }: { note: Note }) {
     handleNoteUpdate({ ...note, trash: true });
   };
 
+  const handleClose = () => {
+    handleNoteUpdate({ ...note, isOpen: false });
+  };
+
   useEffect(() => {
     if (state?.title !== note?.title || state?.details !== note?.details) {
       handleNoteUpdate(state);
@@ -64,22 +68,27 @@ export default function CardNote({ note }: { note: Note }) {
           value={state?.title}
           onChange={handleChange}
         />
-        <Popconfirm
-          title="Trash Note"
-          description="Move note to trash?"
-          onConfirm={handleDelete}
-          onCancel={() => {}}
-          okText="Yes"
-          cancelText="No"
-          placement="topRight"
-        >
-          <Button
-            type="text"
-            className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center m-0 p-1 bg-transparent invisible group-hover:visible"
-          >
-            <CiTrash size={30} />
+        <div className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center  invisible group-hover:visible">
+          <Button type="text" className="p-1" onClick={handleClose}>
+            <BiX size={20} />
           </Button>
-        </Popconfirm>
+          <Popconfirm
+            title="Trash Note"
+            description="Move note to trash?"
+            onConfirm={handleDelete}
+            onCancel={() => {}}
+            okText="Yes"
+            cancelText="No"
+            placement="topRight"
+          >
+            <Button
+              type="text"
+              className="flex items-center justify-center m-0 p-1 bg-transparent"
+            >
+              <CiTrash size={20} />
+            </Button>
+          </Popconfirm>
+        </div>
         {/* <button className="absolute top-1/2 -translate-y-1/2 right-2">
           <BiDotsHorizontal size={25} />
         </button> */}

@@ -127,10 +127,8 @@ export default function UserListsPage() {
 
   return (
     <main className="">
-      <PageHeader className="from-sky-800 to-blue-950">
-        <div className="flex-1">
-          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Lists</h1>
-        </div>
+      <PageHeader className="">
+        <h1 className="flex-1">My Lists</h1>
         <button
           className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
           onClick={() => setAdd(true)}
@@ -174,7 +172,7 @@ export default function UserListsPage() {
           </Droppable>
         </DragDropContext> */}
       </section>
-      <header
+      {/* <header
         className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4 rounded-lg"
         onClick={() => setExpandTrash((prev) => !prev)}
       >
@@ -193,7 +191,7 @@ export default function UserListsPage() {
         }
       >
         {contentTrash}
-      </section>
+      </section> */}
       {/* <Link to={"/myLists/createList"}>
         <FloatButton
           type="primary"

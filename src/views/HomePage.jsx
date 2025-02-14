@@ -66,7 +66,7 @@ const HomePage = () => {
         <div className="hidden sm:inline-block font-bold text-zinc-800/70 mb-2">
           A place to organize your day and keep track of your activities
         </div>
-        <div className="hidden sm:flex items-center justify-center gap-2 mx-auto">
+        <div className="flex items-center justify-center gap-2 mx-auto mt-4">
           {auth?.user ? (
             <Button type="primary">
               <Link to={"/dashboard"}>Go to Dashboard</Link>

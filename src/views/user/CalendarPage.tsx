@@ -163,10 +163,8 @@ export default function CalendarPage() {
 
   return (
     <main className="">
-      <PageHeader className="from-green-600 to-green-950">
-        <div className="flex-1">
-          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Calendar</h1>
-        </div>
+      <PageHeader className="">
+        <h1 className="flex-1">Calendar</h1>
       </PageHeader>
       <Calendar
         cellRender={cellRender}

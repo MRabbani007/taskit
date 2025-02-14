@@ -175,13 +175,8 @@ export default function TasksPage() {
 
   return (
     <main className="">
-      <PageHeader
-        className="via-sky-800 from-zinc-800 to-sky-600"
-        secondChildren={headerLinks}
-      >
-        <div className="flex-1">
-          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Tasks</h1>
-        </div>
+      <PageHeader className="" secondChildren={headerLinks}>
+        <h1 className="flex-1">My Tasks</h1>
         <button
           className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
           onClick={() => setShowSearch(true)}

@@ -18,10 +18,8 @@ export default function JournalPage() {
 
   return (
     <main className="">
-      <PageHeader className="from-indigo-600 to-indigo-950">
-        <div className="flex-1">
-          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Journal</h1>
-        </div>
+      <PageHeader className="">
+        <h1 className="flex-1">Journal</h1>
         <button
           className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
           title={group ? "un-group" : "Group"}

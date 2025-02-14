@@ -171,10 +171,8 @@ export default function TaskPlannerPage() {
 
   return (
     <main className="">
-      <PageHeader className="from-sky-600 to-sky-950">
-        <div className="flex-1">
-          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Planner</h1>
-        </div>
+      <PageHeader className="">
+        <h1 className="flex-1">Planner</h1>
         <div>
           <button
             className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"

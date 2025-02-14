@@ -4,7 +4,6 @@ import DashboardNotes from "../../features/dashboard/DashboardNotes";
 import DashboardJournal from "../../features/dashboard/DashboardJournal";
 import useAuth from "../../hooks/useAuth";
 import CurrentFocusCard from "../../features/dashboard/CurrentFocusCard";
-import PlannerSummaryCard from "../../features/dashboard/PlannerSummaryCard";
 import { Avatar, Badge } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
@@ -27,7 +26,6 @@ export default function DashboardPage() {
       <div className="flex flex-col md:flex-row flex-wrap lg:flex-nowrap gap-4">
         <div className="flex-1 flex flex-col gap-4">
           <CurrentFocusCard />
-          <PlannerSummaryCard />
           <DashboardTasks />
           <DashboardLists />
         </div>

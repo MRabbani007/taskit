@@ -6,7 +6,8 @@ import { T_NOTE } from "@/lib/templates";
 import { CiTrash } from "react-icons/ci";
 import CardNoteTrash from "@/features/notes/CardNoteTrash";
 import PageHeader from "@/features/components/PageHeader";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsBoxArrowUpRight, BsThreeDotsVertical } from "react-icons/bs";
+import Button from "@/features/components/Button";
 
 export const AcceptTypes = {
   Note: "Note",
@@ -80,7 +81,7 @@ export default function NotesPage() {
 
   return (
     <main className="relative">
-      <PageHeader className="from-yellow-800 to-yellow-400">
+      <PageHeader className="">
         <div
           ref={dropdownRef}
           className="flex-1 relative flex items-center gap-2"
@@ -91,22 +92,27 @@ export default function NotesPage() {
           >
             <BsThreeDotsVertical size={25} />
           </button>
-          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Notes</h1>
+          <h1 className="">Notes</h1>
           <div
             className={
-              (showList ? "" : " -translate-y-4 opacity-0 ") +
-              "flex flex-col font-medium text-zinc-900 rounded-lg overflow-clip absolute top-full left-0 duration-200 z-10"
+              (showList
+                ? ""
+                : " -translate-y-4 opacity-0 invisible pointer-events-none ") +
+              " flex flex-col font-medium text-zinc-900 rounded-lg overflow-clip absolute top-full left-0 duration-200 z-10"
             }
           >
             <div className="flex flex-col">
               {notes.map((note) => (
                 <div
                   key={note.id}
-                  className="bg-zinc-200 hover:bg-zinc-300 duration-200 py-2 px-4"
+                  className="bg-zinc-200 hover:bg-zinc-300 duration-200 py-2 px-4 flex items-center gap-2"
                 >
-                  <p onClick={() => handleOpen(note)}>
+                  <p className="flex-1">
                     {note?.title ?? note.details.substring(0, 50)}
                   </p>
+                  <Button onClick={() => handleOpen(note)}>
+                    <BsBoxArrowUpRight size={16} />
+                  </Button>
                 </div>
               ))}
             </div>
@@ -133,9 +139,16 @@ export default function NotesPage() {
           {content}
         </div>
       </div>
-      <header className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4 rounded-lg">
+      {/* <header className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4 rounded-lg">
         <CiTrash size={30} />
         <h2 className="flex-1">Trash</h2>
+        <p>
+          {trash.length === 0
+            ? "No notes in trash"
+            : trash?.length === 1
+            ? "1 note in trash"
+            : `${trash.length} notes in trash`}
+        </p>
       </header>
       <div
         className={
@@ -146,7 +159,7 @@ export default function NotesPage() {
         }
       >
         {contentTrash}
-      </div>
+      </div> */}
     </main>
   );
 }

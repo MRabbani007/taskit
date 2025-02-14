@@ -204,7 +204,7 @@ export default function TaskListPage() {
 
   return (
     <main className="">
-      <PageHeader className="from-sky-800 to-blue-950">
+      <PageHeader className="">
         <div className="flex items-stretch flex-1">
           <div
             className={
@@ -217,12 +217,11 @@ export default function TaskListPage() {
               onClick={() => setPinned((curr) => !curr)}
               className={
                 (pinned ? "" : "invisible group-hover:visible") +
-                " absolute top-2 left-2 hover:text-yellow-400 duration-200"
+                " absolute top-0 left-0 hover:text-yellow-400 duration-200"
               }
             >
               <BsPinAngle size={28} />
             </button>
-
             <div className="flex items-center gap-2 whitespace-nowrap">
               <img
                 src={imgSrc}

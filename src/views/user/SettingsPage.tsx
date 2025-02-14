@@ -1,20 +1,51 @@
 import { UserContext } from "@/context/UserState";
+import RadioGroup from "@/features/components/RadioGroup";
+import SelectField from "@/features/components/SelectField";
 import { useContext, useState } from "react";
 import { IoSettingsOutline } from "react-icons/io5";
+
+const sortDirections = [
+  { label: "Ascending", value: "1" },
+  { label: "Descending", value: "-1" },
+];
+
+const listSortOptions = [
+  { label: "Update Date", value: "updatedAt" },
+  { label: "Create Date", value: "createdAt" },
+  { label: "Title", value: "title" },
+  { label: "Custom Sort", value: "sortIndex" },
+];
+
+const taskViewOptions = [
+  { label: "Grid / Board", value: "board" },
+  { label: "List", value: "list" },
+];
+
+const taskSortOptions = [
+  { label: "Update Date", value: "updatedAt" },
+  { label: "Create Date", value: "createdAt" },
+  { label: "Title", value: "title" },
+  { label: "Priority", value: "priorityLevel" },
+  { label: "Flag Color", value: "color" },
+  { label: "Custom Sort", value: "sortIndex" },
+];
 
 export default function SettingsPage() {
   const { userSettings, updateUserSettings } = useContext(UserContext);
 
+  const [defaultList, setDefaultList] = useState("inbox");
+
+  const [listSort, setListSort] = useState(listSortOptions[0].value);
+  const [listSortDir, setListSortDir] = useState("1");
+
   const [taskView, setTaskView] = useState(userSettings?.taskView ?? "board");
+
+  const [taskSort, setTaskSort] = useState("");
+  const [taskSortDir, setTaskSortDir] = useState("1");
 
   const [taskReminders, setTaskReminders] = useState(true);
   const [taskPrioritization, setTaskPrioritization] = useState(true);
   const [taskSorting, setTaskSorting] = useState("due_date");
-
-  const [defaultList, setDefaultList] = useState("inbox");
-  const [listOrdering, setListOrdering] = useState(true);
-  const [listAutoSorting, setListAutoSorting] = useState("due_date");
-  const [completedListHandling, setCompletedListHandling] = useState("archive");
 
   const [markdownSupport, setMarkdownSupport] = useState(true);
   const [richTextEditor, setRichTextEditor] = useState(false);
@@ -34,7 +65,6 @@ export default function SettingsPage() {
           <IoSettingsOutline size={30} />
           <h1 className="text-2xl font-bold">Settings</h1>
         </header>
-
         <div className="space-y-4 text-gray-400">
           <div className="flex flex-col gap-4">
             {/* Lists Settings */}
@@ -42,39 +72,22 @@ export default function SettingsPage() {
               <h2 className="font-semibold text-gray-700 dark:text-gray-300 mb-4">
                 Lists Settings
               </h2>
-              <div className="space-y-3">
-                <select
-                  value={defaultList}
-                  onChange={(e) => setDefaultList(e.target.value)}
-                  className="p-2 border rounded"
-                >
-                  <option value="inbox">Inbox</option>
-                  <option value="work">Work</option>
-                  <option value="personal">Personal</option>
-                </select>
-                <SwitchGroup
-                  label="List Ordering"
-                  value={listOrdering}
-                  onChange={setListOrdering}
+              <div className="space-y-4">
+                <p>List Sorting</p>
+                <SelectField
+                  label="Sort by"
+                  options={listSortOptions}
+                  value={listSort}
+                  onValueChange={(val) => setListSort(val)}
+                  className="md:grid-cols-1 md:gap-0"
                 />
-                <select
-                  value={listAutoSorting}
-                  onChange={(e) => setListAutoSorting(e.target.value)}
-                  className="p-2 border rounded"
-                >
-                  <option value="due_date">Due Date</option>
-                  <option value="priority">Priority</option>
-                  <option value="custom">Custom</option>
-                </select>
-                <select
-                  value={completedListHandling}
-                  onChange={(e) => setCompletedListHandling(e.target.value)}
-                  className="p-2 border rounded"
-                >
-                  <option value="archive">Archive</option>
-                  <option value="complete">Mark as Complete</option>
-                  <option value="keep_open">Keep Open</option>
-                </select>
+                <RadioGroup
+                  name="listSortDir"
+                  title="Sort Direction"
+                  options={sortDirections}
+                  value={listSortDir}
+                  onChange={(val) => setListSortDir(val)}
+                />
               </div>
             </div>
             {/* Tasks Settings */}
@@ -84,35 +97,29 @@ export default function SettingsPage() {
               </h2>
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm">Display</p>
-                  <select
+                  <RadioGroup
+                    name="taskView"
+                    title="Display"
+                    options={taskViewOptions}
                     value={taskView}
-                    onChange={(e) => setTaskView(e.target.value)}
-                    className="py-1 px-2 border-[1px] rounded"
-                  >
-                    <option value="list">List View</option>
-                    <option value="board">Board View</option>
-                  </select>
+                    onChange={(val) => setTaskView(val)}
+                  />
                 </div>
-                <SwitchGroup
-                  label="Task Reminders"
-                  value={taskReminders}
-                  onChange={setTaskReminders}
+                <p>Task Sorting</p>
+                <SelectField
+                  label="Sort by"
+                  options={taskSortOptions}
+                  value={taskSort}
+                  onValueChange={(val) => setTaskSort(val)}
+                  className="md:grid-cols-1 md:gap-0"
                 />
-                <SwitchGroup
-                  label="Prioritization"
-                  value={taskPrioritization}
-                  onChange={setTaskPrioritization}
+                <RadioGroup
+                  name="taskSortDir"
+                  title="Sort Direction"
+                  options={sortDirections}
+                  value={taskSortDir}
+                  onChange={(val) => setTaskSortDir(val)}
                 />
-                <select
-                  value={taskSorting}
-                  onChange={(e) => setTaskSorting(e.target.value)}
-                  className="p-2 border rounded"
-                >
-                  <option value="due_date">Due Date</option>
-                  <option value="priority">Priority</option>
-                  <option value="creation_date">Creation Date</option>
-                </select>
               </div>
             </div>
             {/* Notes Settings */}

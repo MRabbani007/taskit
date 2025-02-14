@@ -30,26 +30,17 @@ export default function PlannerSummaryCard() {
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 items-stretch flex-wrap flex-1 gap-2 text-white">
+    <div className="flex flex-col gap-2 text-white">
       {items.map((item, idx) => (
-        <PlannerItem item={item} key={idx} />
+        <div
+          key={idx}
+          title={item.title}
+          className={item.bg + " p-2 flex-1 flex items-center gap-4 rounded-lg"}
+        >
+          {item.icon}
+          <span className="whitespace-nowrap">{item.count} Tasks</span>
+        </div>
       ))}
-    </div>
-  );
-}
-
-function PlannerItem({
-  item,
-}: {
-  item: { title: string; bg: string; count: number; icon: any };
-}) {
-  return (
-    <div
-      title={item.title}
-      className={item.bg + " p-2 flex-1 flex items-center gap-4 rounded-lg"}
-    >
-      {item.icon}
-      <span className="whitespace-nowrap">{item.count} Tasks</span>
     </div>
   );
 }
