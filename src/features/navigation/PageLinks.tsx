@@ -46,7 +46,7 @@ const items = [
 
 export default function PageLinks() {
   return (
-    <div className="hidden lg:flex items-center justify-center gap-4 px-4 mt-4 ml-auto">
+    <div className="hidden lg:flex items-center justify-center gap-4 ml-auto">
       {items.map((item) => (
         <Link
           to={item.url}

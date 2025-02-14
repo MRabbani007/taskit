@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { listReducer } from "./ListReducer";
 import { SERVER } from "../data/actions";
 import { message } from "antd";
+import toast from "react-hot-toast";
 
 type ListState = {
   status: FetchStatus;
@@ -163,10 +164,10 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
       });
 
       if (response.status === 204) {
-        message.success("List deleted");
+        toast.success("List deleted");
       }
     } catch (error) {
-      message.error("Error deleting list");
+      toast.error("Error deleting list");
     }
   };
 
@@ -189,9 +190,11 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
         config
       );
 
-      if (response.status === 204) message.success("Sort Saved");
+      if (response.status === 204) {
+        toast.success("Sort Saved");
+      }
     } catch (error) {
-      message.error("Error saving sort");
+      toast.error("Error saving sort");
     }
   };
 

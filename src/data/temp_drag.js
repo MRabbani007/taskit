@@ -83,5 +83,4 @@ const dragEnd = () => {
 
   dragItem.current = null;
   dragOverItem.current = null;
-  message.success("Sort saved");
 };

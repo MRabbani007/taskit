@@ -1,12 +1,8 @@
 import { useEffect, useContext } from "react";
-// Context
 import { TaskContext } from "../../context/TaskState";
 import { ListContext } from "../../context/ListState";
-// AntD
 import { Badge, Calendar } from "antd";
-// Icons
-import { IoCalendarOutline } from "react-icons/io5";
-import PageLinks from "@/features/navigation/PageLinks";
+import PageHeader from "@/features/components/PageHeader";
 
 // const getListData = (value) => {
 //   let listData;
@@ -167,15 +163,11 @@ export default function CalendarPage() {
 
   return (
     <main className="">
-      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-green-600 to-green-950 shadow-md shadow-zinc-500">
-        <header className="py-2 px-4 text-white gap-4">
-          {/* <IoCalendarOutline size={40} /> */}
-          <div className="flex-1">
-            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Calendar</h1>
-          </div>
-        </header>
-        <PageLinks />
-      </div>
+      <PageHeader className="from-green-600 to-green-950">
+        <div className="flex-1">
+          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Calendar</h1>
+        </div>
+      </PageHeader>
       <Calendar
         cellRender={cellRender}
         className=""

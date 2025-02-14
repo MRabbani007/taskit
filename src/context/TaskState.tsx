@@ -14,6 +14,7 @@ import { taskReducer } from "./TaskReducer";
 import { SERVER } from "../data/actions";
 import { message } from "antd";
 import AuthContext from "./AuthProvider";
+import toast from "react-hot-toast";
 
 export type TaskState = {
   tasks: Task[];
@@ -132,6 +133,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     comp,
     page,
     ipp = 10,
+    search,
   }: {
     type: string;
     listID?: string;
@@ -139,6 +141,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     comp: boolean;
     page?: string;
     ipp?: number;
+    search?: string;
   }) => {
     try {
       setStatus({
@@ -152,6 +155,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         params: {
           type,
           listID,
+          search,
           priority,
           comp,
           page,
@@ -212,9 +216,9 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
       );
 
       if (response?.status === 204) {
-        message.success("Task updated");
+        toast.success("Task updated");
       } else {
-        message.error("Error updating task");
+        toast.error("Error updating task");
       }
     } catch (error) {}
   };
@@ -243,9 +247,9 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         config
       )
       .then((response) => {
-        if (response.status === 204) message.success("Sort Saved");
+        if (response.status === 204) toast.success("Sort Saved");
       })
-      .catch(() => message.error("Error saving sort"));
+      .catch(() => toast.error("Error saving sort"));
   };
 
   const handleFilterTasks = () => {

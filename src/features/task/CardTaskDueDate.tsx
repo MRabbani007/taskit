@@ -8,6 +8,7 @@ import { message } from "antd";
 // Icons
 import { MdOutlineNextPlan } from "react-icons/md";
 import { HiArrowDownTray } from "react-icons/hi2";
+import toast from "react-hot-toast";
 
 const CardTaskDueDate = ({ task }: { task: Task }) => {
   const { handleUpdateTask } = useContext(TaskContext);
@@ -47,7 +48,7 @@ const CardTaskDueDate = ({ task }: { task: Task }) => {
       dueDate: new Date(getDate()),
       prevDueDate: new Date(task.dueDate.toString().substr(0, 10)),
     });
-    message.success("Task assigned for today");
+    toast.success("Task assigned for today");
   };
   const handleAssignTomorrow = async () => {
     handleUpdateTask({
@@ -55,7 +56,7 @@ const CardTaskDueDate = ({ task }: { task: Task }) => {
       dueDate: new Date(getDate(1)),
       prevDueDate: new Date(task.dueDate.toString().substr(0, 10)),
     });
-    message.success("Task assigned for tomorrow");
+    toast.success("Task assigned for tomorrow");
   };
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     handleUpdateTask({
@@ -63,7 +64,7 @@ const CardTaskDueDate = ({ task }: { task: Task }) => {
       dueDate: new Date(event.target.value),
       prevDueDate: new Date(task.dueDate.toString().substr(0, 10)),
     });
-    message.success("Due date updated");
+    toast.success("Due date updated");
   };
 
   return (

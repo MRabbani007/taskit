@@ -55,12 +55,18 @@ type TaskList = {
 type Note = {
   id: string;
   sortIndex: number;
+
   title: string;
   details: string;
+
   priority: string;
   tags: string[];
+
+  isOpen: boolean;
   trash: boolean;
-  createDate: Date;
+
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 type JournalItem = {

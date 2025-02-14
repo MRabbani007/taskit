@@ -20,6 +20,7 @@ import {
   MdOutlineTitle,
 } from "react-icons/md";
 import TextAreaField from "../components/TextAreaField";
+import toast from "react-hot-toast";
 
 const priorityObj = {
   1: "low",
@@ -78,7 +79,7 @@ export default function FormTaskAdd({
       return;
     } else {
       handleAddTask({ ...state, id: crypto.randomUUID(), listID });
-      message.success("Task created");
+      toast.success("Task created");
     }
   };
 

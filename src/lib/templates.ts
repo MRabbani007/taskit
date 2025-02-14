@@ -50,13 +50,19 @@ export const T_TASKLIST: TaskList = {
 
 export const T_NOTE: Note = {
   id: "",
+  sortIndex: 0,
+
   title: "",
   details: "",
+
   priority: "",
-  sortIndex: 0,
   tags: [],
+
+  isOpen: true,
   trash: false,
-  createDate: new Date(),
+
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export const T_JOURNAL: JournalItem = {

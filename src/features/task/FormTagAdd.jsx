@@ -16,7 +16,7 @@ export default function FormTagAdd({ task, addTag, setAddTag }) {
       id: task?.tags.length,
       taskID: task?.id || "",
     });
-    message.success("Tag added");
+    toast.success("Tag added");
     setAddTag(false);
   };
 

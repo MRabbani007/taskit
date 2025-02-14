@@ -3,18 +3,19 @@ import { useContext } from "react";
 import { Button, Popconfirm, message } from "antd";
 import { LiaTrashRestoreSolid, LiaTrashSolid } from "react-icons/lia";
 import { ListContext } from "../../context/ListState";
+import toast from "react-hot-toast";
 
 export default function CardListTrash({ list }: { list: TaskList }) {
   const { handleUpdateList, handleRemoveList } = useContext(ListContext);
 
   const handleUntrash = () => {
     handleUpdateList({ ...list, trash: false });
-    message.success("List restored");
+    toast.success("List restored");
   };
 
   const handleDelete = () => {
     handleRemoveList(list.id);
-    message.success("List Deleted");
+    toast.success("List Deleted");
   };
 
   return (

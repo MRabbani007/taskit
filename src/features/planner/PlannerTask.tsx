@@ -84,8 +84,19 @@ export default function PlannerTask({
             bgColorObj[task.priorityLevel as keyof typeof bgColorObj],
         }}
       ></div>
+      <div className="py-2 pl-2">
+        <input
+          type="checkbox"
+          className="bg-transparent"
+          checked={task?.completed}
+        />
+      </div>
       <div className=" py-2 px-2 font-medium text-zinc-800">
-        <p>{task?.title}</p>
+        {task?.title && task.title?.trim() && (
+          <p className="font-bold">{task.title}</p>
+        )}
+        {task?.task && task.task.trim() && <p>{task?.task}</p>}
+        {task?.details && task.details.trim() && <p>{task?.details}</p>}
         <p className="flex items-center gap-2 invisible h-0 translate-y-2 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible group-hover:h-auto duration-150">
           {tabs.map((item, index) => (
             <button

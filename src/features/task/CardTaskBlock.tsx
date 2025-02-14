@@ -17,6 +17,7 @@ import { CiTrash } from "react-icons/ci";
 import { FaTag } from "react-icons/fa6";
 import { BiX } from "react-icons/bi";
 import { Button, Popconfirm, message } from "antd";
+import toast from "react-hot-toast";
 
 export const AcceptTypes = {
   Note: "Note",
@@ -76,7 +77,7 @@ export default function CardTaskBlock({
 
   const confirm = () => {
     handleDeleteTask(task?.id);
-    message.success("Task Deleted");
+    toast.success("Task Deleted");
   };
 
   const handleTagDelete = (tag: Tag) => {

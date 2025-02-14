@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { TaskContext } from "../../context/TaskState";
 // AntD
 import { Form, Input, Modal, message } from "antd";
+import toast from "react-hot-toast";
 
 export default function FormTagEdit({ task, tag, setEditTag }) {
   const { handleUpdateTag } = useContext(TaskContext);
@@ -17,7 +18,7 @@ export default function FormTagEdit({ task, tag, setEditTag }) {
       taskID: task?.id,
     });
     setEditTag(false);
-    message.success("Tag updated");
+    toast.success("Tag updated");
   };
 
   return (

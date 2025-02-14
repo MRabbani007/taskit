@@ -10,6 +10,8 @@ import AuthContext from "./AuthProvider";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { notesReducer } from "./NotesReducer";
 import { SERVER } from "../data/actions";
+import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 
 type NotesState = {
   notes: Note[];
@@ -43,6 +45,7 @@ export const NotesContext = createContext(initialState);
 export const NotesProvider = ({ children }: { children: ReactNode }) => {
   const { auth, config } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
+  const location = useLocation();
 
   // Store data
   const [state, dispatch] = useReducer(notesReducer, []);
@@ -94,16 +97,18 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
         config
       );
 
-      setIsModified(true);
+      if (response.status === 204) {
+        setIsModified(true);
+      }
     } catch (error) {}
   };
 
   const handleNoteUpdate = async (newNote: Note) => {
     try {
-      // dispatch({
-      //   type: "NOTES_UPDATE",
-      //   payload: newNote,
-      // });
+      dispatch({
+        type: "NOTES_UPDATE",
+        payload: newNote,
+      });
 
       const response = await axiosPrivate.patch(
         SERVER.NOTES,
@@ -111,8 +116,14 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
         config
       );
 
-      setIsModified(true);
-    } catch (error) {}
+      if (response.status === 204) {
+        toast.success("Note Updated");
+      }
+
+      // setIsModified(true);
+    } catch (error) {
+      toast.error("Error Updating Note");
+    }
   };
 
   const handleNoteDelete = async (id: string) => {
@@ -123,7 +134,7 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
         ...config,
       });
 
-      setIsModified(true);
+      // setIsModified(true);
     } catch (error) {}
   };
 
@@ -148,9 +159,6 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
     //       },
     //     },
     //   })
-    //   .then((response) => {
-    //     if (response.status === 204) message.success("Sort Saved");
-    //   })
     //   .catch((e) => message.error("Error saving sort"));
   };
 
@@ -166,10 +174,10 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
   }, [auth?.user]);
 
   useEffect(() => {
-    if (isModified) {
+    if (location?.pathname.includes("notes")) {
       handleNotesGetUser();
     }
-  }, [isModified]);
+  }, [location?.pathname]);
 
   return (
     <NotesContext.Provider

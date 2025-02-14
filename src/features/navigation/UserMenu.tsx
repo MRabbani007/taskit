@@ -81,7 +81,7 @@ export default function UserMenu() {
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative hidden lg:flex">
+    <div ref={dropdownRef} className="relative hidden lg:flex z-[100]">
       {auth?.user ? (
         <button
           onClick={() => setShow((curr) => !curr)}

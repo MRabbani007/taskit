@@ -1,11 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
 import PlannerTab from "../../../features/planner/PlannerTab";
 import TaskFilter from "../../../features/task/TaskFilter";
-import { BiFilter } from "react-icons/bi";
-import PageLinks from "@/features/navigation/PageLinks";
+import { BiCheck, BiFilter } from "react-icons/bi";
 import { ListContext } from "@/context/ListState";
 import SelectField from "@/features/components/SelectField";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import PageHeader from "@/features/components/PageHeader";
 
 export const tabs: Partial<PlannerTab>[] = [
   {
@@ -71,6 +72,10 @@ export default function TaskPlannerPage() {
   const { userLists, pinnedLists } = useContext(ListContext);
   const { tasks, handleGetTasks, handleMoveTaskPlanner, filters, setFilters } =
     useContext(TaskContext);
+
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const listID = searchParams.get("listID") ?? null;
 
   const [block, setBlock] = useState(false);
 
@@ -139,42 +144,59 @@ export default function TaskPlannerPage() {
     setDragOverItem(null);
   };
 
-  const listOptions = [...pinnedLists, ...userLists].map((item) => ({
-    value: item.id,
-    label: item.title,
-  }));
   // const dragReset = () => {
   //   setBlock(true);
   //   dragItem.current = null;
   //   dragOverItem.current = null;
   // };
 
+  const [selectedList, setSelectedList] = useState(listID ?? "");
+
+  const listOptions = [...pinnedLists, ...userLists].map((item) => ({
+    value: item.id,
+    label: item.title,
+  }));
+
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    navigate(`/tasks/planner?listID=${selectedList}`);
+  };
+
   useEffect(() => {
-    handleGetTasks({ type: "PLANNER" });
-  }, []);
+    if (listID?.trim()) {
+      handleGetTasks({ type: "LIST", listID, comp: true, ipp: 100 });
+    }
+  }, [listID]);
 
   return (
     <main className="">
-      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-600 to-sky-950 shadow-md shadow-zinc-500">
-        <header className="text-white gap-4 py-2 px-4 self-stretch">
-          {/* <FaTimeline size={40} /> */}
-          <div className="flex-1">
-            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Planner</h1>
-          </div>
-          <div>
-            <button
-              className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-              onClick={() =>
-                setFilters((curr) => ({ ...curr, viewFilter: true }))
-              }
-            >
-              <BiFilter size={30} />
-            </button>
-          </div>
-        </header>
-        <PageLinks />
-      </div>
-      {/* <div>{listOptions.map(item=><SelectField label="List" onValueChange={(val=>setList)}/>)}</div> */}
+      <PageHeader className="from-sky-600 to-sky-950">
+        <div className="flex-1">
+          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Planner</h1>
+        </div>
+        <div>
+          <button
+            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+            onClick={() =>
+              setFilters((curr) => ({ ...curr, viewFilter: true }))
+            }
+          >
+            <BiFilter size={30} />
+          </button>
+        </div>
+      </PageHeader>
+      <form onSubmit={onSubmit} className="flex items-center gap-2">
+        <SelectField
+          label="List"
+          onValueChange={(val) => setSelectedList(val)}
+          options={listOptions}
+          value={selectedList}
+        />
+        <button className="p-1 bg-zinc-200 rounded-md">
+          <BiCheck size={25} />
+        </button>
+      </form>
       <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 lg:max-h-screen lg:overflow-hidden">
         {tabs.map((tab, index) => {
           const tabTasks = tasks

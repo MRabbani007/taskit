@@ -1,14 +1,17 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { NotesContext } from "../../context/NotesState";
 import { BiCheck, BiX } from "react-icons/bi";
 import { T_NOTE } from "@/lib/templates";
 import { Button, Popconfirm } from "antd";
 import { CiTrash } from "react-icons/ci";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function CardNote({ note }: { note: Note }) {
   const { handleNoteUpdate } = useContext(NotesContext);
 
   const [state, setState] = useState({ ...T_NOTE, ...note });
+
+  const debounceNote = useDebounce(state.title + state.details, 3000);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,6 +31,12 @@ export default function CardNote({ note }: { note: Note }) {
   const handleDelete = () => {
     handleNoteUpdate({ ...note, trash: true });
   };
+
+  useEffect(() => {
+    if (state?.title !== note?.title || state?.details !== note?.details) {
+      handleNoteUpdate(state);
+    }
+  }, [debounceNote]);
 
   const cols = 30;
   const initialvalue = 0;

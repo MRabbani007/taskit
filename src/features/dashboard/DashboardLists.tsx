@@ -1,16 +1,18 @@
 import { useContext, useState } from "react";
 import { ListContext } from "../../context/ListState";
 import { Link, useNavigate } from "react-router-dom";
-import { BsListCheck } from "react-icons/bs";
+import { BsListCheck, BsPinAngle } from "react-icons/bs";
 import ListImage from "../../assets/list-2.png";
 
 export default function DashboardLists() {
-  const { lists } = useContext(ListContext);
+  const { pinnedLists, userLists } = useContext(ListContext);
 
   const navigate = useNavigate();
   const handleOpen = (id: string) => {
     navigate(`/myLists/tasklist?id=${id}`);
   };
+
+  const displaylists = [...pinnedLists, ...userLists];
 
   return (
     <article className="flex flex-col min-h-[100px] rounded-lg">
@@ -21,13 +23,12 @@ export default function DashboardLists() {
         </h2>
       </Link>
       <ul className="p-2 rounded-b-lg bg-stone-200 flex flex-wrap gap-2 overflow-y-auto">
-        {lists.length === 0 ? (
+        {displaylists.length === 0 ? (
           <li>
-            You don't have any lists,{" "}
-            <Link to="/myLists/createList">create one</Link>
+            You don't have any lists, <Link to="/myLists">create one</Link>
           </li>
         ) : (
-          lists.slice(0, 6).map((list) => {
+          displaylists.slice(0, 6).map((list) => {
             return (
               <RenderList
                 taskList={list}
@@ -58,7 +59,7 @@ function RenderList({
   return (
     <li
       title={list?.title}
-      className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer"
+      className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer relative"
       onClick={() => handleOpen(list?.id)}
     >
       <img
@@ -70,6 +71,9 @@ function RenderList({
       <span className="text-ellipsis whitespace-nowrap font-semibold text-zinc-800">
         {list?.title}
       </span>
+      {list?.pinned === true && (
+        <BsPinAngle size={20} className="absolute top-2 left-2" />
+      )}
     </li>
   );
 }

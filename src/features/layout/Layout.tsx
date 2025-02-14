@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import Footer from "./Footer";
 import { ErrorBoundary } from "react-error-boundary";
 import { IoCloseCircle } from "react-icons/io5";
+import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
   // const location = useLocation();
@@ -36,6 +37,7 @@ export default function Layout() {
       </ErrorBoundary>
       <Footer />
       <ToastContainer autoClose={1000} />
+      <Toaster />
     </div>
   );
 }

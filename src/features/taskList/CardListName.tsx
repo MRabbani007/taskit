@@ -16,6 +16,7 @@ import ListImage from "../../assets/list-2.png";
 import { useNavigate } from "react-router-dom";
 import { CiEdit, CiImageOn, CiTrash } from "react-icons/ci";
 import ProgressBar from "../components/ProgressBar";
+import toast from "react-hot-toast";
 
 export default function CardListName({
   taskList,
@@ -61,13 +62,13 @@ export default function CardListName({
 
   const handleTrash = () => {
     handleUpdateList({ ...taskList, trash: true });
-    message.success("List moved to trash");
+    toast.success("List moved to trash");
   };
 
   useEffect(() => {
     if (debouncePin !== taskList.pinned) {
       handlePin();
-      message.success("Task Updated");
+      toast.success("Task Updated");
     }
   }, [debouncePin]);
 

@@ -69,7 +69,7 @@ export default function UserSideBar() {
           <Link
             to={item.url}
             key={item.label}
-            className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-zinc-300/30 hover:text-zinc-300 duration-200"
+            className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-zinc-300/3 duration-200"
           >
             {item.icon}
           </Link>
@@ -80,7 +80,7 @@ export default function UserSideBar() {
           <Link
             to={item.url}
             key={item.label}
-            className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-zinc-300/30 hover:text-zinc-300 duration-200"
+            className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-zinc-300/3 duration-200"
           >
             {item.icon}
           </Link>

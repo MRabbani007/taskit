@@ -19,6 +19,9 @@ import {
   MdOutlineTitle,
 } from "react-icons/md";
 import TextAreaField from "../components/TextAreaField";
+import { ListContext } from "@/context/ListState";
+import SelectField from "../components/SelectField";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 const priorityObj = {
   1: "low",
@@ -55,6 +58,7 @@ export default function FormTaskEdit({
   edit: boolean;
   setEdit: Dispatch<SetStateAction<boolean>>;
 }) {
+  const { userLists, pinnedLists } = useContext(ListContext);
   const { handleUpdateTask } = useContext(TaskContext);
 
   const [state, setState] = useState<Task>({ ...T_TASK, ...task });
@@ -63,10 +67,18 @@ export default function FormTaskEdit({
   const [showTitle, setShowTitle] = useState(task?.title !== "");
   const [showDetails, setShowDetails] = useState(task?.details !== "");
   const [showNotes, setShowNotes] = useState(task?.notes !== "");
+  const [showMove, setShowMove] = useState(false);
 
   const [addLink, setAddLink] = useState(false);
 
   const bgColor = bgColorObj[priorityLevel as keyof typeof bgColorObj];
+
+  const [selectedList, setSelectedList] = useState(task?.listID ?? "");
+
+  const listOptions = [...pinnedLists, ...userLists].map((item) => ({
+    value: item.id,
+    label: item.title,
+  }));
 
   const handleUp = () => {
     setPriorityLevel((curr) => (curr < 5 ? curr + 1 : 5));
@@ -93,6 +105,7 @@ export default function FormTaskEdit({
       ...state,
       priority: priorityObj[priorityLevel as keyof typeof priorityObj],
       priorityLevel,
+      listID: selectedList,
     });
     setEdit(false);
   };
@@ -173,6 +186,19 @@ export default function FormTaskEdit({
             <MdOutlineLinkOff size={20} />
           </button>
         )}
+        <button
+          type="button"
+          title="Move to List"
+          onClick={() => setShowMove((curr) => !curr)}
+          className={
+            (showMove
+              ? "bg-green-500/60 hover:bg-green-600"
+              : "bg-zinc-200 hover:bg-zinc-300") +
+            " p-2 rounded-md  duration-200 ml-auto"
+          }
+        >
+          <FaArrowUpRightFromSquare size={20} />
+        </button>
       </div>
       {showTitle && (
         <InputField
@@ -208,6 +234,14 @@ export default function FormTaskEdit({
           placeholder="Note..."
           value={state?.notes ?? ""}
           onChange={handleChange}
+        />
+      )}
+      {showMove && (
+        <SelectField
+          label="List"
+          onValueChange={(val) => setSelectedList(val)}
+          options={listOptions}
+          value={selectedList}
         />
       )}
       <div className="flex items-start gap-4 md:gap-8 flex-wrap">
@@ -247,25 +281,13 @@ export default function FormTaskEdit({
                 key={item}
                 className={
                   (state?.color === item
-                    ? " border-[2px] border-yellow-300 "
+                    ? " outline outline-2 outline-yellow-300 "
                     : "") +
-                  " w-8 h-8 rounded-md hover:shadow-md hover:shadow-zinc-500 duration-200 inline-block " +
+                  " w-8 h-8 rounded-md border-[1px] border-zinc-400 hover:shadow-md hover:shadow-zinc-500 duration-200 inline-block " +
                   item
                 }
                 onClick={() => setState((curr) => ({ ...curr, color: item }))}
-              >
-                {/* <label htmlFor={item}>
-              <input
-                type="radio"
-                name="color"
-                id={item}
-                value={item}
-                title="item"
-                // onChange={() => setState((curr) => ({ ...curr, color: item }))}
-                // className="invisible"
-              />
-            </label> */}
-              </div>
+              ></div>
             ))}
           </div>
         </div>

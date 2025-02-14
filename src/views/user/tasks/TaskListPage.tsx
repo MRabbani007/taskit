@@ -16,6 +16,8 @@ import CardListName from "@/features/taskList/CardListName";
 import ListImage from "../../../assets/list-2.png";
 import { BsPinAngle } from "react-icons/bs";
 import { UserContext } from "@/context/UserState";
+import PageHeader from "@/features/components/PageHeader";
+import { FaTimeline } from "react-icons/fa6";
 
 export default function TaskListPage() {
   const { lists, pinnedLists, userLists, handleUpdateList } =
@@ -202,49 +204,59 @@ export default function TaskListPage() {
 
   return (
     <main className="">
-      {/* List Name */}
-      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
-        <header className="text-white gap-4 py-2 px-4 self-stretch group">
-          <div className="flex items-stretch flex-1">
-            <div
+      <PageHeader className="from-sky-800 to-blue-950">
+        <div className="flex items-stretch flex-1">
+          <div
+            className={
+              (pinned ? "" : "") +
+              " duration-200 cursor-pointer flex items-center justify-center relative"
+            }
+          >
+            <button
+              title="Pin List"
+              onClick={() => setPinned((curr) => !curr)}
               className={
-                (pinned ? "" : "") +
-                " duration-200 cursor-pointer flex items-center justify-center"
+                (pinned ? "" : "invisible group-hover:visible") +
+                " absolute top-2 left-2 hover:text-yellow-400 duration-200"
               }
             >
-              <button
-                title="Pin List"
-                onClick={() => setPinned((curr) => !curr)}
-                className={
-                  (pinned ? "" : "invisible group-hover:visible") +
-                  " absolute top-2 left-2 hover:text-yellow-400 duration-200"
-                }
-              >
-                <BsPinAngle size={28} />
-              </button>
-            </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <img src={imgSrc} className="w-10" onError={handleError} />
-              <h1>{displayList?.title}</h1>
+              <BsPinAngle size={28} />
+            </button>
+
+            <div className="flex items-center gap-2 whitespace-nowrap">
+              <img
+                src={imgSrc}
+                className="w-10 lg:w-16"
+                onError={handleError}
+              />
+              <h1 className="text-lg lg:text-2xl">{displayList?.title}</h1>
             </div>
           </div>
+        </div>
+        <div className="flex items-center gap-2 ld:gap-4">
+          <Link
+            to={`/tasks/planner?listID=${displayList?.id}`}
+            title="Planner"
+            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg duration-200"
+          >
+            <FaTimeline className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
+          </Link>
           <button
             title="Edit Title"
             onClick={() => setEdit(true)}
             className="p-2 bg-white/20 hover:bg-white/30 rounded-lg duration-200"
           >
-            <CiEdit size={30} />
+            <CiEdit className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
           </button>
           <button
             className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
             title="Add Task"
             onClick={() => setAdd(true)}
           >
-            <BiPlus size={32} />
+            <BiPlus className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
           </button>
-        </header>
-        <PageLinks />
-      </div>
+        </div>
+      </PageHeader>
       {/* List Todo Items */}
       <div className="flex-1 flex flex-col gap-3 items-stretch justify-start px-0">
         <div className="field">

@@ -1,16 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 // Context
 import { TaskContext } from "../../../context/TaskState";
-// Components
-import CardTaskBlock from "../../../features/task/CardTaskBlock";
 import TaskFilter from "../../../features/task/TaskFilter";
 import TaskSort from "../../../features/task/TaskSort";
-// Icons
-import Loading from "../../../features/components/Loading";
-import { BiFilter, BiPlus, BiSort } from "react-icons/bi";
+import { BiFilter, BiPlus, BiSort, BiX } from "react-icons/bi";
 import FormTaskAdd from "../../../features/task/FormTaskAdd";
 import { MdOutlineChecklist } from "react-icons/md";
-import { Link, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import Pagination from "../../../features/navigation/Pagination";
 import CardTask from "@/features/task/CardTask";
 import FormTaskEdit from "@/features/task/FormTaskEdit";
@@ -20,9 +28,10 @@ import {
   IoTodayOutline,
 } from "react-icons/io5";
 import { BsCalendar4Week } from "react-icons/bs";
-import PageLinks from "@/features/navigation/PageLinks";
 import { Switch } from "antd";
 import { UserContext } from "@/context/UserState";
+import PageHeader from "@/features/components/PageHeader";
+import { IoIosSearch } from "react-icons/io";
 
 const TaskFilters = [
   {
@@ -63,9 +72,10 @@ const TaskFilters = [
 ];
 
 export default function TasksPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page") ?? "1");
   const filter = searchParams.get("filter") ?? "ALL";
+  const search = searchParams.get("q") ?? "";
 
   const { userSettings } = useContext(UserContext);
   const { tasks, count, handleGetTasks, status, filters, setFilters } =
@@ -76,16 +86,23 @@ export default function TasksPage() {
 
   const taskDisplay = userSettings?.taskView ?? "board";
 
+  const handleRemove = () => {
+    searchParams.delete("q");
+    setSearchParams(searchParams);
+  };
+
   useEffect(() => {
     handleGetTasks({
       type: filter.toUpperCase() ?? "PAGE",
       page,
       ipp: itemsPerPage,
       comp: showCompleted,
+      search,
     });
-  }, [page, filter, showCompleted]);
+  }, [page, search, filter, showCompleted]);
 
   const [addTask, setAddTask] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   const [viewEditTask, setViewEditTask] = useState(false);
   const [editTask, setEditTask] = useState<Task | null>(null);
@@ -139,54 +156,57 @@ export default function TasksPage() {
     );
   }
 
+  const headerLinks = (
+    <div className="flex items-center justify-center gap-4">
+      {TaskFilters.map((item) => (
+        <Link
+          to={`/tasks?filter=${item?.filter}`}
+          key={item.label}
+          className={
+            item.bg +
+            " p-2 rounded-md duration-200 shadow-md shadow-zinc-600 border-[1px] border-white/80"
+          }
+        >
+          {item.icon}
+        </Link>
+      ))}
+    </div>
+  );
+
   return (
     <main className="">
-      {/* Header Block */}
-      <div className="bg-gradient-to-r via-sky-800 from-zinc-800 to-sky-600 shadow-md shadow-zinc-500 pt-4 pb-8 px-2 flex flex-col items-start rounded-xl">
-        <header className="py-2 px-4 bg-gradient-to-br from-sky-600 to-sky-950 bg-clip-text gap-4 self-stretch text-white">
-          {/* <MdOutlineChecklist size={40} /> */}
-          <div className="flex-1">
-            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Tasks</h1>
-          </div>
-          <button
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-            onClick={() =>
-              setFilters((curr) => ({ ...curr, viewFilter: true }))
-            }
-          >
-            <BiFilter size={30} />
-          </button>
-          <button
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-            onClick={() => setFilters((curr) => ({ ...curr, viewSort: true }))}
-          >
-            <BiSort size={30} />
-          </button>
-          <button
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-            onClick={() => setAddTask(true)}
-          >
-            <BiPlus size={30} />
-          </button>
-        </header>
-        <div className="flex items-center justify-between self-stretch">
-          <div className="flex items-center justify-center gap-4 px-4 mt-4">
-            {TaskFilters.map((item) => (
-              <Link
-                to={`/tasks?filter=${item?.filter}`}
-                key={item.label}
-                className={
-                  item.bg +
-                  " p-2 rounded-md duration-200 shadow-md shadow-zinc-600 border-[1px] border-white/80"
-                }
-              >
-                {item.icon}
-              </Link>
-            ))}
-          </div>
-          <PageLinks />
+      <PageHeader
+        className="via-sky-800 from-zinc-800 to-sky-600"
+        secondChildren={headerLinks}
+      >
+        <div className="flex-1">
+          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Tasks</h1>
         </div>
-      </div>
+        <button
+          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          onClick={() => setShowSearch(true)}
+        >
+          <IoIosSearch size={30} />
+        </button>
+        <button
+          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          onClick={() => setFilters((curr) => ({ ...curr, viewFilter: true }))}
+        >
+          <BiFilter size={30} />
+        </button>
+        <button
+          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          onClick={() => setFilters((curr) => ({ ...curr, viewSort: true }))}
+        >
+          <BiSort size={30} />
+        </button>
+        <button
+          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          onClick={() => setAddTask(true)}
+        >
+          <BiPlus size={30} />
+        </button>
+      </PageHeader>
       <div className="field">
         <Switch
           checked={showCompleted}
@@ -197,6 +217,14 @@ export default function TasksPage() {
           Show Completed
         </label>
         {filter && <p>{filter}</p>}
+        {search && (
+          <p className="flex">
+            {search}
+            <button onClick={handleRemove}>
+              <BiX size={20} />
+            </button>
+          </p>
+        )}
       </div>
       {content}
       <Pagination
@@ -208,7 +236,7 @@ export default function TasksPage() {
 
       {filters?.viewFilter === true ? <TaskFilter /> : null}
       {filters?.viewSort ? <TaskSort /> : null}
-
+      {showSearch && <TaskSearch setShowSearch={setShowSearch} />}
       {addTask ? (
         <FormTaskAdd listID={""} add={addTask} setAdd={setAddTask} />
       ) : null}
@@ -220,5 +248,45 @@ export default function TasksPage() {
         />
       )}
     </main>
+  );
+}
+
+function TaskSearch({
+  setShowSearch,
+}: {
+  setShowSearch: Dispatch<SetStateAction<boolean>>;
+}) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState("");
+
+  const onSubmit = (event: FormEvent) => {
+    event.preventDefault();
+
+    if (search.trim()) {
+      searchParams.set("q", search);
+      setSearchParams(searchParams);
+      setShowSearch(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center">
+      <div className="flex-1 p-4 rounded-xl bg-zinc-100 max-w-[1024px] mx-6">
+        <form
+          onSubmit={onSubmit}
+          className="w-full flex items-center justify-center gap-2 bg-zinc-400/10 py-2 px-4 rounded-md"
+        >
+          <input
+            type="text"
+            className="bg-transparent flex-1"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button type="submit" className="font-bold">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }

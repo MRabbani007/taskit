@@ -9,14 +9,14 @@ import Loading from "../../../features/components/Loading";
 // import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { BiPlus } from "react-icons/bi";
 import FormTaskListCreate from "@/features/taskList/FormTaskListCreate";
-import PageLinks from "@/features/navigation/PageLinks";
 import { CiTrash } from "react-icons/ci";
 import { SlArrowRight } from "react-icons/sl";
 import FormTaskListEdit from "@/features/taskList/FormTaskListEdit";
 import FormListIcon from "@/features/taskList/FormListIcon";
+import PageHeader from "@/features/components/PageHeader";
 
 export default function UserListsPage() {
-  const { userLists, pinnedLists, trashLists, status, handleSort } =
+  const { userLists, pinnedLists, trashLists, status } =
     useContext(ListContext);
   const [expandTrash, setExpandTrash] = useState(false);
 
@@ -127,21 +127,17 @@ export default function UserListsPage() {
 
   return (
     <main className="">
-      <div className="pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
-        <header className="text-white gap-4 py-2 px-4 self-stretch">
-          {/* <BsCardList size={40} /> */}
-          <div className="flex-1">
-            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Lists</h1>
-          </div>
-          <button
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-            onClick={() => setAdd(true)}
-          >
-            <BiPlus size={30} />
-          </button>
-        </header>
-        <PageLinks />
-      </div>
+      <PageHeader className="from-sky-800 to-blue-950">
+        <div className="flex-1">
+          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Lists</h1>
+        </div>
+        <button
+          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          onClick={() => setAdd(true)}
+        >
+          <BiPlus size={30} />
+        </button>
+      </PageHeader>
       <section
         className={
           " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 duration-300"

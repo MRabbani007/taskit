@@ -1,21 +1,23 @@
-import { FormEvent, useContext } from "react";
-// Context
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { NotesContext } from "../../context/NotesState";
-// Components
 import CardNote from "../../features/notes/CardNote";
-// Icons
 import { BiPlus } from "react-icons/bi";
 import { T_NOTE } from "@/lib/templates";
-import PageLinks from "@/features/navigation/PageLinks";
 import { CiTrash } from "react-icons/ci";
 import CardNoteTrash from "@/features/notes/CardNoteTrash";
+import PageHeader from "@/features/components/PageHeader";
+import { BsThreeDotsVertical } from "react-icons/bs";
 
 export const AcceptTypes = {
   Note: "Note",
 };
 
 export default function NotesPage() {
-  const { notes, status, handleNoteCreate, trash } = useContext(NotesContext);
+  const { notes, status, handleNoteCreate, handleNoteUpdate, trash } =
+    useContext(NotesContext);
+
+  const [showList, setShowList] = useState(false);
+
   const expand = true;
 
   const onSubmit = (event: FormEvent) => {
@@ -23,6 +25,29 @@ export default function NotesPage() {
 
     handleNoteCreate({ ...T_NOTE, title: "New Note" });
   };
+
+  const handleOpen = (note: Note) => {
+    handleNoteUpdate({ ...note, isOpen: !note.isOpen });
+  };
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowList(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   let content;
   let contentTrash;
@@ -38,9 +63,10 @@ export default function NotesPage() {
       notes.length === 0 ? (
         <p>No notes yet, create new note</p>
       ) : (
-        notes.map((note, index) => {
-          return <CardNote note={note} key={index} />;
-        })
+        notes.map(
+          (note) =>
+            note?.isOpen === true && <CardNote note={note} key={note.id} />
+        )
       );
     contentTrash =
       trash.length === 0 ? (
@@ -54,36 +80,58 @@ export default function NotesPage() {
 
   return (
     <main className="relative">
-      <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-yellow-800 to-yellow-400 shadow-md shadow-zinc-500">
-        <header className="text-white gap-4 py-2 px-4 self-stretch">
-          {/* <BsCardList size={40} /> */}
-          <div className="flex-1">
-            <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Notes</h1>
-          </div>
-          {/* <SlArrowRight
-          size={25}
-          className={(expand ? "rotate-90 " : "") + " duration-300"}
-        /> */}
-          <form
-            onSubmit={onSubmit}
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+      <PageHeader className="from-yellow-800 to-yellow-400">
+        <div
+          ref={dropdownRef}
+          className="flex-1 relative flex items-center gap-2"
+        >
+          <button
+            onClick={() => setShowList((curr) => !curr)}
+            className="w-12 h-12 bg-zinc-400/20 hover:bg-zinc-400/50 duration-200 rounded-full flex items-center justify-center"
           >
-            <button type="submit">
-              <BiPlus size={30} />
-            </button>
-          </form>
-        </header>
-        <PageLinks />
-      </div>
-      <div
-        className={
-          (expand
-            ? "translate-y-0 opacity-100 "
-            : "-translate-y-6 opacity-0 ") +
-          " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 duration-300"
-        }
-      >
-        {content}
+            <BsThreeDotsVertical size={25} />
+          </button>
+          <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Notes</h1>
+          <div
+            className={
+              (showList ? "" : " -translate-y-4 opacity-0 ") +
+              "flex flex-col font-medium text-zinc-900 rounded-lg overflow-clip absolute top-full left-0 duration-200 z-10"
+            }
+          >
+            <div className="flex flex-col">
+              {notes.map((note) => (
+                <div
+                  key={note.id}
+                  className="bg-zinc-200 hover:bg-zinc-300 duration-200 py-2 px-4"
+                >
+                  <p onClick={() => handleOpen(note)}>
+                    {note?.title ?? note.details.substring(0, 50)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <form
+          onSubmit={onSubmit}
+          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+        >
+          <button type="submit">
+            <BiPlus size={30} />
+          </button>
+        </form>
+      </PageHeader>
+      <div className="flex items-stretch gap-4">
+        <div
+          className={
+            (expand
+              ? "translate-y-0 opacity-100 "
+              : "-translate-y-6 opacity-0 ") +
+            "flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 duration-300"
+          }
+        >
+          {content}
+        </div>
       </div>
       <header className="py-2 px-4 bg-gradient-to-r from-stone-800 to-stone-950 text-white gap-4 rounded-lg">
         <CiTrash size={30} />

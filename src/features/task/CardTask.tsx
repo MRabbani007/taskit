@@ -1,5 +1,6 @@
 import { TaskContext } from "@/context/TaskState";
 import useDebounce from "@/hooks/useDebounce";
+import { getDueDateStatement } from "@/lib/dateFunctions";
 import { Button, Popconfirm, message } from "antd";
 import {
   Dispatch,
@@ -9,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 import { CiTrash } from "react-icons/ci";
 import { Link } from "react-router-dom";
 
@@ -66,8 +68,16 @@ export default function CardTask({
 
   const confirm = () => {
     handleDeleteTask(task?.id);
-    message.success("Task Deleted");
+    toast.success("Task Deleted");
   };
+
+  const {
+    status,
+    message: displayMessage,
+    displayDate,
+  } = getDueDateStatement(
+    new Date((task?.dueDate).toLocaleString().substring(0, 10))
+  );
 
   return (
     <div
@@ -75,7 +85,7 @@ export default function CardTask({
         (task?.color === ""
           ? "bg-stone-100 "
           : `${color[task.color as keyof typeof color]}`) +
-        " rounded-lg relative flex-1 min-w-[300px] flex items-stretch gap-2 group/main"
+        " rounded-lg relative flex-1 flex items-stretch gap-2 group/main"
       }
     >
       <div className="py-4 pl-2">
@@ -129,7 +139,7 @@ export default function CardTask({
           </Link>
         )}
         <div className="flex items-center gap-2 mt-auto">
-          <div className="relative group flex  text-xs font-medium">
+          <div className="relative group flex text-xs font-medium">
             <span
               style={{ backgroundColor: bgColor }}
               className={
@@ -141,10 +151,17 @@ export default function CardTask({
               {task?.priority}
             </span>
           </div>
-          <p className="text-sm text-zinc-700">
-            <span>Due: </span>
-            <span>{task?.dueDate.toLocaleString().substring(0, 10)}</span>
-          </p>
+          <div className="flex-1 flex items-center text-sm">
+            <p className=" text-zinc-700 relative group cursor-pointer">
+              <span>{displayMessage}</span>
+              <span className="absolute top-full left-1/2 -translate-x-1/2 whitespace-nowrap py-1 px-2 text-xs bg-zinc-200 rounded-md invisible opacity-0 group-hover:visible group-hover:opacity-100">
+                {displayDate}
+              </span>
+            </p>
+            {task?.status && task?.status.trim() && (
+              <p className="ml-auto">{task?.status}</p>
+            )}
+          </div>
         </div>
       </div>
       <Popconfirm
@@ -154,7 +171,7 @@ export default function CardTask({
         okText="Yes"
         cancelText="No"
         placement="topRight"
-        className=" invisible opacity-0 group-hover/main:opacity-100 group-hover/main:visible duration-200"
+        className=" absolute top-1 right-1 invisible opacity-0 group-hover/main:opacity-100 group-hover/main:visible duration-200"
       >
         <Button
           type="text"
