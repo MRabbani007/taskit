@@ -301,13 +301,15 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
     if (filters.sort === "createDate_a") {
       result = payload.sort(
         (a, b) =>
-          new Date(a?.createDate).getTime() - new Date(b?.createDate).getTime()
+          new Date(a?.createdAt ?? 0).getTime() -
+          new Date(b?.createdAt ?? 0).getTime()
       );
     }
     if (filters.sort === "createDate_d") {
       result = payload.sort(
         (a, b) =>
-          new Date(b?.createDate).getTime() - new Date(a?.createDate).getTime()
+          new Date(b?.createdAt ?? 0).getTime() -
+          new Date(a?.createdAt ?? 0).getTime()
       );
     }
     if (filters.sort === "dueDate_d") {

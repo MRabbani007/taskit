@@ -53,7 +53,7 @@ export default function NotesPage() {
   }
 
   return (
-    <main className="p-0 m-0 relative">
+    <main className="relative">
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-yellow-800 to-yellow-400 shadow-md shadow-zinc-500">
         <header className="text-white gap-4 py-2 px-4 self-stretch">
           {/* <BsCardList size={40} /> */}

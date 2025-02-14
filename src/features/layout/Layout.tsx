@@ -22,7 +22,7 @@ export default function Layout() {
       <Navbar />
       <ErrorBoundary
         fallback={
-          <main className="flex flex-1 items-center bg-zinc-100">
+          <main className="flex flex-1 items-center">
             <div className="flex items-center gap-2 bg-red-500 text-white font-semibold rounded-md p-4 w-fit mx-auto my-auto">
               <IoCloseCircle size={40} className="" />
               <span>Something went wrong</span>

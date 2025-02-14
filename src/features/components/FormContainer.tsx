@@ -55,12 +55,13 @@ export default function FormContainer({
       <div
         className={(showForm ? "" : "") + " fixed inset-0 bg-zinc-900/50 z-10"}
       />
-      <div className="fixed inset-0 flex items-center justify-center z-20">
+      <div className="fixed inset-0 flex items-center justify-center z-20 p-8">
         <form
           onSubmit={onSubmit}
           onReset={handleReset}
-          className="bg-zinc-100 rounded-lg shadow-md-shadow-white z-[100] overflow-clip w-[90%] max-w-[500px]"
+          className="bg-zinc-100 rounded-lg shadow-md-shadow-white z-[100] overflow-clip w-full max-w-[500px]"
         >
+          {/* Form Title */}
           <div className="bg-zinc-800 text-white relative p-4 text-center ">
             <p className="font-medium">{title}</p>
             {subtitle && <p>{subtitle}</p>}
@@ -71,7 +72,11 @@ export default function FormContainer({
               <BiX size={25} />
             </button>
           </div>
-          <div className="flex flex-col gap-4 p-4">{children}</div>
+          {/* Body */}
+          <div className="h-full max-h-[70vh] overflow-y-auto">
+            <div className="flex flex-col gap-4 p-4">{children}</div>
+          </div>
+          {/* Form Buttons */}
           <div className="flex items-center justify-center gap-2 p-2">
             <button
               type="submit"

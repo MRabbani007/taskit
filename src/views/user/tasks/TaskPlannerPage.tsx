@@ -1,10 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
-import { FaTimeline } from "react-icons/fa6";
 import PlannerTab from "../../../features/planner/PlannerTab";
 import TaskFilter from "../../../features/task/TaskFilter";
 import { BiFilter } from "react-icons/bi";
 import PageLinks from "@/features/navigation/PageLinks";
+import { ListContext } from "@/context/ListState";
+import SelectField from "@/features/components/SelectField";
 
 export const tabs: Partial<PlannerTab>[] = [
   {
@@ -67,6 +68,7 @@ export const tabs: Partial<PlannerTab>[] = [
 // };
 
 export default function TaskPlannerPage() {
+  const { userLists, pinnedLists } = useContext(ListContext);
   const { tasks, handleGetTasks, handleMoveTaskPlanner, filters, setFilters } =
     useContext(TaskContext);
 
@@ -137,6 +139,10 @@ export default function TaskPlannerPage() {
     setDragOverItem(null);
   };
 
+  const listOptions = [...pinnedLists, ...userLists].map((item) => ({
+    value: item.id,
+    label: item.title,
+  }));
   // const dragReset = () => {
   //   setBlock(true);
   //   dragItem.current = null;
@@ -148,7 +154,7 @@ export default function TaskPlannerPage() {
   }, []);
 
   return (
-    <main className="m-0 p-0">
+    <main className="">
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-600 to-sky-950 shadow-md shadow-zinc-500">
         <header className="text-white gap-4 py-2 px-4 self-stretch">
           {/* <FaTimeline size={40} /> */}
@@ -168,6 +174,7 @@ export default function TaskPlannerPage() {
         </header>
         <PageLinks />
       </div>
+      {/* <div>{listOptions.map(item=><SelectField label="List" onValueChange={(val=>setList)}/>)}</div> */}
       <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 lg:max-h-screen lg:overflow-hidden">
         {tabs.map((tab, index) => {
           const tabTasks = tasks

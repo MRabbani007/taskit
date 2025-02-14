@@ -28,7 +28,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <main className="m-0 p-0">
+    <main className="">
       <div className="p-6 bg-white dark:bg-gray-900 rounded-lg shadow-lg">
         <header className="text-gray-800 dark:text-gray-200 flex items-center mb-6">
           <IoSettingsOutline size={30} />

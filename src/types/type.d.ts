@@ -1,34 +1,55 @@
 type Task = {
   id: string;
   listID: string;
+  userID: string;
+
   sortIndex: number;
   plannerSortIndex: number;
+
   title: string;
+  task: string; // new
   details: string;
+  notes?: string;
+
   status: string;
   completed: boolean;
+  completedAt?: Date | null;
+
   priority: string;
   priorityLevel: number;
-  createDate: Date;
+
   dueDate: Date;
   prevDueDate: Date;
+
   tags: { _id: string; name: string }[];
   color?: string;
   link?: string;
   linkText?: string;
+
+  // Timestamps
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 type Tag = { name: string; _id: string };
 
 type TaskList = {
   id: string;
+  userID: string;
+
   title: string;
   subTitle: string;
   detail: string;
+
   icon: string;
   pinned: boolean;
+
   tasks?: Task[];
   trash: boolean;
+
+  // Timestamps
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 type Note = {

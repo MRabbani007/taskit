@@ -81,11 +81,11 @@ export default function UserMenu() {
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative hidden lg:inline-block">
+    <div ref={dropdownRef} className="relative hidden lg:flex">
       {auth?.user ? (
         <button
           onClick={() => setShow((curr) => !curr)}
-          className="flex items-center gap-2 py-2 px-4 rounded-md hover:bg-zinc-100"
+          className="flex items-center gap-2 py-2 px-4 rounded-md hover:bg-zinc-300/20"
         >
           <AiOutlineUser size={25} />
           {auth?.user}
@@ -103,7 +103,7 @@ export default function UserMenu() {
           (show
             ? ""
             : " -translate-y-4 opacity-0 invisible pointer-events-none ") +
-          " duration-200 absolute top-full right-0 flex flex-col rounded-md overflow-clip w-[200px]"
+          " duration-200 absolute top-full right-0 flex flex-col rounded-md overflow-clip w-[200px] text-zinc-900"
         }
       >
         {items.map((item, index) => (

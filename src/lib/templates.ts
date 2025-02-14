@@ -1,32 +1,51 @@
 export const T_TASK: Task = {
   id: "",
   listID: "",
+  userID: "",
+
   sortIndex: 0,
   plannerSortIndex: 0,
+
   title: "",
+  task: "",
   details: "",
+  notes: "",
+
   status: "",
   completed: false,
+  completedAt: null,
+
   priority: "low",
   priorityLevel: 1,
   dueDate: new Date(),
   prevDueDate: new Date(),
-  createDate: new Date(),
+
   tags: [],
   color: "",
   link: "",
   linkText: "",
+
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export const T_TASKLIST: TaskList = {
   id: "",
+  userID: "",
+
   title: "",
   subTitle: "",
   detail: "",
+
   pinned: false,
+
   icon: "",
-  trash: false,
+
   tasks: [],
+  trash: false,
+
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export const T_NOTE: Note = {

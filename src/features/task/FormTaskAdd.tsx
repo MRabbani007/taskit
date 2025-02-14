@@ -12,7 +12,14 @@ import { T_TASK } from "@/lib/templates";
 import FormContainer from "../components/FormContainer";
 import InputField from "../components/InputField";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { MdOutlineAddLink, MdOutlineLinkOff } from "react-icons/md";
+import {
+  MdOutlineAddLink,
+  MdOutlineLinkOff,
+  MdOutlineMoreHoriz,
+  MdOutlineNotes,
+  MdOutlineTitle,
+} from "react-icons/md";
+import TextAreaField from "../components/TextAreaField";
 
 const priorityObj = {
   1: "low",
@@ -31,12 +38,13 @@ const bgColorObj = {
 };
 
 const taskColors = [
-  "bg-red-600",
+  "",
+  "bg-zinc-600",
   "bg-sky-600",
   "bg-green-600",
   "bg-yellow-500",
   "bg-orange-600",
-  "bg-zinc-600",
+  "bg-red-600",
 ];
 
 export default function FormTaskAdd({
@@ -53,7 +61,9 @@ export default function FormTaskAdd({
   const [state, setState] = useState(T_TASK);
   const [priorityLevel, setPriorityLevel] = useState(1);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
     setState((prevProps) => ({
       ...prevProps,
@@ -71,6 +81,10 @@ export default function FormTaskAdd({
       message.success("Task created");
     }
   };
+
+  const [showTitle, setShowTitle] = useState(false);
+  const [showDetails, setShowDetails] = useState(true);
+  const [showNotes, setShowNotes] = useState(false);
 
   const [addLink, setAddLink] = useState(false);
 
@@ -100,20 +114,102 @@ export default function FormTaskAdd({
       setShowForm={setAdd}
       onSubmit={onSubmit}
     >
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          title="Task Title"
+          onClick={() => setShowTitle((curr) => !curr)}
+          className={
+            (showTitle
+              ? "bg-green-500/60 hover:bg-green-600"
+              : "bg-zinc-200 hover:bg-zinc-300") +
+            " p-2 rounded-md  duration-200"
+          }
+        >
+          <MdOutlineTitle size={20} />
+        </button>
+        <button
+          type="button"
+          title="Task Details"
+          onClick={() => setShowDetails((curr) => !curr)}
+          className={
+            (showDetails
+              ? "bg-green-500/60 hover:bg-green-600"
+              : "bg-zinc-200 hover:bg-zinc-300") +
+            " p-2 rounded-md  duration-200"
+          }
+        >
+          <MdOutlineMoreHoriz size={20} />
+        </button>
+        <button
+          type="button"
+          title="Task Notes"
+          onClick={() => setShowNotes((curr) => !curr)}
+          className={
+            (showNotes
+              ? "bg-green-500/60 hover:bg-green-600"
+              : "bg-zinc-200 hover:bg-zinc-300") +
+            " p-2 rounded-md  duration-200"
+          }
+        >
+          <MdOutlineNotes size={20} />
+        </button>
+        {!addLink ? (
+          <button
+            type="button"
+            title={"Add Link"}
+            onClick={() => setAddLink(true)}
+            className="p-2 rounded-md bg-zinc-200 hover:bg-zinc-300 duration-200"
+          >
+            <MdOutlineAddLink size={20} />
+          </button>
+        ) : (
+          <button
+            className="p-2 rounded-md bg-zinc-200 hover:bg-zinc-300 duration-200"
+            type="button"
+            title={"Remove Link"}
+            onClick={handleClearLink}
+          >
+            <MdOutlineLinkOff size={20} />
+          </button>
+        )}
+      </div>
+      {showTitle && (
+        <InputField
+          label="Title"
+          name="title"
+          type="text"
+          value={state?.title ?? ""}
+          onChange={handleChange}
+          placeholder="Title"
+        />
+      )}
       <InputField
         label="Task"
-        name="title"
+        name="task"
         type="text"
-        value={state.title}
+        value={state?.task ?? ""}
         onChange={handleChange}
+        placeholder="Task Description"
       />
-      <InputField
-        label="Detail"
-        name="details"
-        type="text"
-        value={state.details}
-        onChange={handleChange}
-      />
+      {showDetails && (
+        <TextAreaField
+          label="Details"
+          name="details"
+          value={state?.details ?? ""}
+          handleChange={handleChange}
+        />
+      )}
+      {showNotes && (
+        <InputField
+          label="Notes"
+          name="notes"
+          type="text"
+          placeholder="Note..."
+          value={state?.notes ?? ""}
+          onChange={handleChange}
+        />
+      )}
       <div className="flex items-start gap-4 md:gap-8 flex-wrap">
         <div>
           <p className="px-2 font-medium">Priority</p>
@@ -169,41 +265,20 @@ export default function FormTaskAdd({
           onChange={handleChange}
         />
       </div>
-      <div>
-        {!addLink ? (
-          <button
-            type="button"
-            title={"Add Link"}
-            onClick={() => setAddLink(true)}
-            className="p-2 rounded-md bg-zinc-200"
-          >
-            <MdOutlineAddLink size={20} />
-          </button>
-        ) : (
-          <button
-            className="p-2 rounded-md bg-zinc-200"
-            type="button"
-            title={"Remove Link"}
-            onClick={handleClearLink}
-          >
-            <MdOutlineLinkOff size={20} />
-          </button>
-        )}
-      </div>
       {addLink && (
         <>
           <InputField
             label="Link URL"
             name="link"
             type="text"
-            value={state.link}
+            value={state?.link ?? ""}
             onChange={handleChange}
           />
           <InputField
             label="Link Display Text"
             name="linkText"
             type="text"
-            value={state.linkText}
+            value={state?.linkText ?? ""}
             onChange={handleChange}
           />
         </>

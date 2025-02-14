@@ -12,7 +12,7 @@ export default function DashboardPage() {
   const { auth } = useAuth();
 
   return (
-    <main className="m-0 p-0">
+    <main className="">
       <header className="py-2 ">
         <Badge count={10} dot={false}>
           <Avatar shape="square" size={64} icon={<UserOutlined />} />

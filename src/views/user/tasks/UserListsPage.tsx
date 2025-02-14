@@ -18,7 +18,6 @@ import FormListIcon from "@/features/taskList/FormListIcon";
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status, handleSort } =
     useContext(ListContext);
-  const [expand, setExpand] = useState(true);
   const [expandTrash, setExpandTrash] = useState(false);
 
   const [add, setAdd] = useState(false);
@@ -127,28 +126,24 @@ export default function UserListsPage() {
   }
 
   return (
-    <main className="m-0 p-0">
+    <main className="">
       <div className="pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
-        <header
-          className="text-white gap-4 py-2 px-4 "
-          onClick={() => setExpand((prev) => !prev)}
-        >
+        <header className="text-white gap-4 py-2 px-4 self-stretch">
           {/* <BsCardList size={40} /> */}
           <div className="flex-1">
             <h1 className="py-1 px-4 bg-white/20 rounded-lg w-fit">Lists</h1>
           </div>
-          {/* <SlArrowRight
-            size={25}
-            className={(expand ? "rotate-90 " : "") + " duration-300"}
-          /> */}
+          <button
+            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+            onClick={() => setAdd(true)}
+          >
+            <BiPlus size={30} />
+          </button>
         </header>
         <PageLinks />
       </div>
       <section
         className={
-          (expand
-            ? "translate-y-[0] opacity-100 "
-            : "translate-y-[-20px] opacity-0 invisible h-0 ") +
           " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 duration-300"
         }
       >
@@ -190,7 +185,7 @@ export default function UserListsPage() {
         <CiTrash size={30} />
         <h2 className="flex-1">Trash</h2>
         <SlArrowRight
-          size={25}
+          size={20}
           className={(expandTrash ? "rotate-90 " : "") + " duration-300"}
         />
       </header>

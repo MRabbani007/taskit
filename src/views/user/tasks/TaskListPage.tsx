@@ -63,6 +63,9 @@ export default function TaskListPage() {
   const navigate = useNavigate();
   const [edit, setEdit] = useState(false);
 
+  const [showEditList, setShowEditList] = useState(false);
+  const [editList, setEditList] = useState<TaskList | null>(null);
+
   const [add, setAdd] = useState(false);
   // const [block, setBlock] = useState(false);
 
@@ -198,7 +201,7 @@ export default function TaskListPage() {
   }
 
   return (
-    <main className="m-0 p-0">
+    <main className="">
       {/* List Name */}
       <div className=" pt-4 pb-8 px-2 flex flex-col items-start rounded-xl bg-gradient-to-r from-sky-800 to-blue-950 shadow-md shadow-zinc-500">
         <header className="text-white gap-4 py-2 px-4 self-stretch group">
@@ -213,10 +216,8 @@ export default function TaskListPage() {
                 title="Pin List"
                 onClick={() => setPinned((curr) => !curr)}
                 className={
-                  (pinned
-                    ? "absolute top-2 left-2"
-                    : "invisible group-hover:visible") +
-                  " hover:text-yellow-400 duration-200"
+                  (pinned ? "" : "invisible group-hover:visible") +
+                  " absolute top-2 left-2 hover:text-yellow-400 duration-200"
                 }
               >
                 <BsPinAngle size={28} />
@@ -272,7 +273,15 @@ export default function TaskListPage() {
       </div>
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 duration-300">
         {[...pinnedLists, ...userLists].slice(0, 4).map((item) => {
-          return <CardListName key={item.id} taskList={item} />;
+          return (
+            <CardListName
+              key={item.id}
+              taskList={item}
+              setEdit={setShowEditList}
+              setEditItem={setEditList}
+              setEditIcon={() => {}}
+            />
+          );
         })}
       </div>
       {add ? (

@@ -63,7 +63,7 @@ const userItems = [
 
 export default function UserSideBar() {
   return (
-    <nav className="hidden lg:flex flex-col bg-gradient-to-br from-sky-950 to-indigo-950 p-4 text-zinc-300 rounded-lg">
+    <nav className="hidden lg:flex flex-col bg-gradient-to-br from-sky-950 to-indigo-950 py-4 px-2 text-zinc-300">
       <div className="flex flex-col gap-0">
         {items.map((item) => (
           <Link

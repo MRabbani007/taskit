@@ -29,12 +29,12 @@ const bgColorObj = {
 };
 
 const color = {
-  "bg-red-600": "bg-red-600/20",
-  "bg-sky-600": "bg-sky-600/20",
-  "bg-green-600": "bg-green-600/20",
-  "bg-yellow-500": "bg-yellow-500/20",
-  "bg-orange-600": "bg-orange-600/20",
-  "bg-zinc-600": "bg-zinc-600/20",
+  "bg-red-600": "bg-red-200",
+  "bg-sky-600": "bg-sky-100",
+  "bg-green-600": "bg-green-100",
+  "bg-yellow-500": "bg-yellow-100",
+  "bg-orange-600": "bg-orange-200",
+  "bg-zinc-600": "bg-zinc-200",
 };
 
 export default function CardTask({
@@ -73,7 +73,7 @@ export default function CardTask({
     <div
       className={
         (task?.color === ""
-          ? "bg-rose-100/60 "
+          ? "bg-stone-100 "
           : `${color[task.color as keyof typeof color]}`) +
         " rounded-lg relative flex-1 min-w-[300px] flex items-stretch gap-2 group/main"
       }
@@ -87,18 +87,36 @@ export default function CardTask({
         />
       </div>
       <div className="flex-1 flex flex-col py-3 pr-2">
-        <p
-          className="font-bold text-zinc-900 cursor-pointer"
-          onClick={() => {
-            setEdit(true);
-            setEditItem(task);
-          }}
-        >
-          {task.title}
-        </p>
+        {task?.title !== "" && (
+          <p
+            className="font-bold text-zinc-900 cursor-pointer"
+            onClick={() => {
+              setEdit(true);
+              setEditItem(task);
+            }}
+          >
+            {task.title}
+          </p>
+        )}
+        {task?.task !== "" && (
+          <p
+            className="font-medium text-zinc-900 cursor-pointer"
+            onClick={() => {
+              setEdit(true);
+              setEditItem(task);
+            }}
+          >
+            {task.task}
+          </p>
+        )}
         {task?.details !== "" && (
           <p className="whitespace-break-spaces text-sm text-zinc-800">
             {task?.details}
+          </p>
+        )}
+        {task?.notes !== "" && (
+          <p className="text-xs whitespace-break-spaces text-cyan-800">
+            {task?.notes}
           </p>
         )}
         {task?.link && task?.link !== "" && (
