@@ -2,7 +2,6 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { BsActivity, BsCardList, BsJournalText } from "react-icons/bs";
 import {
   IoCalendarOutline,
-  IoHomeOutline,
   IoListOutline,
   IoMenu,
   IoSettingsOutline,
@@ -15,7 +14,8 @@ import { GrGroup } from "react-icons/gr";
 import { BiX } from "react-icons/bi";
 // Imported Media
 import Logo from "../../assets/todo.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { RxDashboard } from "react-icons/rx";
 
 export default function MenuMobile() {
   const { auth } = useAuth();
@@ -26,99 +26,118 @@ export default function MenuMobile() {
   const isActive = (page: string) =>
     location.pathname.split("/").includes(page);
 
-  const iconSize = 30;
+  const iconSize = 25;
 
   const menuItems = [
     {
       label: "Dashboard",
       title: "Dashboard",
-      url: "dashboard",
-      icon: <IoHomeOutline size={iconSize} />,
+      url: "/dashboard",
+      icon: <RxDashboard size={iconSize} />,
     },
     {
       label: "Calendar",
       title: "Calendar",
-      url: "pages/calendar",
+      url: "/pages/calendar",
       icon: <IoCalendarOutline size={iconSize} />,
     },
     {
       label: "Journal",
       title: "Journal",
-      url: "pages/journal",
+      url: "/pages/journal",
       icon: <BsJournalText size={iconSize} />,
     },
     {
       label: "Notes",
       title: "Notes",
-      url: "pages/notes",
+      url: "/pages/notes",
       icon: <SlNotebook size={iconSize} />,
     },
     {
       label: "My Tasks",
       title: "My Tasks",
-      url: "tasks",
+      url: "/tasks",
       icon: <IoListOutline size={iconSize} />,
     },
     {
       label: "My Lists",
       title: "My Lists",
-      url: "mylists",
+      url: "/mylists",
       icon: <BsCardList size={iconSize} />,
     },
     {
       label: "Planner",
       title: "Planner",
-      url: "tasks/planner",
-      icon: <FaTimeline size={iconSize} />,
+      url: "/tasks/planner",
+      icon: <FaTimeline style={{ strokeWidth: "1" }} size={iconSize} />,
     },
+    // {
+    //   label: "Activities",
+    //   title: "Activities",
+    //   url: "/activities",
+    //   icon: <BsActivity size={iconSize} />,
+    // },
+    // {
+    //   label: "Teams",
+    //   title: "Teams",
+    //   url: "/teams",
+    //   icon: <GrGroup size={iconSize} />,
+    // },
     {
-      label: "Activities",
-      title: "Activities",
-      url: "activities",
-      icon: <BsActivity size={iconSize} />,
-    },
-    {
-      label: "Teams",
-      title: "Teams",
-      url: "teams",
-      icon: <GrGroup size={iconSize} />,
+      label: "Settings",
+      title: "Settings",
+      url: "/user/settings",
+      icon: <IoSettingsOutline size={iconSize} />,
     },
     {
       label: "Profile",
       title: "Profile",
-      url: "user/profile",
+      url: "/user/profile",
       icon: <FaRegCircleUser size={iconSize} />,
     },
-    {
-      label: "Settings",
-      title: "Settings",
-      url: "user/settings",
-      icon: <IoSettingsOutline size={iconSize} />,
-    },
-    {
-      label: "Sign Out",
-      title: "Sign Out",
-      url: "logout",
-      icon: <AiOutlineLogout size={iconSize} />,
-    },
+    // {
+    //   label: "Sign Out",
+    //   title: "Sign Out",
+    //   url: "/logout",
+    //   icon: <AiOutlineLogout size={iconSize} />,
+    // },
   ];
 
-  if (!auth?.user)
-    return (
-      <Link
-        to={"/login"}
-        className="lg:hidden py-2 px-4 rounded-md bg-blue-600 text-white hover:text-white hover:bg-blue-500 duration-200"
-      >
-        Get Started
-      </Link>
-    );
+  useEffect(() => {
+    const handleEscape = (ev: globalThis.KeyboardEvent) => {
+      if (ev.key === "Escape") {
+        setViewMobileMenu(false);
+      }
+    };
+
+    if (viewMobileMenu) {
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", handleEscape);
+    } else {
+      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [viewMobileMenu]);
+
+  if (!auth?.user) return null;
+  // <Link
+  //   to={"/login"}
+  //   className="lg:hidden py-2 px-4 rounded-md bg-blue-600 text-white hover:text-white hover:bg-blue-500 duration-200"
+  // >
+  //   Get Started
+  // </Link>
 
   return (
     <>
       <button
         title="Menu"
         onClick={() => setViewMobileMenu(true)}
-        className="lg:hidden"
+        className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg lg:hidden"
       >
         <IoMenu size={25} />
       </button>

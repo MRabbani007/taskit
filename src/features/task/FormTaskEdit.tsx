@@ -119,6 +119,8 @@ export default function FormTaskEdit({
     }
   };
 
+  console.log(state);
+
   return (
     <FormContainer
       title="Update Task"

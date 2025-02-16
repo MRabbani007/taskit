@@ -1,29 +1,40 @@
 import { ReactNode } from "react";
-import PageLinks from "../navigation/PageLinks";
+import MenuMobile from "../navigation/MenuMobile";
+// import PageLinks from "../navigation/PageLinks";
 
 export default function PageHeader({
+  pageTitle,
+  icon,
   children,
   secondChildren,
   className,
 }: {
+  pageTitle?: string;
+  icon?: ReactNode;
   children?: ReactNode;
   secondChildren?: ReactNode;
   className?: string;
 }) {
   return (
     <div
-      className={
-        "p-4 flex flex-col items-start gap-4 rounded-xl bg-sky-800  " +
-        className
-      }
+      className={"p-0 flex flex-col items-start gap-4 rounded-xl" + className}
     >
-      <header className="text-white gap-4 self-stretch flex items-center flex-wrap group">
+      <header className="self-stretch flex items-center flex-wrap group">
+        {icon && (
+          <div className="p-2 bg-zinc-100 duration-200 rounded-lg hidden lg:flex">
+            {icon}
+          </div>
+        )}
+        {<MenuMobile />}
+        {pageTitle && <h1 className="flex-1 font-normal">{pageTitle}</h1>}
         {children}
       </header>
-      <div className="flex items-center justify-between self-stretch">
-        {secondChildren}
-        <PageLinks />
-      </div>
+      {secondChildren && (
+        <div className="flex items-center justify-end self-stretch">
+          {secondChildren}
+          {/* <PageLinks /> */}
+        </div>
+      )}
     </div>
   );
 }

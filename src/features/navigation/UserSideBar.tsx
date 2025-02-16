@@ -44,7 +44,7 @@ const items = [
   {
     label: "Notes",
     url: "/pages/notes",
-    icon: <SlNotebook size={28} />,
+    icon: <SlNotebook size={25} />,
   },
 ];
 

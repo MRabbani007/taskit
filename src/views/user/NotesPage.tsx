@@ -92,7 +92,7 @@ export default function NotesPage() {
           >
             <BsThreeDotsVertical size={25} />
           </button>
-          <h1 className="">Notes</h1>
+          <h1 className="font-normal">Notes</h1>
           <div
             className={
               (showList
@@ -118,12 +118,12 @@ export default function NotesPage() {
             </div>
           </div>
         </div>
-        <form
-          onSubmit={onSubmit}
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-        >
-          <button type="submit">
-            <BiPlus size={30} />
+        <form onSubmit={onSubmit}>
+          <button
+            type="submit"
+            className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
+          >
+            <BiPlus size={25} />
           </button>
         </form>
       </PageHeader>

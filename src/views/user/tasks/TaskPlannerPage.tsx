@@ -1,12 +1,11 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TaskContext } from "../../../context/TaskState";
 import PlannerTab from "../../../features/planner/PlannerTab";
-import TaskFilter from "../../../features/task/TaskFilter";
-import { BiCheck, BiFilter } from "react-icons/bi";
-import { ListContext } from "@/context/ListState";
-import SelectField from "@/features/components/SelectField";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { BiFilter } from "react-icons/bi";
+import { useSearchParams } from "react-router-dom";
 import PageHeader from "@/features/components/PageHeader";
+import FormSelectList from "@/features/planner/FormSelectList";
+import { FaTimeline } from "react-icons/fa6";
 
 export const tabs: Partial<PlannerTab>[] = [
   {
@@ -69,13 +68,13 @@ export const tabs: Partial<PlannerTab>[] = [
 // };
 
 export default function TaskPlannerPage() {
-  const { userLists, pinnedLists } = useContext(ListContext);
-  const { tasks, handleGetTasks, handleMoveTaskPlanner, filters, setFilters } =
+  const { tasks, handleGetTasks, handleMoveTaskPlanner } =
     useContext(TaskContext);
 
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const listID = searchParams.get("listID") ?? null;
+
+  const [showSelectList, setShowSelectList] = useState(false);
 
   const [block, setBlock] = useState(false);
 
@@ -150,19 +149,6 @@ export default function TaskPlannerPage() {
   //   dragOverItem.current = null;
   // };
 
-  const [selectedList, setSelectedList] = useState(listID ?? "");
-
-  const listOptions = [...pinnedLists, ...userLists].map((item) => ({
-    value: item.id,
-    label: item.title,
-  }));
-
-  const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
-
-    navigate(`/tasks/planner?listID=${selectedList}`);
-  };
-
   useEffect(() => {
     if (listID?.trim()) {
       handleGetTasks({ type: "LIST", listID, comp: true, ipp: 100 });
@@ -171,35 +157,29 @@ export default function TaskPlannerPage() {
 
   return (
     <main className="">
-      <PageHeader className="">
-        <h1 className="flex-1">Planner</h1>
-        <div>
-          <button
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
-            onClick={() =>
-              setFilters((curr) => ({ ...curr, viewFilter: true }))
-            }
-          >
-            <BiFilter size={30} />
-          </button>
-        </div>
-      </PageHeader>
-      <form onSubmit={onSubmit} className="flex items-center gap-2">
-        <SelectField
-          label="List"
-          onValueChange={(val) => setSelectedList(val)}
-          options={listOptions}
-          value={selectedList}
-        />
-        <button className="p-1 bg-zinc-200 rounded-md">
-          <BiCheck size={25} />
+      <PageHeader
+        className=""
+        pageTitle="Planner"
+        icon={<FaTimeline size={25} />}
+      >
+        <button
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
+          onClick={() => setShowSelectList(true)}
+        >
+          <BiFilter size={25} />
         </button>
-      </form>
+      </PageHeader>
+
       <div className="flex items-stretch flex-wrap lg:flex-nowrap gap-2 lg:max-h-screen lg:overflow-hidden">
         {tabs.map((tab, index) => {
-          const tabTasks = tasks
-            ?.filter((item) => item?.status === tab?.value)
-            .sort((a, b) => (a.plannerSortIndex < b.plannerSortIndex ? 1 : -1));
+          const tabTasks =
+            tasks && listID && listID?.trim()
+              ? tasks
+                  ?.filter((item) => item?.status === tab?.value)
+                  .sort((a, b) =>
+                    a.plannerSortIndex < b.plannerSortIndex ? 1 : -1
+                  )
+              : [];
           return (
             <PlannerTab
               tab={tab}
@@ -213,7 +193,19 @@ export default function TaskPlannerPage() {
           );
         })}
       </div>
-      {filters?.viewFilter ? <TaskFilter /> : null}
+      {listID && listID?.trim() ? null : (
+        <div className="flex-1 flex justify-center items-start">
+          <button
+            className="py-2 px-4 bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-md"
+            onClick={() => setShowSelectList(true)}
+          >
+            Select list
+          </button>
+        </div>
+      )}
+      {showSelectList && (
+        <FormSelectList show={showSelectList} setShow={setShowSelectList} />
+      )}
     </main>
   );
 }

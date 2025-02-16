@@ -1,7 +1,7 @@
 import { TaskContext } from "@/context/TaskState";
 import useDebounce from "@/hooks/useDebounce";
 import { getDueDateStatement } from "@/lib/dateFunctions";
-import { Button, Popconfirm, message } from "antd";
+import { Button, Popconfirm } from "antd";
 import {
   Dispatch,
   SetStateAction,
@@ -12,6 +12,7 @@ import {
 } from "react";
 import toast from "react-hot-toast";
 import { CiTrash } from "react-icons/ci";
+import { LuBellRing } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
 const priorityObj = {
@@ -56,7 +57,8 @@ export default function CardTask({
 
   useEffect(() => {
     if (isMounted?.current === true && debounceCompleted !== task?.completed) {
-      handleUpdateTask({ ...task, completed: !task.completed });
+      const completedAt = task.completed ? new Date("1999-01-01") : new Date(); //.toLocaleString().substring(0, 10);
+      handleUpdateTask({ ...task, completed: !task.completed, completedAt });
     }
   }, [debounceCompleted]);
 
@@ -73,6 +75,7 @@ export default function CardTask({
 
   const {
     status,
+    isOverdue,
     message: displayMessage,
     displayDate,
   } = getDueDateStatement(
@@ -82,64 +85,109 @@ export default function CardTask({
   return (
     <div
       className={
-        (task?.color === ""
-          ? "bg-stone-100 "
-          : `${color[task.color as keyof typeof color]}`) +
-        " rounded-lg relative flex-1 flex items-stretch gap-2 group/main"
+        " relative flex flex-col items-stretch group/main overflow-clip"
       }
     >
-      <div className="py-3 pl-2">
-        <input
-          type="checkbox"
-          className="bg-transparent"
-          checked={completed}
-          onChange={() => setCompleted((curr) => !curr)}
-        />
+      {/* Floating div */}
+      <div
+        className={
+          (task?.color === ""
+            ? "bg-zinc-100 "
+            : `${color[task.color as keyof typeof color]} `) +
+          " absolute h-10 top-5 right-5 -z-10 w-8"
+        }
+      ></div>
+      {/* Title Row */}
+      <div className="flex items-stretch rounded-t-3xl overflow-clip z-10">
+        {/* Left - Completed, Title, Due date */}
+        <div
+          className={
+            (task?.color === ""
+              ? "bg-zinc-100 "
+              : `${color[task.color as keyof typeof color]} `) +
+            " flex-1 flex items-center gap-2 rounded-t-3xl overflow-clip p-4"
+          }
+        >
+          <div
+            onChange={() => setCompleted((curr) => !curr)}
+            className="scale-70 relative w-5 h-5 ring-2 ring-blue-500 flex items-center justify-center rounded-3xl bg-transparent"
+          >
+            <input
+              type="checkbox"
+              className="opacity-0 z-10"
+              checked={completed}
+              readOnly
+            />
+            {completed && (
+              <span className="absolute top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2 h-4 w-4 rounded-full bg-blue-500 z-"></span>
+            )}
+          </div>
+          {task?.title !== "" && (
+            <p
+              className="flex-1 font-bold text-zinc-900 cursor-pointer"
+              onClick={() => {
+                setEdit(true);
+                setEditItem(task);
+              }}
+            >
+              {task.title}
+            </p>
+          )}
+          <p className=" text-zinc-700 relative group cursor-pointer z-40">
+            <span className="text-xs">{displayMessage}</span>
+            <span className="absolute top-full left-1/2 -translate-x-1/2 whitespace-nowrap py-1 px-2 text-xs bg-indigo-200 rounded-md invisible opacity-0 group-hover:visible group-hover:opacity-100">
+              {displayDate}
+            </span>
+          </p>
+        </div>
+        {/* Right - Notification */}
+        <div className="border-l-[4px] border-b-[2px] border-white flex items-stretch rounded-bl-3xl">
+          <button
+            className={
+              (task?.color === ""
+                ? "bg-stone-100 "
+                : `${color[task.color as keyof typeof color]} `) +
+              " hover:opacity-80 duration-200 h-full px-2 rounded-3xl rounded-bl-3xl flex items-center"
+            }
+          >
+            <LuBellRing size={25} className="text-zinc-700" />
+          </button>
+        </div>
       </div>
-      <div className="flex-1 flex flex-col py-3 pr-2">
-        {task?.title !== "" && (
-          <p
-            className="font-bold text-zinc-900 cursor-pointer"
-            onClick={() => {
-              setEdit(true);
-              setEditItem(task);
-            }}
-          >
-            {task.title}
-          </p>
-        )}
-        {task?.task !== "" && (
-          <p
-            className="font-medium text-zinc-900 cursor-pointer"
-            onClick={() => {
-              setEdit(true);
-              setEditItem(task);
-            }}
-          >
-            {task.task}
-          </p>
-        )}
-        {task?.details !== "" && (
-          <p className="whitespace-break-spaces text-sm text-zinc-800">
-            {task?.details}
-          </p>
-        )}
-        {task?.notes !== "" && (
-          <p className="text-xs whitespace-break-spaces text-cyan-800">
-            {task?.notes}
-          </p>
-        )}
-        {task?.link && task?.link !== "" && (
-          <Link
-            to={task?.link}
-            target="_blank"
-            className="whitespace-break-spaces text-sm text-zinc-800"
-          >
-            {task?.linkText ?? task?.link}
-          </Link>
-        )}
-        <div className="flex items-center gap-2 mt-auto">
-          <div className="relative group flex text-xs font-medium">
+      {/* Bottom Row  - Task, details, notes, links, priority */}
+      <div
+        className={
+          (task?.color === ""
+            ? "bg-zinc-100 "
+            : `${color[task.color as keyof typeof color]} `) +
+          " flex-1 flex flex-col rounded-b-xl rounded-tr-3xl"
+        }
+      >
+        <div className={"flex-1 flex flex-col py-2 px-4 pb-4"}>
+          {task?.task !== "" && (
+            <p
+              className="font-medium text-zinc-800 cursor-pointer"
+              onClick={() => {
+                setEdit(true);
+                setEditItem(task);
+              }}
+            >
+              {task.task}
+            </p>
+          )}
+          {task?.details !== "" && (
+            <p className="whitespace-break-spaces text-sm text-zinc-600">
+              {task?.details}
+            </p>
+          )}
+          {task?.notes !== "" && (
+            <p className="text-xs whitespace-break-spaces text-cyan-800">
+              {task?.notes}
+            </p>
+          )}
+        </div>
+        <div className="flex items-center gap-2 mt-auto px-4 pb-4">
+          <div className="relative group flex text-xs font-medium items-center gap-1">
             <span
               style={{ backgroundColor: bgColor }}
               className={
@@ -147,39 +195,43 @@ export default function CardTask({
                 " w-3 h-3 shadow-sm shadow-zinc-700 rounded-full cursor-pointer"
               }
             ></span>
-            <span className="absolute top-full left-1/2 -translate-x-1/2 py-1 px-2 bg-zinc-100 rounded-md z-10 invisible opacity-0 -translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-2 duration-200">
+            <span>{task?.priority}</span>
+            {/* <span className="absolute top-full left-1/2 -translate-x-1/2 py-1 px-2 bg-zinc-100 rounded-md z-10 invisible opacity-0 -translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-2 duration-200">
               {task?.priority}
-            </span>
+            </span> */}
           </div>
           <div className="flex-1 flex items-center text-sm">
-            <p className=" text-zinc-700 relative group cursor-pointer">
-              <span>{displayMessage}</span>
-              <span className="absolute top-full left-1/2 -translate-x-1/2 whitespace-nowrap py-1 px-2 text-xs bg-zinc-200 rounded-md invisible opacity-0 group-hover:visible group-hover:opacity-100">
-                {displayDate}
-              </span>
-            </p>
-            {task?.status && task?.status.trim() && (
+            {/* {task?.status && task?.status.trim() && (
               <p className="ml-auto">{task?.status}</p>
-            )}
+            )} */}
           </div>
+          {task?.link && task?.link !== "" && (
+            <Link
+              to={task?.link}
+              target="_blank"
+              className="whitespace-break-spaces text-sm text-zinc-800"
+            >
+              {task?.linkText ?? task?.link}
+            </Link>
+          )}
+          <Popconfirm
+            title="Delete task"
+            description="Are you sure you want to delete this task?"
+            onConfirm={confirm}
+            okText="Yes"
+            cancelText="No"
+            placement="topRight"
+            className=" invisible opacity-0 group-hover/main:opacity-100 group-hover/main:visible duration-200"
+          >
+            <Button
+              type="text"
+              className="flex items-center justify-center p-0"
+            >
+              <CiTrash size={20} className="inline" />
+            </Button>
+          </Popconfirm>
         </div>
       </div>
-      <Popconfirm
-        title="Delete task"
-        description="Are you sure you want to delete this task?"
-        onConfirm={confirm}
-        okText="Yes"
-        cancelText="No"
-        placement="topRight"
-        className=" absolute top-1 right-1 invisible opacity-0 group-hover/main:opacity-100 group-hover/main:visible duration-200"
-      >
-        <Button
-          type="text"
-          className="flex items-center justify-center m-0 p-0"
-        >
-          <CiTrash size={20} className="inline" />
-        </Button>
-      </Popconfirm>
     </div>
   );
 }

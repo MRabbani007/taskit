@@ -49,6 +49,7 @@ const weekday = [
 ];
 
 const weekdayShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 const month = [
   "January",
   "February",

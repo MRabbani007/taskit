@@ -1,23 +1,12 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
-import { SERVER } from "../data/actions";
-
-type UserProfile = {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  profileImage?: string;
-};
-
-type UserSettings = {
-  taskView: string;
-};
+import toast from "react-hot-toast";
 
 type UserState = {
   userProfile: UserProfile | null;
   userSettings: UserSettings | null;
+  updateUserProfile: (settings: UserProfile) => void;
   updateUserSettings: (settings: UserSettings) => void;
 };
 
@@ -25,6 +14,7 @@ type UserState = {
 const initialState: UserState = {
   userProfile: null,
   userSettings: null,
+  updateUserProfile: () => {},
   updateUserSettings: () => {},
 };
 
@@ -33,23 +23,38 @@ export const UserContext = createContext(initialState);
 
 // Provider component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const { auth, config } = useAuth();
+
   // Store userName
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userSettings, setUserSettings] = useState<UserSettings | null>(null);
 
-  const { auth } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
   const getUserProfile = async () => {
-    const response = await axiosPrivate.post(SERVER.GET_USER_SETTINGS, {
-      username: auth?.user,
-      roles: auth?.roles,
-    });
+    try {
+      const response = await axiosPrivate.get("/user/profile", { ...config });
 
-    if (response?.data) {
-      setUserProfile(response.data?.userProfile);
-      setUserSettings(response.data?.userSettings);
-    }
+      if (response?.data) {
+        setUserProfile(response.data?.userProfile);
+        // setUserSettings(response.data?.userSettings);
+      }
+    } catch (error) {}
+  };
+
+  const updateUserProfile = async (profileData: UserProfile) => {
+    try {
+      const response = await axiosPrivate.patch("/user/profile", {
+        profileData,
+        ...config,
+      });
+
+      if (response?.status === 204) {
+        toast.success("Profile Updated");
+
+        getUserProfile();
+      }
+    } catch (error) {}
   };
 
   const updateUserSettings = async (settings: UserSettings) => {
@@ -67,6 +72,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       value={{
         userProfile,
         userSettings,
+        updateUserProfile,
         updateUserSettings,
       }}
     >

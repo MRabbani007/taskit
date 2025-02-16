@@ -16,7 +16,7 @@ export default function RadioGroup({
       <p>{title}</p>
       <div className="flex items-center gap-4 flex-wrap">
         {options.map((option) => (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" key={option.value}>
             <input
               type="radio"
               name={name}

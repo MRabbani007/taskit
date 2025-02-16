@@ -31,10 +31,6 @@ import AdminUsersPage from "./views/admin/AdminUsersPage";
 // Tasks
 import TasksPage from "./views/user/tasks/TasksPage";
 import UserListsPage from "./views/user/tasks/UserListsPage";
-import TasksTodayPage from "./views/user/tasks/TasksTodayPage";
-import TasksWeekPage from "./views/user/tasks/TasksWeekPage";
-import TasksImportantPage from "./views/user/tasks/TasksImportantPage";
-import TasksOverduePage from "./views/user/tasks/TasksOverduePage";
 import TaskListPage from "./views/user/tasks/TaskListPage";
 import CreateListPage from "./views/user/tasks/CreateListPage";
 // Activities
@@ -49,6 +45,7 @@ import CalendarPage from "./views/user/CalendarPage";
 import DashboardPage from "./views/user/DashboardPage";
 import TaskPlannerPage from "./views/user/tasks/TaskPlannerPage";
 import AdminListsPage from "./views/admin/AdminListsPage";
+import LayoutGuest from "./features/layout/LayoutGuest";
 // Imported Components
 const ForgotPasswordPage = React.lazy(
   () => import("./views/auth/ForgotPasswordPage")
@@ -70,12 +67,13 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route element={<PersistLogin />}>
             {/* Pages visible to all */}
-            <Route index element={<HomePage />} />
-            <Route path="login" element={<SigninPage />} />
-            <Route path="register" element={<SignupPage />} />
-            <Route path="forgotpassword" element={<ForgotPasswordPage />} />
-            <Route path="unauthorized" element={<Unauthorized />} />
-
+            <Route element={<LayoutGuest />}>
+              <Route index element={<HomePage />} />
+              <Route path="login" element={<SigninPage />} />
+              <Route path="register" element={<SignupPage />} />
+              <Route path="forgotpassword" element={<ForgotPasswordPage />} />
+              <Route path="unauthorized" element={<Unauthorized />} />
+            </Route>
             {/* Pages available to users */}
             <Route
               element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}
@@ -99,10 +97,6 @@ function App() {
                 <Route path="tasks">
                   <Route index element={<TasksPage />} />
                   <Route path="planner" element={<TaskPlannerPage />} />
-                  <Route path="today" element={<TasksTodayPage />} />
-                  <Route path="week" element={<TasksWeekPage />} />
-                  <Route path="important" element={<TasksImportantPage />} />
-                  <Route path="overdue" element={<TasksOverduePage />} />
                 </Route>
                 <Route path="pages">
                   <Route path="calendar" element={<CalendarPage />} />

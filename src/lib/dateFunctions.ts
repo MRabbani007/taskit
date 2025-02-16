@@ -42,3 +42,66 @@ export function getDueDateStatement(dueDate: Date) {
 
   return { status, message, displayDate, isOverdue, daysDifference };
 }
+
+export function getDate(offset: number = 0) {
+  const today = new Date(new Date().getTime() + offset * 24 * 60 * 60 * 1000);
+  const year = today.getFullYear();
+
+  const month = (today.getMonth() + 1).toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  const monthStr = monthShort[today.getMonth()];
+
+  const date = today.getDate().toLocaleString("en-US", {
+    minimumIntegerDigits: 2,
+    useGrouping: false,
+  });
+  const dateString = year + "-" + month + "-" + date;
+
+  const day = weekdayLong[today.getDay()];
+
+  return { date, day, month, monthStr, year, dateString };
+}
+
+const weekdayLong = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const weekdayShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const monthLong = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const monthShort = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];

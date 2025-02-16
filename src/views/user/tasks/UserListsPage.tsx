@@ -14,6 +14,7 @@ import { SlArrowRight } from "react-icons/sl";
 import FormTaskListEdit from "@/features/taskList/FormTaskListEdit";
 import FormListIcon from "@/features/taskList/FormListIcon";
 import PageHeader from "@/features/components/PageHeader";
+import { IoListOutline } from "react-icons/io5";
 
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status } =
@@ -127,13 +128,16 @@ export default function UserListsPage() {
 
   return (
     <main className="">
-      <PageHeader className="">
-        <h1 className="flex-1">My Lists</h1>
+      <PageHeader
+        className=""
+        pageTitle="My Lists"
+        icon={<IoListOutline size={25} />}
+      >
         <button
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           onClick={() => setAdd(true)}
         >
-          <BiPlus size={30} />
+          <BiPlus size={25} />
         </button>
       </PageHeader>
       <section

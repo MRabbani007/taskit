@@ -236,19 +236,19 @@ export default function TaskListPage() {
           <Link
             to={`/tasks/planner?listID=${displayList?.id}`}
             title="Planner"
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg duration-200"
+            className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           >
             <FaTimeline className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
           </Link>
           <button
             title="Edit Title"
             onClick={() => setEdit(true)}
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg duration-200"
+            className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           >
             <CiEdit className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
           </button>
           <button
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+            className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
             title="Add Task"
             onClick={() => setAdd(true)}
           >

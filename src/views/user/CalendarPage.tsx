@@ -3,6 +3,7 @@ import { TaskContext } from "../../context/TaskState";
 import { ListContext } from "../../context/ListState";
 import { Badge, Calendar } from "antd";
 import PageHeader from "@/features/components/PageHeader";
+import { IoCalendarOutline } from "react-icons/io5";
 
 // const getListData = (value) => {
 //   let listData;
@@ -163,9 +164,11 @@ export default function CalendarPage() {
 
   return (
     <main className="">
-      <PageHeader className="">
-        <h1 className="flex-1">Calendar</h1>
-      </PageHeader>
+      <PageHeader
+        className=""
+        pageTitle="Calendar"
+        icon={<IoCalendarOutline size={25} />}
+      ></PageHeader>
       <Calendar
         cellRender={cellRender}
         className=""

@@ -1,9 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Suspense } from "react";
-import Navbar from "./Navbar";
 import SkeletonContentPage from "../../skeletons/SkeletonContentPage";
 import { ToastContainer } from "react-toastify";
-import Footer from "./Footer";
 import { ErrorBoundary } from "react-error-boundary";
 import { IoCloseCircle } from "react-icons/io5";
 import { Toaster } from "react-hot-toast";
@@ -20,7 +18,6 @@ export default function Layout() {
 
   return (
     <div className="flex flex-col items-stretch min-h-screen">
-      <Navbar />
       <ErrorBoundary
         fallback={
           <main className="flex flex-1 items-center">
@@ -35,7 +32,6 @@ export default function Layout() {
           <Outlet />
         </Suspense>
       </ErrorBoundary>
-      <Footer />
       <ToastContainer autoClose={1000} />
       <Toaster />
     </div>

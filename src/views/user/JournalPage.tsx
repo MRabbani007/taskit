@@ -9,6 +9,7 @@ import {
 import FormJournalAdd from "../../features/journal/FormJournalAdd";
 import { BiPlus } from "react-icons/bi";
 import PageHeader from "@/features/components/PageHeader";
+import { BsJournalText } from "react-icons/bs";
 
 export default function JournalPage() {
   const [add, setAdd] = useState(false);
@@ -18,36 +19,39 @@ export default function JournalPage() {
 
   return (
     <main className="">
-      <PageHeader className="">
-        <h1 className="flex-1">Journal</h1>
+      <PageHeader
+        className=""
+        pageTitle="Journal"
+        icon={<BsJournalText size={25} />}
+      >
         <button
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           title={group ? "un-group" : "Group"}
           onClick={() => setGroup((curr) => !curr)}
         >
           {group ? (
-            <FaRegObjectUngroup size={30} />
+            <FaRegObjectUngroup size={25} />
           ) : (
-            <FaRegObjectGroup size={30} />
+            <FaRegObjectGroup size={25} />
           )}
         </button>
         <button
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           title={sortA ? "Latest" : "Earliest"}
           onClick={() => setSortA((curr) => !curr)}
         >
           {sortA ? (
-            <FaSortAmountDown size={30} />
+            <FaSortAmountDown size={25} />
           ) : (
-            <FaSortAmountUp size={30} />
+            <FaSortAmountUp size={25} />
           )}
         </button>
         <button
           title="Add Items"
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           onClick={() => setAdd(true)}
         >
-          <BiPlus size={30} />
+          <BiPlus size={25} />
         </button>
       </PageHeader>
       <SectionJournalItems group={group} sortA={sortA} />

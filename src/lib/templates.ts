@@ -15,8 +15,8 @@ export const T_TASK: Task = {
   completed: false,
   completedAt: null,
 
-  priority: "low",
-  priorityLevel: 1,
+  priority: "normal",
+  priorityLevel: 2,
   dueDate: new Date(),
   prevDueDate: new Date(),
 
@@ -75,4 +75,36 @@ export const T_JOURNAL: JournalItem = {
   timeTo: "",
   color: "",
   createDate: new Date(),
+};
+
+export const T_USERPROFILE: UserProfile = {
+  id: "",
+  firstname: "",
+  lastname: "",
+  profileEmail: "",
+  bio: "",
+  city: "",
+  country: "",
+  phoneNumber: "",
+  profileImage: "",
+  careerTrade: "",
+};
+
+export const T_USERACCOUNT: UserAccount = {
+  email: "",
+  emailVerified: false,
+  id: "",
+  roles: [],
+  username: "",
+};
+
+export const T_USERSETTINGS: UserSettings = {
+  darkMode: "System",
+  listSort: "",
+  listSortDir: "",
+  notesSort: "",
+  notesSortDir: "",
+  taskDisplay: "",
+  taskSort: "",
+  taskSortDir: "",
 };

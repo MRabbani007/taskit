@@ -15,14 +15,14 @@ export default function DashboardLists() {
   const displaylists = [...pinnedLists, ...userLists];
 
   return (
-    <article className="flex flex-col min-h-[100px] rounded-lg">
+    <article className="border-[px] border-zinc-400 bg-gray-50 rounded-xl flex flex-col min-h-[100px]">
       <Link title="View Lists" to="/mylists">
-        <h2 className="flex items-center gap-2 py-2 px-4 font-normal rounded-t-lg bg-stone-600 text-white">
-          <BsListCheck size={24} />
+        <h2 className="flex items-center gap-2 py-4 px-4 font-normal rounded-t-lg text-sky-800">
+          <BsListCheck size={25} />
           Lists
         </h2>
       </Link>
-      <ul className="p-2 rounded-b-lg bg-stone-200 flex flex-wrap gap-2 overflow-y-auto">
+      <ul className="px-4 pb-4 rounded-b-lg flex flex-wrap gap-2 overflow-y-auto">
         {displaylists.length === 0 ? (
           <li>
             You don't have any lists, <Link to="/myLists">create one</Link>
@@ -59,7 +59,7 @@ function RenderList({
   return (
     <li
       title={list?.title}
-      className="bg-slate-100 hover:bg-slate-200 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer relative"
+      className="border-[1px] border-zinc-200 bg-white hover:bg-yellow-100 p-2 overflow-hidden duration-200 rounded-lg flex-1 min-w-[30%] flex flex-col items-center cursor-pointer relative"
       onClick={() => handleOpen(list?.id)}
     >
       <img

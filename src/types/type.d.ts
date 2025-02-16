@@ -135,12 +135,38 @@ type MoveItem =
     } & Task)
   | undefined;
 
-type User = {
+type UserProfile = {
   id: string;
-  username: string;
   firstname: string;
   lastname: string;
+  profileEmail: string;
+  bio?: string;
+  profileImage?: string;
+  phoneNumber?: string;
+  city?: string;
+  country?: string;
+  careerTrade?: string;
+};
+
+type UserAccount = {
+  id: string;
+  username: string;
   email: string;
+  emailVerified: boolean;
+  emailVerifiedDate?: Date;
   roles: number[];
-  createDate: Date;
+
+  createdAt?: Date;
+  updatedAt?: Date;
+};
+
+type UserSettings = {
+  listSort: string;
+  listSortDir: string;
+  taskDisplay: string;
+  taskSort: string;
+  taskSortDir: string;
+  notesSort: string;
+  notesSortDir: string;
+  darkMode: string;
 };

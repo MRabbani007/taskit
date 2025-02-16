@@ -34,13 +34,13 @@ export default function FormContainer({
     setShowForm(false);
   };
 
-  const handleEscape = (ev: globalThis.KeyboardEvent) => {
-    if (ev.key === "Escape") {
-      setShowForm(false);
-    }
-  };
-
   useEffect(() => {
+    const handleEscape = (ev: globalThis.KeyboardEvent) => {
+      if (ev.key === "Escape") {
+        setShowForm(false);
+      }
+    };
+
     document.body.style.overflow = "hidden";
     document.addEventListener("keydown", handleEscape);
 
@@ -62,7 +62,7 @@ export default function FormContainer({
           className="bg-zinc-100 rounded-lg shadow-md-shadow-white z-[100] overflow-clip w-full max-w-[500px]"
         >
           {/* Form Title */}
-          <div className="bg-zinc-800 text-white relative p-4 text-center ">
+          <div className="bg-zinc-800 text-white relative p-4">
             <p className="font-medium">{title}</p>
             {subtitle && <p>{subtitle}</p>}
             <button

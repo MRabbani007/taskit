@@ -60,7 +60,7 @@ export default function FormTaskAdd({
   const { handleAddTask } = useContext(TaskContext);
 
   const [state, setState] = useState(T_TASK);
-  const [priorityLevel, setPriorityLevel] = useState(1);
+  const [priorityLevel, setPriorityLevel] = useState(T_TASK?.priorityLevel);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

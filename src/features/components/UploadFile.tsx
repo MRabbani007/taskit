@@ -12,8 +12,14 @@ export default function UploadFile({
   url,
   setUrl,
   foldername,
+  filename,
+  showUploadedImage = false,
+  className = "",
 }: {
   foldername: string;
+  filename?: string;
+  showUploadedImage?: boolean;
+  className?: string;
   url: string;
   setUrl: Dispatch<SetStateAction<string | null>>;
 }) {
@@ -42,12 +48,15 @@ export default function UploadFile({
   const handleUpload = async () => {
     if (!file) return;
 
-    const storageRef = ref(storage, `${foldername}/${file.name}`);
+    const fileName = filename?.trim() ?? file.name;
+
+    const storageRef = ref(storage, `${foldername}/${fileName}`);
 
     try {
       await uploadBytes(storageRef, file);
       const downloadURL = await getDownloadURL(storageRef);
       setUrl(downloadURL);
+      setFile(null);
       console.log("File uploaded successfully:", downloadURL);
     } catch (error) {
       console.error("Upload failed:", error);
@@ -57,7 +66,10 @@ export default function UploadFile({
   return (
     <div className="flex flex-col items-center">
       <div
-        className="w-80 h-40 border-2 border-dashed border-gray-400 flex items-center justify-center cursor-pointer relative"
+        className={
+          " w-80 h-40 border-2 border-dashed border-gray-400 flex items-center justify-center cursor-pointer relative " +
+          className
+        }
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={() => document.getElementById("fileInput")?.click()}
@@ -69,7 +81,9 @@ export default function UploadFile({
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <p>Drag & Drop or Click to Upload</p>
+          <p className="text-sm whitespace-pre-wrap">
+            Drag & Drop or Click to Upload
+          </p>
         )}
         {file && (
           <div className="absolute bottom-0 bg-white bg-opacity-75 w-full text-center text-sm">
@@ -84,12 +98,13 @@ export default function UploadFile({
         onChange={handleFileChange}
       />
       <button
+        type="button"
         className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
         onClick={handleUpload}
       >
         Upload
       </button>
-      {url && (
+      {showUploadedImage && url && (
         <div className="mt-4">
           <p>Uploaded Image:</p>
           <img src={url} alt="Uploaded" className="max-w-xs max-h-40 mt-2" />

@@ -175,31 +175,35 @@ export default function TasksPage() {
 
   return (
     <main className="">
-      <PageHeader className="" secondChildren={headerLinks}>
-        <h1 className="flex-1">My Tasks</h1>
+      <PageHeader
+        className=""
+        pageTitle="My Tasks"
+        icon={<MdOutlineChecklist size={25} />}
+        secondChildren={headerLinks}
+      >
         <button
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           onClick={() => setShowSearch(true)}
         >
-          <IoIosSearch size={30} />
+          <IoIosSearch size={25} />
         </button>
-        <button
+        {/* <button
           className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
           onClick={() => setFilters((curr) => ({ ...curr, viewFilter: true }))}
         >
           <BiFilter size={30} />
-        </button>
-        <button
+        </button> */}
+        {/* <button
           className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
           onClick={() => setFilters((curr) => ({ ...curr, viewSort: true }))}
         >
           <BiSort size={30} />
-        </button>
+        </button> */}
         <button
-          className="p-2 bg-white/20 hover:bg-white/30 rounded-lg"
+          className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           onClick={() => setAddTask(true)}
         >
-          <BiPlus size={30} />
+          <BiPlus size={25} />
         </button>
       </PageHeader>
       <div className="field">

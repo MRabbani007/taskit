@@ -89,7 +89,7 @@ export const NotesProvider = ({ children }: { children: ReactNode }) => {
 
   const handleNoteCreate = async (note: Note) => {
     try {
-      // dispatch({ type: "NOTES_CREATE", payload: note });
+      dispatch({ type: "NOTES_CREATE", payload: note });
 
       const response = await axiosPrivate.post(
         SERVER.NOTES,
