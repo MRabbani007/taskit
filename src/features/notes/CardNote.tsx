@@ -64,12 +64,16 @@ export default function CardNote({ note }: { note: Note }) {
           type="text"
           name="title"
           placeholder="Title"
-          className="flex-1 bg-yellow-300 py-2 px-4 border-none outline-none bg-inherit font-semibold text-zinc-600"
+          className="flex-1 py-2 px-4 border-none outline-none bg-amber-800 font-semibold text-white"
           value={state?.title}
           onChange={handleChange}
         />
-        <div className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center  invisible group-hover:visible">
-          <Button type="text" className="p-1" onClick={handleClose}>
+        <div className="absolute top-1/2 -translate-y-1/2 right-2 flex items-center justify-center invisible group-hover:visible">
+          <Button
+            type="text"
+            className="p-1 text-white hover:text-white"
+            onClick={handleClose}
+          >
             <BiX size={20} />
           </Button>
           <Popconfirm
@@ -83,7 +87,7 @@ export default function CardNote({ note }: { note: Note }) {
           >
             <Button
               type="text"
-              className="flex items-center justify-center m-0 p-1 bg-transparent"
+              className="flex items-center justify-center m-0 p-1 bg-transparent text-white hover:text-white"
             >
               <CiTrash size={20} />
             </Button>
@@ -100,7 +104,7 @@ export default function CardNote({ note }: { note: Note }) {
         id="details"
         cols={cols}
         rows={rows}
-        className="bg-yellow-200 outline-none border-0 bg-inherit h-full p-4"
+        className="bg-amber-700/30 outline-none border-0 h-full p-4"
         value={state?.details}
         onChange={handleChange}
       />

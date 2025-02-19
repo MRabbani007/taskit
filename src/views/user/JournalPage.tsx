@@ -10,6 +10,7 @@ import FormJournalAdd from "../../features/journal/FormJournalAdd";
 import { BiPlus } from "react-icons/bi";
 import PageHeader from "@/features/components/PageHeader";
 import { BsJournalText } from "react-icons/bs";
+import JournalCategories from "@/features/journal/JournalCategories";
 
 export default function JournalPage() {
   const [add, setAdd] = useState(false);
@@ -54,7 +55,10 @@ export default function JournalPage() {
           <BiPlus size={25} />
         </button>
       </PageHeader>
-      <SectionJournalItems group={group} sortA={sortA} />
+      <div className="flex items-stretch gap-4">
+        <JournalCategories />
+        <SectionJournalItems group={group} sortA={sortA} />
+      </div>
       {add ? <FormJournalAdd add={add} setAdd={setAdd} /> : null}
     </main>
   );

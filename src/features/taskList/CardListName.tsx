@@ -11,7 +11,7 @@ import { ListContext } from "../../context/ListState";
 import useDebounce from "../../hooks/useDebounce";
 // Imported Media
 import { BsPinAngle } from "react-icons/bs";
-import { Button, Popconfirm, message } from "antd";
+import { Button, Popconfirm } from "antd";
 import ListImage from "../../assets/list-2.png";
 import { useNavigate } from "react-router-dom";
 import { CiEdit, CiImageOn, CiTrash } from "react-icons/ci";
@@ -53,10 +53,8 @@ export default function CardListName({
   useEffect(() => {
     let temp = null;
     if (listSummary.length !== 0) {
-      temp = listSummary.find((item) => item._id === taskList.id);
-      if (temp) {
-        setSummary(temp);
-      }
+      temp = listSummary.find((item) => item._id === taskList.id) ?? null;
+      setSummary(temp);
     }
   }, [listSummary]);
 
@@ -71,6 +69,25 @@ export default function CardListName({
       toast.success("Task Updated");
     }
   }, [debouncePin]);
+
+  const tasksStatement =
+    !isNaN(summary?.todayTasks ?? +"nan") && summary?.todayTasks !== 0
+      ? `${summary?.todayTasks} task${
+          summary?.todayTasks === 1 ? "" : "s"
+        } for today`
+      : !isNaN(summary?.thisWeek ?? +"nan") && summary?.thisWeek !== 0
+      ? `${summary?.thisWeek} task${
+          summary?.thisWeek === 1 ? "" : "s"
+        } for this week`
+      : !isNaN(summary?.highPriority ?? +"nan") && summary?.highPriority !== 0
+      ? `${summary?.highPriority} important task${
+          summary?.highPriority === 1 ? "" : "s"
+        }`
+      : !isNaN(summary?.overdue ?? +"nan") && summary?.overdue !== 0
+      ? `${summary?.overdue} overdue task${summary?.overdue === 1 ? "" : "s"}`
+      : !isNaN(summary?.pending ?? +"nan") && summary?.pending !== 0
+      ? `${summary?.pending} remaining task${summary?.pending === 1 ? "" : "s"}`
+      : "";
 
   return (
     <div
@@ -114,6 +131,10 @@ export default function CardListName({
             {(summary?.total ? summary?.total : 0) +
               (summary?.total === 1 ? " task" : " tasks, ") +
               ((summary?.pending ? summary?.pending : 0) + " open")}
+          </p> */}
+          <p className="px-2">{tasksStatement}</p>
+          {/* <p className="whitespace-break-spaces">
+            {JSON.stringify(summary).replaceAll(",", " ")}
           </p> */}
           {summary?.total && summary?.total !== 0 && (
             <ProgressBar

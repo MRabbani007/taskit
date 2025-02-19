@@ -37,7 +37,6 @@ export default function FormJournalAdd({
     event.preventDefault();
 
     await handleJournalCreate({ ...state, id: crypto.randomUUID() });
-    toast.success("Item added");
   };
 
   return (
@@ -48,10 +47,17 @@ export default function FormJournalAdd({
       onSubmit={onSubmit}
     >
       <InputField
-        label="Activity"
+        label="Title"
         name="title"
         type="text"
         value={state.title}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Activity"
+        name="task"
+        type="text"
+        value={state.task}
         onChange={handleChange}
       />
       <InputField

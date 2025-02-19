@@ -45,18 +45,12 @@ export default function HomePageHero() {
         </div>
         <div className="flex items-center justify-center gap-2 mx-auto mt-4">
           {auth?.user ? (
-            <Link
-              to={"/dashboard"}
-              className="py-2 px-4 rounded-xl bg-sky-900 text-white"
-            >
+            <Link to={"/dashboard"} className="btn btn-blue">
               Go to Dashboard
             </Link>
           ) : (
             <>
-              <Link
-                to="/login"
-                className="py-2 px-4 rounded-xl bg-sky-900 text-white"
-              >
+              <Link to="/login" className="btn btn-blue">
                 Sign in
               </Link>
               <span>or</span>

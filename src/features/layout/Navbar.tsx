@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import MenuMobile from "../navigation/MenuMobile";
 // import Logo from "../../assets/todo.svg";
-import UserMenu from "../navigation/UserMenu";
 import { MdOutlineTaskAlt } from "react-icons/md";
 
 export default function Navbar() {
@@ -12,8 +11,15 @@ export default function Navbar() {
         <MdOutlineTaskAlt size={25} />
         <span className="font-bold text-xl">Taskit</span>
       </Link>
+      <div className="flex items-center gap-8">
+        <Link to={"/"}>About</Link>
+        <Link to={"/"}>Features</Link>
+        <Link to={"/"}>Pricing</Link>
+      </div>
       <MenuMobile />
-      <UserMenu />
+      <Link to={"/login"} className="btn btn-blue">
+        Get Started
+      </Link>
     </nav>
   );
 }

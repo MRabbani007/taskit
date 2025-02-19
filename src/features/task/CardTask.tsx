@@ -133,9 +133,9 @@ export default function CardTask({
               {task.title}
             </p>
           )}
-          <p className=" text-zinc-700 relative group cursor-pointer z-40">
+          <p className=" text-zinc-700 relative group cursor-pointer z-100">
             <span className="text-xs">{displayMessage}</span>
-            <span className="absolute top-full left-1/2 -translate-x-1/2 whitespace-nowrap py-1 px-2 text-xs bg-indigo-200 rounded-md invisible opacity-0 group-hover:visible group-hover:opacity-100">
+            <span className="absolute top-1/2 left-1/ -translate-x-1/ right-0 whitespace-nowrap py-1 px-2 text-xs bg-indigo-200 rounded-md invisible opacity-0 group-hover:visible group-hover:opacity-100 duration-200">
               {displayDate}
             </span>
           </p>

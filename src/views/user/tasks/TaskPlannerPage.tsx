@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import PageHeader from "@/features/components/PageHeader";
 import FormSelectList from "@/features/planner/FormSelectList";
 import { FaTimeline } from "react-icons/fa6";
+import { PiKanbanLight } from "react-icons/pi";
 
 export const tabs: Partial<PlannerTab>[] = [
   {
@@ -160,7 +161,7 @@ export default function TaskPlannerPage() {
       <PageHeader
         className=""
         pageTitle="Planner"
-        icon={<FaTimeline size={25} />}
+        icon={<PiKanbanLight size={25} />}
       >
         <button
           className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"

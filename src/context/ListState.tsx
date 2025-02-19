@@ -200,6 +200,7 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
 
   const handleListSummary = async () => {
     let response = await axiosPrivate.post(SERVER.GET_LIST_SUMMARY, {}, config);
+
     if (response?.data && Array.isArray(response.data)) {
       setListSummary(response.data);
     }

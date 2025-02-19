@@ -84,7 +84,7 @@ export default function TasksPage() {
   const [showCompleted, setShowCompleted] = useState(false);
   const [itemsPerPage, setItemsPerPage] = useState(20);
 
-  const taskDisplay = userSettings?.taskView ?? "board";
+  const taskDisplay = userSettings?.taskDisplay ?? "board";
 
   const handleRemove = () => {
     searchParams.delete("q");

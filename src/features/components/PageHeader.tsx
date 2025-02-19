@@ -21,7 +21,7 @@ export default function PageHeader({
     >
       <header className="self-stretch flex items-center flex-wrap group">
         {icon && (
-          <div className="p-2 bg-zinc-100 duration-200 rounded-lg hidden lg:flex">
+          <div className="p-2 bg-orange-900/80 text-white duration-200 rounded-lg hidden lg:flex">
             {icon}
           </div>
         )}

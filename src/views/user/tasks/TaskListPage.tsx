@@ -11,7 +11,6 @@ import FormTaskListEdit from "../../../features/taskList/FormTaskListEdit";
 import Pagination from "@/features/navigation/Pagination";
 import CardTask from "@/features/task/CardTask";
 import FormTaskEdit from "@/features/task/FormTaskEdit";
-import PageLinks from "@/features/navigation/PageLinks";
 import CardListName from "@/features/taskList/CardListName";
 import ListImage from "../../../assets/list-2.png";
 import { BsPinAngle } from "react-icons/bs";
@@ -27,7 +26,7 @@ export default function TaskListPage() {
 
   const [searchParams] = useSearchParams();
 
-  const taskDisplay = userSettings?.taskView ?? "board";
+  const taskDisplay = userSettings?.taskDisplay ?? "board";
 
   const page = parseInt(searchParams.get("page") ?? "1");
   const id = searchParams?.get("id") ?? "";
@@ -228,7 +227,10 @@ export default function TaskListPage() {
                 className="w-10 lg:w-16"
                 onError={handleError}
               />
-              <h1 className="text-lg lg:text-2xl">{displayList?.title}</h1>
+              <div className="flex-1">
+                <h1 className="text-lg lg:text-2xl">{displayList?.title}</h1>
+                <p>{displayList?.subTitle}</p>
+              </div>
             </div>
           </div>
         </div>

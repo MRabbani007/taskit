@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 import { JournalContext } from "../../context/JournalState";
-import { toast } from "react-toastify";
 import FormContainer from "../components/FormContainer";
 import InputField from "../components/InputField";
 import { T_JOURNAL } from "@/lib/templates";
@@ -36,8 +35,8 @@ export default function FormJournalEdit({
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    const response = await handleJournalUpdate(state);
-    toast.success("Item created");
+    await handleJournalUpdate(state);
+
     setEdit(false);
   };
 
@@ -49,10 +48,17 @@ export default function FormJournalEdit({
       onSubmit={onSubmit}
     >
       <InputField
-        label="Activity"
+        label="Title"
         name="title"
         type="text"
         value={state.title}
+        onChange={handleChange}
+      />
+      <InputField
+        label="Activity"
+        name="task"
+        type="text"
+        value={state.task}
         onChange={handleChange}
       />
       <InputField

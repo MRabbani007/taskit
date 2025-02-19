@@ -71,15 +71,26 @@ type Note = {
 
 type JournalItem = {
   id: string;
+  userID: string;
+
   title: string;
+  task: string;
   detail: string;
+  notes?: string;
+
   color: string;
-  onDate: Date;
   planDate: Date;
+  onDate: Date;
+
   timeFrom: "";
   timeTo: "";
   createDate: Date;
+
+  createdAt?: Date;
+  updatedAt?: Date;
 };
+
+type JournalCategory = { _id: string; count: number };
 
 type FetchStatus = {
   isLoading: boolean;
@@ -102,6 +113,10 @@ type ListSummary = {
   _id: string;
   total: number;
   pending: number;
+  todayTasks: number;
+  thisWeek: number;
+  highPriority: number;
+  overdue: number;
 };
 
 type PlannerTab = {

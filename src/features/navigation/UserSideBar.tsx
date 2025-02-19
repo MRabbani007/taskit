@@ -9,6 +9,7 @@ import { MdOutlineChecklist } from "react-icons/md";
 import { SlNotebook } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
+import { PiKanbanLight } from "react-icons/pi";
 
 const items = [
   {
@@ -33,7 +34,7 @@ const items = [
   },
   {
     label: "Kanban",
-    icon: <FaTimeline size={25} />,
+    icon: <PiKanbanLight size={25} />,
     url: "/tasks/planner",
   },
   {
@@ -63,7 +64,7 @@ const userItems = [
 
 export default function UserSideBar() {
   return (
-    <nav className="hidden lg:flex flex-col bg-sky-950 py-4 px-2 text-zinc-300">
+    <nav className="hidden lg:flex flex-col bg-amber-950 py-4 px-2 text-zinc-300">
       <div className="flex flex-col gap-0">
         {items.map((item) => (
           <Link

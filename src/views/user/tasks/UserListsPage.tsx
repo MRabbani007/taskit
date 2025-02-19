@@ -15,6 +15,7 @@ import FormTaskListEdit from "@/features/taskList/FormTaskListEdit";
 import FormListIcon from "@/features/taskList/FormListIcon";
 import PageHeader from "@/features/components/PageHeader";
 import { IoListOutline } from "react-icons/io5";
+import { GoPlus } from "react-icons/go";
 
 export default function UserListsPage() {
   const { userLists, pinnedLists, trashLists, status } =
@@ -127,7 +128,7 @@ export default function UserListsPage() {
   }
 
   return (
-    <main className="">
+    <main className="bg-amber-900/20">
       <PageHeader
         className=""
         pageTitle="My Lists"
@@ -150,9 +151,16 @@ export default function UserListsPage() {
         {status?.isSuccess === true && (
           <button
             onClick={() => setAdd(true)}
-            className="flex flex-col items-center justify-center text-center bg-zinc-100 hover:bg-zinc-200 duration-200 rounded-lg p-4 group"
+            className="flex items-center gap-2 bg-white rounded-lg p-4 group"
           >
-            <BiPlus size={40} className="group-hover:scale-125 duration-200" />
+            <GoPlus
+              size={40}
+              className="p-2 rounded-full bg-zinc-100 group-hover:bg-zinc-200 duration-200"
+            />
+            <span className="text-zinc-600 group-hover:text-zinc-900 duration-200">
+              New List
+            </span>
+            {/* <BiPlus className="group-hover:scale-125 duration-200" /> */}
           </button>
         )}
         {/* <DragDropContext onDragEnd={handleDragEnd}>

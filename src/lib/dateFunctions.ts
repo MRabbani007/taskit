@@ -33,7 +33,7 @@ export function getDueDateStatement(dueDate: Date) {
     message = `Due on ${format(dueDate, "PPP")}`;
     displayDate = format(dueDate, "PPP");
   } else if (Math.abs(daysDifference) < 14) {
-    message = `Overdue by ${Math.abs(daysDifference)} days`;
+    message = `Overdue by ${Math.abs(daysDifference) + 1} days`;
     displayDate = format(dueDate, "PPP");
   } else {
     message = `Long Overdue (${Math.abs(daysDifference)} days)`;

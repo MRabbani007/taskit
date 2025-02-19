@@ -1,5 +1,4 @@
-import { AiOutlineLogout } from "react-icons/ai";
-import { BsActivity, BsCardList, BsJournalText } from "react-icons/bs";
+import { BsCardList, BsJournalText } from "react-icons/bs";
 import {
   IoCalendarOutline,
   IoListOutline,
@@ -10,14 +9,18 @@ import { SlNotebook } from "react-icons/sl";
 import { Link, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { FaRegCircleUser, FaTimeline } from "react-icons/fa6";
-import { GrGroup } from "react-icons/gr";
 import { BiX } from "react-icons/bi";
 // Imported Media
 import Logo from "../../assets/todo.svg";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { RxDashboard } from "react-icons/rx";
+import { PiKanbanLight, PiUserCircleLight } from "react-icons/pi";
 
-export default function MenuMobile() {
+export default function MenuMobile({
+  toggleButton,
+}: {
+  toggleButton?: ReactNode;
+}) {
   const { auth } = useAuth();
   const location = useLocation();
 
@@ -69,7 +72,7 @@ export default function MenuMobile() {
       label: "Planner",
       title: "Planner",
       url: "/tasks/planner",
-      icon: <FaTimeline style={{ strokeWidth: "1" }} size={iconSize} />,
+      icon: <PiKanbanLight style={{ strokeWidth: "1" }} size={iconSize} />,
     },
     // {
     //   label: "Activities",
@@ -93,7 +96,7 @@ export default function MenuMobile() {
       label: "Profile",
       title: "Profile",
       url: "/user/profile",
-      icon: <FaRegCircleUser size={iconSize} />,
+      icon: <PiUserCircleLight size={iconSize} />,
     },
     // {
     //   label: "Sign Out",
@@ -134,24 +137,26 @@ export default function MenuMobile() {
 
   return (
     <>
-      <button
-        title="Menu"
-        onClick={() => setViewMobileMenu(true)}
-        className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg lg:hidden"
-      >
-        <IoMenu size={25} />
+      <button title="Menu" onClick={() => setViewMobileMenu(true)}>
+        {toggleButton ? (
+          toggleButton
+        ) : (
+          <div className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg lg:hidden">
+            <IoMenu size={25} />
+          </div>
+        )}
       </button>
       <div
         onClick={() => setViewMobileMenu(false)}
         className={
           (viewMobileMenu ? "" : "opacity-0 invisible") +
-          " fixed inset-0 bg-zinc-900/50 duration-200 z-50 lg:hidden"
+          " fixed inset-0 bg-zinc-900/50 duration-200 z-[100] lg:hidden"
         }
       />
       <div
         className={
           (viewMobileMenu ? "" : "-translate-x-full") +
-          " fixed top-0 left-0 h-full w-[80%] max-w-[300px] bg-zinc-200 text-zinc-900 duration-200 z-[60] lg:hidden"
+          " fixed top-0 left-0 h-full w-[80%] max-w-[300px] bg-zinc-200 text-zinc-900 duration-200 z-[120] lg:hidden"
         }
       >
         <div className="flex items-center justify-between gap-4 p-4">

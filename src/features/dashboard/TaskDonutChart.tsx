@@ -32,7 +32,7 @@ export default function TaskDonutChart() {
           data={data}
           cx="50%"
           cy="50%"
-          innerRadius={50}
+          innerRadius={0}
           outerRadius={70}
           paddingAngle={0}
           dataKey="value"
