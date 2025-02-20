@@ -17,6 +17,7 @@ import { BsPinAngle } from "react-icons/bs";
 import { UserContext } from "@/context/UserState";
 import PageHeader from "@/features/components/PageHeader";
 import { FaTimeline } from "react-icons/fa6";
+import { PiKanbanLight } from "react-icons/pi";
 
 export default function TaskListPage() {
   const { lists, pinnedLists, userLists, handleUpdateList } =
@@ -240,7 +241,7 @@ export default function TaskListPage() {
             title="Planner"
             className="p-2 bg-sky-900 hover:bg-sky-800 text-white duration-200 rounded-lg"
           >
-            <FaTimeline className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
+            <PiKanbanLight className="w-6 h-6 lg:w-8 lg:h-8 shrink-0" />
           </Link>
           <button
             title="Edit Title"

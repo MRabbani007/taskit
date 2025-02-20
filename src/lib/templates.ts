@@ -67,8 +67,10 @@ export const T_NOTE: Note = {
 
 export const T_JOURNAL: JournalItem = {
   id: "",
+  userID: "",
   title: "",
   detail: "",
+  task: "",
   onDate: new Date(),
   planDate: new Date(),
   timeFrom: "",

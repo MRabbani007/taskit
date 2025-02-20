@@ -23,7 +23,7 @@ export default function DashboardJournal() {
         className="w-full flex gap-2 p-2 border-[1px] rounded-md border-zinc-200 bg-white hover:bg-yellow-100"
       >
         <p className="text-nowrap">
-          {new Date(item?.createDate).toUTCString().substring(0, 11)}
+          {new Date(item?.onDate).toUTCString().substring(0, 11)}
         </p>
         <div className="flex-1">
           <p className="font-semibold">{item?.title}</p>

@@ -256,7 +256,7 @@ function TaskSearch({
   setShowSearch: Dispatch<SetStateAction<boolean>>;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(searchParams.get("q") ?? "");
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -268,24 +268,44 @@ function TaskSearch({
     }
   };
 
+  const onReset = () => {
+    setShowSearch(false);
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
-      <div className="flex-1 p-4 rounded-xl bg-zinc-100 max-w-[1024px] mx-6">
+    <>
+      <div
+        className="fixed inset-0 bg-zinc-400/40 z-[200]"
+        onClick={() => setShowSearch(false)}
+      ></div>
+      <div className="fixed inset-0 flex items-center justify-center z-[210]">
         <form
           onSubmit={onSubmit}
-          className="w-full flex items-center justify-center gap-2 bg-zinc-400/10 py-2 px-4 rounded-md"
+          onReset={onReset}
+          className="flex-1 flex flex-col gap-2 p-4 rounded-xl bg-zinc-100 max-w-[1024px] mx-6"
         >
-          <input
-            type="text"
-            className="bg-transparent flex-1"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-          <button type="submit" className="font-bold">
-            Search
-          </button>
+          <div className="flex items-center justify-between">
+            <p className="font-bold">Search</p>
+            <button
+              type="reset"
+              className="ml-auto p-2 rounded-md bg-zinc-200 hover:bg-zinc-300 duration-200"
+            >
+              <BiX size={20} />
+            </button>
+          </div>
+          <div className="w-full flex items-center justify-center gap-2 bg-zinc-400/10 py-2 px-4 rounded-md">
+            <input
+              type="text"
+              className="bg-transparent flex-1"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <button type="submit" className="">
+              <IoIosSearch size={25} />
+            </button>
+          </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }

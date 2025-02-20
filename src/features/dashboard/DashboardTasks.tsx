@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 // Context
 import { TaskContext } from "../../context/TaskState";
 // AntD
-import { Progress } from "antd";
 import { MdOutlineNextPlan, MdOutlineTaskAlt } from "react-icons/md";
 import {
   IoRepeatOutline,
@@ -211,7 +210,7 @@ function RenderTask({ item }: { item: Task }) {
       <div className="flex items-center">
         {item?.title && <p className="font-bold text-zinc-950">{item.title}</p>}
         <p className="ml-auto font-medium">
-          {item?.dueDate.toString().substring(0, 10)}
+          {new Date(item?.dueDate).toUTCString().substring(0, 11)}
         </p>
       </div>
       {item?.task && <p className="text-zinc-900 text-sm">{item.task}</p>}

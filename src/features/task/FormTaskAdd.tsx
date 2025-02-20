@@ -74,7 +74,7 @@ export default function FormTaskAdd({
 
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (state?.title === "") {
+    if (state?.title + state?.task + state?.details === "") {
       message.info("Enter new task");
       return;
     } else {

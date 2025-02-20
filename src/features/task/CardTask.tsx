@@ -79,7 +79,15 @@ export default function CardTask({
     message: displayMessage,
     displayDate,
   } = getDueDateStatement(
-    new Date((task?.dueDate).toLocaleString().substring(0, 10))
+    new Date(
+      task?.dueDate
+        .toLocaleString("en-us", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        })
+        .replace(/(\d+)\/(\d+)\/(\d+)/, "$3-$1-$2")
+    )
   );
 
   return (

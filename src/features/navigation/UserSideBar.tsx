@@ -10,6 +10,7 @@ import { SlNotebook } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import { PiKanbanLight } from "react-icons/pi";
+import Tooltip from "../components/Tooltip";
 
 const items = [
   {
@@ -72,7 +73,9 @@ export default function UserSideBar() {
             key={item.label}
             className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-zinc-300/3 duration-200"
           >
-            {item.icon}
+            <Tooltip direction="right" title={item.label}>
+              {item.icon}
+            </Tooltip>
           </Link>
         ))}
       </div>
@@ -83,7 +86,9 @@ export default function UserSideBar() {
             key={item.label}
             className="w-12 h-12 flex items-center justify-center rounded-full hover:bg-zinc-300/3 duration-200"
           >
-            {item.icon}
+            <Tooltip direction="right" title={item.label}>
+              {item.icon}
+            </Tooltip>
           </Link>
         ))}
       </div>

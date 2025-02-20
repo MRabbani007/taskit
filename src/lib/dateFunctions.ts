@@ -13,7 +13,7 @@ export function getDueDateStatement(dueDate: Date) {
   let isOverdue = false;
   let daysDifference = 0;
 
-  if (!(dueDate instanceof Date)) {
+  if (isNaN(dueDate?.getSeconds())) {
     return { status, message, displayDate, isOverdue, daysDifference };
   }
 

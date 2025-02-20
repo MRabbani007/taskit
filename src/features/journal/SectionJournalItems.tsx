@@ -193,7 +193,7 @@ function RenderGroup({
   return (
     <>
       <div className="bg-amber-950/80 rounded-xl py-2 px-4 text-white w-fit">
-        {dayItems.label}
+        {new Date(dayItems?.label).toUTCString().substring(0, 11)}
       </div>
       {dayItems.children.map((activitiesGroup, index) => {
         return (
