@@ -15,20 +15,20 @@ let ORIGIN = local
 
 export default axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    // Accept: "*/*",
-  },
+  // headers: {
+  // "Content-Type": "application/json",
+  // "Access-Control-Allow-Origin": "*",
+  // Accept: "*/*",
+  // },
   withCredentials: true,
 });
 
 export const axiosPrivate = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": ORIGIN,
-    // Accept: "*/*",
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  // "Access-Control-Allow-Origin": ORIGIN,
+  // Accept: "*/*",
+  // },
   withCredentials: true,
 });
