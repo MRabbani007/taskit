@@ -11,13 +11,13 @@ export default function Navbar() {
         <MdOutlineTaskAlt size={25} />
         <span className="font-bold text-xl">Taskit</span>
       </Link>
-      <div className="flex items-center gap-8">
+      <div className="hidden md:flex items-center gap-8">
         <Link to={"/"}>About</Link>
         <Link to={"/"}>Features</Link>
         <Link to={"/"}>Pricing</Link>
       </div>
       <MenuMobile />
-      <Link to={"/login"} className="btn btn-blue">
+      <Link to={"/login"} className="hidden lg:block btn btn-blue">
         Get Started
       </Link>
     </nav>

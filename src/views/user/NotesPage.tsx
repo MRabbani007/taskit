@@ -3,7 +3,6 @@ import { NotesContext } from "../../context/NotesState";
 import CardNote from "../../features/notes/CardNote";
 import { BiPlus } from "react-icons/bi";
 import { T_NOTE } from "@/lib/templates";
-import { CiTrash } from "react-icons/ci";
 import CardNoteTrash from "@/features/notes/CardNoteTrash";
 import PageHeader from "@/features/components/PageHeader";
 import { BsBoxArrowUpRight, BsThreeDotsVertical } from "react-icons/bs";
@@ -53,9 +52,22 @@ export default function NotesPage() {
   let content;
   let contentTrash;
 
+  const NoteSkeleton = () => (
+    <div className="flex flex-col animate-pulse rounded-lg">
+      <div className="w-full h-10 bg-amber-800 self-stretch"></div>
+      <div className="bg-amber-700/30 h-40 self-stretch"></div>
+    </div>
+  );
+
   if (status?.isLoading === true) {
-    content = <p>Loading...</p>;
-    contentTrash = <p>Loading...</p>;
+    content = (
+      <>
+        {Array.from({ length: 6 }, (_, i) => (
+          <NoteSkeleton key={i} />
+        ))}
+      </>
+    );
+    contentTrash = <div>Loading...</div>;
   } else if (status?.isError === true) {
     content = <p>Error Loading Notes</p>;
     contentTrash = <p>Error Loading Notes</p>;

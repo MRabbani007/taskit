@@ -147,7 +147,7 @@ export default function TaskListPage() {
 
   if (status?.isLoading === true) {
     content = (
-      <div className="grid grid-cols-3 gap-4 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {Array.from({ length: 9 }, (_, i) => (
           <div
             className="w-full h-20 bg-rose-300/30 animate-pulse rounded-lg"

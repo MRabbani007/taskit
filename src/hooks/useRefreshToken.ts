@@ -7,10 +7,10 @@ export default function useRefreshToken() {
   const refresh = async () => {
     const response = await axios.get("/user/refresh", {
       withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   "Access-Control-Allow-Origin": "*",
+      // },
     });
     setAuth((prev) => {
       // console.log(JSON.stringify(prev));

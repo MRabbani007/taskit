@@ -10,9 +10,10 @@ export default function Footer() {
         <MdOutlineTaskAlt size={25} />
         <span className="font-bold text-xl">Taskit</span>
       </Link>
-      <p className="font-mono flex items-center">
-        <span className="text-xl">&#169;</span> 2024 Taskit Inc. All rights
-        reserved.
+      <p className="font-mono flex flex-wrap items-center whitespace-nowrap">
+        <span className="text-xl">&#169;</span>
+        <span>2024 Taskit Inc. </span>
+        <span>All rights reserved.</span>
       </p>
     </div>
   );

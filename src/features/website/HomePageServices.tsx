@@ -12,7 +12,7 @@ export default function HomePageServices() {
       <p className="py-2 px-4 text-sm font-medium text-zinc-900 bg-indigo-200 rounded-full">
         450k People already using Taskit
       </p>
-      <div className="text-7xl text-zinc-900 font-light my-6">
+      <div className="text-4xl md:text-5xl lg:text-7xl text-zinc-900 font-light my-6">
         <h2></h2>
         <div className="flex items-center">
           <p className="relative">
@@ -30,7 +30,7 @@ export default function HomePageServices() {
         {items.map((item, index) => (
           <div
             key={index}
-            className="p-4 rounded-3xl bg-zinc-200 min-h-[200px] min-w-[400px] flex flex-col"
+            className="p-4 rounded-3xl bg-zinc-200 h-[150px] w-[300px] md:h-[200px] md:w-[400px] flex flex-col"
           >
             <p className="font-bold text-zinc-900 text-lg">{item.label}</p>
             <div className="flex items-center mt-auto">

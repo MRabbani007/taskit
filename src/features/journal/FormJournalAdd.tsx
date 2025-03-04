@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 import { JournalContext } from "../../context/JournalState";
-import { toast } from "react-toastify";
 import { T_JOURNAL } from "@/lib/templates";
 import FormContainer from "../components/FormContainer";
 import InputField from "../components/InputField";
@@ -31,8 +30,6 @@ export default function FormJournalAdd({
     }));
   };
 
-  console.log(state);
-  console.log(state?.onDate.toISOString().split("T")[0]);
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -71,7 +68,7 @@ export default function FormJournalAdd({
         label="On Date"
         name="onDate"
         type="date"
-        value={state?.onDate.toISOString().split("T")[0]}
+        value={state?.onDate.toLocaleString().substring(0, 10)}
         onChange={handleChange}
       />
     </FormContainer>

@@ -58,7 +58,6 @@ export default function DashboardTasks() {
         });
       }
     } catch (error) {
-      console.log(error);
       setStatus({
         isLoading: false,
         isSuccess: false,
@@ -150,24 +149,28 @@ export default function DashboardTasks() {
         title="Today"
         icon={<IoTodayOutline size={25} />}
         count={tasksSummary?.today ?? 0}
+        url="/tasks?filter=today"
         tasks={Array.isArray(state?.todayTasks) ? state.todayTasks : []}
       />
       <RenderBlock
         title="This Week"
         icon={<BsCalendar4Week size={25} />}
         count={tasksSummary?.week ?? 0}
+        url="/tasks?filter=week"
         tasks={Array.isArray(state?.weekTasks) ? state.weekTasks : []}
       />
       <RenderBlock
         title="Important"
         icon={<IoStarOutline size={25} />}
         count={tasksSummary?.important ?? 0}
+        url="/tasks?filter=important"
         tasks={Array.isArray(state?.importantTasks) ? state.importantTasks : []}
       />
       <RenderBlock
         title="Overdue"
         icon={<IoRepeatOutline size={25} />}
         count={tasksSummary?.overdue ?? 0}
+        url="/tasks?filter=overdue"
         tasks={Array.isArray(state?.overdueTasks) ? state.overdueTasks : []}
       />
     </article>
@@ -179,19 +182,23 @@ function RenderBlock({
   icon,
   count,
   tasks,
+  url,
 }: {
   title: string;
   icon: ReactNode;
   count: number;
   tasks: Task[];
+  url: string;
 }) {
+  if (tasks?.length === 0) return null;
+
   return (
     <div>
-      <div className="px-6 font-bold flex items-center gap-1">
+      <Link to={url} className="px-6 font-bold flex items-center gap-1">
         {icon}
         <span>{title}</span>
         <span>{count}</span>
-      </div>
+      </Link>
       <div className="flex flex-col gap-2 p-4">
         {tasks.map((item) => (
           <RenderTask item={item} key={item.id} />
